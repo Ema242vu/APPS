@@ -4,19 +4,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { apps, categorias } from "@/lib/apps";
 
-// =============================================
-// PARTÍCULAS FLOTANTES (SUTILES)
-// =============================================
 function FloatingParticles() {
   const [particles, setParticles] = useState<any[]>([]);
 
   useEffect(() => {
-    // 6 partículas, tamaño pequeño, opacidad baja
     const newParticles = Array.from({ length: 6 }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,
-      size: Math.random() * 15 + 10, // 10-25px
-      duration: Math.random() * 25 + 20, // 20-45 segundos (más lento)
+      size: Math.random() * 15 + 10,
+      duration: Math.random() * 25 + 20,
       delay: Math.random() * 20,
     }));
     setParticles(newParticles);
@@ -36,7 +32,7 @@ function FloatingParticles() {
             height: `${p.size}px`,
             animationDuration: `${p.duration}s`,
             animationDelay: `${p.delay}s`,
-            opacity: 0.15, // Mucho más transparente
+            opacity: 0.15,
           }}
         />
       ))}
@@ -44,9 +40,6 @@ function FloatingParticles() {
   );
 }
 
-// =============================================
-// SKELETON
-// =============================================
 function SkeletonCard() {
   return (
     <div style={{ padding: '30px', borderRadius: '20px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
@@ -58,9 +51,6 @@ function SkeletonCard() {
   );
 }
 
-// =============================================
-// COMPONENTE PRINCIPAL
-// =============================================
 export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -97,7 +87,7 @@ export default function Home() {
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
     return () => observer.disconnect();
-  }, [loading]);
+  }, [loading, hasEntered]);
 
   const toggleTheme = (newTheme: string) => {
     setTheme(newTheme);
@@ -156,7 +146,7 @@ export default function Home() {
         <div style={{ maxWidth: '400px', padding: '40px 30px', borderRadius: '24px', backgroundColor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(12px)', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }}>
           <div style={{ fontSize: '60px', marginBottom: '20px' }}>🛡️</div>
           <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '20px' }}>Zona de Descargas</h1>
-          <p style={{ color: '#9ca3af', fontSize: '16px', lineHeight: 1.6, marginBottom: '30px' }}>Entrarás a la zona de descargas, son apps premium <b>100% legales y seguras</b>, gracias al grupo DC se logran estas cosas. ¡Bienvenid@!</p>
+          <p style={{ color: '#9ca3af', fontSize: '16px', lineHeight: 1.6, marginBottom: '30px' }}>Entrarás a la zona de descargas. Son <b>apps modificadas de terceros</b>: descárgalas bajo tu propia responsabilidad. Gracias al grupo DC se encuentran estas apps. ¡Bienvenid@!</p>
           <button onClick={() => setHasEntered(true)} className="bounce-click" style={{ width: '100%', padding: '18px', borderRadius: '14px', backgroundColor: '#facc15', color: '#0d0d12', fontWeight: 'bold', fontSize: '16px', border: 'none', cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px', boxShadow: '0 4px 20px rgba(250, 204, 21, 0.4)' }}>Entrar a la tienda</button>
         </div>
       </div>
@@ -191,7 +181,7 @@ export default function Home() {
           EL PODER DE LAS <br />
           <span className="animated-gradient" style={{ background: 'linear-gradient(90deg, #facc15, #f59e0b, #fbbf24, #facc15)', backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'gradient-shift 4s ease infinite' }}>APPS PREMIUM</span>
         </h1>
-        <p style={{ color: c.muted, fontSize: '16px', lineHeight: 1.6, maxWidth: '400px', margin: '0 auto', marginBottom: '30px' }}>Descarga las versiones premium de tus apps favoritas. Todo en un solo lugar, rápido y seguro.</p>
+        <p style={{ color: c.muted, fontSize: '16px', lineHeight: 1.6, maxWidth: '400px', margin: '0 auto', marginBottom: '30px' }}>Descarga las versiones premium de tus apps favoritas. Todo en un solo lugar, rápido y fácil.</p>
         <div style={{ width: '140px', height: '140px', margin: '0 auto', borderRadius: '50%', overflow: 'hidden', border: `3px solid ${c.muted}33`, boxShadow: '0 0 40px rgba(250, 204, 21, 0.2)', backgroundColor: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'pulse 3s ease-in-out infinite' }}>
           <img src="https://i.postimg.cc/QdBk2k5q/13.jpg" alt="Gato" className="zoom-hover" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = '<span style="font-size: 80px;">🐱</span>'; }} />
         </div>
