@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
 
 const apps = [
   { name: "CapCut Premium", description: "Editor de video con todas las funciones desbloqueadas.", link: "https://cloud.androforever.com/Apps/CapCut/CapCut%2019.7.0%20Ultra%20Pro%20-%20androforever.com.apk", iconUrl: "https://i.postimg.cc/xd5CgB88/82bd819ca10ca7fa4f51e0cd7dba232f.jpg", emoji: "🎬", category: "Video", isTop: true, glow: "rgba(250, 204, 21, 0.4)", border: "rgba(250, 204, 21, 0.6)", text: "#facc15" },
@@ -25,52 +24,22 @@ export default function Home() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [ratings, setRatings] = useState<Record<string, number>>({});
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [user, setUser] = useState<any>(null);
-  const [showAuth, setShowAuth] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [authMessage, setAuthMessage] = useState("");
   const [hoveredApp, setHoveredApp] = useState<string | null>(null);
-
-  const supabase = createClient();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as "dark" | "light" | null;
     if (savedTheme) setTheme(savedTheme);
-    checkUser();
+
+    const savedRatings: Record<string, number> = {};
+    apps.forEach(app => {
+      const r = localStorage.getItem(`rating-${app.name}`);
+      if (r) savedRatings[app.name] = parseInt(r);
+    });
+    setRatings(savedRatings);
+
+    const savedFavs = localStorage.getItem("favorites");
+    if (savedFavs) setFavorites(JSON.parse(savedFavs));
   }, []);
-
-  async function checkUser() {
-    const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
-    if (user) {
-      loadFavorites(user.id);
-      loadRatings();
-    }
-  }
-
-  async function loadFavorites(userId: string) {
-    const { data } = await supabase
-      .from("favorites")
-      .select("app_name")
-      .eq("user_id", userId);
-    if (data) setFavorites(data.map((f: any) => f.app_name));
-  }
-
-  async function loadRatings() {
-    const { data } = await supabase
-      .from("reviews")
-      .select("app_name, rating")
-      .order("created_at", { ascending: false });
-    if (data) {
-      const ratingsMap: Record<string, number> = {};
-      data.forEach((r: any) => {
-        if (!ratingsMap[r.app_name]) ratingsMap[r.app_name] = r.rating;
-      });
-      setRatings(ratingsMap);
-    }
-  }
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
@@ -78,61 +47,25 @@ export default function Home() {
     localStorage.setItem("theme", newTheme);
   };
 
-  async function toggleFavorite(appName: string, e: React.MouseEvent) {
+  const toggleFavorite = (appName: string, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) {
-      setShowAuth(true);
-      return;
-    }
+    let newFavs;
     if (favorites.includes(appName)) {
-      await supabase.from("favorites").delete().eq("user_id", user.id).eq("app_name", appName);
-      setFavorites(favorites.filter(f => f !== appName));
+      newFavs = favorites.filter(f => f !== appName);
     } else {
-      await supabase.from("favorites").insert({ user_id: user.id, app_name: appName });
-      setFavorites([...favorites, appName]);
+      newFavs = [...favorites, appName];
     }
-  }
+    setFavorites(newFavs);
+    localStorage.setItem("favorites", JSON.stringify(newFavs));
+  };
 
-  async function setRating(appName: string, value: number, e: React.MouseEvent) {
+  const setRating = (appName: string, value: number, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!user) {
-      setShowAuth(true);
-      return;
-    }
-    await supabase.from("reviews").insert({
-      user_id: user.id,
-      app_name: appName,
-      rating: value,
-    });
     setRatings({ ...ratings, [appName]: value });
-    loadRatings();
-  }
-
-  async function handleAuth(e: React.FormEvent) {
-    e.preventDefault();
-    setAuthMessage("");
-    if (authMode === "signup") {
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) setAuthMessage(error.message);
-      else setAuthMessage("¡Revisa tu correo para confirmar tu cuenta!");
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) setAuthMessage(error.message);
-      else {
-        setShowAuth(false);
-        checkUser();
-      }
-    }
-  }
-
-  async function handleLogout() {
-    await supabase.auth.signOut();
-    setUser(null);
-    setFavorites([]);
-    setRatings({});
-  }
+    localStorage.setItem(`rating-${appName}`, value.toString());
+  };
 
   const c = theme === "dark" ? {
     bg: '#0d0d12', text: '#ffffff', textMuted: '#9ca3af',
@@ -180,21 +113,12 @@ export default function Home() {
 
       <nav style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '500px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20px', borderBottom: `1px solid ${c.cardBorder}`, marginBottom: '40px' }}>
         <span style={{ fontSize: '20px', fontWeight: 900, letterSpacing: '2px', color: c.text, textTransform: 'uppercase' }}>Mi Store 🐾</span>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <a href="/tutorial" style={{ fontSize: '12px', fontWeight: 'bold', color: c.textMuted, textDecoration: 'none' }}>Tutorial</a>
-          <a href="/privacidad" style={{ fontSize: '12px', fontWeight: 'bold', color: c.textMuted, textDecoration: 'none' }}>Privacidad</a>
-          <button onClick={toggleTheme} style={{ background: c.chipBg, border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '14px', color: c.text }}>
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+          <a href="/tutorial" style={{ fontSize: '13px', fontWeight: 'bold', color: c.textMuted, textDecoration: 'none' }}>Tutorial</a>
+          <a href="/privacidad" style={{ fontSize: '13px', fontWeight: 'bold', color: c.textMuted, textDecoration: 'none' }}>Privacidad</a>
+          <button onClick={toggleTheme} style={{ background: c.chipBg, border: 'none', borderRadius: '50%', width: '35px', height: '35px', cursor: 'pointer', fontSize: '16px', color: c.text }}>
             {theme === "dark" ? "☀️" : "🌙"}
           </button>
-          {user ? (
-            <button onClick={handleLogout} style={{ background: c.chipBg, border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '14px', color: c.text }} title="Cerrar sesión">
-              🚪
-            </button>
-          ) : (
-            <button onClick={() => setShowAuth(true)} style={{ background: '#facc15', border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '14px', color: '#0d0d12', fontWeight: 'bold' }}>
-              👤
-            </button>
-          )}
         </div>
       </nav>
 
@@ -216,11 +140,11 @@ export default function Home() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <div style={{ padding: '12px 16px', borderRadius: '12px', backgroundColor: c.cardBg, border: `1px solid ${c.cardBorder}`, fontSize: '13px', color: c.textMuted, display: 'flex', gap: '10px', alignItems: 'center' }}>
             <span style={{ fontSize: '10px', fontWeight: 'bold', color: '#facc15', whiteSpace: 'nowrap' }}>Hoy</span>
-            <span>🎉 ¡Base de datos activada! Ahora puedes registrarte y dejar reseñas.</span>
+            <span>🎉 ¡Sistema de reseñas y favoritos guardados localmente!</span>
           </div>
           <div style={{ padding: '12px 16px', borderRadius: '12px', backgroundColor: c.cardBg, border: `1px solid ${c.cardBorder}`, fontSize: '13px', color: c.textMuted, display: 'flex', gap: '10px', alignItems: 'center' }}>
             <span style={{ fontSize: '10px', fontWeight: 'bold', color: '#facc15', whiteSpace: 'nowrap' }}>Hoy</span>
-            <span>⭐ Nuevo sistema de reseñas y favoritos con Supabase.</span>
+            <span>📖 Recuerda leer el tutorial de instalación si eres nuevo.</span>
           </div>
         </div>
       </section>
@@ -309,34 +233,6 @@ export default function Home() {
       <footer style={{ position: 'relative', zIndex: 10, marginTop: 'auto', paddingTop: '20px', paddingBottom: '80px', textAlign: 'center' }}>
         <p style={{ color: c.textMuted, fontSize: '12px', fontFamily: 'monospace', letterSpacing: '1px' }}>SISTEMA_TERMINADO // HECHO CON 💛 DESDE TERMUX</p>
       </footer>
-
-      {/* Modal de Autenticación */}
-      {showAuth && (
-        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '20px' }}>
-          <div style={{ maxWidth: '400px', width: '100%', padding: '40px 30px', borderRadius: '24px', backgroundColor: '#1a1a1f', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px', color: '#ffffff', textAlign: 'center' }}>
-              {authMode === "login" ? "Iniciar Sesión" : "Crear Cuenta"}
-            </h2>
-            <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-              <input type="email" placeholder="Tu correo" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ padding: '14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.2)', backgroundColor: 'rgba(255,255,255,0.05)', color: '#ffffff', fontSize: '14px', outline: 'none' }} />
-              <input type="password" placeholder="Tu contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ padding: '14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.2)', backgroundColor: 'rgba(255,255,255,0.05)', color: '#ffffff', fontSize: '14px', outline: 'none' }} />
-              {authMessage && <p style={{ color: '#facc15', fontSize: '13px', textAlign: 'center' }}>{authMessage}</p>}
-              <button type="submit" style={{ padding: '16px', borderRadius: '12px', backgroundColor: '#facc15', color: '#0d0d12', fontWeight: 'bold', fontSize: '15px', border: 'none', cursor: 'pointer' }}>
-                {authMode === "login" ? "Entrar" : "Registrarme"}
-              </button>
-            </form>
-            <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '14px', color: '#9ca3af' }}>
-              {authMode === "login" ? "¿No tienes cuenta? " : "¿Ya tienes cuenta? "}
-              <button onClick={() => { setAuthMode(authMode === "login" ? "signup" : "login"); setAuthMessage(""); }} style={{ background: 'none', border: 'none', color: '#facc15', cursor: 'pointer', fontWeight: 'bold', fontSize: '14px' }}>
-                {authMode === "login" ? "Regístrate" : "Inicia sesión"}
-              </button>
-            </p>
-            <button onClick={() => setShowAuth(false)} style={{ width: '100%', marginTop: '15px', padding: '12px', borderRadius: '10px', backgroundColor: 'transparent', color: '#6b7280', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer', fontSize: '13px' }}>
-              Cancelar
-            </button>
-          </div>
-        </div>
-      )}
 
       <style jsx global>{`
         @keyframes pulse {
