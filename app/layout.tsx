@@ -13,6 +13,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        {/* Script de Monetag */}
+        <script 
+          src="https://quge5.com/88/tag.min.js" 
+          data-zone="289447" 
+          async 
+          data-cfasync="false"
+        ></script>
+      </head>
       <body>{children}</body>
     </html>
   );
