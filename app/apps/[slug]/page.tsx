@@ -41,6 +41,7 @@ export default function AppPage() {
   const isFav = favorites.includes(app.name);
   const rating = ratings[app.name] || 0;
   const hasIcon = app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN";
+  const hasAlt = app.altLinks.length > 0;
 
   const toggleFav = () => {
     const newFavs = isFav ? favorites.filter((f) => f !== app.name) : [...favorites, app.name];
@@ -62,6 +63,20 @@ export default function AppPage() {
   };
 
   const labelStyle = { fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" as const, letterSpacing: "1px" };
+
+  const bigButtonStyle = {
+    padding: "18px",
+    borderRadius: "14px",
+    backgroundColor: app.glow,
+    border: `1px solid ${app.border}`,
+    color: app.text,
+    fontWeight: "bold" as const,
+    fontSize: "15px",
+    cursor: "pointer",
+    textTransform: "uppercase" as const,
+    letterSpacing: "1px",
+    boxShadow: `0 0 25px ${app.glow}`,
+  };
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "system-ui, sans-serif", padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -112,29 +127,14 @@ export default function AppPage() {
             </div>
           </div>
 
-          {/* Botones de descarga */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%", maxWidth: "400px" }}>
-            <div style={{ display: "flex", gap: "12px" }}>
-              <button onClick={() => handleDownload(app.link)} className="bounce-click" style={{ flex: 2, padding: "18px", borderRadius: "14px", backgroundColor: app.glow, border: `1px solid ${app.border}`, color: app.text, fontWeight: "bold", fontSize: "15px", cursor: "pointer", textTransform: "uppercase", letterSpacing: "1px", boxShadow: `0 0 25px ${app.glow}` }}>
-                ⬇ Descargar
-              </button>
-              <button onClick={toggleFav} className="bounce-click" style={{ flex: 1, padding: "18px", borderRadius: "14px", backgroundColor: "transparent", border: `1px solid ${isFav ? "#facc15" : "var(--border-color)"}`, color: isFav ? "#facc15" : "var(--text-muted)", fontSize: "22px", cursor: "pointer" }}>
-                {isFav ? "★" : "☆"}
-              </button>
-            </div>
-
-            {app.altLinks.length > 0 && (
-              <div style={{ marginTop: "8px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                <p style={{ fontSize: "12px", color: "var(--text-muted)", margin: 0 }}>
-                  ¿No funciona o está desactualizada? Prueba otra opción:
-                </p>
-                {app.altLinks.map((alt, i) => (
-                  <button key={i} onClick={() => handleDownload(alt.url)} className="bounce-click" style={{ width: "100%", padding: "14px", borderRadius: "12px", backgroundColor: "transparent", border: `1px dashed ${app.border}`, color: app.text, fontWeight: "bold", fontSize: "13px", cursor: "pointer" }}>
-                    ⬇ {alt.label}
-                  </button>
-                ))}
-              </div>
-            )}
+          {/* Opción 1 */}
+          <div style={{ display: "flex", gap: "12px", width: "100%", maxWidth: "400px" }}>
+            <button onClick={() => handleDownload(app.link)} className="bounce-click" style={{ ...bigButtonStyle, flex: 2 }}>
+              ⬇ {hasAlt ? "Descargar · Opción 1" : "Descargar"}
+            </button>
+            <button onClick={toggleFav} className="bounce-click" style={{ flex: 1, padding: "18px", borderRadius: "14px", backgroundColor: "transparent", border: `1px solid ${isFav ? "#facc15" : "var(--border-color)"}`, color: isFav ? "#facc15" : "var(--text-muted)", fontSize: "22px", cursor: "pointer" }}>
+              {isFav ? "★" : "☆"}
+            </button>
           </div>
         </div>
 
@@ -156,10 +156,24 @@ export default function AppPage() {
           </div>
         </div>
 
-        {/* CTA final */}
-        <button onClick={() => handleDownload(app.link)} className="bounce-click" style={{ width: "100%", marginTop: "30px", padding: "20px", borderRadius: "16px", backgroundColor: "#facc15", color: "#0d0d12", fontWeight: "bold", fontSize: "16px", border: "none", cursor: "pointer", textTransform: "uppercase", letterSpacing: "1px" }}>
-          Descargar {app.name.replace(" Premium", "").replace(" VIP", "")}
-        </button>
+        {/* Opción 2 (aparece al scrollear, igual que la Opción 1) */}
+        {hasAlt ? (
+          <div style={{ marginTop: "30px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "30px 20px", borderRadius: "24px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, boxShadow: `0 15px 45px ${app.glow}` }}>
+            <h2 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "8px" }}>¿No funciona o está desactualizada?</h2>
+            <p style={{ color: "var(--text-muted)", fontSize: "13px", marginBottom: "20px" }}>Es la misma app, pero de otro creador.</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%", maxWidth: "400px" }}>
+              {app.altLinks.map((alt, i) => (
+                <button key={i} onClick={() => handleDownload(alt.url)} className="bounce-click" style={{ ...bigButtonStyle, width: "100%" }}>
+                  ⬇ Descargar · {alt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <button onClick={() => handleDownload(app.link)} className="bounce-click" style={{ width: "100%", marginTop: "30px", padding: "20px", borderRadius: "16px", backgroundColor: "#facc15", color: "#0d0d12", fontWeight: "bold", fontSize: "16px", border: "none", cursor: "pointer", textTransform: "uppercase", letterSpacing: "1px" }}>
+            Descargar {app.name.replace(" Premium", "").replace(" VIP", "")}
+          </button>
+        )}
 
         <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "30px", fontFamily: "monospace" }}>
           SISTEMA_TERMINADO // HECHO CON 💛 DESDE TERMUX
