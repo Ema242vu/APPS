@@ -12,9 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang="es" data-theme="dark" suppressHydrationWarning>
       <head>
-        {/* Script de Monetag */}
         <script 
           src="https://quge5.com/88/tag.min.js" 
           data-zone="289447" 
