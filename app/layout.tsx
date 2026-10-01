@@ -1,12 +1,19 @@
-import GoogleAdSense from 'next-google-adsense';
+import type { Metadata } from "next";
+import "./globals.css";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const metadata: Metadata = {
+  title: "Mi Store - Apps Premium",
+  description: "Descarga las mejores apps premium gratis.",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="es">
-      <body>
-        <GoogleAdSense pId="pub-5959908767381687" />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
