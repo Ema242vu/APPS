@@ -5,29 +5,28 @@ const VT_BASE = "https://www.virustotal.com/api/v3";
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
-    const file = formData.get("file") as File;
+    const { url } = await req.json();
 
-    if (!file) {
-      return NextResponse.json({ error: "No se envió ningún archivo." }, { status: 400 });
+    if (!url) {
+      return NextResponse.json({ error: "No se envió ninguna URL." }, { status: 400 });
     }
 
-    // Subir a VirusTotal
-    const uploadForm = new FormData();
-    uploadForm.append("file", file);
+    const formData = new URLSearchParams();
+    formData.append("url", url);
 
-    const uploadRes = await fetch(`${VT_BASE}/files`, {
+    const uploadRes = await fetch(`${VT_BASE}/urls`, {
       method: "POST",
       headers: {
         "x-apikey": VT_API_KEY!,
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: uploadForm,
+      body: formData.toString(),
     });
 
     if (!uploadRes.ok) {
       const errData = await uploadRes.json();
       return NextResponse.json(
-        { error: errData.error?.message || "Error al subir el archivo a VirusTotal." },
+        { error: errData.error?.message || "Error al enviar la URL a VirusTotal." },
         { status: uploadRes.status }
       );
     }
@@ -49,9 +48,7 @@ export async function GET(req: NextRequest) {
     }
 
     const reportRes = await fetch(`${VT_BASE}/analyses/${id}`, {
-      headers: {
-        "x-apikey": VT_API_KEY!,
-      },
+      headers: { "x-apikey": VT_API_KEY! },
     });
 
     if (!reportRes.ok) {
@@ -63,9 +60,8 @@ export async function GET(req: NextRequest) {
 
     const reportData = await reportRes.json();
     const stats = reportData.data.attributes.stats;
-    const results = reportData.data.attributes.results;
+    const results = reportData.data.attributes.results || {};
 
-    // Formatear para el frontend
     const scans = Object.entries(results).map(([engine, data]: [string, any]) => ({
       engine,
       detected: data.category === "malicious" || data.category === "suspicious",

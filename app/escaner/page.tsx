@@ -10,51 +10,42 @@ type ScanResult = {
 };
 
 export default function Escaner() {
-  const [file, setFile] = useState<File | null>(null);
+  const [url, setUrl] = useState("");
   const [scanning, setScanning] = useState(false);
   const [result, setResult] = useState<ScanResult | null>(null);
   const [error, setError] = useState("");
   const [progress, setProgress] = useState("");
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-      setResult(null);
-      setError("");
-    }
-  };
-
   const handleScan = async () => {
-    if (!file) {
-      setError("Por favor, selecciona un archivo APK.");
+    if (!url) {
+      setError("Por favor, pega un enlace de descarga.");
       return;
     }
 
-    if (!file.name.endsWith(".apk")) {
-      setError("El archivo debe ser un APK.");
+    if (!url.startsWith("http")) {
+      setError("El enlace debe empezar con http:// o https://");
       return;
     }
 
     setScanning(true);
     setError("");
-    setProgress("Subiendo archivo a VirusTotal...");
+    setResult(null);
+    setProgress("Enviando enlace a VirusTotal...");
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-
       const uploadRes = await fetch("/api/scan", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
       });
 
       if (!uploadRes.ok) {
-        throw new Error("Error al subir el archivo.");
+        throw new Error("Error al enviar el enlace.");
       }
 
       const uploadData = await uploadRes.json();
       const analysisId = uploadData.data.id;
-      setProgress("Analizando archivo... Esto puede tardar unos segundos.");
+      setProgress("Analizando enlace... Esto puede tardar unos segundos.");
 
       let attempts = 0;
       const maxAttempts = 10;
@@ -63,13 +54,10 @@ export default function Escaner() {
       const checkResult = async (): Promise<ScanResult | null> => {
         const reportRes = await fetch(`/api/scan?id=${analysisId}`);
         if (!reportRes.ok) {
-          if (reportRes.status === 404) {
-            return null;
-          }
+          if (reportRes.status === 404) return null;
           throw new Error("Error al obtener el reporte.");
         }
-        const reportData = await reportRes.json();
-        return reportData;
+        return await reportRes.json();
       };
 
       let report: ScanResult | null = null;
@@ -81,9 +69,7 @@ export default function Escaner() {
         setProgress(`Analizando... (intento ${attempts + 1}/${maxAttempts})`);
       }
 
-      if (!report) {
-        throw new Error("El análisis tardó demasiado. Inténtalo de nuevo más tarde.");
-      }
+      if (!report) throw new Error("El análisis tardó demasiado. Inténtalo de nuevo.");
 
       setResult(report);
       setProgress("");
@@ -104,23 +90,24 @@ export default function Escaner() {
 
         <h1 style={{ fontSize: "36px", fontWeight: "bold", marginBottom: "10px" }}>🔍 Escáner de APKs</h1>
         <p style={{ color: "var(--text-muted)", marginBottom: "30px" }}>
-          Sube un APK y te diremos si tiene virus o si son falsos positivos.
+          Pega el enlace de descarga de un APK y te diremos si tiene virus o si son falsos positivos.
         </p>
 
         <div style={{ padding: "30px", borderRadius: "20px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "30px" }}>
           <input
-            type="file"
-            accept=".apk"
-            onChange={handleFileChange}
-            style={{ marginBottom: "20px", color: "var(--text-primary)" }}
+            type="text"
+            placeholder="https://www.mediafire.com/file/..."
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            style={{ width: "100%", padding: "14px", borderRadius: "10px", backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid var(--border-color)", color: "var(--text-primary)", fontSize: "14px", marginBottom: "20px", boxSizing: "border-box", outline: "none" }}
           />
           <button
             onClick={handleScan}
-            disabled={scanning || !file}
+            disabled={scanning || !url}
             className="bounce-click"
             style={{ width: "100%", padding: "18px", borderRadius: "14px", backgroundColor: "#facc15", color: "#0d0d12", fontWeight: "bold", fontSize: "16px", border: "none", cursor: scanning ? "not-allowed" : "pointer", opacity: scanning ? 0.6 : 1 }}
           >
-            {scanning ? "Escaneando..." : "Escanear APK"}
+            {scanning ? "Escaneando..." : "Escanear enlace"}
           </button>
           {progress && <p style={{ color: "#facc15", marginTop: "15px", textAlign: "center" }}>{progress}</p>}
           {error && <p style={{ color: "#fca5a5", marginTop: "15px", textAlign: "center" }}>{error}</p>}
