@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { avExplanations } from "@/lib/av-explanations";
 
 type ScanResult = {
   positives: number;
@@ -13,7 +14,6 @@ export default function Escaner() {
   const [scanning, setScanning] = useState(false);
   const [result, setResult] = useState<ScanResult | null>(null);
   const [error, setError] = useState("");
-  const [analysisId, setAnalysisId] = useState("");
   const [progress, setProgress] = useState("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +40,6 @@ export default function Escaner() {
     setProgress("Subiendo archivo a VirusTotal...");
 
     try {
-      // Paso 1: Subir el archivo a VirusTotal
       const formData = new FormData();
       formData.append("file", file);
 
@@ -55,19 +54,17 @@ export default function Escaner() {
 
       const uploadData = await uploadRes.json();
       const analysisId = uploadData.data.id;
-      setAnalysisId(analysisId);
       setProgress("Analizando archivo... Esto puede tardar unos segundos.");
 
-      // Paso 2: Esperar y obtener el reporte
       let attempts = 0;
       const maxAttempts = 10;
-      const delay = 5000; // 5 segundos
+      const delay = 5000;
 
       const checkResult = async (): Promise<ScanResult | null> => {
         const reportRes = await fetch(`/api/scan?id=${analysisId}`);
         if (!reportRes.ok) {
           if (reportRes.status === 404) {
-            return null; // Aún no está listo
+            return null;
           }
           throw new Error("Error al obtener el reporte.");
         }
@@ -162,12 +159,12 @@ export default function Escaner() {
   );
 }
 
-// Función para obtener la explicación de una detección
 function getExplanation(result: string | null): string {
   if (!result) return "Sin información.";
   const lower = result.toLowerCase();
-  for (const [key, value] of Object.entries(avExplanations)) {
+  for (const key of Object.keys(avExplanations)) {
     if (lower.includes(key.toLowerCase())) {
+      const value = avExplanations[key];
       return value.isFalsePositive
         ? `✅ FALSO POSITIVO: ${value.explanation}`
         : `❌ PELIGRO: ${value.explanation}`;
