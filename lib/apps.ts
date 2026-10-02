@@ -251,6 +251,25 @@ export const apps: {
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
   },
+  {
+    slug: "gta-chinatown",
+    name: "GTA: Chinatown Wars",
+    description: "El clásico de Rockstar en tu bolsillo, mundo abierto y acción.",
+    longDescription: "Grand Theft Auto: Chinatown Wars es uno de los juegos más aclamados de Rockstar para dispositivos móviles. Ambientado en Liberty City, controlas a Huang Lee en una historia llena de crimen, drogas y traición. Incluye misiones variadas, minijuegos, mundo abierto explorable y gráficos estilo cel-shading únicos. Versión completa y desbloqueada.",
+    link: "https://www.mediafire.com/file/7s4rqnk5xm0tit0/GTA_Chinatown_Wars_-_v4.4.221_%25283115565%2529_-_APK_-_VPR.apk/file",
+    altLinks: [],
+    iconUrl: "https://i.postimg.cc/B6w2dymM/IMG-20261001-WA1279.jpg",
+    emoji: "🎮",
+    category: "Juegos",
+    isTop: false,
+    isNew: true,
+    version: "4.4.221",
+    size: "700 MB",
+    updated: "Oct 2026",
+    glow: "rgba(239, 68, 68, 0.4)",
+    border: "rgba(239, 68, 68, 0.6)",
+    text: "#fca5a5",
+  },
 ];
 
-export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación"];
+export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos"];
