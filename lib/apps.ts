@@ -181,7 +181,7 @@ export const apps: {
     name: "SoundCloud Premium",
     description: "Millones de canciones y podcasts sin anuncios.",
     longDescription: "SoundCloud Premium desbloqueado con todas las funciones: escucha millones de canciones, remixes, podcasts y sets de DJ sin anuncios. Descarga música para escuchar offline, salta canciones sin límite y accede a contenido exclusivo de artistas independientes. La plataforma favorita de los amantes de la música alternativa y underground.",
-    link: "https://www.mediafire.com/file/ttqapcmufmjsk3i/SoundCloud+Premium+v2026.09.23+-+androforever.com.apk/file",
+    link: "https://cloud.androforever.com/Apps/SoundCloud/SoundCloud%20Premium%20v2026.09.23%20-%20androforever.com.apk",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/QM8Nb4kX/29e68872e86c703b6de54c379e2044e2.jpg",
     emoji: "☁️",
