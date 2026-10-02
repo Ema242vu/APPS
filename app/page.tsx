@@ -167,6 +167,7 @@ export default function Home() {
         <span className="animated-gradient" style={{ fontSize: '18px', fontWeight: 900, letterSpacing: '2px', background: `linear-gradient(to right, ${c.text}, #facc15, ${c.text})`, backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textTransform: 'uppercase' }}>Mi Store 🐾</span>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
           <Link href="/escaner" style={{ fontSize: '12px', fontWeight: 'bold', color: '#facc15', textDecoration: 'none' }}>🔍 Escáner</Link>
+          <Link href="/blog" style={{ fontSize: '12px', fontWeight: 'bold', color: '#22c55e', textDecoration: 'none' }}>📚 Blog</Link>
           <Link href="/tutorial" style={{ fontSize: '12px', fontWeight: 'bold', color: c.muted, textDecoration: 'none' }}>Tutorial</Link>
           <Link href="/faq" style={{ fontSize: '12px', fontWeight: 'bold', color: c.muted, textDecoration: 'none' }}>FAQ</Link>
           <Link href="/privacidad" style={{ fontSize: '12px', fontWeight: 'bold', color: c.muted, textDecoration: 'none' }}>Privacidad</Link>

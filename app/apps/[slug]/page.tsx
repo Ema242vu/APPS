@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { apps } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
+import Comments from "@/components/Comments";
 
 export default function AppPage() {
   const params = useParams();
@@ -16,6 +17,7 @@ export default function AppPage() {
   const [ratings, setRatings] = useState<Record<string, number>>({});
   const [showAd, setShowAd] = useState(false);
   const [pendingUrl, setPendingUrl] = useState("");
+  const [shareText, setShareText] = useState("Compartir");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -66,6 +68,25 @@ export default function AppPage() {
     setShowAd(true);
   };
 
+  const handleShare = async () => {
+    const shareData = {
+      title: `${app.name} - Mi Store`,
+      text: `Descarga ${app.name} premium gratis desde Mi Store 🐾`,
+      url: `https://apps-peach-two.vercel.app/apps/${app.slug}`,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(shareData.url);
+        setShareText("¡Copiado!");
+        setTimeout(() => setShareText("Compartir"), 2000);
+      }
+    } catch (err) {
+      // El usuario canceló
+    }
+  };
+
   const labelStyle = { fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" as const, letterSpacing: "1px" };
 
   const bigButtonStyle = {
@@ -86,9 +107,14 @@ export default function AppPage() {
     <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "system-ui, sans-serif", padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ width: "100%", maxWidth: "600px" }}>
 
-        <button onClick={() => router.push("/")} className="bounce-click" style={{ background: "none", border: "none", color: "var(--text-muted)", fontSize: "14px", fontWeight: "bold", cursor: "pointer", marginBottom: "30px", padding: 0 }}>
-          ← Volver a la tienda
-        </button>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
+          <button onClick={() => router.push("/")} className="bounce-click" style={{ background: "none", border: "none", color: "var(--text-muted)", fontSize: "14px", fontWeight: "bold", cursor: "pointer", padding: 0 }}>
+            ← Volver a la tienda
+          </button>
+          <button onClick={handleShare} className="bounce-click" style={{ background: "rgba(250, 204, 21, 0.1)", border: "1px solid rgba(250, 204, 21, 0.3)", borderRadius: "20px", padding: "8px 16px", color: "#facc15", fontSize: "12px", fontWeight: "bold", cursor: "pointer" }}>
+            📤 {shareText}
+          </button>
+        </div>
 
         {/* Cabecera */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "40px 20px", borderRadius: "24px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, boxShadow: `0 15px 45px ${app.glow}` }}>
@@ -104,14 +130,12 @@ export default function AppPage() {
           <h1 style={{ fontSize: "32px", fontWeight: 900, marginBottom: "10px" }}>{app.name}</h1>
           <p style={{ color: "var(--text-muted)", fontSize: "15px", marginBottom: "20px" }}>{app.description}</p>
 
-          {/* Rating */}
           <div style={{ display: "flex", gap: "6px", marginBottom: "20px" }}>
             {[1, 2, 3, 4, 5].map((s) => (
               <span key={s} onClick={() => setRating(s)} style={{ fontSize: "28px", cursor: "pointer", color: rating >= s ? "#facc15" : "var(--text-muted)" }}>★</span>
             ))}
           </div>
 
-          {/* Info rápida */}
           <div style={{ display: "flex", gap: "20px", marginBottom: "25px", flexWrap: "wrap", justifyContent: "center" }}>
             <div style={{ textAlign: "center" }}>
               <div style={labelStyle}>Versión</div>
@@ -131,7 +155,6 @@ export default function AppPage() {
             </div>
           </div>
 
-          {/* Opción 1 */}
           <div style={{ display: "flex", gap: "12px", width: "100%", maxWidth: "400px" }}>
             <button onClick={() => handleDownload(app.link)} className="bounce-click" style={{ ...bigButtonStyle, flex: 2 }}>
               ⬇ {hasAlt ? "Descargar · Opción 1" : "Descargar"}
@@ -161,7 +184,7 @@ export default function AppPage() {
         </div>
 
         {/* Opciones alternativas */}
-        {hasAlt ? (
+        {hasAlt && (
           <div style={{ marginTop: "30px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "30px 20px", borderRadius: "24px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, boxShadow: `0 15px 45px ${app.glow}` }}>
             <h2 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "8px" }}>¿No funciona o está desactualizada?</h2>
             <p style={{ color: "var(--text-muted)", fontSize: "13px", marginBottom: "20px" }}>Es la misma app, pero de otro creador.</p>
@@ -173,13 +196,12 @@ export default function AppPage() {
               ))}
             </div>
           </div>
-        ) : (
-          <button onClick={() => handleDownload(app.link)} className="bounce-click" style={{ width: "100%", marginTop: "30px", padding: "20px", borderRadius: "16px", backgroundColor: "#facc15", color: "#0d0d12", fontWeight: "bold", fontSize: "16px", border: "none", cursor: "pointer", textTransform: "uppercase", letterSpacing: "1px" }}>
-            Descargar {app.name.replace(" Premium", "").replace(" VIP", "")}
-          </button>
         )}
 
-        {/* ❤️ Botón Apoya al creador */}
+        {/* Comentarios */}
+        <Comments appName={app.name} />
+
+        {/* Apoya al creador */}
         <a
           href="https://omg10.com/4/11940275"
           target="_blank"
@@ -204,7 +226,6 @@ export default function AppPage() {
         </p>
       </div>
 
-      {/* Modal de anuncio */}
       <AdModal isOpen={showAd} onClose={() => { setShowAd(false); window.open(pendingUrl, "_blank"); }} appName={app.name} />
     </div>
   );
