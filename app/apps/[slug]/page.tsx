@@ -3,6 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { apps } from "@/lib/apps";
+import AdModal from "@/components/AdModal";
 
 export default function AppPage() {
   const params = useParams();
@@ -13,6 +14,8 @@ export default function AppPage() {
   const [downloads, setDownloads] = useState(0);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [ratings, setRatings] = useState<Record<string, number>>({});
+  const [showAd, setShowAd] = useState(false);
+  const [pendingUrl, setPendingUrl] = useState("");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -59,7 +62,8 @@ export default function AppPage() {
     const newCount = downloads + 1;
     setDownloads(newCount);
     localStorage.setItem(`downloads-${app.name}`, newCount.toString());
-    window.open(url, "_blank");
+    setPendingUrl(url);
+    setShowAd(true);
   };
 
   const labelStyle = { fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" as const, letterSpacing: "1px" };
@@ -156,7 +160,7 @@ export default function AppPage() {
           </div>
         </div>
 
-        {/* Opción 2 (aparece al scrollear, igual que la Opción 1) */}
+        {/* Opciones alternativas */}
         {hasAlt ? (
           <div style={{ marginTop: "30px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "30px 20px", borderRadius: "24px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, boxShadow: `0 15px 45px ${app.glow}` }}>
             <h2 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "8px" }}>¿No funciona o está desactualizada?</h2>
@@ -177,28 +181,16 @@ export default function AppPage() {
 
         {/* ❤️ Botón Apoya al creador */}
         <a
-          href="https://omg10.com/4/11940171"
+          href="https://omg10.com/4/11940275"
           target="_blank"
           rel="noopener noreferrer"
           className="bounce-click"
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-            width: "100%",
-            marginTop: "30px",
-            padding: "18px",
-            borderRadius: "16px",
-            backgroundColor: "transparent",
-            border: "2px dashed #ec4899",
-            color: "#f9a8d4",
-            fontWeight: "bold",
-            fontSize: "15px",
-            textDecoration: "none",
-            letterSpacing: "1px",
-            textTransform: "uppercase",
-            transition: "all 0.3s ease",
+            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+            width: "100%", marginTop: "30px", padding: "18px", borderRadius: "16px",
+            backgroundColor: "transparent", border: "2px dashed #ec4899", color: "#f9a8d4",
+            fontWeight: "bold", fontSize: "15px", textDecoration: "none",
+            letterSpacing: "1px", textTransform: "uppercase",
           }}
         >
           ❤️ Apoya al creador
@@ -211,6 +203,9 @@ export default function AppPage() {
           SISTEMA_TERMINADO // HECHO CON 💛 DESDE TERMUX
         </p>
       </div>
+
+      {/* Modal de anuncio */}
+      <AdModal isOpen={showAd} onClose={() => { setShowAd(false); window.open(pendingUrl, "_blank"); }} appName={app.name} />
     </div>
   );
 }

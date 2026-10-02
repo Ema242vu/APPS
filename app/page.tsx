@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { apps, categorias } from "@/lib/apps";
+import AdModal from "@/components/AdModal";
 
 function FloatingParticles() {
   const [particles, setParticles] = useState<any[]>([]);
@@ -62,6 +63,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [showCookies, setShowCookies] = useState(false);
   const [tiltStyle, setTiltStyle] = useState<Record<string, React.CSSProperties>>({});
+  const [showAd, setShowAd] = useState(false);
+  const [pendingUrl, setPendingUrl] = useState("");
+  const [pendingAppName, setPendingAppName] = useState("");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -258,6 +262,8 @@ export default function Home() {
       <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" className="bounce-click" style={{ position: 'fixed', bottom: '30px', right: '20px', backgroundColor: '#25D366', color: '#ffffff', padding: '16px 24px', borderRadius: '50px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 30px rgba(37, 211, 102, 0.4)', textDecoration: 'none', zIndex: 50, fontSize: '14px' }}>
         <span style={{ fontSize: '20px' }}>💬</span> Únete al Grupo
       </a>
+
+      <AdModal isOpen={showAd} onClose={() => setShowAd(false)} appName={pendingAppName} />
 
       {showCookies && (
         <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(13,13,18,0.98)', borderTop: `1px solid ${c.muted}22`, padding: '20px', zIndex: 200, backdropFilter: 'blur(12px)' }}>
