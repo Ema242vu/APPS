@@ -175,6 +175,38 @@ export default function AppPage() {
           </button>
         )}
 
+        {/* ❤️ Botón Apoya al creador */}
+        <a
+          href="https://omg10.com/4/11940171"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bounce-click"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "10px",
+            width: "100%",
+            marginTop: "30px",
+            padding: "18px",
+            borderRadius: "16px",
+            backgroundColor: "transparent",
+            border: "2px dashed #ec4899",
+            color: "#f9a8d4",
+            fontWeight: "bold",
+            fontSize: "15px",
+            textDecoration: "none",
+            letterSpacing: "1px",
+            textTransform: "uppercase",
+            transition: "all 0.3s ease",
+          }}
+        >
+          ❤️ Apoya al creador
+        </a>
+        <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "10px", fontStyle: "italic" }}>
+          Muestra un anuncio voluntario y ayúdanos a seguir subiendo apps premium gratis 🐱
+        </p>
+
         <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "30px", fontFamily: "monospace" }}>
           SISTEMA_TERMINADO // HECHO CON 💛 DESDE TERMUX
         </p>
