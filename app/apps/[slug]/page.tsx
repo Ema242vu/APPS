@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { apps } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
 import Comments from "@/components/Comments";
+import WaitModal from "@/components/WaitModal";
 
 export default function AppPage() {
   const params = useParams();
@@ -18,6 +19,8 @@ export default function AppPage() {
   const [showAd, setShowAd] = useState(false);
   const [pendingUrl, setPendingUrl] = useState("");
   const [shareText, setShareText] = useState("Compartir");
+  const [showWait, setShowWait] = useState(false);
+  const [finalUrl, setFinalUrl] = useState("");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -60,12 +63,26 @@ export default function AppPage() {
     localStorage.setItem("ratings", JSON.stringify(newRatings));
   };
 
+  // Primero muestra el anuncio, luego la página de espera
   const handleDownload = (url: string) => {
     const newCount = downloads + 1;
     setDownloads(newCount);
     localStorage.setItem(`downloads-${app.name}`, newCount.toString());
-    setPendingUrl(url);
+    setFinalUrl(url);
+    setPendingUrl("");
     setShowAd(true);
+  };
+
+  // Cuando cierra el anuncio, muestra la página de espera
+  const handleAdClose = () => {
+    setShowAd(false);
+    setShowWait(true);
+  };
+
+  // Cuando termina la espera, abre el enlace de descarga
+  const handleWaitContinue = () => {
+    setShowWait(false);
+    window.open(finalUrl, "_blank");
   };
 
   const handleShare = async () => {
@@ -226,7 +243,21 @@ export default function AppPage() {
         </p>
       </div>
 
-      <AdModal isOpen={showAd} onClose={() => { setShowAd(false); window.open(pendingUrl, "_blank"); }} appName={app.name} />
+      {/* Modal de anuncio */}
+      <AdModal isOpen={showAd} onClose={handleAdClose} appName={app.name} />
+
+      {/* Página de espera de 5 segundos */}
+      <WaitModal
+        isOpen={showWait}
+        onClose={() => setShowWait(false)}
+        onContinue={handleWaitContinue}
+        appName={app.name}
+        appIcon={app.iconUrl}
+        appEmoji={app.emoji}
+        appSize={app.size}
+        appVersion={app.version}
+        appCategory={app.category}
+      />
     </div>
   );
 }
