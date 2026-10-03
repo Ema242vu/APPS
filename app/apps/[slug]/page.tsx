@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { apps } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
 import Comments from "@/components/Comments";
-import NativeBanner from "@/components/NativeBanner";
 import WaitModal from "@/components/WaitModal";
 
 export default function AppPage() {
@@ -18,10 +17,10 @@ export default function AppPage() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [ratings, setRatings] = useState<Record<string, number>>({});
   const [showAd, setShowAd] = useState(false);
-  const [pendingUrl, setPendingUrl] = useState("");
   const [shareText, setShareText] = useState("Compartir");
   const [showWait, setShowWait] = useState(false);
   const [finalUrl, setFinalUrl] = useState("");
+  const [showAllOptions, setShowAllOptions] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -69,7 +68,6 @@ export default function AppPage() {
     setDownloads(newCount);
     localStorage.setItem(`downloads-${app.name}`, newCount.toString());
     setFinalUrl(url);
-    setPendingUrl("");
     setShowAd(true);
   };
 
@@ -103,168 +101,208 @@ export default function AppPage() {
   };
 
   const labelStyle = { fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" as const, letterSpacing: "1px" };
+  const statsStyle = { fontSize: "13px", fontWeight: "bold" as const, color: "var(--text-primary)" };
 
-  const bigButtonStyle = {
-    padding: "18px",
-    borderRadius: "14px",
-    backgroundColor: app.glow,
-    border: `1px solid ${app.border}`,
-    color: app.text,
+  const downloadButtonStyle = {
+    display: "flex" as const,
+    alignItems: "center" as const,
+    justifyContent: "center" as const,
+    gap: "8px",
+    width: "100%",
+    padding: "16px",
+    borderRadius: "12px",
     fontWeight: "bold" as const,
-    fontSize: "15px",
+    fontSize: "14px",
     cursor: "pointer",
+    border: "none",
     textTransform: "uppercase" as const,
-    letterSpacing: "1px",
-    boxShadow: `0 0 25px ${app.glow}`,
+    letterSpacing: "0.5px",
+    transition: "all 0.3s ease",
   };
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "system-ui, sans-serif", padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ width: "100%", maxWidth: "600px" }}>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px" }}>
           <button onClick={() => router.push("/")} className="bounce-click" style={{ background: "none", border: "none", color: "var(--text-muted)", fontSize: "14px", fontWeight: "bold", cursor: "pointer", padding: 0 }}>
-            ← Volver a la tienda
+            ← Volver
           </button>
           <button onClick={handleShare} className="bounce-click" style={{ background: "rgba(250, 204, 21, 0.1)", border: "1px solid rgba(250, 204, 21, 0.3)", borderRadius: "20px", padding: "8px 16px", color: "#facc15", fontSize: "12px", fontWeight: "bold", cursor: "pointer" }}>
             📤 {shareText}
           </button>
         </div>
 
-        {/* Cabecera */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "40px 20px", borderRadius: "24px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, boxShadow: `0 15px 45px ${app.glow}` }}>
+        {/* Breadcrumb */}
+        <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "15px" }}>
+          Inicio / {app.category} / {app.name}
+        </p>
 
-          <div style={{ width: "120px", height: "120px", borderRadius: "24px", overflow: "hidden", backgroundColor: "rgba(0,0,0,0.4)", border: `2px solid ${app.border}`, marginBottom: "20px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {/* Icono + Nombre */}
+        <div style={{ display: "flex", alignItems: "center", gap: "18px", marginBottom: "25px" }}>
+          <div style={{ width: "90px", height: "90px", borderRadius: "20px", overflow: "hidden", backgroundColor: "rgba(0,0,0,0.4)", border: `2px solid ${app.border}`, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 8px 25px ${app.glow}` }}>
             {hasIcon ? (
               <img src={app.iconUrl} alt={app.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             ) : (
-              <span style={{ fontSize: "60px" }}>{app.emoji}</span>
+              <span style={{ fontSize: "45px" }}>{app.emoji}</span>
             )}
           </div>
-
-          <h1 style={{ fontSize: "32px", fontWeight: 900, marginBottom: "10px" }}>{app.name}</h1>
-          <p style={{ color: "var(--text-muted)", fontSize: "15px", marginBottom: "20px" }}>{app.description}</p>
-
-          <div style={{ display: "flex", gap: "6px", marginBottom: "20px" }}>
-            {[1, 2, 3, 4, 5].map((s) => (
-              <span key={s} onClick={() => setRating(s)} style={{ fontSize: "28px", cursor: "pointer", color: rating >= s ? "#facc15" : "var(--text-muted)" }}>★</span>
-            ))}
-          </div>
-
-          <div style={{ display: "flex", gap: "20px", marginBottom: "25px", flexWrap: "wrap", justifyContent: "center" }}>
-            <div style={{ textAlign: "center" }}>
-              <div style={labelStyle}>Versión</div>
-              <div style={{ fontSize: "14px", fontWeight: "bold" }}>{app.version}</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <h1 style={{ fontSize: "24px", fontWeight: 900, margin: 0, marginBottom: "5px", lineHeight: 1.2 }}>{app.name}</h1>
+            <p style={{ color: "#22c55e", fontSize: "13px", fontWeight: "bold", margin: 0 }}>{app.version} (Mod)</p>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "8px" }}>
+              <span style={{ fontSize: "14px", color: "#facc15" }}>★★★★★</span>
+              <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>({rating > 0 ? rating : "4.4"}/5)</span>
             </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={labelStyle}>Tamaño</div>
-              <div style={{ fontSize: "14px", fontWeight: "bold" }}>{app.size}</div>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={labelStyle}>Actualizado</div>
-              <div style={{ fontSize: "14px", fontWeight: "bold" }}>{app.updated}</div>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={labelStyle}>Descargas</div>
-              <div style={{ fontSize: "14px", fontWeight: "bold", color: "#facc15" }}>{downloads.toLocaleString()}</div>
-            </div>
-          </div>
-
-          <div style={{ display: "flex", gap: "12px", width: "100%", maxWidth: "400px" }}>
-            <button onClick={() => handleDownload(app.link)} className="bounce-click" style={{ ...bigButtonStyle, flex: 2 }}>
-              ⬇ {hasAlt ? "Descargar · Opción 1" : "Descargar"}
-            </button>
-            <button onClick={toggleFav} className="bounce-click" style={{ flex: 1, padding: "18px", borderRadius: "14px", backgroundColor: "transparent", border: `1px solid ${isFav ? "#facc15" : "var(--border-color)"}`, color: isFav ? "#facc15" : "var(--text-muted)", fontSize: "22px", cursor: "pointer" }}>
-              {isFav ? "★" : "☆"}
-            </button>
           </div>
         </div>
+
+        {/* Info rápida */}
+        <div style={{ display: "flex", gap: "12px", marginBottom: "20px", padding: "15px", borderRadius: "14px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
+          <div style={{ flex: 1, textAlign: "center" }}>
+            <div style={labelStyle}>Tamaño</div>
+            <div style={statsStyle}>{app.size}</div>
+          </div>
+          <div style={{ width: "1px", backgroundColor: "var(--border-color)" }}></div>
+          <div style={{ flex: 1, textAlign: "center" }}>
+            <div style={labelStyle}>Descargas</div>
+            <div style={statsStyle}>{downloads.toLocaleString()}</div>
+          </div>
+          <div style={{ width: "1px", backgroundColor: "var(--border-color)" }}></div>
+          <div style={{ flex: 1, textAlign: "center" }}>
+            <div style={labelStyle}>Actualizado</div>
+            <div style={statsStyle}>{app.updated.split(" ")[0]} {app.updated.split(" ")[1]?.slice(0,3)}</div>
+          </div>
+        </div>
+
+        {/* Mod Features */}
+        <div style={{ padding: "18px", borderRadius: "14px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "20px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 900, color: "#22c55e", margin: 0, marginBottom: "12px", letterSpacing: "1px" }}>MOD</h3>
+          <div style={{ width: "100%", height: "3px", backgroundColor: "#22c55e", borderRadius: "2px", marginBottom: "15px", maxWidth: "80px" }}></div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ width: "20px", height: "20px", borderRadius: "4px", backgroundColor: "#22c55e", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", color: "#fff", fontWeight: "bold" }}>✓</span>
+              <span style={{ fontSize: "13px" }}>Funciones Premium desbloqueadas.</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ width: "20px", height: "20px", borderRadius: "4px", backgroundColor: "#22c55e", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", color: "#fff", fontWeight: "bold" }}>✓</span>
+              <span style={{ fontSize: "13px" }}>Libre de anuncios.</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ width: "20px", height: "20px", borderRadius: "4px", backgroundColor: "#22c55e", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", color: "#fff", fontWeight: "bold" }}>✓</span>
+              <span style={{ fontSize: "13px" }}>Optimización mejorada.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* DOWNLOAD LINKS - Aquí está el cambio principal */}
+        <div style={{ padding: "20px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, marginBottom: "20px", boxShadow: `0 10px 30px ${app.glow}` }}>
+          <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary)", margin: 0, marginBottom: "15px" }}>Download links</h3>
+
+          {/* Botón principal */}
+          <button
+            onClick={() => handleDownload(app.link)}
+            className="bounce-click"
+            style={{ ...downloadButtonStyle, backgroundColor: "#22c55e", color: "#ffffff", marginBottom: "10px", boxShadow: "0 6px 20px rgba(34, 197, 94, 0.4)" }}
+          >
+            <span style={{ fontSize: "18px" }}>⬇</span> Última Versión
+          </button>
+
+          {/* Botón para mostrar más opciones */}
+          {hasAlt && (
+            <>
+              <button
+                onClick={() => setShowAllOptions(!showAllOptions)}
+                className="bounce-click"
+                style={{ ...downloadButtonStyle, backgroundColor: "#16a34a", color: "#ffffff", boxShadow: "0 6px 20px rgba(22, 163, 74, 0.3)" }}
+              >
+                <span style={{ fontSize: "18px" }}>⬇</span> {showAllOptions ? "Ocultar opciones" : `Más opciones (${app.altLinks.length})`}
+              </button>
+
+              {/* Opciones alternativas desplegables */}
+              {showAllOptions && (
+                <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {app.altLinks.map((alt, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleDownload(alt.url)}
+                      className="bounce-click"
+                      style={{ ...downloadButtonStyle, backgroundColor: "rgba(34, 197, 94, 0.15)", color: "#86efac", border: "1px solid rgba(34, 197, 94, 0.4)" }}
+                    >
+                      <span style={{ fontSize: "16px" }}>⬇</span> {alt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Verificado */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginTop: "15px" }}>
+            <span style={{ fontSize: "16px" }}>🛡️</span>
+            <span style={{ fontSize: "12px", color: "#22c55e", fontWeight: "bold" }}>Archivo Verificado</span>
+          </div>
+        </div>
+
+        {/* Botón unirse */}
+        <a
+          href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bounce-click"
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", width: "100%", padding: "14px", borderRadius: "14px", backgroundColor: "#0ea5e9", color: "#ffffff", fontWeight: "bold", fontSize: "14px", textDecoration: "none", marginBottom: "25px" }}
+        >
+          🔥 ¡Únete para recibir actualizaciones!
+        </a>
+
+        {/* Favorito */}
+        <button
+          onClick={toggleFav}
+          className="bounce-click"
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", width: "100%", padding: "14px", borderRadius: "12px", backgroundColor: "transparent", border: `1px solid ${isFav ? "#facc15" : "var(--border-color)"}`, color: isFav ? "#facc15" : "var(--text-muted)", fontWeight: "bold", fontSize: "13px", cursor: "pointer", marginBottom: "25px" }}
+        >
+          {isFav ? "★ Guardado en favoritos" : "☆ Guardar en favoritos"}
+        </button>
 
         {/* Descripción */}
-        <div style={{ marginTop: "30px", padding: "30px", borderRadius: "20px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-          <h2 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "15px" }}>📝 Descripción</h2>
-          <p style={{ color: "var(--text-muted)", fontSize: "15px", lineHeight: 1.8 }}>{app.longDescription}</p>
+        <div style={{ padding: "25px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "20px" }}>
+          <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary)", margin: 0, marginBottom: "12px" }}>📝 ¿Cómo descargar e instalar {app.name} APK?</h3>
+          <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1.7, margin: 0, marginBottom: "10px" }}>
+            1. Toca el archivo APK de {app.name} descargado.
+          </p>
+          <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1.7, margin: 0 }}>
+            2. Permite la instalación desde fuentes desconocidas si te lo pide.
+          </p>
         </div>
 
-        {/* Información */}
-        <div style={{ marginTop: "20px", padding: "25px", borderRadius: "20px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
-          <h2 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "15px" }}>ℹ️ Información</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px", fontSize: "14px", color: "var(--text-muted)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}><span>Categoría:</span><b style={{ color: "var(--text-primary)" }}>{app.category}</b></div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}><span>Versión:</span><b style={{ color: "var(--text-primary)" }}>{app.version}</b></div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}><span>Tamaño:</span><b style={{ color: "var(--text-primary)" }}>{app.size}</b></div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}><span>Actualizado:</span><b style={{ color: "var(--text-primary)" }}>{app.updated}</b></div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}><span>Opciones de descarga:</span><b style={{ color: "var(--text-primary)" }}>{1 + app.altLinks.length}</b></div>
-          </div>
+        {/* Descripción larga */}
+        <div style={{ padding: "25px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "20px" }}>
+          <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary)", margin: 0, marginBottom: "12px" }}>📄 Descripción</h3>
+          <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1.8, margin: 0 }}>{app.longDescription}</p>
         </div>
-
-        {/* Opciones alternativas */}
-        {hasAlt && (
-          <div style={{ marginTop: "30px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "30px 20px", borderRadius: "24px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, boxShadow: `0 15px 45px ${app.glow}` }}>
-            <h2 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "8px" }}>¿No funciona o está desactualizada?</h2>
-            <p style={{ color: "var(--text-muted)", fontSize: "13px", marginBottom: "20px" }}>Es la misma app, pero de otro creador.</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%", maxWidth: "400px" }}>
-              {app.altLinks.map((alt, i) => (
-                <button key={i} onClick={() => handleDownload(alt.url)} className="bounce-click" style={{ ...bigButtonStyle, width: "100%" }}>
-                  ⬇ Descargar · {alt.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Adsterra Native Banner */}
-        <NativeBanner />
 
         {/* Comentarios */}
         <Comments appName={app.name} />
 
-        {/* Botón Adsterra Enlace Directo */}
-        <a
-          href="https://ardance.org/4/289d35b8457d3ebf55bb94697b169d11"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bounce-click"
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-            width: "100%", marginTop: "30px", padding: "18px", borderRadius: "16px",
-            backgroundColor: "transparent", border: "2px dashed #22c55e", color: "#86efac",
-            fontWeight: "bold", fontSize: "15px", textDecoration: "none",
-            letterSpacing: "1px", textTransform: "uppercase",
-          }}
-        >
-          💚 Apóyanos con un clic
-        </a>
-
-        {/* Apoya al creador (Monetag) */}
+        {/* Botones de apoyo */}
         <a
           href="https://omg10.com/4/11940275"
           target="_blank"
           rel="noopener noreferrer"
           className="bounce-click"
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-            width: "100%", marginTop: "15px", padding: "18px", borderRadius: "16px",
-            backgroundColor: "transparent", border: "2px dashed #ec4899", color: "#f9a8d4",
-            fontWeight: "bold", fontSize: "15px", textDecoration: "none",
-            letterSpacing: "1px", textTransform: "uppercase",
-          }}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", width: "100%", marginTop: "20px", padding: "16px", borderRadius: "14px", backgroundColor: "transparent", border: "2px dashed #ec4899", color: "#f9a8d4", fontWeight: "bold", fontSize: "14px", textDecoration: "none", letterSpacing: "1px", textTransform: "uppercase" }}
         >
           ❤️ Apoya al creador
         </a>
-        <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "10px", fontStyle: "italic" }}>
-          Muestra un anuncio voluntario y ayúdanos a seguir subiendo apps premium gratis 🐱
-        </p>
 
         <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "30px", fontFamily: "monospace" }}>
           SISTEMA_TERMINADO // HECHO CON 💛 DESDE TERMUX
         </p>
       </div>
 
-      {/* Modal de anuncio */}
       <AdModal isOpen={showAd} onClose={handleAdClose} appName={app.name} />
 
-      {/* Página de espera de 5 segundos */}
       <WaitModal
         isOpen={showWait}
         onClose={() => setShowWait(false)}
