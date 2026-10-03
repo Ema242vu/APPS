@@ -77,8 +77,6 @@ export default function Home() {
     return matchesCategory && matchesSearch;
   });
   const topApps = apps.filter(a => a.isTop);
-  const newApps = apps.filter(a => a.isNew);
-  const gameApps = apps.filter(a => a.category === "Juegos");
 
   const themeColors: Record<string, { bg: string, text: string, muted: string, card: string }> = {
     dark: { bg: '#0d0d12', text: '#ffffff', muted: '#9ca3af', card: 'rgba(255,255,255,0.03)' },
@@ -137,20 +135,11 @@ export default function Home() {
             Encuentra lo mejor en aplicaciones premium y juegos hackeados para Android.
           </p>
 
-          {/* Redes Sociales */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
-            <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(37, 211, 102, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(37, 211, 102, 0.3)' }}>
-              💬
-            </a>
-            <a href="https://t.me" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(14, 165, 233, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(14, 165, 233, 0.3)' }}>
-              ✈️
-            </a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(236, 72, 153, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(236, 72, 153, 0.3)' }}>
-              🎵
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(220, 38, 38, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(220, 38, 38, 0.3)' }}>
-              ▶️
-            </a>
+            <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(37, 211, 102, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(37, 211, 102, 0.3)' }}>💬</a>
+            <a href="https://t.me" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(14, 165, 233, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(14, 165, 233, 0.3)' }}>✈️</a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(236, 72, 153, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(236, 72, 153, 0.3)' }}>🎵</a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(220, 38, 38, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(220, 38, 38, 0.3)' }}>▶️</a>
           </div>
         </section>
 
@@ -188,6 +177,10 @@ export default function Home() {
             <span style={{ fontSize: '28px' }}>⭐</span>
             <span style={{ fontSize: '12px', fontWeight: 'bold' }}>VIP</span>
           </Link>
+          <Link href="/codigos" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(249, 115, 22, 0.15)', border: '1px solid rgba(249, 115, 22, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
+            <span style={{ fontSize: '28px' }}>🔑</span>
+            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Códigos</span>
+          </Link>
           <Link href="/escaner" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
             <span style={{ fontSize: '28px' }}>🔍</span>
             <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Escáner</span>
@@ -200,11 +193,28 @@ export default function Home() {
             <span style={{ fontSize: '28px' }}>📖</span>
             <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Tutorial</span>
           </Link>
-          <Link href="/faq" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(249, 115, 22, 0.15)', border: '1px solid rgba(249, 115, 22, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
-            <span style={{ fontSize: '28px' }}>❓</span>
-            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>FAQ</span>
-          </Link>
         </div>
+
+        {/* BOTÓN CÓDIGOS XUPER TV */}
+        <Link href="/codigos" className="bounce-click" style={{ display: 'block', textDecoration: 'none', marginBottom: '20px' }}>
+          <div style={{
+            padding: '25px',
+            borderRadius: '20px',
+            background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.2) 0%, rgba(249, 115, 22, 0.2) 100%)',
+            border: '2px solid rgba(250, 204, 21, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+            animation: 'pulse 3s ease-in-out infinite',
+          }}>
+            <div style={{ fontSize: '50px' }}>🔑</div>
+            <div style={{ flex: 1 }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '5px' }}>Códigos Xuper TV</h2>
+              <p style={{ fontSize: '13px', color: c.muted, margin: 0, lineHeight: 1.5 }}>Códigos Premium gratis para activar Xuper TV. ¡Se agotan rápido!</p>
+            </div>
+            <span style={{ fontSize: '24px', color: '#facc15' }}>→</span>
+          </div>
+        </Link>
 
         {/* BANNER VIP GRANDE */}
         <Link href="/exclusivas" className="bounce-click" style={{ display: 'block', textDecoration: 'none', marginBottom: '30px' }}>
@@ -252,7 +262,25 @@ export default function Home() {
           <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '15px' }}>📂 Categorías</h2>
           <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '5px' }}>
             {categorias.map((cat, i) => (
-              <button key={i} onClick={() => setSelectedCategory(i)} className="bounce-click" style={{ padding: '12px 20px', borderRadius: '20px', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', whiteSpace: 'nowrap', backgroundColor: selectedCategory === i ? '#facc15' : c.card, color: selectedCategory === i ? '#0d0d12' : c.muted, border: selectedCategory === i ? 'none' : `1px solid ${c.muted}22`, transition: 'all 0.3s ease' }}>{cat}</button>
+              <button
+                key={i}
+                onClick={() => setSelectedCategory(i)}
+                className="bounce-click"
+                style={{
+                  padding: '12px 20px',
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontWeight: 'bold',
+                  whiteSpace: 'nowrap',
+                  backgroundColor: selectedCategory === i ? '#facc15' : c.card,
+                  color: selectedCategory === i ? '#0d0d12' : c.muted,
+                  border: selectedCategory === i ? 'none' : `1px solid ${c.muted}22`,
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                {cat}
+              </button>
             ))}
           </div>
         </div>
