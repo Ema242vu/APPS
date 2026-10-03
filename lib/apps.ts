@@ -143,7 +143,7 @@ export const apps: {
     longDescription: "Spotify Premium desbloqueado con todas las funciones: música sin anuncios, saltos ilimitados, descargas offline, calidad de audio extrema y reproducción de cualquier canción sin restricciones.",
     link: "https://www.mediafire.com/file/345l2cs7w56r80d/SpotiWeb_v4.0.5_mundoperfecto.net.apk/file",
     altLinks: [
-      { label: "Opción 2", url: "https://www.mediafire.com/file/0fejhsli5sb3fjy/Spotify_pro_x4x.apk/file" },
+      { label: "Opción 2", url: "https://www.mediafire.com/file/osg2jm0ht37599j/Spotify_pro_x4x_.apk/file" },
     ],
     iconUrl: "https://i.postimg.cc/8PmV4HFL/IMG-20261001-WA0162(1).jpg",
     emoji: "🎧",
