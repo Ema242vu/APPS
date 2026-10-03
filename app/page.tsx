@@ -252,7 +252,7 @@ export default function Home() {
           <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '15px' }}>📂 Categorías</h2>
           <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '5px' }}>
             {categorias.map((cat, i) => (
-              <button key={i} onClick={() => setSelectedCategory(i)} className="bounce-click" style={{ padding: '12px 20px', borderRadius: '20px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', whiteSpace: 'nowrap', backgroundColor: selectedCategory === i ? '#facc15' : c.card, color: selectedCategory === i ? '#0d0d12' : c.muted, border: selectedCategory === i ? 'none' : `1px solid ${c.muted}22`, transition: 'all 0.3s ease' }}>{cat}</button>
+              <button key={i} onClick={() => setSelectedCategory(i)} className="bounce-click" style={{ padding: '12px 20px', borderRadius: '20px', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', whiteSpace: 'nowrap', backgroundColor: selectedCategory === i ? '#facc15' : c.card, color: selectedCategory === i ? '#0d0d12' : c.muted, border: selectedCategory === i ? 'none' : `1px solid ${c.muted}22`, transition: 'all 0.3s ease' }}>{cat}</button>
             ))}
           </div>
         </div>
