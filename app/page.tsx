@@ -7,7 +7,6 @@ import AdModal from "@/components/AdModal";
 
 function FloatingParticles() {
   const [particles, setParticles] = useState<any[]>([]);
-
   useEffect(() => {
     const newParticles = Array.from({ length: 6 }).map((_, i) => ({
       id: i,
@@ -18,36 +17,11 @@ function FloatingParticles() {
     }));
     setParticles(newParticles);
   }, []);
-
   return (
     <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
       {particles.map(p => (
-        <img
-          key={p.id}
-          src="https://i.postimg.cc/ZK5PMs9t/c9ffe8d5229986251e05870abbabb612.jpg"
-          alt=""
-          className="particle"
-          style={{
-            left: `${p.left}%`,
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            animationDuration: `${p.duration}s`,
-            animationDelay: `${p.delay}s`,
-            opacity: 0.15,
-          }}
-        />
+        <img key={p.id} src="https://i.postimg.cc/ZK5PMs9t/c9ffe8d5229986251e05870abbabb612.jpg" alt="" className="particle" style={{ left: `${p.left}%`, width: `${p.size}px`, height: `${p.size}px`, animationDuration: `${p.duration}s`, animationDelay: `${p.delay}s`, opacity: 0.15 }} />
       ))}
-    </div>
-  );
-}
-
-function SkeletonCard() {
-  return (
-    <div style={{ padding: '30px', borderRadius: '20px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-      <div className="skeleton-shimmer" style={{ width: '80px', height: '80px', borderRadius: '16px' }}></div>
-      <div className="skeleton-shimmer" style={{ width: '60%', height: '20px', borderRadius: '8px' }}></div>
-      <div className="skeleton-shimmer" style={{ width: '80%', height: '14px', borderRadius: '8px' }}></div>
-      <div className="skeleton-shimmer" style={{ width: '100%', height: '50px', borderRadius: '12px' }}></div>
     </div>
   );
 }
@@ -62,36 +36,20 @@ export default function Home() {
   const [hoveredApp, setHoveredApp] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showCookies, setShowCookies] = useState(false);
-  const [tiltStyle, setTiltStyle] = useState<Record<string, React.CSSProperties>>({});
   const [showAd, setShowAd] = useState(false);
-  const [pendingUrl, setPendingUrl] = useState("");
   const [pendingAppName, setPendingAppName] = useState("");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
     setTheme(savedTheme);
     document.documentElement.setAttribute("data-theme", savedTheme);
-
     const savedRatings = localStorage.getItem("ratings");
     if (savedRatings) setRatings(JSON.parse(savedRatings));
-
     const savedFavs = localStorage.getItem("favorites");
     if (savedFavs) setFavorites(JSON.parse(savedFavs));
-
     if (!localStorage.getItem("cookiesAccepted")) setShowCookies(true);
-
     setTimeout(() => setLoading(false), 1200);
   }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
-    return () => observer.disconnect();
-  }, [loading, hasEntered]);
 
   const toggleTheme = (newTheme: string) => {
     setTheme(newTheme);
@@ -113,20 +71,6 @@ export default function Home() {
     localStorage.setItem("ratings", JSON.stringify(newRatings));
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, appName: string) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -5;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 5;
-    setTiltStyle(prev => ({ ...prev, [appName]: { transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`, transition: 'transform 0.1s ease' } }));
-  };
-
-  const handleMouseLeave = (appName: string) => {
-    setTiltStyle(prev => ({ ...prev, [appName]: { transform: 'perspective(1000px) rotateX(0) rotateY(0)', transition: 'transform 0.5s ease' } }));
-  };
-
   const filteredApps = apps.filter((app) => {
     const matchesCategory = selectedCategory === 0 || app.category === categorias[selectedCategory];
     const matchesSearch = app.name.toLowerCase().includes(searchTerm.toLowerCase()) || app.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -134,20 +78,21 @@ export default function Home() {
   });
   const topApps = apps.filter(a => a.isTop);
   const newApps = apps.filter(a => a.isNew);
+  const gameApps = apps.filter(a => a.category === "Juegos");
 
-  const themeColors: Record<string, { bg: string, text: string, muted: string }> = {
-    dark: { bg: '#0d0d12', text: '#ffffff', muted: '#9ca3af' },
-    light: { bg: '#f5f5f7', text: '#0d0d12', muted: '#6b7280' },
-    cyberpunk: { bg: '#0a0014', text: '#e0d4ff', muted: '#a78bfa' },
-    sunset: { bg: '#1a0a0a', text: '#ffe4c4', muted: '#fdba74' },
-    ice: { bg: '#0a0f1a', text: '#e2e8f0', muted: '#94a3b8' },
+  const themeColors: Record<string, { bg: string, text: string, muted: string, card: string }> = {
+    dark: { bg: '#0d0d12', text: '#ffffff', muted: '#9ca3af', card: 'rgba(255,255,255,0.03)' },
+    light: { bg: '#f5f5f7', text: '#0d0d12', muted: '#6b7280', card: 'rgba(255,255,255,0.9)' },
+    cyberpunk: { bg: '#0a0014', text: '#e0d4ff', muted: '#a78bfa', card: 'rgba(139,92,246,0.08)' },
+    sunset: { bg: '#1a0a0a', text: '#ffe4c4', muted: '#fdba74', card: 'rgba(251,146,60,0.08)' },
+    ice: { bg: '#0a0f1a', text: '#e2e8f0', muted: '#94a3b8', card: 'rgba(148,163,184,0.08)' },
   };
   const c = themeColors[theme] || themeColors.dark;
 
   if (!hasEntered) {
     return (
       <div style={{ minHeight: '100vh', backgroundColor: '#0d0d12', color: '#ffffff', fontFamily: 'system-ui, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '400px', padding: '40px 30px', borderRadius: '24px', backgroundColor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(12px)', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }}>
+        <div style={{ maxWidth: '400px', padding: '40px 30px', borderRadius: '24px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(12px)', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }}>
           <div style={{ fontSize: '60px', marginBottom: '20px' }}>🛡️</div>
           <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '20px' }}>Zona de Descargas</h1>
           <p style={{ color: '#9ca3af', fontSize: '16px', lineHeight: 1.6, marginBottom: '30px' }}>Entrarás a la zona de descargas. Son <b>apps modificadas de terceros</b>: descárgalas bajo tu propia responsabilidad. Gracias al grupo DC se encuentran estas apps. ¡Bienvenid@!</p>
@@ -161,108 +106,244 @@ export default function Home() {
     <div style={{ minHeight: '100vh', backgroundColor: c.bg, color: c.text, fontFamily: 'system-ui, sans-serif', position: 'relative', overflow: 'hidden', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', transition: 'background-color 0.5s ease' }}>
       <FloatingParticles />
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(${theme === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)'} 1px, transparent 1px), linear-gradient(90deg, ${theme === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)'} 1px, transparent 1px)`, backgroundSize: '40px 40px', zIndex: 1, pointerEvents: 'none' }}></div>
-      <div style={{ position: 'absolute', top: '-150px', left: '50%', transform: 'translateX(-50%)', width: '600px', height: '600px', background: `radial-gradient(circle, ${theme === 'dark' ? 'rgba(255, 255, 255, 0.12)' : 'rgba(250, 204, 21, 0.2)'} 0%, rgba(0,0,0,0) 70%)`, filter: 'blur(60px)', zIndex: 1, pointerEvents: 'none' }}></div>
 
-      <nav style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '500px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20px', borderBottom: `1px solid ${c.muted}22`, marginBottom: '40px', flexWrap: 'wrap', gap: '8px' }}>
-        <span className="animated-gradient" style={{ fontSize: '18px', fontWeight: 900, letterSpacing: '2px', background: `linear-gradient(to right, ${c.text}, #facc15, ${c.text})`, backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textTransform: 'uppercase' }}>Mi Store 🐾</span>
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-          <Link href="/exclusivas" style={{ fontSize: '12px', fontWeight: 'bold', color: '#ec4899', textDecoration: 'none' }}>⭐ VIP</Link>
-          <Link href="/escaner" style={{ fontSize: '12px', fontWeight: 'bold', color: '#facc15', textDecoration: 'none' }}>🔍 Escáner</Link>
-          <Link href="/blog" style={{ fontSize: '12px', fontWeight: 'bold', color: '#22c55e', textDecoration: 'none' }}>📚 Blog</Link>
-          <Link href="/tutorial" style={{ fontSize: '12px', fontWeight: 'bold', color: c.muted, textDecoration: 'none' }}>Tutorial</Link>
-          <Link href="/faq" style={{ fontSize: '12px', fontWeight: 'bold', color: c.muted, textDecoration: 'none' }}>FAQ</Link>
-          <Link href="/privacidad" style={{ fontSize: '12px', fontWeight: 'bold', color: c.muted, textDecoration: 'none' }}>Privacidad</Link>
-          <Link href="/terminos" style={{ fontSize: '12px', fontWeight: 'bold', color: c.muted, textDecoration: 'none' }}>Términos</Link>
-          <select value={theme} onChange={(e) => toggleTheme(e.target.value)} style={{ background: 'rgba(128,128,128,0.1)', border: `1px solid ${c.muted}33`, borderRadius: '8px', padding: '4px 8px', color: c.text, fontSize: '11px', cursor: 'pointer', outline: 'none' }}>
+      <div style={{ width: '100%', maxWidth: '700px', position: 'relative', zIndex: 10 }}>
+
+        {/* HEADER */}
+        <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20px', borderBottom: `1px solid ${c.muted}22`, marginBottom: '30px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img src="https://i.postimg.cc/QdBk2k5q/13.jpg" alt="Logo" style={{ width: '45px', height: '45px', borderRadius: '12px', objectFit: 'cover', border: '2px solid #facc15' }} />
+            <div>
+              <p className="animated-gradient" style={{ fontSize: '20px', fontWeight: 900, letterSpacing: '1px', background: `linear-gradient(to right, ${c.text}, #facc15, ${c.text})`, backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textTransform: 'uppercase', margin: 0, lineHeight: 1 }}>Mi Store</p>
+              <p style={{ fontSize: '11px', color: c.muted, margin: 0 }}>Apps premium gratis</p>
+            </div>
+          </div>
+          <select value={theme} onChange={(e) => toggleTheme(e.target.value)} style={{ background: 'rgba(128,128,128,0.1)', border: `1px solid ${c.muted}33`, borderRadius: '10px', padding: '6px 10px', color: c.text, fontSize: '12px', cursor: 'pointer', outline: 'none' }}>
             <option value="dark">🌙 Dark</option>
             <option value="light">☀️ Light</option>
             <option value="cyberpunk">🟣 Cyberpunk</option>
             <option value="sunset">🌅 Sunset</option>
             <option value="ice">❄️ Ice</option>
           </select>
+        </nav>
+
+        {/* HERO */}
+        <section style={{ textAlign: 'center', marginBottom: '35px' }}>
+          <h1 style={{ fontSize: '42px', fontWeight: 900, lineHeight: 1.1, marginBottom: '15px', letterSpacing: '-1px', color: c.text }}>
+            🔥 Apps Premium y <br />
+            <span className="animated-gradient" style={{ background: 'linear-gradient(90deg, #facc15, #f59e0b, #fbbf24, #facc15)', backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'gradient-shift 4s ease infinite' }}>Juegos Hackeados Gratis</span>
+          </h1>
+          <p style={{ color: c.muted, fontSize: '14px', lineHeight: 1.6, maxWidth: '500px', margin: '0 auto 25px' }}>
+            Encuentra lo mejor en aplicaciones premium y juegos hackeados para Android.
+          </p>
+
+          {/* Redes Sociales */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
+            <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(37, 211, 102, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(37, 211, 102, 0.3)' }}>
+              💬
+            </a>
+            <a href="https://t.me" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(14, 165, 233, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(14, 165, 233, 0.3)' }}>
+              ✈️
+            </a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(236, 72, 153, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(236, 72, 153, 0.3)' }}>
+              🎵
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(220, 38, 38, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(220, 38, 38, 0.3)' }}>
+              ▶️
+            </a>
+          </div>
+        </section>
+
+        {/* BUSCADOR GRANDE */}
+        <div style={{ position: 'relative', marginBottom: '30px' }}>
+          <input
+            type="text"
+            placeholder="Busca una aplicación o juego..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '18px 60px 18px 20px',
+              borderRadius: '16px',
+              backgroundColor: c.card,
+              border: `1px solid ${c.muted}33`,
+              color: c.text,
+              fontSize: '15px',
+              outline: 'none',
+              boxSizing: 'border-box',
+            }}
+          />
+          <div style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', width: '42px', height: '42px', borderRadius: '12px', backgroundColor: '#facc15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', color: '#0d0d12', fontWeight: 'bold' }}>
+            🔍
+          </div>
         </div>
-      </nav>
 
-      <section style={{ position: 'relative', zIndex: 10, textAlign: 'center', maxWidth: '500px', marginBottom: '40px' }}>
-        <h1 style={{ fontSize: '48px', fontWeight: 900, lineHeight: 1.1, marginBottom: '20px', letterSpacing: '-1px', color: c.text }}>
-          EL PODER DE LAS <br />
-          <span className="animated-gradient" style={{ background: 'linear-gradient(90deg, #facc15, #f59e0b, #fbbf24, #facc15)', backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'gradient-shift 4s ease infinite' }}>APPS PREMIUM</span>
-        </h1>
-        <p style={{ color: c.muted, fontSize: '16px', lineHeight: 1.6, maxWidth: '400px', margin: '0 auto', marginBottom: '30px' }}>Descarga las versiones premium de tus apps favoritas. Todo en un solo lugar, rápido y fácil.</p>
-        <div style={{ width: '140px', height: '140px', margin: '0 auto', borderRadius: '50%', overflow: 'hidden', border: `3px solid ${c.muted}33`, boxShadow: '0 0 40px rgba(250, 204, 21, 0.2)', backgroundColor: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'pulse 3s ease-in-out infinite' }}>
-          <img src="https://i.postimg.cc/QdBk2k5q/13.jpg" alt="Gato" className="zoom-hover" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = '<span style="font-size: 80px;">🐱</span>'; }} />
+        {/* NAVEGACIÓN GRANDE */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '35px' }}>
+          <Link href="/" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(250, 204, 21, 0.15)', border: '1px solid rgba(250, 204, 21, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
+            <span style={{ fontSize: '28px' }}>🏠</span>
+            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Inicio</span>
+          </Link>
+          <Link href="/exclusivas" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(236, 72, 153, 0.15)', border: '1px solid rgba(236, 72, 153, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
+            <span style={{ fontSize: '28px' }}>⭐</span>
+            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>VIP</span>
+          </Link>
+          <Link href="/escaner" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
+            <span style={{ fontSize: '28px' }}>🔍</span>
+            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Escáner</span>
+          </Link>
+          <Link href="/blog" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(14, 165, 233, 0.15)', border: '1px solid rgba(14, 165, 233, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
+            <span style={{ fontSize: '28px' }}>📚</span>
+            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Blog</span>
+          </Link>
+          <Link href="/tutorial" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(168, 85, 247, 0.15)', border: '1px solid rgba(168, 85, 247, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
+            <span style={{ fontSize: '28px' }}>📖</span>
+            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Tutorial</span>
+          </Link>
+          <Link href="/faq" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(249, 115, 22, 0.15)', border: '1px solid rgba(249, 115, 22, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
+            <span style={{ fontSize: '28px' }}>❓</span>
+            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>FAQ</span>
+          </Link>
         </div>
-      </section>
 
-      <section className="fade-in-on-scroll" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '500px', marginBottom: '25px' }}>
-        <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '15px', color: '#facc15' }}>🔥 Top Descargas</h2>
-        <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '10px' }}>
-          {topApps.map((app, i) => (
-            <Link key={i} href={`/apps/${app.slug}`} className="zoom-hover" style={{ flex: '0 0 auto', width: '110px', padding: '12px', borderRadius: '16px', backgroundColor: 'var(--bg-card)', border: `1px solid var(--border-color)`, textDecoration: 'none', color: c.text, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-              <div style={{ width: '45px', height: '45px', borderRadius: '10px', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? <img src={app.iconUrl} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '22px' }}>{app.emoji}</span>}
-              </div>
-              <span style={{ fontSize: '11px', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{app.name.replace(" Premium", "").replace(" VIP", "")}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="fade-in-on-scroll" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '500px', marginBottom: '30px' }}>
-        <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '15px', color: '#22c55e' }}>✨ Recién Agregadas</h2>
-        <div style={{ display: 'flex', gap: '12px', overflowX: 'auto', paddingBottom: '10px' }}>
-          {newApps.map((app, i) => (
-            <Link key={i} href={`/apps/${app.slug}`} className="zoom-hover" style={{ flex: '0 0 auto', width: '110px', padding: '12px', borderRadius: '16px', backgroundColor: 'var(--bg-card)', border: `1px solid var(--border-color)`, textDecoration: 'none', color: c.text, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-              <div style={{ width: '45px', height: '45px', borderRadius: '10px', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? <img src={app.iconUrl} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '22px' }}>{app.emoji}</span>}
-              </div>
-              <span style={{ fontSize: '11px', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{app.name.replace(" Premium", "").replace(" VIP", "")}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <div className="fade-in-on-scroll" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '500px', marginBottom: '20px', display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '5px' }}>
-        {categorias.map((cat, i) => (
-          <button key={i} onClick={() => setSelectedCategory(i)} className="bounce-click" style={{ padding: '10px 18px', borderRadius: '20px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', whiteSpace: 'nowrap', backgroundColor: selectedCategory === i ? '#facc15' : 'var(--bg-card)', color: selectedCategory === i ? '#0d0d12' : c.muted, transition: 'all 0.3s ease' }}>{cat}</button>
-        ))}
-      </div>
-
-      <div className="fade-in-on-scroll" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '500px', marginBottom: '30px' }}>
-        <input type="text" placeholder="Buscar app premium..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', backgroundColor: 'var(--bg-card)', border: `1px solid var(--border-color)`, color: c.text, fontSize: '16px', outline: 'none', boxSizing: 'border-box' }} />
-      </div>
-
-      <section id="apps" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {loading ? (<><SkeletonCard /><SkeletonCard /><SkeletonCard /></>) : filteredApps.length > 0 ? (
-          filteredApps.map((app, index) => (
-            <div key={index} className="fade-in-on-scroll" onMouseEnter={() => setHoveredApp(app.name)} onMouseLeave={() => { setHoveredApp(null); handleMouseLeave(app.name); }} onMouseMove={(e) => handleMouseMove(e, app.name)} style={{ ...tiltStyle[app.name], willChange: 'transform' }}>
-              <Link href={`/apps/${app.slug}`} className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '30px', borderRadius: '20px', backgroundColor: 'var(--bg-card)', border: `1px solid ${hoveredApp === app.name ? app.border : 'var(--border-color)'}`, textDecoration: 'none', color: c.text, transition: 'box-shadow 0.4s ease, border 0.4s ease', boxShadow: hoveredApp === app.name ? `0 15px 45px ${app.glow}` : '0 8px 32px rgba(0, 0, 0, 0.3)', position: 'relative', overflow: 'hidden' }}>
-                {app.isTop && (<span className="glow-border" style={{ position: 'absolute', top: '15px', right: '15px', backgroundColor: 'rgba(250, 204, 21, 0.2)', color: '#facc15', padding: '4px 10px', borderRadius: '12px', fontSize: '10px', fontWeight: 'bold' }}>🔥 TOP</span>)}
-                {app.isNew && !app.isTop && (<span style={{ position: 'absolute', top: '15px', right: '15px', backgroundColor: 'rgba(34, 197, 94, 0.2)', color: '#22c55e', padding: '4px 10px', borderRadius: '12px', fontSize: '10px', fontWeight: 'bold' }}>✨ NUEVO</span>)}
-                <button onClick={(e) => toggleFavorite(app.name, e)} style={{ position: 'absolute', top: '15px', left: '15px', background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: favorites.includes(app.name) ? '#facc15' : c.muted }}>{favorites.includes(app.name) ? '★' : '☆'}</button>
-                <div className="zoom-hover" style={{ width: '80px', height: '80px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px', backgroundColor: 'rgba(0,0,0,0.4)', border: `1px solid var(--border-color)`, marginBottom: '20px', overflow: 'hidden' }}>
-                  {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (<img src={app.iconUrl} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 40px;">${app.emoji}</span>`; }} />) : (<span>{app.emoji}</span>)}
-                </div>
-                <h2 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '8px', color: c.text }}>{app.name}</h2>
-                <p style={{ color: c.muted, fontSize: '14px', marginBottom: '10px' }}>{app.description}</p>
-                <p style={{ color: c.muted, fontSize: '11px', marginBottom: '15px' }}>{app.version} • {app.size} • {app.updated}</p>
-                <div style={{ display: 'flex', gap: '4px', marginBottom: '20px' }} onClick={(e) => e.preventDefault()}>
-                  {[1, 2, 3, 4, 5].map((star) => (<span key={star} onClick={(e) => setRating(app.name, star, e)} style={{ fontSize: '22px', cursor: 'pointer', color: (ratings[app.name] || 0) >= star ? '#facc15' : c.muted }}>★</span>))}
-                </div>
-                <span className="bounce-click" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', padding: '16px', borderRadius: '12px', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase', fontSize: '14px', backgroundColor: app.glow, border: `1px solid ${app.border}`, color: app.text, boxShadow: `0 0 20px ${app.glow}` }}>Ver detalles</span>
-              </Link>
+        {/* BANNER VIP GRANDE */}
+        <Link href="/exclusivas" className="bounce-click" style={{ display: 'block', textDecoration: 'none', marginBottom: '30px' }}>
+          <div style={{
+            padding: '25px',
+            borderRadius: '20px',
+            background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%)',
+            border: '2px solid rgba(236, 72, 153, 0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+          }}>
+            <div style={{ fontSize: '50px' }}>⭐</div>
+            <div style={{ flex: 1 }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '5px' }}>Sección VIP</h2>
+              <p style={{ fontSize: '13px', color: c.muted, margin: 0, lineHeight: 1.5 }}>Apps exclusivas sin anuncios internos. Mira 3 anuncios y desbloquea 24h de acceso.</p>
             </div>
-          ))
-        ) : (<p style={{ textAlign: 'center', color: c.muted, fontStyle: 'italic' }}>No se encontraron apps con ese nombre. 🐱</p>)}
-      </section>
+            <span style={{ fontSize: '24px', color: '#f9a8d4' }}>→</span>
+          </div>
+        </Link>
 
-      <section className="fade-in-on-scroll" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '500px', marginTop: '50px', marginBottom: '40px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', color: c.text }}>Próximamente 🚀</h2>
-        <div style={{ padding: '40px 20px', borderRadius: '20px', border: `2px dashed var(--border-color)`, backgroundColor: 'var(--bg-card)', textAlign: 'center', color: c.muted }}><p style={{ fontSize: '14px' }}>Estamos trabajando en nuevas apps premium. ¡Vuelve pronto!</p></div>
-      </section>
+        {/* TOP DESCARGAS */}
+        {topApps.length > 0 && (
+          <section style={{ marginBottom: '30px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '15px' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 900, color: '#facc15', margin: 0 }}>🔥 Apps Populares</h2>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '12px' }}>
+              {topApps.slice(0, 6).map((app, i) => (
+                <Link key={i} href={`/apps/${app.slug}`} className="zoom-hover" style={{ padding: '15px', borderRadius: '16px', backgroundColor: c.card, border: `1px solid ${c.muted}22`, textDecoration: 'none', color: c.text, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ width: '60px', height: '60px', borderRadius: '14px', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? <img src={app.iconUrl} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '30px' }}>{app.emoji}</span>}
+                  </div>
+                  <span style={{ fontSize: '12px', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{app.name.replace(" Premium", "").replace(" VIP", "")}</span>
+                  <span style={{ fontSize: '10px', color: c.muted }}>{app.version}</span>
+                  <div style={{ display: 'flex', gap: '2px', fontSize: '11px', color: '#facc15' }}>★★★★★</div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
-      <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" className="bounce-click" style={{ position: 'fixed', bottom: '30px', right: '20px', backgroundColor: '#25D366', color: '#ffffff', padding: '16px 24px', borderRadius: '50px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 30px rgba(37, 211, 102, 0.4)', textDecoration: 'none', zIndex: 50, fontSize: '14px' }}>
-        <span style={{ fontSize: '20px' }}>💬</span> Únete al Grupo
+        {/* CATEGORÍAS */}
+        <div style={{ marginBottom: '25px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '15px' }}>📂 Categorías</h2>
+          <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '5px' }}>
+            {categorias.map((cat, i) => (
+              <button key={i} onClick={() => setSelectedCategory(i)} className="bounce-click" style={{ padding: '12px 20px', borderRadius: '20px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: 'bold', whiteSpace: 'nowrap', backgroundColor: selectedCategory === i ? '#facc15' : c.card, color: selectedCategory === i ? '#0d0d12' : c.muted, border: selectedCategory === i ? 'none' : `1px solid ${c.muted}22`, transition: 'all 0.3s ease' }}>{cat}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* LISTA DE APPS */}
+        <section style={{ marginBottom: '40px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '15px' }}>
+            {selectedCategory === 0 ? "📱 Todas las apps" : `📱 ${categorias[selectedCategory]}`}
+            <span style={{ fontSize: '13px', color: c.muted, fontWeight: 'normal', marginLeft: '8px' }}>({filteredApps.length})</span>
+          </h2>
+
+          {loading ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '15px' }}>
+              {[1,2,3,4,5,6].map(i => <div key={i} className="skeleton-shimmer" style={{ height: '220px', borderRadius: '16px' }} />)}
+            </div>
+          ) : filteredApps.length > 0 ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '15px' }}>
+              {filteredApps.map((app, index) => (
+                <Link key={index} href={`/apps/${app.slug}`} className="bounce-click"
+                  onMouseEnter={() => setHoveredApp(app.name)}
+                  onMouseLeave={() => setHoveredApp(null)}
+                  style={{
+                    padding: '15px',
+                    borderRadius: '18px',
+                    backgroundColor: c.card,
+                    border: `1px solid ${hoveredApp === app.name ? app.border : c.muted + '22'}`,
+                    textDecoration: 'none',
+                    color: c.text,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '10px',
+                    textAlign: 'center',
+                    position: 'relative',
+                    transition: 'all 0.3s ease',
+                    boxShadow: hoveredApp === app.name ? `0 10px 30px ${app.glow}` : 'none',
+                  }}>
+                  {app.isTop && (<span style={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: 'rgba(250, 204, 21, 0.2)', color: '#facc15', padding: '3px 8px', borderRadius: '10px', fontSize: '9px', fontWeight: 'bold' }}>🔥</span>)}
+                  {app.isNew && !app.isTop && (<span style={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: 'rgba(34, 197, 94, 0.2)', color: '#22c55e', padding: '3px 8px', borderRadius: '10px', fontSize: '9px', fontWeight: 'bold' }}>✨</span>)}
+
+                  <button onClick={(e) => toggleFavorite(app.name, e)} style={{ position: 'absolute', top: '8px', left: '8px', background: 'none', border: 'none', fontSize: '16px', cursor: 'pointer', color: favorites.includes(app.name) ? '#facc15' : c.muted }}>{favorites.includes(app.name) ? '★' : '☆'}</button>
+
+                  <div style={{ width: '70px', height: '70px', borderRadius: '16px', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.4)', border: `1px solid ${app.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
+                    {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (<img src={app.iconUrl} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 35px;">${app.emoji}</span>`; }} />) : (<span style={{ fontSize: '35px' }}>{app.emoji}</span>)}
+                  </div>
+
+                  <h3 style={{ fontSize: '14px', fontWeight: 'bold', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
+                    {app.name.replace(" Premium", "").replace(" VIP", "")}
+                  </h3>
+
+                  <p style={{ fontSize: '11px', color: c.muted, margin: 0 }}>{app.version} • {app.size}</p>
+
+                  <div style={{ display: 'flex', gap: '3px', fontSize: '12px' }}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span key={star} onClick={(e) => setRating(app.name, star, e)} style={{ cursor: 'pointer', color: (ratings[app.name] || 0) >= star ? '#facc15' : c.muted }}>★</span>
+                    ))}
+                  </div>
+
+                  <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', padding: '10px', borderRadius: '10px', fontWeight: 'bold', fontSize: '11px', backgroundColor: app.glow, border: `1px solid ${app.border}`, color: app.text, marginTop: '5px' }}>
+                    VER APP
+                  </span>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p style={{ textAlign: 'center', color: c.muted, fontStyle: 'italic', padding: '40px 0' }}>No se encontraron apps con ese nombre. 🐱</p>
+          )}
+        </section>
+
+        {/* PRÓXIMAMENTE */}
+        <section style={{ marginBottom: '40px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '15px' }}>🚀 Próximamente</h2>
+          <div style={{ padding: '30px 20px', borderRadius: '18px', border: `2px dashed ${c.muted}33`, backgroundColor: c.card, textAlign: 'center', color: c.muted }}>
+            <p style={{ fontSize: '14px', margin: 0 }}>Estamos trabajando en nuevas apps premium. ¡Vuelve pronto!</p>
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <footer style={{ borderTop: `1px solid ${c.muted}22`, paddingTop: '25px', paddingBottom: '100px', textAlign: 'center' }}>
+          <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '15px' }}>
+            <Link href="/privacidad" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none' }}>Privacidad</Link>
+            <Link href="/terminos" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none' }}>Términos</Link>
+            <Link href="/faq" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none' }}>FAQ</Link>
+            <Link href="/tutorial" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none' }}>Tutorial</Link>
+          </div>
+          <p style={{ color: c.muted, fontSize: '11px', fontFamily: 'monospace' }}>© 2026 Mi Store · Hecho con 💛 desde Termux</p>
+        </footer>
+      </div>
+
+      <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" className="bounce-click" style={{ position: 'fixed', bottom: '20px', right: '20px', backgroundColor: '#25D366', color: '#ffffff', padding: '14px 20px', borderRadius: '50px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 10px 30px rgba(37, 211, 102, 0.4)', textDecoration: 'none', zIndex: 50, fontSize: '13px' }}>
+        <span>💬</span> Únete
       </a>
 
       <AdModal isOpen={showAd} onClose={() => setShowAd(false)} appName={pendingAppName} />
@@ -278,10 +359,6 @@ export default function Home() {
           </div>
         </div>
       )}
-
-      <footer style={{ position: 'relative', zIndex: 10, marginTop: 'auto', paddingTop: '20px', paddingBottom: '80px', textAlign: 'center' }}>
-        <p style={{ color: c.muted, fontSize: '12px', fontFamily: 'monospace', letterSpacing: '1px' }}>SISTEMA_TERMINADO // HECHO CON 💛 DESDE TERMUX</p>
-      </footer>
     </div>
   );
 }
