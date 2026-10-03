@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { apps } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
 import Comments from "@/components/Comments";
+import NativeBanner from "@/components/NativeBanner";
 import WaitModal from "@/components/WaitModal";
 
 export default function AppPage() {
@@ -63,7 +64,6 @@ export default function AppPage() {
     localStorage.setItem("ratings", JSON.stringify(newRatings));
   };
 
-  // Primero muestra el anuncio, luego la página de espera
   const handleDownload = (url: string) => {
     const newCount = downloads + 1;
     setDownloads(newCount);
@@ -73,13 +73,11 @@ export default function AppPage() {
     setShowAd(true);
   };
 
-  // Cuando cierra el anuncio, muestra la página de espera
   const handleAdClose = () => {
     setShowAd(false);
     setShowWait(true);
   };
 
-  // Cuando termina la espera, abre el enlace de descarga
   const handleWaitContinue = () => {
     setShowWait(false);
     window.open(finalUrl, "_blank");
@@ -215,10 +213,30 @@ export default function AppPage() {
           </div>
         )}
 
+        {/* Adsterra Native Banner */}
+        <NativeBanner />
+
         {/* Comentarios */}
         <Comments appName={app.name} />
 
-        {/* Apoya al creador */}
+        {/* Botón Adsterra Enlace Directo */}
+        <a
+          href="https://ardance.org/4/289d35b8457d3ebf55bb94697b169d11"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bounce-click"
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+            width: "100%", marginTop: "30px", padding: "18px", borderRadius: "16px",
+            backgroundColor: "transparent", border: "2px dashed #22c55e", color: "#86efac",
+            fontWeight: "bold", fontSize: "15px", textDecoration: "none",
+            letterSpacing: "1px", textTransform: "uppercase",
+          }}
+        >
+          💚 Apóyanos con un clic
+        </a>
+
+        {/* Apoya al creador (Monetag) */}
         <a
           href="https://omg10.com/4/11940275"
           target="_blank"
@@ -226,7 +244,7 @@ export default function AppPage() {
           className="bounce-click"
           style={{
             display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-            width: "100%", marginTop: "30px", padding: "18px", borderRadius: "16px",
+            width: "100%", marginTop: "15px", padding: "18px", borderRadius: "16px",
             backgroundColor: "transparent", border: "2px dashed #ec4899", color: "#f9a8d4",
             fontWeight: "bold", fontSize: "15px", textDecoration: "none",
             letterSpacing: "1px", textTransform: "uppercase",

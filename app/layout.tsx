@@ -21,6 +21,17 @@ export default function RootLayout({
             __html: `(function(s){s.dataset.zone='11940277',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
           }}
         />
+        {/* Adsterra - Bar Social */}
+        <script
+          data-cfasync="false"
+          src="https://bellnewyork.org/14/cfed6f54b73385057c4c709b0d06da79"
+        />
+        {/* Adsterra - Native Banner */}
+        <script
+          async
+          data-cfasync="false"
+          src="https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034"
+        />
       </head>
       <body>
         {children}
