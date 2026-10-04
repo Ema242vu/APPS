@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import AdBlockNotice from "@/components/AdBlockNotice";
+import AdBlockBlocker from "@/components/AdBlockBlocker";
 
 export const metadata: Metadata = {
   title: "Mi Store - Apps Premium",
@@ -35,7 +35,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
-        <AdBlockNotice />
+        <AdBlockBlocker />
       </body>
     </html>
   );
