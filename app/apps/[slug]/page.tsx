@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { apps } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
 import Comments from "@/components/Comments";
+import NativeBanner from "@/components/NativeBanner";
 import WaitModal from "@/components/WaitModal";
 
 export default function AppPage() {
@@ -196,11 +197,10 @@ export default function AppPage() {
           </div>
         </div>
 
-        {/* DOWNLOAD LINKS - Aquí está el cambio principal */}
+        {/* DOWNLOAD LINKS */}
         <div style={{ padding: "20px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, marginBottom: "20px", boxShadow: `0 10px 30px ${app.glow}` }}>
           <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary)", margin: 0, marginBottom: "15px" }}>Download links</h3>
 
-          {/* Botón principal */}
           <button
             onClick={() => handleDownload(app.link)}
             className="bounce-click"
@@ -209,7 +209,6 @@ export default function AppPage() {
             <span style={{ fontSize: "18px" }}>⬇</span> Última Versión
           </button>
 
-          {/* Botón para mostrar más opciones */}
           {hasAlt && (
             <>
               <button
@@ -220,7 +219,6 @@ export default function AppPage() {
                 <span style={{ fontSize: "18px" }}>⬇</span> {showAllOptions ? "Ocultar opciones" : `Más opciones (${app.altLinks.length})`}
               </button>
 
-              {/* Opciones alternativas desplegables */}
               {showAllOptions && (
                 <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "10px" }}>
                   {app.altLinks.map((alt, i) => (
@@ -238,7 +236,6 @@ export default function AppPage() {
             </>
           )}
 
-          {/* Verificado */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginTop: "15px" }}>
             <span style={{ fontSize: "16px" }}>🛡️</span>
             <span style={{ fontSize: "12px", color: "#22c55e", fontWeight: "bold" }}>Archivo Verificado</span>
@@ -265,7 +262,7 @@ export default function AppPage() {
           {isFav ? "★ Guardado en favoritos" : "☆ Guardar en favoritos"}
         </button>
 
-        {/* Descripción */}
+        {/* Cómo instalar */}
         <div style={{ padding: "25px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "20px" }}>
           <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary)", margin: 0, marginBottom: "12px" }}>📝 ¿Cómo descargar e instalar {app.name} APK?</h3>
           <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1.7, margin: 0, marginBottom: "10px" }}>
@@ -276,25 +273,54 @@ export default function AppPage() {
           </p>
         </div>
 
-        {/* Descripción larga */}
+        {/* Descripción */}
         <div style={{ padding: "25px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "20px" }}>
           <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary)", margin: 0, marginBottom: "12px" }}>📄 Descripción</h3>
           <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1.8, margin: 0 }}>{app.longDescription}</p>
         </div>
 
+        {/* Adsterra Native Banner */}
+        <NativeBanner />
+
         {/* Comentarios */}
         <Comments appName={app.name} />
 
-        {/* Botones de apoyo */}
+        {/* Botón Adsterra Enlace Directo */}
+        <a
+          href="https://ardance.org/4/289d35b8457d3ebf55bb94697b169d11"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bounce-click"
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+            width: "100%", marginTop: "20px", padding: "16px", borderRadius: "14px",
+            backgroundColor: "transparent", border: "2px dashed #22c55e", color: "#86efac",
+            fontWeight: "bold", fontSize: "14px", textDecoration: "none",
+            letterSpacing: "1px", textTransform: "uppercase",
+          }}
+        >
+          💚 Apóyanos con un clic
+        </a>
+
+        {/* Apoya al creador (Monetag) */}
         <a
           href="https://omg10.com/4/11940275"
           target="_blank"
           rel="noopener noreferrer"
           className="bounce-click"
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", width: "100%", marginTop: "20px", padding: "16px", borderRadius: "14px", backgroundColor: "transparent", border: "2px dashed #ec4899", color: "#f9a8d4", fontWeight: "bold", fontSize: "14px", textDecoration: "none", letterSpacing: "1px", textTransform: "uppercase" }}
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+            width: "100%", marginTop: "15px", padding: "16px", borderRadius: "14px",
+            backgroundColor: "transparent", border: "2px dashed #ec4899", color: "#f9a8d4",
+            fontWeight: "bold", fontSize: "14px", textDecoration: "none",
+            letterSpacing: "1px", textTransform: "uppercase",
+          }}
         >
           ❤️ Apoya al creador
         </a>
+        <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "10px", fontStyle: "italic" }}>
+          Muestra un anuncio voluntario y ayúdanos a seguir subiendo apps premium gratis 🐱
+        </p>
 
         <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "30px", fontFamily: "monospace" }}>
           SISTEMA_TERMINADO // HECHO CON 💛 DESDE TERMUX

@@ -4,8 +4,6 @@ import { useEffect } from "react";
 
 export default function NativeBanner() {
   useEffect(() => {
-    // Reinserta el script cada vez que se monta el componente
-    // para que Adsterra lo detecte en cada página individual
     const existingScript = document.querySelector(
       'script[src*="bellnewyork.org/21/"]'
     );
