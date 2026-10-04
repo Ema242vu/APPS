@@ -1,0 +1,33 @@
+{
+  "name": "PERSONS oficial - Apps Premium y Juegos",
+  "short_name": "PERSONS",
+  "description": "Descarga las mejores apps premium y juegos para Android gratis",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d12",
+  "theme_color": "#facc15",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "es",
+  "categories": ["utilities", "entertainment", "games"],
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/QdBk2k5q/13.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.postimg.cc/QdBk2k5q/13.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://i.postimg.cc/QdBk2k5q/13.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ]
+}
