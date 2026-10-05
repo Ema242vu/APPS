@@ -6,6 +6,7 @@ import { apps } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
 import Comments from "@/components/Comments";
 import NativeBanner from "@/components/NativeBanner";
+import { AdsterraBanner300x250, AdsterraBanner468x60 } from "@/components/AdsterraBanners";
 import WaitModal from "@/components/WaitModal";
 
 export default function AppPage() {
@@ -84,8 +85,8 @@ export default function AppPage() {
 
   const handleShare = async () => {
     const shareData = {
-      title: `${app.name} - Mi Store`,
-      text: `Descarga ${app.name} premium gratis desde Mi Store 🐾`,
+      title: `${app.name} - PERSONS oficial`,
+      text: `Descarga ${app.name} premium gratis desde PERSONS oficial 🐾`,
       url: `https://apps-peach-two.vercel.app/apps/${app.slug}`,
     };
     try {
@@ -242,6 +243,9 @@ export default function AppPage() {
           </div>
         </div>
 
+        {/* Adsterra Banner 300x250 */}
+        <AdsterraBanner300x250 />
+
         {/* Botón unirse */}
         <a
           href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm"
@@ -272,6 +276,9 @@ export default function AppPage() {
             2. Permite la instalación desde fuentes desconocidas si te lo pide.
           </p>
         </div>
+
+        {/* Adsterra Banner 468x60 */}
+        <AdsterraBanner468x60 />
 
         {/* Descripción */}
         <div style={{ padding: "25px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "20px" }}>
