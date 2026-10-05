@@ -997,6 +997,25 @@ export const apps: {
     border: "rgba(250, 204, 21, 0.6)",
     text: "#facc15",
   },
+  {
+    slug: "halo-ce",
+    name: "Halo: Combat Evolved",
+    description: "El clásico shooter que definió una generación, ahora en Android.",
+    longDescription: "Halo: Combat Evolved es el juego que revolucionó los shooters en primera persona. Controla al Jefe Maestro, un supersoldado Spartan, en su misión de defender la humanidad contra la alianza Covenant. Incluye la campaña completa, vehículos, armas icónicas y multijugador local. Una experiencia obligatoria para cualquier fan de la acción.",
+    link: "https://www.mediafire.com/file/0ld0ea0k9ggwxx7/halo-ce-TheMocs.apk/file",
+    altLinks: [],
+    iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/7e633a48-2594-41f4-bc5a-0648e0a82fad.jpg",
+    emoji: "🛸",
+    category: "Juegos",
+    isTop: false,
+    isNew: true,
+    version: "1.0",
+    size: "500 MB",
+    updated: "Oct 2026",
+    glow: "rgba(34, 197, 94, 0.4)",
+    border: "rgba(34, 197, 94, 0.6)",
+    text: "#86efac",
+  },
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos"];
