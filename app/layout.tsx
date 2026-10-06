@@ -4,8 +4,33 @@ import Script from "next/script";
 import AdBlockBlocker from "@/components/AdBlockBlocker";
 
 export const metadata: Metadata = {
-  title: "PERSONS oficial - Apps Premium",
-  description: "Descarga las mejores apps premium y juegos para Android gratis.",
+  metadataBase: new URL("https://apps-peach-two.vercel.app"),
+  title: {
+    default: "PERSONS-COMUNITY | Apps Premium y Juegos Mod Gratis para Android",
+    template: "%s | PERSONS-COMUNITY",
+  },
+  description: "Descarga gratis las mejores apps premium y juegos mod para Android. CapCut, Spotify, Netflix, Free Fire, Minecraft y más. Última versión, sin anuncios, todo desbloqueado.",
+  keywords: [
+    "apps premium gratis",
+    "juegos mod apk",
+    "apk premium",
+    "descargar apps mod",
+    "juegos hackeados android",
+    "apk sin anuncios",
+    "capcut premium",
+    "spotify premium gratis",
+    "netflix mod apk",
+    "minecraft mod apk",
+    "free fire mod",
+    "PERSONS-COMUNITY",
+    "personas community",
+    "apk mod 2026",
+    "descargar apk",
+    "apks premium",
+  ],
+  authors: [{ name: "PERSONS-COMUNITY" }],
+  creator: "PERSONS-COMUNITY",
+  publisher: "PERSONS-COMUNITY",
   manifest: "/manifest.json",
   verification: {
     google: "HQZMfoyoknT16-KfNb7dod3ZhXSqbREY6_elZCzsgvA",
@@ -13,13 +38,33 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "PERSONS",
+    title: "PERSONS-COMUNITY",
   },
   openGraph: {
-    title: "PERSONS oficial",
-    description: "Apps premium y juegos gratis para Android.",
     type: "website",
+    locale: "es_ES",
+    url: "https://apps-peach-two.vercel.app",
+    siteName: "PERSONS-COMUNITY",
+    title: "PERSONS-COMUNITY | Apps Premium y Juegos Mod Gratis",
+    description: "Descarga gratis apps premium y juegos mod para Android. Última versión, sin anuncios y 100% funcionales.",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "PERSONS-COMUNITY | Apps Premium y Juegos Mod",
+    description: "Descarga gratis apps premium y juegos mod para Android.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  category: "technology",
 };
 
 export const viewport: Viewport = {
@@ -37,8 +82,27 @@ export default function RootLayout({
   return (
     <html lang="es" data-theme="dark" suppressHydrationWarning>
       <head>
-        {/* Google Site Verification */}
         <meta name="google-site-verification" content="HQZMfoyoknT16-KfNb7dod3ZhXSqbREY6_elZCzsgvA" />
+        <link rel="canonical" href="https://apps-peach-two.vercel.app" />
+
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "PERSONS-COMUNITY",
+              url: "https://apps-peach-two.vercel.app",
+              description: "Descarga gratis apps premium y juegos mod para Android.",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://apps-peach-two.vercel.app/?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
 
         {/* Monetag */}
         <script
@@ -46,19 +110,8 @@ export default function RootLayout({
             __html: `(function(s){s.dataset.zone='11940277',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
           }}
         />
-
-        {/* Adsterra - Bar Social */}
-        <script
-          data-cfasync="false"
-          src="https://bellnewyork.org/14/cfed6f54b73385057c4c709b0d06da79"
-        />
-
-        {/* Adsterra - Native Banner */}
-        <script
-          async
-          data-cfasync="false"
-          src="https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034"
-        />
+        <script data-cfasync="false" src="https://bellnewyork.org/14/cfed6f54b73385057c4c709b0d06da79" />
+        <script async data-cfasync="false" src="https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034" />
 
         {/* Google AdSense */}
         <Script

@@ -9,6 +9,74 @@ import NativeBanner from "@/components/NativeBanner";
 import { AdsterraBanner300x250, AdsterraBanner468x60 } from "@/components/AdsterraBanners";
 import WaitModal from "@/components/WaitModal";
 
+function getPremiumFeatures(app: any): string[] {
+  const category = app.category;
+
+  if (category === "Juegos") {
+    return [
+      "Todos los niveles y personajes desbloqueados",
+      "Dinero, monedas y gemas ilimitadas",
+      "Sin anuncios ni interrupciones",
+      "Vidas y recursos infinitos",
+      "Versión completa sin bloqueos",
+    ];
+  }
+  if (category === "Video") {
+    return [
+      "Sin marca de agua en tus creaciones",
+      "Sin anuncios entre sesiones",
+      "Efectos y filtros premium desbloqueados",
+      "Exportación en máxima calidad (hasta 4K)",
+      "Plantillas y música exclusiva",
+      "Todas las herramientas Pro",
+    ];
+  }
+  if (category === "Música") {
+    return [
+      "Música sin anuncios",
+      "Saltos ilimitados de canciones",
+      "Descargas offline para escuchar sin conexión",
+      "Calidad de audio extrema (320kbps)",
+      "Reproducción en segundo plano",
+    ];
+  }
+  if (category === "Social") {
+    return [
+      "Sin anuncios ni publicidad invasiva",
+      "Descarga de fotos, videos e historias",
+      "Sin restricciones de región",
+      "Funciones premium desbloqueadas",
+      "Sin marca de agua ni marcas de visto",
+      "Personalización total",
+    ];
+  }
+  if (category === "Educación") {
+    return [
+      "Sin anuncios entre lecciones",
+      "Vidas ilimitadas",
+      "Todas las lecciones desbloqueadas",
+      "Contenido completo sin restricciones",
+      "Práctica ilimitada",
+    ];
+  }
+  if (category === "+18") {
+    return [
+      "Contenido completo desbloqueado",
+      "Sin anuncios",
+      "Todas las funciones activadas",
+      "Sin restricciones de nivel",
+    ];
+  }
+  return [
+    "Sin anuncios ni publicidad",
+    "Todas las funciones Pro desbloqueadas",
+    "Sin marca de agua",
+    "Herramientas premium activadas",
+    "Exportación en alta calidad",
+    "Sin límites de uso",
+  ];
+}
+
 export default function AppPage() {
   const params = useParams();
   const router = useRouter();
@@ -39,7 +107,7 @@ export default function AppPage() {
 
   if (!app) {
     return (
-      <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "20px", fontFamily: "system-ui" }}>
+      <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "20px", fontFamily: "Inter, system-ui" }}>
         <h1 style={{ fontSize: "32px" }}>App no encontrada 🐱</h1>
         <button onClick={() => router.push("/")} style={{ padding: "14px 28px", borderRadius: "12px", backgroundColor: "#facc15", color: "#0d0d12", fontWeight: "bold", border: "none", cursor: "pointer" }}>
           Volver a la tienda
@@ -85,8 +153,8 @@ export default function AppPage() {
 
   const handleShare = async () => {
     const shareData = {
-      title: `${app.name} - PERSONS oficial`,
-      text: `Descarga ${app.name} premium gratis desde PERSONS oficial 🐾`,
+      title: `${app.name} - PERSONS-COMUNITY`,
+      text: `Descarga ${app.name} premium gratis desde PERSONS-COMUNITY 🐾`,
       url: `https://apps-peach-two.vercel.app/apps/${app.slug}`,
     };
     try {
@@ -123,7 +191,7 @@ export default function AppPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "system-ui, sans-serif", padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "Inter, system-ui, sans-serif", padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ width: "100%", maxWidth: "600px" }}>
 
         {/* Header */}
@@ -152,7 +220,7 @@ export default function AppPage() {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <h1 style={{ fontSize: "24px", fontWeight: 900, margin: 0, marginBottom: "5px", lineHeight: 1.2 }}>{app.name}</h1>
-            <p style={{ color: "#22c55e", fontSize: "13px", fontWeight: "bold", margin: 0 }}>{app.version} (Mod)</p>
+            <p style={{ color: "#22c55e", fontSize: "13px", fontWeight: "bold", margin: 0 }}>{app.version} (Mod) · Última versión</p>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "8px" }}>
               <span style={{ fontSize: "14px", color: "#facc15" }}>★★★★★</span>
               <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>({rating > 0 ? rating : "4.4"}/5)</span>
@@ -175,6 +243,25 @@ export default function AppPage() {
           <div style={{ flex: 1, textAlign: "center" }}>
             <div style={labelStyle}>Actualizado</div>
             <div style={statsStyle}>{app.updated.split(" ")[0]} {app.updated.split(" ")[1]?.slice(0,3)}</div>
+          </div>
+        </div>
+
+        {/* Funciones Premium */}
+        <div style={{ padding: "20px", borderRadius: "16px", background: "linear-gradient(135deg, rgba(250, 204, 21, 0.08), rgba(249, 115, 22, 0.08))", border: "1px solid rgba(250, 204, 21, 0.25)", marginBottom: "20px" }}>
+          <h3 style={{ fontSize: "15px", fontWeight: 900, color: "#facc15", margin: 0, marginBottom: "14px", letterSpacing: "0.5px", display: "flex", alignItems: "center", gap: "8px" }}>
+            ✨ Funciones Premium que obtienes
+          </h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {getPremiumFeatures(app).map((feat, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+                <span style={{ width: "20px", height: "20px", borderRadius: "6px", background: "linear-gradient(135deg, #facc15, #f59e0b)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", color: "#0a0a0f", fontWeight: 900, flexShrink: 0 }}>✓</span>
+                <span style={{ fontSize: "13px", color: "var(--text-primary)", lineHeight: 1.5 }}>{feat}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: "14px", paddingTop: "14px", borderTop: "1px dashed rgba(250, 204, 21, 0.2)", display: "flex", alignItems: "center", gap: "8px" }}>
+            <span style={{ fontSize: "11px", color: "#22c55e", fontWeight: 800 }}>🟢 Última versión disponible</span>
+            <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>• {app.updated}</span>
           </div>
         </div>
 
@@ -330,7 +417,7 @@ export default function AppPage() {
         </p>
 
         <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "30px", fontFamily: "monospace" }}>
-          SISTEMA_TERMINADO // HECHO CON 💛 DESDE TERMUX
+          PERSONS-COMUNITY // HECHO CON 💛 DESDE TERMUX
         </p>
       </div>
 
