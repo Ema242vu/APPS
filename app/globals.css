@@ -1,12 +1,18 @@
-		@tailwind base;
+/* ============================================= */
+/* FUENTE INTER (debe ir primero)                */
+/* ============================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* ============================================= */
+/* TAILWIND                                      */
+/* ============================================= */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ============================================= */
-/* FUENTES Y BASE                                */
+/* BASE                                          */
 /* ============================================= */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
 * {
   box-sizing: border-box;
 }
@@ -207,7 +213,6 @@ body {
   background: rgba(250, 204, 21, 0.5);
 }
 
-/* Ocultar scroll horizontal en carruseles */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
