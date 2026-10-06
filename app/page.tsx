@@ -276,7 +276,24 @@ export default function Home() {
         <div style={{ marginBottom: '25px' }}>
           <div className="hide-scrollbar" style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '8px' }}>
             {categorias.map((cat, i) => (
-              <button key={i} onClick={() => setSelectedCategory(i)} className="bounce-click" style={{ padding: '12px 22px', borderRadius: '999px', cursor: 'pointer', fontSize: '13px', fontWeight: 700, whiteSpace: 'nowrap', background: selectedCategory === i ? `linear-gradient(135deg, ${c.accent}, #f59e0b)` : c.card, color: selectedCategory === i ? '#0a0a0f' : c.muted, border: selectedCategory === i ? 'none' : `1px solid ${c.border}`, boxShadow: selectedCategory === i ? `0 10px 30px ${c.accent}40` : 'none', transition: 'all 0.3s ease' }}>
+              <button
+                key={i}
+                onClick={() => setSelectedCategory(i)}
+                className="bounce-click"
+                style={{
+                  padding: '12px 22px',
+                  borderRadius: '999px',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  whiteSpace: 'nowrap',
+                  background: selectedCategory === i ? `linear-gradient(135deg, ${c.accent}, #f59e0b)` : c.card,
+                  color: selectedCategory === i ? '#0a0a0f' : c.muted,
+                  border: selectedCategory === i ? 'none' : `1px solid ${c.border}`,
+                  boxShadow: selectedCategory === i ? `0 10px 30px ${c.accent}40` : 'none',
+                  transition: 'all 0.3s ease'
+                }}
+              >
                 {cat === "+18" ? "🔞 +18" : cat}
               </button>
             ))}
@@ -360,7 +377,6 @@ export default function Home() {
                           minWidth: '40px',
                           height: '40px',
                           borderRadius: '50%',
-                          border: 'none',
                           cursor: 'pointer',
                           fontSize: '14px',
                           fontWeight: 800,
