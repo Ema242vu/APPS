@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { apps, categorias } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
 
@@ -20,24 +21,26 @@ function FloatingParticles() {
   return (
     <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
       {particles.map(p => (
-        <img key={p.id} src="https://i.postimg.cc/ZK5PMs9t/c9ffe8d5229986251e05870abbabb612.jpg" alt="" className="particle" style={{ left: `${p.left}%`, width: `${p.size}px`, height: `${p.size}px`, animationDuration: `${p.duration}s`, animationDelay: `${p.delay}s`, opacity: 0.15 }} />
+        <img key={p.id} src="https://i.postimg.cc/ZK5PMs9t/c9ffe8d5229986251e05870abbabb612.jpg" alt="" className="particle" style={{ left: `${p.left}%`, width: `${p.size}px`, height: `${p.size}px`, animationDuration: `${p.duration}s`, animationDelay: `${p.delay}s`, opacity: 0.12 }} />
       ))}
     </div>
   );
 }
 
 export default function Home() {
+  const router = useRouter();
   const [hasEntered, setHasEntered] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [theme, setTheme] = useState("dark");
   const [ratings, setRatings] = useState<Record<string, number>>({});
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [hoveredApp, setHoveredApp] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [showCookies, setShowCookies] = useState(false);
   const [showAd, setShowAd] = useState(false);
   const [pendingAppName, setPendingAppName] = useState("");
+  const [show18Modal, setShow18Modal] = useState(false);
+  const [pending18Slug, setPending18Slug] = useState<string | null>(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -48,8 +51,18 @@ export default function Home() {
     const savedFavs = localStorage.getItem("favorites");
     if (savedFavs) setFavorites(JSON.parse(savedFavs));
     if (!localStorage.getItem("cookiesAccepted")) setShowCookies(true);
-    setTimeout(() => setLoading(false), 1200);
+    setTimeout(() => setLoading(false), 1000);
   }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, [loading, hasEntered, selectedCategory]);
 
   const toggleTheme = (newTheme: string) => {
     setTheme(newTheme);
@@ -71,186 +84,195 @@ export default function Home() {
     localStorage.setItem("ratings", JSON.stringify(newRatings));
   };
 
+  const handleAppClick = (e: React.MouseEvent, app: any) => {
+    if (app.category === "+18") {
+      e.preventDefault();
+      setPending18Slug(app.slug);
+      setShow18Modal(true);
+    }
+  };
+
+  const confirm18 = () => {
+    if (pending18Slug) router.push(`/apps/${pending18Slug}`);
+    setShow18Modal(false);
+    setPending18Slug(null);
+  };
+
+  const close18 = () => {
+    setShow18Modal(false);
+    setPending18Slug(null);
+  };
+
   const filteredApps = apps.filter((app) => {
     const matchesCategory = selectedCategory === 0 || app.category === categorias[selectedCategory];
     const matchesSearch = app.name.toLowerCase().includes(searchTerm.toLowerCase()) || app.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
   const topApps = apps.filter(a => a.isTop);
+  const newApps = apps.filter(a => a.isNew).slice(0, 12);
 
-  const themeColors: Record<string, { bg: string, text: string, muted: string, card: string }> = {
-    dark: { bg: '#0d0d12', text: '#ffffff', muted: '#9ca3af', card: 'rgba(255,255,255,0.03)' },
-    light: { bg: '#f5f5f7', text: '#0d0d12', muted: '#6b7280', card: 'rgba(255,255,255,0.9)' },
-    cyberpunk: { bg: '#0a0014', text: '#e0d4ff', muted: '#a78bfa', card: 'rgba(139,92,246,0.08)' },
-    sunset: { bg: '#1a0a0a', text: '#ffe4c4', muted: '#fdba74', card: 'rgba(251,146,60,0.08)' },
-    ice: { bg: '#0a0f1a', text: '#e2e8f0', muted: '#94a3b8', card: 'rgba(148,163,184,0.08)' },
+  const c = {
+    bg: theme === 'light' ? '#f8f8fc' : theme === 'cyberpunk' ? '#08001a' : theme === 'sunset' ? '#150808' : theme === 'ice' ? '#080d18' : '#0a0a0f',
+    text: theme === 'light' ? '#0a0a0f' : theme === 'cyberpunk' ? '#e0d4ff' : theme === 'sunset' ? '#ffe4c4' : theme === 'ice' ? '#e2e8f0' : '#ffffff',
+    muted: theme === 'light' ? '#6b7280' : theme === 'cyberpunk' ? '#a78bfa' : theme === 'sunset' ? '#fdba74' : theme === 'ice' ? '#94a3b8' : '#8b8b9a',
+    card: theme === 'light' ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.025)',
+    border: theme === 'light' ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.08)',
+    accent: theme === 'cyberpunk' ? '#22d3ee' : theme === 'sunset' ? '#f472b6' : theme === 'ice' ? '#38bdf8' : '#facc15',
   };
-  const c = themeColors[theme] || themeColors.dark;
 
   if (!hasEntered) {
     return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#0d0d12', color: '#ffffff', fontFamily: 'system-ui, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '400px', padding: '40px 30px', borderRadius: '24px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(12px)', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }}>
-          <div style={{ fontSize: '60px', marginBottom: '20px' }}>🛡️</div>
-          <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '20px' }}>Zona de Descargas</h1>
-          <p style={{ color: '#9ca3af', fontSize: '16px', lineHeight: 1.6, marginBottom: '30px' }}>Entrarás a la zona de descargas. Son <b>apps modificadas de terceros</b>: descárgalas bajo tu propia responsabilidad. Gracias al grupo DC se encuentran estas apps. ¡Bienvenid@!</p>
-          <button onClick={() => setHasEntered(true)} className="bounce-click" style={{ width: '100%', padding: '18px', borderRadius: '14px', backgroundColor: '#facc15', color: '#0d0d12', fontWeight: 'bold', fontSize: '16px', border: 'none', cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px', boxShadow: '0 4px 20px rgba(250, 204, 21, 0.4)' }}>Entrar a la tienda</button>
+      <div style={{ minHeight: '100vh', background: 'radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0f 50%)', color: '#fff', fontFamily: 'Inter, system-ui, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', textAlign: 'center' }}>
+        <div className="slide-up" style={{ maxWidth: '420px', padding: '45px 35px', borderRadius: '28px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)', boxShadow: '0 30px 80px rgba(0,0,0,0.6)' }}>
+          <div className="pulse-soft" style={{ fontSize: '70px', marginBottom: '20px' }}>🛡️</div>
+          <h1 style={{ fontSize: '30px', fontWeight: 900, marginBottom: '15px', letterSpacing: '-0.5px' }}>Zona de Descargas</h1>
+          <p style={{ color: '#8b8b9a', fontSize: '15px', lineHeight: 1.7, marginBottom: '32px' }}>
+            Entrarás a la zona de descargas. Son <b style={{ color: '#facc15' }}>apps modificadas de terceros</b>: descárgalas bajo tu propia responsabilidad.
+          </p>
+          <button onClick={() => setHasEntered(true)} className="bounce-click" style={{ width: '100%', padding: '18px', borderRadius: '16px', background: 'linear-gradient(135deg, #facc15, #f59e0b)', color: '#0a0a0f', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1.5px', boxShadow: '0 15px 40px rgba(250, 204, 21, 0.3)' }}>
+            Entrar a la tienda
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: c.bg, color: c.text, fontFamily: 'system-ui, sans-serif', position: 'relative', overflow: 'hidden', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', transition: 'background-color 0.5s ease' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: c.bg, color: c.text, fontFamily: 'Inter, system-ui, sans-serif', position: 'relative', overflow: 'hidden', transition: 'background-color 0.5s ease' }}>
       <FloatingParticles />
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(${theme === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)'} 1px, transparent 1px), linear-gradient(90deg, ${theme === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)'} 1px, transparent 1px)`, backgroundSize: '40px 40px', zIndex: 1, pointerEvents: 'none' }}></div>
 
-      <div style={{ width: '100%', maxWidth: '700px', position: 'relative', zIndex: 10 }}>
+      {/* Fondo con cuadrícula */}
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(${theme === 'light' ? 'rgba(0,0,0,0.025)' : 'rgba(255,255,255,0.02)'} 1px, transparent 1px), linear-gradient(90deg, ${theme === 'light' ? 'rgba(0,0,0,0.025)' : 'rgba(255,255,255,0.02)'} 1px, transparent 1px)`, backgroundSize: '50px 50px', zIndex: 0, pointerEvents: 'none' }}></div>
+
+      {/* Aura superior */}
+      <div style={{ position: 'absolute', top: '-200px', left: '50%', transform: 'translateX(-50%)', width: '800px', height: '800px', background: `radial-gradient(circle, ${c.accent}22 0%, transparent 60%)`, filter: 'blur(80px)', zIndex: 0, pointerEvents: 'none' }}></div>
+
+      <div style={{ width: '100%', maxWidth: '720px', margin: '0 auto', position: 'relative', zIndex: 10, padding: '20px' }}>
 
         {/* HEADER */}
-        <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20px', borderBottom: `1px solid ${c.muted}22`, marginBottom: '30px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <img src="https://i.postimg.cc/QdBk2k5q/13.jpg" alt="Logo" style={{ width: '45px', height: '45px', borderRadius: '12px', objectFit: 'cover', border: '2px solid #facc15' }} />
+        <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '22px', borderBottom: `1px solid ${c.border}`, marginBottom: '40px' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: c.text }}>
+            <img src="https://i.postimg.cc/QdBk2k5q/13.jpg" alt="Logo" style={{ width: '48px', height: '48px', borderRadius: '14px', objectFit: 'cover', border: `2px solid ${c.accent}` }} />
             <div>
-              <p className="animated-gradient" style={{ fontSize: '20px', fontWeight: 900, letterSpacing: '1px', background: `linear-gradient(to right, ${c.text}, #facc15, ${c.text})`, backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textTransform: 'uppercase', margin: 0, lineHeight: 1 }}>Mi Store</p>
-              <p style={{ fontSize: '11px', color: c.muted, margin: 0 }}>Apps premium gratis</p>
+              <p className="animated-gradient" style={{ fontSize: '20px', fontWeight: 900, letterSpacing: '1.5px', background: `linear-gradient(90deg, ${c.text}, ${c.accent}, ${c.text})`, backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textTransform: 'uppercase', margin: 0, lineHeight: 1 }}>PERSONS</p>
+              <p style={{ fontSize: '10px', color: c.muted, margin: '2px 0 0 0', letterSpacing: '2px', textTransform: 'uppercase' }}>oficial</p>
             </div>
-          </div>
-          <select value={theme} onChange={(e) => toggleTheme(e.target.value)} style={{ background: 'rgba(128,128,128,0.1)', border: `1px solid ${c.muted}33`, borderRadius: '10px', padding: '6px 10px', color: c.text, fontSize: '12px', cursor: 'pointer', outline: 'none' }}>
-            <option value="dark">🌙 Dark</option>
-            <option value="light">☀️ Light</option>
-            <option value="cyberpunk">🟣 Cyberpunk</option>
-            <option value="sunset">🌅 Sunset</option>
-            <option value="ice">❄️ Ice</option>
+          </Link>
+          <select value={theme} onChange={(e) => toggleTheme(e.target.value)} style={{ background: c.card, border: `1px solid ${c.border}`, borderRadius: '12px', padding: '8px 12px', color: c.text, fontSize: '12px', cursor: 'pointer', outline: 'none' }}>
+            <option value="dark">🌙</option>
+            <option value="light">☀️</option>
+            <option value="cyberpunk">🟣</option>
+            <option value="sunset">🌅</option>
+            <option value="ice">❄️</option>
           </select>
         </nav>
 
         {/* HERO */}
-        <section style={{ textAlign: 'center', marginBottom: '35px' }}>
-          <h1 style={{ fontSize: '42px', fontWeight: 900, lineHeight: 1.1, marginBottom: '15px', letterSpacing: '-1px', color: c.text }}>
-            🔥 Apps Premium y <br />
-            <span className="animated-gradient" style={{ background: 'linear-gradient(90deg, #facc15, #f59e0b, #fbbf24, #facc15)', backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'gradient-shift 4s ease infinite' }}>Juegos Hackeados Gratis</span>
+        <section className="fade-in-on-scroll" style={{ textAlign: 'center', marginBottom: '45px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', borderRadius: '999px', background: `${c.accent}15`, border: `1px solid ${c.accent}33`, fontSize: '12px', color: c.accent, marginBottom: '20px', fontWeight: 600 }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e' }}></span>
+            {apps.length}+ apps disponibles
+          </div>
+          <h1 style={{ fontSize: '46px', fontWeight: 900, lineHeight: 1.05, marginBottom: '15px', letterSpacing: '-2px', color: c.text }}>
+            Apps Premium<br />
+            <span className="animated-gradient" style={{ background: `linear-gradient(90deg, ${c.accent}, #f59e0b, #facc15)`, backgroundSize: '200% 200%', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'gradient-shift 4s ease infinite' }}>y Juegos Gratis</span>
           </h1>
-          <p style={{ color: c.muted, fontSize: '14px', lineHeight: 1.6, maxWidth: '500px', margin: '0 auto 25px' }}>
-            Encuentra lo mejor en aplicaciones premium y juegos hackeados para Android.
+          <p style={{ color: c.muted, fontSize: '15px', lineHeight: 1.6, maxWidth: '480px', margin: '0 auto 30px' }}>
+            Descarga las versiones premium de tus apps y juegos favoritos para Android. Sin pagar, sin anuncios, rápido y seguro.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
-            <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(37, 211, 102, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(37, 211, 102, 0.3)' }}>💬</a>
-            <a href="https://t.me" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(14, 165, 233, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(14, 165, 233, 0.3)' }}>✈️</a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(236, 72, 153, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(236, 72, 153, 0.3)' }}>🎵</a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgba(220, 38, 38, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', border: '1px solid rgba(220, 38, 38, 0.3)' }}>▶️</a>
+          {/* Redes sociales */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '35px' }}>
+            {[
+              { emoji: '💬', href: 'https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm', color: '#25D366' },
+              { emoji: '✈️', href: 'https://t.me', color: '#0EA5E9' },
+              { emoji: '🎵', href: 'https://tiktok.com', color: '#EC4899' },
+              { emoji: '▶️', href: 'https://youtube.com', color: '#DC2626' },
+            ].map((s, i) => (
+              <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className="bounce-click" style={{ width: '46px', height: '46px', borderRadius: '14px', background: c.card, border: `1px solid ${c.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px', transition: 'all 0.3s ease' }}>
+                {s.emoji}
+              </a>
+            ))}
           </div>
         </section>
 
-        {/* BUSCADOR GRANDE */}
-        <div style={{ position: 'relative', marginBottom: '30px' }}>
+        {/* BUSCADOR */}
+        <div className="fade-in-on-scroll" style={{ position: 'relative', marginBottom: '35px' }}>
           <input
             type="text"
-            placeholder="Busca una aplicación o juego..."
+            placeholder="🔍  Busca una app o juego..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
               width: '100%',
-              padding: '18px 60px 18px 20px',
-              borderRadius: '16px',
+              padding: '20px 24px',
+              borderRadius: '18px',
               backgroundColor: c.card,
-              border: `1px solid ${c.muted}33`,
+              border: `1px solid ${c.border}`,
               color: c.text,
               fontSize: '15px',
               outline: 'none',
               boxSizing: 'border-box',
+              backdropFilter: 'blur(12px)',
             }}
           />
-          <div style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', width: '42px', height: '42px', borderRadius: '12px', backgroundColor: '#facc15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', color: '#0d0d12', fontWeight: 'bold' }}>
-            🔍
-          </div>
         </div>
 
         {/* NAVEGACIÓN GRANDE */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '35px' }}>
-          <Link href="/" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(250, 204, 21, 0.15)', border: '1px solid rgba(250, 204, 21, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
-            <span style={{ fontSize: '28px' }}>🏠</span>
-            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Inicio</span>
-          </Link>
-          <Link href="/exclusivas" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(236, 72, 153, 0.15)', border: '1px solid rgba(236, 72, 153, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
-            <span style={{ fontSize: '28px' }}>⭐</span>
-            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>VIP</span>
-          </Link>
-          <Link href="/codigos" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(249, 115, 22, 0.15)', border: '1px solid rgba(249, 115, 22, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
-            <span style={{ fontSize: '28px' }}>🔑</span>
-            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Códigos</span>
-          </Link>
-          <Link href="/escaner" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
-            <span style={{ fontSize: '28px' }}>🔍</span>
-            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Escáner</span>
-          </Link>
-          <Link href="/blog" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(14, 165, 233, 0.15)', border: '1px solid rgba(14, 165, 233, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
-            <span style={{ fontSize: '28px' }}>📚</span>
-            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Blog</span>
-          </Link>
-          <Link href="/tutorial" className="bounce-click" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '18px 10px', borderRadius: '16px', backgroundColor: 'rgba(168, 85, 247, 0.15)', border: '1px solid rgba(168, 85, 247, 0.3)', textDecoration: 'none', color: c.text, textAlign: 'center' }}>
-            <span style={{ fontSize: '28px' }}>📖</span>
-            <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Tutorial</span>
-          </Link>
+        <div className="fade-in-on-scroll" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '45px' }}>
+          {[
+            { href: '/', emoji: '🏠', label: 'Inicio', color: '#facc15' },
+            { href: '/codigos', emoji: '🔑', label: 'Códigos', color: '#f97316' },
+            { href: '/escaner', emoji: '🔍', label: 'Escáner', color: '#22c55e' },
+            { href: '/blog', emoji: '📚', label: 'Blog', color: '#0ea5e9' },
+            { href: '/tutorial', emoji: '📖', label: 'Tutorial', color: '#a855f7' },
+            { href: '/faq', emoji: '❓', label: 'FAQ', color: '#ef4444' },
+          ].map((item, i) => (
+            <Link key={i} href={item.href} className="bounce-click glass-hover" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '20px 10px', borderRadius: '18px', background: `${item.color}10`, border: `1px solid ${item.color}30`, textDecoration: 'none', color: c.text, textAlign: 'center', transition: 'all 0.3s ease' }}>
+              <span style={{ fontSize: '26px' }}>{item.emoji}</span>
+              <span style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.3px' }}>{item.label}</span>
+            </Link>
+          ))}
         </div>
 
-        {/* BOTÓN CÓDIGOS XUPER TV */}
-        <Link href="/codigos" className="bounce-click" style={{ display: 'block', textDecoration: 'none', marginBottom: '20px' }}>
-          <div style={{
-            padding: '25px',
-            borderRadius: '20px',
-            background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.2) 0%, rgba(249, 115, 22, 0.2) 100%)',
-            border: '2px solid rgba(250, 204, 21, 0.5)',
+        {/* BANNER CÓDIGOS */}
+        <Link href="/codigos" className="bounce-click fade-in-on-scroll" style={{ display: 'block', textDecoration: 'none', marginBottom: '40px' }}>
+          <div className="pulse-soft" style={{
+            padding: '28px',
+            borderRadius: '22px',
+            background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.15) 0%, rgba(249, 115, 22, 0.15) 100%)',
+            border: '1px solid rgba(250, 204, 21, 0.35)',
             display: 'flex',
             alignItems: 'center',
             gap: '20px',
-            animation: 'pulse 3s ease-in-out infinite',
+            boxShadow: '0 20px 50px rgba(250, 204, 21, 0.1)',
           }}>
-            <div style={{ fontSize: '50px' }}>🔑</div>
+            <div style={{ fontSize: '46px' }}>🔑</div>
             <div style={{ flex: 1 }}>
-              <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '5px' }}>Códigos Xuper TV</h2>
-              <p style={{ fontSize: '13px', color: c.muted, margin: 0, lineHeight: 1.5 }}>Códigos Premium gratis para activar Xuper TV. ¡Se agotan rápido!</p>
+              <h2 style={{ fontSize: '19px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '4px' }}>Códigos Premium Gratis</h2>
+              <p style={{ fontSize: '13px', color: c.muted, margin: 0, lineHeight: 1.5 }}>Netflix, Anime WF, Xuper Hydra y más. ¡Actualizados!</p>
             </div>
-            <span style={{ fontSize: '24px', color: '#facc15' }}>→</span>
-          </div>
-        </Link>
-
-        {/* BANNER VIP GRANDE */}
-        <Link href="/exclusivas" className="bounce-click" style={{ display: 'block', textDecoration: 'none', marginBottom: '30px' }}>
-          <div style={{
-            padding: '25px',
-            borderRadius: '20px',
-            background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%)',
-            border: '2px solid rgba(236, 72, 153, 0.4)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '20px',
-          }}>
-            <div style={{ fontSize: '50px' }}>⭐</div>
-            <div style={{ flex: 1 }}>
-              <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '5px' }}>Sección VIP</h2>
-              <p style={{ fontSize: '13px', color: c.muted, margin: 0, lineHeight: 1.5 }}>Apps exclusivas sin anuncios internos. Mira 3 anuncios y desbloquea 24h de acceso.</p>
-            </div>
-            <span style={{ fontSize: '24px', color: '#f9a8d4' }}>→</span>
+            <span style={{ fontSize: '22px', color: '#facc15' }}>→</span>
           </div>
         </Link>
 
         {/* TOP DESCARGAS */}
         {topApps.length > 0 && (
-          <section style={{ marginBottom: '30px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '15px' }}>
-              <h2 style={{ fontSize: '20px', fontWeight: 900, color: '#facc15', margin: 0 }}>🔥 Apps Populares</h2>
+          <section className="fade-in-on-scroll" style={{ marginBottom: '40px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>🔥</span> Top Descargas
+              </h2>
+              <span style={{ fontSize: '12px', color: c.muted }}>{topApps.length} apps</span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '12px' }}>
-              {topApps.slice(0, 6).map((app, i) => (
-                <Link key={i} href={`/apps/${app.slug}`} className="zoom-hover" style={{ padding: '15px', borderRadius: '16px', backgroundColor: c.card, border: `1px solid ${c.muted}22`, textDecoration: 'none', color: c.text, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: '60px', height: '60px', borderRadius: '14px', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="hide-scrollbar" style={{ display: 'flex', gap: '14px', overflowX: 'auto', paddingBottom: '8px' }}>
+              {topApps.map((app, i) => (
+                <Link key={i} href={`/apps/${app.slug}`} onClick={(e) => handleAppClick(e, app)} className="bounce-click glass-hover" style={{ flex: '0 0 auto', width: '130px', padding: '16px', borderRadius: '18px', background: c.card, border: `1px solid ${c.border}`, textDecoration: 'none', color: c.text, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', transition: 'all 0.3s ease' }}>
+                  <div style={{ width: '60px', height: '60px', borderRadius: '14px', overflow: 'hidden', background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: `1px solid ${app.border}` }}>
                     {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? <img src={app.iconUrl} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '30px' }}>{app.emoji}</span>}
                   </div>
-                  <span style={{ fontSize: '12px', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{app.name.replace(" Premium", "").replace(" VIP", "")}</span>
+                  <span style={{ fontSize: '12px', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{app.name.replace(" Premium", "").replace(" VIP", "")}</span>
                   <span style={{ fontSize: '10px', color: c.muted }}>{app.version}</span>
-                  <div style={{ display: 'flex', gap: '2px', fontSize: '11px', color: '#facc15' }}>★★★★★</div>
                 </Link>
               ))}
             </div>
@@ -258,55 +280,58 @@ export default function Home() {
         )}
 
         {/* CATEGORÍAS */}
-        <div style={{ marginBottom: '25px' }}>
-          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '15px' }}>📂 Categorías</h2>
-          <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '5px' }}>
+        <div className="fade-in-on-scroll" style={{ marginBottom: '30px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>📂</span> Categorías
+          </h2>
+          <div className="hide-scrollbar" style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '8px' }}>
             {categorias.map((cat, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedCategory(i)}
                 className="bounce-click"
                 style={{
-                  padding: '12px 20px',
-                  borderRadius: '20px',
+                  padding: '12px 22px',
+                  borderRadius: '999px',
                   cursor: 'pointer',
                   fontSize: '13px',
-                  fontWeight: 'bold',
+                  fontWeight: 700,
                   whiteSpace: 'nowrap',
-                  backgroundColor: selectedCategory === i ? '#facc15' : c.card,
-                  color: selectedCategory === i ? '#0d0d12' : c.muted,
-                  border: selectedCategory === i ? 'none' : `1px solid ${c.muted}22`,
-                  transition: 'all 0.3s ease'
+                  background: selectedCategory === i ? `linear-gradient(135deg, ${c.accent}, #f59e0b)` : c.card,
+                  color: selectedCategory === i ? '#0a0a0f' : c.muted,
+                  border: selectedCategory === i ? 'none' : `1px solid ${c.border}`,
+                  transition: 'all 0.3s ease',
+                  boxShadow: selectedCategory === i ? `0 10px 30px ${c.accent}40` : 'none',
                 }}
               >
-                {cat}
+                {cat === "+18" ? "🔞 +18" : cat}
               </button>
             ))}
           </div>
         </div>
 
         {/* LISTA DE APPS */}
-        <section style={{ marginBottom: '40px' }}>
-          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '15px' }}>
-            {selectedCategory === 0 ? "📱 Todas las apps" : `📱 ${categorias[selectedCategory]}`}
-            <span style={{ fontSize: '13px', color: c.muted, fontWeight: 'normal', marginLeft: '8px' }}>({filteredApps.length})</span>
+        <section style={{ marginBottom: '50px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>{selectedCategory === 0 ? "📱" : "📂"}</span>
+            {selectedCategory === 0 ? "Todas las apps" : categorias[selectedCategory]}
+            <span style={{ fontSize: '13px', color: c.muted, fontWeight: 500, marginLeft: '4px' }}>({filteredApps.length})</span>
           </h2>
 
           {loading ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '15px' }}>
-              {[1,2,3,4,5,6].map(i => <div key={i} className="skeleton-shimmer" style={{ height: '220px', borderRadius: '16px' }} />)}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))', gap: '16px' }}>
+              {[1,2,3,4,5,6].map(i => <div key={i} className="skeleton-shimmer" style={{ height: '230px', borderRadius: '20px' }} />)}
             </div>
           ) : filteredApps.length > 0 ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '15px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))', gap: '16px' }}>
               {filteredApps.map((app, index) => (
-                <Link key={index} href={`/apps/${app.slug}`} className="bounce-click"
-                  onMouseEnter={() => setHoveredApp(app.name)}
-                  onMouseLeave={() => setHoveredApp(null)}
+                <Link key={index} href={`/apps/${app.slug}`} className="bounce-click fade-in-on-scroll"
+                  onClick={(e) => handleAppClick(e, app)}
                   style={{
-                    padding: '15px',
-                    borderRadius: '18px',
-                    backgroundColor: c.card,
-                    border: `1px solid ${hoveredApp === app.name ? app.border : c.muted + '22'}`,
+                    padding: '18px',
+                    borderRadius: '20px',
+                    background: c.card,
+                    border: `1px solid ${app.category === "+18" ? "rgba(220, 38, 38, 0.4)" : c.border}`,
                     textDecoration: 'none',
                     color: c.text,
                     display: 'flex',
@@ -316,73 +341,110 @@ export default function Home() {
                     textAlign: 'center',
                     position: 'relative',
                     transition: 'all 0.3s ease',
-                    boxShadow: hoveredApp === app.name ? `0 10px 30px ${app.glow}` : 'none',
+                    backdropFilter: 'blur(12px)',
+                    overflow: 'hidden',
                   }}>
-                  {app.isTop && (<span style={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: 'rgba(250, 204, 21, 0.2)', color: '#facc15', padding: '3px 8px', borderRadius: '10px', fontSize: '9px', fontWeight: 'bold' }}>🔥</span>)}
-                  {app.isNew && !app.isTop && (<span style={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: 'rgba(34, 197, 94, 0.2)', color: '#22c55e', padding: '3px 8px', borderRadius: '10px', fontSize: '9px', fontWeight: 'bold' }}>✨</span>)}
+                  {/* Badges */}
+                  {app.isTop && (<span style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(250, 204, 21, 0.2)', color: '#facc15', padding: '3px 9px', borderRadius: '999px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.5px' }}>🔥 TOP</span>)}
+                  {app.isNew && !app.isTop && app.category !== "+18" && (<span style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(34, 197, 94, 0.2)', color: '#22c55e', padding: '3px 9px', borderRadius: '999px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.5px' }}>✨ NUEVO</span>)}
+                  {app.category === "+18" && (<span style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(220, 38, 38, 0.25)', color: '#fca5a5', padding: '3px 9px', borderRadius: '999px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.5px' }}>🔞 +18</span>)}
 
-                  <button onClick={(e) => toggleFavorite(app.name, e)} style={{ position: 'absolute', top: '8px', left: '8px', background: 'none', border: 'none', fontSize: '16px', cursor: 'pointer', color: favorites.includes(app.name) ? '#facc15' : c.muted }}>{favorites.includes(app.name) ? '★' : '☆'}</button>
+                  {/* Favorito */}
+                  <button onClick={(e) => toggleFavorite(app.name, e)} style={{ position: 'absolute', top: '10px', left: '10px', background: 'none', border: 'none', fontSize: '17px', cursor: 'pointer', color: favorites.includes(app.name) ? '#facc15' : c.muted, padding: 0, lineHeight: 1 }}>{favorites.includes(app.name) ? '★' : '☆'}</button>
 
-                  <div style={{ width: '70px', height: '70px', borderRadius: '16px', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.4)', border: `1px solid ${app.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px' }}>
-                    {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (<img src={app.iconUrl} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 35px;">${app.emoji}</span>`; }} />) : (<span style={{ fontSize: '35px' }}>{app.emoji}</span>)}
+                  {/* Icono */}
+                  <div style={{ width: '72px', height: '72px', borderRadius: '18px', overflow: 'hidden', background: 'rgba(0,0,0,0.3)', border: `1px solid ${app.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '10px', boxShadow: `0 10px 25px ${app.glow}` }}>
+                    {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (<img src={app.iconUrl} alt={app.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 36px;">${app.emoji}</span>`; }} />) : (<span style={{ fontSize: '36px' }}>{app.emoji}</span>)}
                   </div>
 
-                  <h3 style={{ fontSize: '14px', fontWeight: 'bold', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>
+                  {/* Nombre */}
+                  <h3 style={{ fontSize: '13px', fontWeight: 800, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', letterSpacing: '0.2px' }}>
                     {app.name.replace(" Premium", "").replace(" VIP", "")}
                   </h3>
 
-                  <p style={{ fontSize: '11px', color: c.muted, margin: 0 }}>{app.version} • {app.size}</p>
+                  {/* Categoría + Versión */}
+                  <p style={{ fontSize: '10px', color: c.muted, margin: 0, fontWeight: 500 }}>{app.category} · {app.version}</p>
 
-                  <div style={{ display: 'flex', gap: '3px', fontSize: '12px' }}>
+                  {/* Estrellas */}
+                  <div style={{ display: 'flex', gap: '2px', fontSize: '11px' }}>
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <span key={star} onClick={(e) => setRating(app.name, star, e)} style={{ cursor: 'pointer', color: (ratings[app.name] || 0) >= star ? '#facc15' : c.muted }}>★</span>
+                      <span key={star} onClick={(e) => setRating(app.name, star, e)} style={{ cursor: 'pointer', color: (ratings[app.name] || 0) >= star ? '#facc15' : c.muted, transition: 'transform 0.2s' }}>★</span>
                     ))}
                   </div>
 
-                  <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', padding: '10px', borderRadius: '10px', fontWeight: 'bold', fontSize: '11px', backgroundColor: app.glow, border: `1px solid ${app.border}`, color: app.text, marginTop: '5px' }}>
-                    VER APP
+                  {/* Botón VER APP */}
+                  <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', padding: '11px', borderRadius: '12px', fontWeight: 800, fontSize: '11px', background: `linear-gradient(135deg, ${app.glow}, ${app.border})`, border: `1px solid ${app.border}`, color: app.text, marginTop: '4px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+                    Ver App
                   </span>
                 </Link>
               ))}
             </div>
           ) : (
-            <p style={{ textAlign: 'center', color: c.muted, fontStyle: 'italic', padding: '40px 0' }}>No se encontraron apps con ese nombre. 🐱</p>
+            <div style={{ padding: '60px 20px', textAlign: 'center', borderRadius: '20px', background: c.card, border: `1px dashed ${c.border}` }}>
+              <div style={{ fontSize: '50px', marginBottom: '15px' }}>😿</div>
+              <p style={{ color: c.muted, fontSize: '14px', margin: 0 }}>No se encontraron apps con ese nombre</p>
+            </div>
           )}
         </section>
 
         {/* PRÓXIMAMENTE */}
-        <section style={{ marginBottom: '40px' }}>
-          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '15px' }}>🚀 Próximamente</h2>
-          <div style={{ padding: '30px 20px', borderRadius: '18px', border: `2px dashed ${c.muted}33`, backgroundColor: c.card, textAlign: 'center', color: c.muted }}>
-            <p style={{ fontSize: '14px', margin: 0 }}>Estamos trabajando en nuevas apps premium. ¡Vuelve pronto!</p>
+        <section className="fade-in-on-scroll" style={{ marginBottom: '50px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>🚀</span> Próximamente
+          </h2>
+          <div style={{ padding: '35px 20px', borderRadius: '20px', border: `1px dashed ${c.border}`, background: c.card, textAlign: 'center', color: c.muted }}>
+            <p style={{ fontSize: '14px', margin: 0, lineHeight: 1.6 }}>Estamos trabajando en nuevas apps premium. ¡Vuelve pronto! 🐱</p>
           </div>
         </section>
 
         {/* FOOTER */}
-        <footer style={{ borderTop: `1px solid ${c.muted}22`, paddingTop: '25px', paddingBottom: '100px', textAlign: 'center' }}>
-          <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '15px' }}>
-            <Link href="/privacidad" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none' }}>Privacidad</Link>
-            <Link href="/terminos" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none' }}>Términos</Link>
-            <Link href="/faq" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none' }}>FAQ</Link>
-            <Link href="/tutorial" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none' }}>Tutorial</Link>
+        <footer style={{ borderTop: `1px solid ${c.border}`, paddingTop: '30px', paddingBottom: '110px', textAlign: 'center' }}>
+          <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '18px' }}>
+            <Link href="/privacidad" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none', fontWeight: 500 }}>Privacidad</Link>
+            <Link href="/terminos" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none', fontWeight: 500 }}>Términos</Link>
+            <Link href="/faq" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none', fontWeight: 500 }}>FAQ</Link>
+            <Link href="/tutorial" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none', fontWeight: 500 }}>Tutorial</Link>
+            <Link href="/blog" style={{ color: c.muted, fontSize: '12px', textDecoration: 'none', fontWeight: 500 }}>Blog</Link>
           </div>
-          <p style={{ color: c.muted, fontSize: '11px', fontFamily: 'monospace' }}>© 2026 Mi Store · Hecho con 💛 desde Termux</p>
+          <p style={{ color: c.muted, fontSize: '11px', fontFamily: 'monospace', marginBottom: '5px', letterSpacing: '0.5px' }}>© 2026 PERSONS oficial</p>
+          <p style={{ color: c.muted, fontSize: '10px', margin: 0, opacity: 0.7 }}>Hecho con 💛 desde Termux</p>
         </footer>
       </div>
 
-      <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" className="bounce-click" style={{ position: 'fixed', bottom: '20px', right: '20px', backgroundColor: '#25D366', color: '#ffffff', padding: '14px 20px', borderRadius: '50px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 10px 30px rgba(37, 211, 102, 0.4)', textDecoration: 'none', zIndex: 50, fontSize: '13px' }}>
-        <span>💬</span> Únete
+      {/* BOTÓN WHATSAPP FLOTANTE */}
+      <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" className="bounce-click" style={{ position: 'fixed', bottom: '25px', right: '25px', background: 'linear-gradient(135deg, #25D366, #128C7E)', color: '#fff', padding: '14px 22px', borderRadius: '999px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 15px 40px rgba(37, 211, 102, 0.4)', textDecoration: 'none', zIndex: 50, fontSize: '13px', letterSpacing: '0.3px' }}>
+        <span style={{ fontSize: '18px' }}>💬</span> Únete
       </a>
 
       <AdModal isOpen={showAd} onClose={() => setShowAd(false)} appName={pendingAppName} />
 
+      {/* Modal +18 */}
+      {show18Modal && (
+        <div onClick={close18} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '20px', backdropFilter: 'blur(15px)' }}>
+          <div onClick={(e) => e.stopPropagation()} className="slide-up" style={{ maxWidth: '400px', width: '100%', padding: '38px 28px', borderRadius: '26px', background: '#12121a', border: '1.5px solid rgba(220, 38, 38, 0.5)', boxShadow: '0 25px 70px rgba(220, 38, 38, 0.3)', textAlign: 'center' }}>
+            <div style={{ fontSize: '64px', marginBottom: '15px' }}>🔞</div>
+            <h2 style={{ fontSize: '23px', fontWeight: 900, color: '#fff', marginBottom: '12px', letterSpacing: '-0.3px' }}>Contenido +18</h2>
+            <p style={{ color: '#8b8b9a', fontSize: '14px', lineHeight: 1.7, marginBottom: '28px' }}>
+              Este contenido es solo para <b style={{ color: '#fca5a5' }}>mayores de 18 años</b>. ¿Confirmas que tienes 18 años o más?
+            </p>
+            <button onClick={confirm18} className="bounce-click" style={{ width: '100%', padding: '16px', borderRadius: '14px', background: 'linear-gradient(135deg, #22c55e, #16a34a)', color: '#fff', fontWeight: 800, fontSize: '14px', border: 'none', cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: '12px', boxShadow: '0 12px 35px rgba(34, 197, 94, 0.4)' }}>
+              ✓ Confirmar
+            </button>
+            <button onClick={close18} style={{ width: '100%', padding: '14px', borderRadius: '12px', background: 'transparent', color: '#8b8b9a', border: '1px solid rgba(255,255,255,0.12)', cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Cookies */}
       {showCookies && (
-        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(13,13,18,0.98)', borderTop: `1px solid ${c.muted}22`, padding: '20px', zIndex: 200, backdropFilter: 'blur(12px)' }}>
-          <div style={{ maxWidth: '500px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <p style={{ color: c.muted, fontSize: '13px', lineHeight: 1.5, margin: 0 }}>🍪 Usamos cookies para mejorar tu experiencia. Al continuar, aceptas su uso.</p>
+        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'rgba(10,10,15,0.98)', borderTop: `1px solid ${c.border}`, padding: '22px', zIndex: 200, backdropFilter: 'blur(15px)' }}>
+          <div style={{ maxWidth: '520px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <p style={{ color: c.muted, fontSize: '13px', lineHeight: 1.6, margin: 0 }}>🍪 Usamos cookies para mejorar tu experiencia. Al continuar, aceptas su uso.</p>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={() => { setShowCookies(false); localStorage.setItem('cookiesAccepted', 'yes'); }} className="bounce-click" style={{ flex: 1, padding: '12px', borderRadius: '10px', backgroundColor: '#facc15', color: '#0d0d12', fontWeight: 'bold', border: 'none', cursor: 'pointer', fontSize: '13px' }}>Aceptar</button>
-              <button onClick={() => { setShowCookies(false); localStorage.setItem('cookiesAccepted', 'no'); }} className="bounce-click" style={{ flex: 1, padding: '12px', borderRadius: '10px', backgroundColor: 'transparent', color: c.muted, border: `1px solid ${c.muted}33`, cursor: 'pointer', fontSize: '13px' }}>Rechazar</button>
+              <button onClick={() => { setShowCookies(false); localStorage.setItem('cookiesAccepted', 'yes'); }} className="bounce-click" style={{ flex: 1, padding: '12px', borderRadius: '12px', background: 'linear-gradient(135deg, #facc15, #f59e0b)', color: '#0a0a0f', fontWeight: 800, border: 'none', cursor: 'pointer', fontSize: '13px' }}>Aceptar</button>
+              <button onClick={() => { setShowCookies(false); localStorage.setItem('cookiesAccepted', 'no'); }} className="bounce-click" style={{ flex: 1, padding: '12px', borderRadius: '12px', background: 'transparent', color: c.muted, border: `1px solid ${c.border}`, cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>Rechazar</button>
             </div>
           </div>
         </div>
