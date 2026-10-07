@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { apps, categorias } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
+import AppCardCompact from "@/components/AppCardCompact";
+import CategoryGrid from "@/components/CategoryGrid";
 
 const APPS_POR_PAGINA = 12;
 
@@ -106,6 +108,12 @@ export default function Home() {
     return matchesCategory && matchesSearch;
   });
   const topApps = apps.filter(a => a.isTop);
+  const newApps = apps.filter(a => a.isNew && a.category !== "+18").slice(0, 9);
+
+const appCounts: Record<string, number> = {};
+apps.forEach(a => {
+  appCounts[a.category] = (appCounts[a.category] || 0) + 1;
+});
 
   const totalPages = Math.ceil(filteredApps.length / APPS_POR_PAGINA);
   const startIndex = (currentPage - 1) * APPS_POR_PAGINA;
@@ -272,8 +280,45 @@ export default function Home() {
             </div>
           </section>
         )}
+{/* ÚLTIMAS ACTUALIZACIONES */}
+{newApps.length > 0 && (
+  <section style={{ marginBottom: '40px' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+      <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <span>🆕</span> Últimas actualizaciones
+      </h2>
+      <span style={{ fontSize: '12px', color: c.muted, fontWeight: 600 }}>{newApps.length} nuevas</span>
+    </div>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+      {newApps.map((app, i) => (
+        <AppCardCompact
+          key={i}
+          slug={app.slug}
+          name={app.name.replace(" Premium", "").replace(" VIP", "")}
+          iconUrl={app.iconUrl}
+          emoji={app.emoji}
+          version={app.version}
+          developer={app.developer}
+          updated={app.updated}
+          rating={app.rating}
+          category={app.category}
+        />
+      ))}
+    </div>
+  </section>
+)}
 
-        {/* CATEGORÍAS */}
+{/* CATEGORÍAS (GRID ESTILO GOOGLE PLAY) */}
+<section style={{ marginBottom: '35px' }}>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+    <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <span>📂</span> Categorías
+    </h2>
+  </div>
+  <CategoryGrid appCounts={appCounts} />
+</section>
+
+
         <div style={{ marginBottom: '25px' }}>
           <div className="hide-scrollbar" style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '8px' }}>
             {categorias.map((cat, i) => (
