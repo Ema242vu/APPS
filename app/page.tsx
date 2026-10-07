@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { apps, categorias } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
 import AppCardCompact from "@/components/AppCardCompact";
@@ -31,25 +31,40 @@ const RECENT_SLUGS = [
   "glass-widgets",
 ];
 
+type ViewMode = "inicio" | "apps" | "juegos" | "popular";
+
 /* ============================================
-   BARRA INFERIOR ESTILO ANDROFOREVER
+   BARRA INFERIOR ESTILO ANDROFOREVER - FUNCIONAL
    ============================================ */
-function BottomNav({ theme }: { theme: string }) {
-  const pathname = usePathname();
+function BottomNav({
+  theme,
+  current,
+  onNavigate,
+}: {
+  theme: string;
+  current: ViewMode;
+  onNavigate: (tab: ViewMode) => void;
+}) {
   const isLight = theme === "light";
   const bg = isLight ? "#ffffff" : "#0a0a0f";
   const border = isLight ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)";
   const inactive = isLight ? "#94a3b8" : "#6b7280";
   const active = "#facc15";
 
-  const items = [
+  const items: {
+    key: ViewMode;
+    label: string;
+    external?: boolean;
+    url?: string;
+    svg: React.ReactNode;
+  }[] = [
     {
-      href: "/",
+      key: "inicio",
       label: "Inicio",
       svg: <path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9.5z" />,
     },
     {
-      href: "/?cat=Apps",
+      key: "apps",
       label: "Apps",
       svg: (
         <>
@@ -61,7 +76,7 @@ function BottomNav({ theme }: { theme: string }) {
       ),
     },
     {
-      href: "/?cat=Juegos",
+      key: "juegos",
       label: "Juegos",
       svg: (
         <>
@@ -71,14 +86,15 @@ function BottomNav({ theme }: { theme: string }) {
       ),
     },
     {
-      href: "/?popular=1",
+      key: "popular",
       label: "Popular",
       svg: <path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />,
     },
     {
-      href: "https://t.me/personsapks",
+      key: "inicio",
       label: "Telegram",
       external: true,
+      url: "https://t.me/personsapks",
       svg: <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" />,
     },
   ];
@@ -101,68 +117,81 @@ function BottomNav({ theme }: { theme: string }) {
         boxShadow: "0 -4px 20px rgba(0,0,0,0.15)",
       }}
     >
-      {items.map((item) => {
-        const isExternal = item.external;
-        const isActive = !isExternal && pathname === item.href.split("?")[0] && item.href === "/" ? true : false;
-        const color = isActive ? active : inactive;
-
-        const content = (
-          <>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill={item.label === "Inicio" || item.label === "Popular" ? "currentColor" : "none"}
-              stroke="currentColor"
-              strokeWidth={item.label === "Inicio" || item.label === "Popular" ? "0" : "1.8"}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{ color }}
-            >
-              {item.svg}
-            </svg>
-            <span
-              style={{
-                fontSize: "11px",
-                fontWeight: 600,
-                color,
-                marginTop: "2px",
-              }}
-            >
-              {item.label}
-            </span>
-          </>
-        );
-
-        const linkStyle: React.CSSProperties = {
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textDecoration: "none",
-          padding: "4px 0",
-          transition: "opacity 0.2s ease",
-        };
-
-        if (isExternal) {
+      {items.map((item, i) => {
+        if (item.external) {
           return (
             <a
-              key={item.label}
-              href={item.href}
+              key={i}
+              href={item.url}
               target="_blank"
               rel="noopener noreferrer"
               className="bounce-click"
-              style={linkStyle}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                textDecoration: "none",
+                padding: "4px 0",
+              }}
             >
-              {content}
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ color: inactive }}
+              >
+                {item.svg}
+              </svg>
+              <span style={{ fontSize: "11px", fontWeight: 600, color: inactive, marginTop: "2px" }}>
+                {item.label}
+              </span>
             </a>
           );
         }
 
+        const isActive = current === item.key;
+        const color = isActive ? active : inactive;
+
         return (
-          <Link key={item.label} href={item.href} className="bounce-click" style={linkStyle}>
-            {content}
-          </Link>
+          <button
+            key={i}
+            onClick={() => onNavigate(item.key)}
+            className="bounce-click"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              textDecoration: "none",
+              padding: "4px 0",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontFamily: "inherit",
+            }}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill={item.label === "Inicio" || item.label === "Popular" ? color : "none"}
+              stroke={color}
+              strokeWidth={item.label === "Inicio" || item.label === "Popular" ? "0" : "1.8"}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {item.svg}
+            </svg>
+            <span style={{ fontSize: "11px", fontWeight: 600, color, marginTop: "2px" }}>
+              {item.label}
+            </span>
+          </button>
         );
       })}
     </nav>
@@ -208,6 +237,7 @@ export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(0);
+  const [viewMode, setViewMode] = useState<ViewMode>("inicio");
   const [theme, setTheme] = useState("dark");
   const [ratings, setRatings] = useState<Record<string, number>>({});
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -233,7 +263,7 @@ export default function Home() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory, searchTerm]);
+  }, [selectedCategory, searchTerm, viewMode]);
 
   const toggleTheme = (newTheme: string) => {
     setTheme(newTheme);
@@ -282,6 +312,7 @@ export default function Home() {
     const idx = categorias.indexOf(name);
     if (idx !== -1) {
       setSelectedCategory(idx);
+      setViewMode("inicio");
       setTimeout(() => {
         const section = document.getElementById("apps-list");
         if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -289,13 +320,35 @@ export default function Home() {
     }
   };
 
+  const handleTabChange = (tab: ViewMode) => {
+    setViewMode(tab);
+    setSelectedCategory(0);
+    setSearchTerm("");
+    setTimeout(() => {
+      const section = document.getElementById("apps-list");
+      if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  };
+
   const filteredApps = apps.filter((app) => {
-    const matchesCategory =
-      selectedCategory === 0 || app.category === categorias[selectedCategory];
+    let matchesView = true;
+
+    if (viewMode === "juegos") {
+      matchesView = app.category === "Juegos";
+    } else if (viewMode === "apps") {
+      matchesView = app.category !== "Juegos" && app.category !== "+18";
+    } else if (viewMode === "popular") {
+      matchesView = app.isTop === true;
+    } else {
+      matchesView =
+        selectedCategory === 0 || app.category === categorias[selectedCategory];
+    }
+
     const matchesSearch =
       app.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       app.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
+
+    return matchesView && matchesSearch;
   });
 
   const topApps = apps.filter((a) => a.isTop);
@@ -328,6 +381,22 @@ export default function Home() {
     }
     return pages;
   };
+
+  const sectionTitle = (() => {
+    if (viewMode === "juegos") return "Juegos";
+    if (viewMode === "apps") return "Apps";
+    if (viewMode === "popular") return "Popular";
+    if (selectedCategory === 0) return "Todas las apps";
+    return categorias[selectedCategory];
+  })();
+
+  const sectionEmoji = (() => {
+    if (viewMode === "juegos") return "🎮";
+    if (viewMode === "apps") return "📱";
+    if (viewMode === "popular") return "⭐";
+    if (selectedCategory === 0) return "🎮";
+    return "📂";
+  })();
 
   const c = {
     bg:
@@ -694,7 +763,7 @@ export default function Home() {
           />
         </div>
 
-        {/* NAVEGACIÓN SECUNDARIA (grid) */}
+        {/* NAVEGACIÓN SECUNDARIA */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "45px" }}>
           {[
             { href: "/", emoji: "🏠", label: "Inicio", color: "#facc15" },
@@ -755,7 +824,7 @@ export default function Home() {
         </Link>
 
         {/* TOP DESCARGAS */}
-        {topApps.length > 0 && (
+        {topApps.length > 0 && viewMode === "inicio" && (
           <section style={{ marginBottom: "40px" }}>
             <h2
               style={{
@@ -838,7 +907,7 @@ export default function Home() {
         )}
 
         {/* ÚLTIMAS ACTUALIZACIONES */}
-        {newApps.length > 0 && (
+        {newApps.length > 0 && viewMode === "inicio" && selectedCategory === 0 && (
           <section style={{ marginBottom: "40px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px" }}>
               <h2
@@ -876,27 +945,29 @@ export default function Home() {
         )}
 
         {/* CATEGORÍAS GRID */}
-        <section style={{ marginBottom: "35px" }}>
-          <h2
-            style={{
-              fontSize: "20px",
-              fontWeight: 900,
-              color: c.text,
-              margin: 0,
-              marginBottom: "6px",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <span>📂</span> Categorías
-          </h2>
-          <CategoryGrid
-            appCounts={appCounts}
-            selected={selectedCategory > 0 ? categorias[selectedCategory] : ""}
-            onSelect={handleCategorySelect}
-          />
-        </section>
+        {viewMode === "inicio" && (
+          <section style={{ marginBottom: "35px" }}>
+            <h2
+              style={{
+                fontSize: "20px",
+                fontWeight: 900,
+                color: c.text,
+                margin: 0,
+                marginBottom: "6px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <span>📂</span> Categorías
+            </h2>
+            <CategoryGrid
+              appCounts={appCounts}
+              selected={selectedCategory > 0 ? categorias[selectedCategory] : ""}
+              onSelect={handleCategorySelect}
+            />
+          </section>
+        )}
 
         {/* LISTA DE APPS CON PAGINACIÓN */}
         <section id="apps-list" style={{ marginBottom: "30px", scrollMarginTop: "20px" }}>
@@ -912,14 +983,17 @@ export default function Home() {
               gap: "8px",
             }}
           >
-            <span>{selectedCategory === 0 ? "🎮" : "📂"}</span>
-            {selectedCategory === 0 ? "Todas las apps" : categorias[selectedCategory]}
+            <span>{sectionEmoji}</span>
+            {sectionTitle}
             <span style={{ fontSize: "13px", color: c.muted, fontWeight: 500, marginLeft: "4px" }}>
               ({filteredApps.length})
             </span>
-            {selectedCategory !== 0 && (
+            {(selectedCategory !== 0 || viewMode !== "inicio") && (
               <button
-                onClick={() => setSelectedCategory(0)}
+                onClick={() => {
+                  setSelectedCategory(0);
+                  setViewMode("inicio");
+                }}
                 className="bounce-click"
                 style={{
                   marginLeft: "auto",
@@ -1193,25 +1267,27 @@ export default function Home() {
         </section>
 
         {/* PRÓXIMAMENTE */}
-        <section style={{ marginBottom: "50px" }}>
-          <h2
-            style={{
-              fontSize: "20px",
-              fontWeight: 900,
-              color: c.text,
-              margin: 0,
-              marginBottom: "18px",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <span>🚀</span> Próximamente
-          </h2>
-          <div style={{ padding: "35px 20px", borderRadius: "20px", border: `1px dashed ${c.border}`, background: c.card, textAlign: "center", color: c.muted }}>
-            <p style={{ fontSize: "14px", margin: 0 }}>Nuevas apps premium cada semana. ¡Vuelve pronto! 🐱</p>
-          </div>
-        </section>
+        {viewMode === "inicio" && (
+          <section style={{ marginBottom: "50px" }}>
+            <h2
+              style={{
+                fontSize: "20px",
+                fontWeight: 900,
+                color: c.text,
+                margin: 0,
+                marginBottom: "18px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <span>🚀</span> Próximamente
+            </h2>
+            <div style={{ padding: "35px 20px", borderRadius: "20px", border: `1px dashed ${c.border}`, background: c.card, textAlign: "center", color: c.muted }}>
+              <p style={{ fontSize: "14px", margin: 0 }}>Nuevas apps premium cada semana. ¡Vuelve pronto! 🐱</p>
+            </div>
+          </section>
+        )}
 
         {/* FOOTER */}
         <footer style={{ borderTop: `1px solid ${c.border}`, paddingTop: "30px", paddingBottom: "40px", textAlign: "center" }}>
@@ -1387,8 +1463,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* BARRA INFERIOR FIJA ESTILO ANDROFOREVER */}
-      <BottomNav theme={theme} />
+      {/* BARRA INFERIOR FUNCIONAL */}
+      <BottomNav theme={theme} current={viewMode} onNavigate={handleTabChange} />
     </div>
   );
 }
