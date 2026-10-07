@@ -18,6 +18,8 @@ export const apps: {
   glow: string;
   border: string;
   text: string;
+  developer?: string;
+  rating?: number;
 }[] = [
   {
     slug: "capcut",
