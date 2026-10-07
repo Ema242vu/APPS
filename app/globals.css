@@ -1,20 +1,79 @@
-/* ============================================= */
-/* FUENTE INTER (debe ir primero)                */
-/* ============================================= */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-/* ============================================= */
-/* TAILWIND                                      */
-/* ============================================= */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================= */
-/* BASE                                          */
-/* ============================================= */
-* {
-  box-sizing: border-box;
+/* ===========================
+   TEMAS - Variables CSS
+   =========================== */
+
+:root,
+[data-theme="dark"] {
+  --bg-primary: #0a0a0f;
+  --bg-card: #1a1a1f;
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-muted: #9ca3af;
+  --accent: #facc15;
+  --accent-contrast: #0d0d12;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-hover: rgba(0, 0, 0, 0.03);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --text-primary: #0f172a;
+  --text-muted: #64748b;
+  --accent: #eab308;
+  --accent-contrast: #0f172a;
+}
+
+[data-theme="cyberpunk"] {
+  --bg-primary: #0d0221;
+  --bg-card: #1a0a2e;
+  --bg-hover: rgba(0, 255, 255, 0.05);
+  --border-color: rgba(0, 255, 255, 0.2);
+  --text-primary: #00ffff;
+  --text-muted: #ff00ff;
+  --accent: #ff00ff;
+  --accent-contrast: #0d0221;
+}
+
+[data-theme="sunset"] {
+  --bg-primary: #1a0e1a;
+  --bg-card: #2a1428;
+  --bg-hover: rgba(255, 149, 0, 0.05);
+  --border-color: rgba(255, 100, 100, 0.2);
+  --text-primary: #ffe4c4;
+  --text-muted: #ffb088;
+  --accent: #ff6b35;
+  --accent-contrast: #1a0e1a;
+}
+
+[data-theme="ice"] {
+  --bg-primary: #0a1520;
+  --bg-card: #0f1e2d;
+  --bg-hover: rgba(135, 206, 250, 0.05);
+  --border-color: rgba(135, 206, 250, 0.2);
+  --text-primary: #e0f4ff;
+  --text-muted: #88b8d8;
+  --accent: #4fc3f7;
+  --accent-contrast: #0a1520;
+}
+
+/* ===========================
+   RESET + BASE
+   =========================== */
+
+* { box-sizing: border-box; }
+
+html, body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -23,9 +82,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ============================================= */
-/* ANIMACIONES GLOBALES                          */
-/* ============================================= */
+/* ===========================
+   ANIMACIONES
+   =========================== */
 
 @keyframes gradient-shift {
   0% { background-position: 0% 50%; }
@@ -38,28 +97,12 @@ body {
   animation: gradient-shift 4s ease infinite;
 }
 
-@keyframes border-glow {
-  0%, 100% { box-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
-  50% { box-shadow: 0 0 20px currentColor, 0 0 30px currentColor; }
-}
-
-.glow-border {
-  animation: border-glow 2s ease-in-out infinite;
-}
-
 @keyframes button-bounce {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(0.96); }
 }
 
-.bounce-click:active {
-  animation: button-bounce 0.2s ease;
-}
-
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.bounce-click:active { animation: button-bounce 0.2s ease; }
 
 .fade-in-on-scroll {
   opacity: 0;
@@ -78,7 +121,12 @@ body {
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
@@ -106,118 +154,47 @@ body {
   50% { transform: scale(1.02); opacity: 0.95; }
 }
 
-.pulse-soft {
-  animation: pulse-soft 3s ease-in-out infinite;
-}
+.pulse-soft { animation: pulse-soft 3s ease-in-out infinite; }
 
 @keyframes slide-up {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.slide-up {
-  animation: slide-up 0.6s ease;
-}
-
-/* ============================================= */
-/* EFECTOS DE CRISTAL                            */
-/* ============================================= */
-
-.glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
+.slide-up { animation: slide-up 0.6s ease; }
 
 .glass-hover:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(250, 204, 21, 0.3);
+  background: var(--bg-hover);
+  border-color: var(--accent);
   transform: translateY(-4px);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
-/* ============================================= */
-/* VARIABLES DE TEMA                             */
-/* ============================================= */
+/* ===========================
+   SCROLLBARS
+   =========================== */
 
-:root {
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #12121a;
-  --bg-card: rgba(255, 255, 255, 0.025);
-  --text-primary: #ffffff;
-  --text-muted: #8b8b9a;
-  --border-color: rgba(255, 255, 255, 0.08);
-  --accent: #facc15;
-  --accent-2: #f59e0b;
-}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-[data-theme="light"] {
-  --bg-primary: #f8f8fc;
-  --bg-secondary: #ffffff;
-  --bg-card: rgba(255, 255, 255, 0.9);
-  --text-primary: #0a0a0f;
-  --text-muted: #6b7280;
-  --border-color: rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="cyberpunk"] {
-  --bg-primary: #08001a;
-  --bg-secondary: #110030;
-  --bg-card: rgba(139, 92, 246, 0.06);
-  --text-primary: #e0d4ff;
-  --text-muted: #a78bfa;
-  --border-color: rgba(139, 92, 246, 0.25);
-  --accent: #22d3ee;
-}
-
-[data-theme="sunset"] {
-  --bg-primary: #150808;
-  --bg-secondary: #240d0d;
-  --bg-card: rgba(251, 146, 60, 0.06);
-  --text-primary: #ffe4c4;
-  --text-muted: #fdba74;
-  --border-color: rgba(251, 146, 60, 0.25);
-  --accent: #f472b6;
-}
-
-[data-theme="ice"] {
-  --bg-primary: #080d18;
-  --bg-secondary: #0f1626;
-  --bg-card: rgba(148, 163, 184, 0.06);
-  --text-primary: #e2e8f0;
-  --text-muted: #94a3b8;
-  --border-color: rgba(148, 163, 184, 0.2);
-  --accent: #38bdf8;
-}
-
-/* ============================================= */
-/* SCROLLBAR PROFESIONAL                         */
-/* ============================================= */
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: rgba(250, 204, 21, 0.25);
   border-radius: 3px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(250, 204, 21, 0.5);
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+/* ===========================
+   ACCESIBILIDAD
+   =========================== */
 
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

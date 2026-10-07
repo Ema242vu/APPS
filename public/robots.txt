@@ -1,4 +1,16 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
 
+# Bloquear bots de scraping conocidos
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+# Sitemap
 Sitemap: https://apps-peach-two.vercel.app/sitemap.xml
+Host: https://apps-peach-two.vercel.app

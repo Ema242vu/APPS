@@ -34,7 +34,6 @@ export default function WaitModal({
       setReady(false);
       return;
     }
-
     setCountdown(5);
     setReady(false);
 
@@ -59,6 +58,9 @@ export default function WaitModal({
   return (
     <div
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="waitmodal-title"
       style={{
         position: "fixed",
         inset: 0,
@@ -82,10 +84,9 @@ export default function WaitModal({
           border: "1px solid rgba(250, 204, 21, 0.3)",
           boxShadow: "0 20px 60px rgba(250, 204, 21, 0.15)",
           textAlign: "center",
-          fontFamily: "system-ui, sans-serif",
+          fontFamily: "Inter, system-ui, sans-serif",
         }}
       >
-        {/* Icono de la app */}
         <div
           style={{
             width: "80px",
@@ -107,7 +108,7 @@ export default function WaitModal({
           )}
         </div>
 
-        <h2 style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", marginBottom: "8px" }}>
+        <h2 id="waitmodal-title" style={{ fontSize: "20px", fontWeight: "bold", color: "#ffffff", marginBottom: "8px" }}>
           {appName}
         </h2>
 
@@ -116,12 +117,9 @@ export default function WaitModal({
         </p>
 
         <p style={{ color: "#facc15", fontSize: "14px", fontWeight: "bold", marginBottom: "20px" }}>
-          {ready
-            ? "¡Listo! Tu descarga está preparada."
-            : `Espera ${countdown} segundo${countdown !== 1 ? "s" : ""}...`}
+          {ready ? "¡Listo! Tu descarga está preparada." : `Espera ${countdown} segundo${countdown !== 1 ? "s" : ""}...`}
         </p>
 
-        {/* Barra de progreso */}
         <div
           style={{
             width: "100%",
@@ -140,16 +138,9 @@ export default function WaitModal({
               borderRadius: "3px",
               transition: "width 1s linear",
             }}
-          ></div>
+          />
         </div>
 
-        <p style={{ color: "#6b7280", fontSize: "12px", lineHeight: 1.6, marginBottom: "25px" }}>
-          {appCategory === "Juegos"
-            ? "🎮 Prepárate para jugar. Asegúrate de tener espacio suficiente en tu dispositivo."
-            : "📱 Prepárate para instalar. Recuerda permitir la instalación de fuentes desconocidas."}
-        </p>
-
-        {/* Botón de descarga */}
         <button
           onClick={onContinue}
           disabled={!ready}

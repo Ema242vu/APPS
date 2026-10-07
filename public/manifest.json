@@ -1,16 +1,19 @@
 {
   "id": "com.persons.oficial",
-  "name": "PERSONS oficial - Apps Premium y Juegos",
+  "name": "PERSONS-COMUNITY - Apps Premium y Juegos",
   "short_name": "PERSONS",
   "description": "Descarga las mejores apps premium y juegos para Android gratis",
-  "start_url": "/",
+  "start_url": "/?utm_source=pwa",
   "display": "standalone",
-  "background_color": "#0d0d12",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#0a0a0f",
   "theme_color": "#facc15",
   "orientation": "portrait",
   "scope": "/",
   "lang": "es",
+  "dir": "ltr",
   "categories": ["utilities", "entertainment", "games"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/63f7a15c-e6da-47ee-8f27-95fc41619762.png",
@@ -31,18 +34,30 @@
       "purpose": "maskable"
     }
   ],
-  "screenshots": [
+  "shortcuts": [
     {
-      "src": "https://placehold.co/1080x1920/0d0d12/facc15.png?text=PERSONS+Mobile",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow"
+      "name": "Blog",
+      "short_name": "Blog",
+      "url": "/blog",
+      "description": "Últimas noticias y tutoriales"
     },
     {
-      "src": "https://placehold.co/1920x1080/0d0d12/facc15.png?text=PERSONS+Desktop",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide"
+      "name": "Escáner APK",
+      "short_name": "Escáner",
+      "url": "/escaner",
+      "description": "Analiza la seguridad de tus APKs"
+    },
+    {
+      "name": "Códigos",
+      "short_name": "Códigos",
+      "url": "/codigos",
+      "description": "Códigos y trucos exclusivos"
+    },
+    {
+      "name": "FAQ",
+      "short_name": "FAQ",
+      "url": "/faq",
+      "description": "Preguntas frecuentes"
     }
   ]
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 type AdModalProps = {
   isOpen: boolean;
@@ -10,15 +10,27 @@ type AdModalProps = {
 
 export default function AdModal({ isOpen, onClose, appName }: AdModalProps) {
   const [loading, setLoading] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Cleanup del timeout al desmontar o cerrar
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  // Reset loading cuando se cierra
+  useEffect(() => {
+    if (!isOpen) setLoading(false);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   const handleSupport = () => {
     setLoading(true);
-    // Abre el enlace de Monetag en nueva pestaña
-    window.open("https://omg10.com/4/11940275", "_blank");
-    // Después de 8 segundos, cierra el modal
-    setTimeout(() => {
+    // noopener + noreferrer para seguridad
+    window.open("https://omg10.com/4/11940275", "_blank", "noopener,noreferrer");
+    timeoutRef.current = setTimeout(() => {
       setLoading(false);
       onClose();
     }, 8000);
@@ -27,6 +39,9 @@ export default function AdModal({ isOpen, onClose, appName }: AdModalProps) {
   return (
     <div
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="admodal-title"
       style={{
         position: "fixed",
         inset: 0,
@@ -50,16 +65,15 @@ export default function AdModal({ isOpen, onClose, appName }: AdModalProps) {
           border: "1px solid rgba(236, 72, 153, 0.3)",
           boxShadow: "0 20px 60px rgba(236, 72, 153, 0.2)",
           textAlign: "center",
-          fontFamily: "system-ui, sans-serif",
+          fontFamily: "Inter, system-ui, sans-serif",
         }}
       >
         <div style={{ fontSize: "50px", marginBottom: "15px" }}>❤️</div>
-        <h2 style={{ fontSize: "22px", fontWeight: "bold", color: "#ffffff", marginBottom: "12px" }}>
+        <h2 id="admodal-title" style={{ fontSize: "22px", fontWeight: "bold", color: "#ffffff", marginBottom: "12px" }}>
           Apoya al creador
         </h2>
         <p style={{ color: "#9ca3af", fontSize: "14px", lineHeight: 1.6, marginBottom: "25px" }}>
-          Para seguir subiendo apps premium gratis, mira un anuncio corto. 
-          Solo toma unos segundos y nos ayudas un montón. 🐱
+          Para seguir subiendo apps premium gratis, mira un anuncio corto. Solo toma unos segundos y nos ayudas un montón. 🐱
         </p>
 
         <button
