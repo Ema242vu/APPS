@@ -197,15 +197,16 @@ export default function Home() {
             Descubre las mejores aplicaciones y los juegos más divertidos para Android. Última versión, premium y sin anuncios.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '35px' }}>
+          {/* REDES SOCIALES */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '35px', flexWrap: 'wrap' }}>
             {[
-              { emoji: '💬', href: 'https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm' },
-              { emoji: '✈️', href: 'https://t.me' },
-              { emoji: '🎵', href: 'https://tiktok.com' },
-              { emoji: '▶️', href: 'https://youtube.com' },
+              { img: 'https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/a65cde85-132a-4209-a867-68fe6054722f.jpg', href: 'https://chat.whatsapp.com/LCGW1WtQbYACZKKeBPzsXI', color: '#25D366', name: 'WhatsApp' },
+              { img: 'https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/4724e75f-6363-4c1b-b929-627a6a582e4f.jpg', href: 'https://t.me/personsapks', color: '#0EA5E9', name: 'Telegram' },
+              { img: 'https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/38cb9e6a-b3d2-41dd-bde6-c249217ddf29.jpg', href: 'https://www.instagram.com/persons.177', color: '#EC4899', name: 'Instagram' },
+              { img: 'https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/daeecf20-0396-4b3e-a595-3852f29a0b95.jpg', href: 'https://discord.gg/A2vWQKj9w', color: '#5865F2', name: 'Discord' },
             ].map((s, i) => (
-              <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className="bounce-click" style={{ width: '46px', height: '46px', borderRadius: '14px', background: c.card, border: `1px solid ${c.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontSize: '20px' }}>
-                {s.emoji}
+              <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className="bounce-click" title={s.name} style={{ width: '52px', height: '52px', borderRadius: '16px', background: c.card, border: `1px solid ${s.color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', overflow: 'hidden', transition: 'all 0.3s ease', boxShadow: `0 8px 20px ${s.color}20` }}>
+                <img src={s.img} alt={s.name} style={{ width: '60%', height: '60%', objectFit: 'contain' }} />
               </a>
             ))}
           </div>
@@ -448,12 +449,14 @@ export default function Home() {
         </footer>
       </div>
 
-      <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" className="bounce-click" style={{ position: 'fixed', bottom: '25px', right: '25px', background: 'linear-gradient(135deg, #25D366, #128C7E)', color: '#fff', padding: '14px 22px', borderRadius: '999px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 15px 40px rgba(37, 211, 102, 0.4)', textDecoration: 'none', zIndex: 50, fontSize: '13px' }}>
+      {/* WHATSAPP FLOTANTE */}
+      <a href="https://chat.whatsapp.com/LCGW1WtQbYACZKKeBPzsXI" target="_blank" rel="noopener noreferrer" className="bounce-click" style={{ position: 'fixed', bottom: '25px', right: '25px', background: 'linear-gradient(135deg, #25D366, #128C7E)', color: '#fff', padding: '14px 22px', borderRadius: '999px', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 15px 40px rgba(37, 211, 102, 0.4)', textDecoration: 'none', zIndex: 50, fontSize: '13px' }}>
         <span style={{ fontSize: '18px' }}>💬</span> Únete
       </a>
 
       <AdModal isOpen={showAd} onClose={() => setShowAd(false)} appName={pendingAppName} />
 
+      {/* MODAL +18 */}
       {show18Modal && (
         <div onClick={close18} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '20px', backdropFilter: 'blur(15px)' }}>
           <div onClick={(e) => e.stopPropagation()} className="slide-up" style={{ maxWidth: '400px', width: '100%', padding: '38px 28px', borderRadius: '26px', background: '#12121a', border: '1.5px solid rgba(220, 38, 38, 0.5)', boxShadow: '0 25px 70px rgba(220, 38, 38, 0.3)', textAlign: 'center' }}>
@@ -472,6 +475,7 @@ export default function Home() {
         </div>
       )}
 
+      {/* COOKIES */}
       {showCookies && (
         <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'rgba(10,10,15,0.98)', borderTop: `1px solid ${c.border}`, padding: '22px', zIndex: 200, backdropFilter: 'blur(15px)' }}>
           <div style={{ maxWidth: '520px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
