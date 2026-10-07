@@ -10,6 +10,16 @@ import CategoryGrid from "@/components/CategoryGrid";
 
 const APPS_POR_PAGINA = 12;
 
+const RECENT_SLUGS = [
+  "yandere-simulator",
+  "thats-not-my-neighbor",
+  "simpsons-hit-and-run",
+  "gta-vice-city-definitive",
+  "devil-may-cry-4",
+  "depth-live-wallpapers",
+  "glass-widgets",
+];
+
 function FloatingParticles() {
   const [particles, setParticles] = useState<any[]>([]);
   useEffect(() => {
@@ -102,18 +112,30 @@ export default function Home() {
     setPending18Slug(null);
   };
 
+  const handleCategorySelect = (name: string) => {
+    const idx = categorias.indexOf(name);
+    if (idx !== -1) {
+      setSelectedCategory(idx);
+      setTimeout(() => {
+        const section = document.getElementById("apps-list");
+        if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    }
+  };
+
   const filteredApps = apps.filter((app) => {
     const matchesCategory = selectedCategory === 0 || app.category === categorias[selectedCategory];
     const matchesSearch = app.name.toLowerCase().includes(searchTerm.toLowerCase()) || app.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-  const topApps = apps.filter(a => a.isTop);
-  const newApps = apps.filter(a => a.isNew && a.category !== "+18").slice(0, 9);
 
-const appCounts: Record<string, number> = {};
-apps.forEach(a => {
-  appCounts[a.category] = (appCounts[a.category] || 0) + 1;
-});
+  const topApps = apps.filter(a => a.isTop);
+  const newApps = apps.filter(a => RECENT_SLUGS.includes(a.slug));
+
+  const appCounts: Record<string, number> = {};
+  apps.forEach(a => {
+    appCounts[a.category] = (appCounts[a.category] || 0) + 1;
+  });
 
   const totalPages = Math.ceil(filteredApps.length / APPS_POR_PAGINA);
   const startIndex = (currentPage - 1) * APPS_POR_PAGINA;
@@ -280,78 +302,62 @@ apps.forEach(a => {
             </div>
           </section>
         )}
-{/* ÚLTIMAS ACTUALIZACIONES */}
-{newApps.length > 0 && (
-  <section style={{ marginBottom: '40px' }}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-      <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <span>🆕</span> Últimas actualizaciones
-      </h2>
-      <span style={{ fontSize: '12px', color: c.muted, fontWeight: 600 }}>{newApps.length} nuevas</span>
-    </div>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-      {newApps.map((app, i) => (
-        <AppCardCompact
-          key={i}
-          slug={app.slug}
-          name={app.name.replace(" Premium", "").replace(" VIP", "")}
-          iconUrl={app.iconUrl}
-          emoji={app.emoji}
-          version={app.version}
-          developer={app.developer}
-          updated={app.updated}
-          rating={app.rating}
-          category={app.category}
-        />
-      ))}
-    </div>
-  </section>
-)}
 
-{/* CATEGORÍAS (GRID ESTILO GOOGLE PLAY) */}
-<section style={{ marginBottom: '35px' }}>
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-    <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <span>📂</span> Categorías
-    </h2>
-  </div>
-  <CategoryGrid appCounts={appCounts} />
-</section>
+        {/* ÚLTIMAS ACTUALIZACIONES */}
+        {newApps.length > 0 && (
+          <section style={{ marginBottom: '40px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>🆕</span> Últimas actualizaciones
+              </h2>
+              <span style={{ fontSize: '12px', color: c.muted, fontWeight: 600 }}>{newApps.length} nuevas</span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+              {newApps.map((app, i) => (
+                <AppCardCompact
+                  key={i}
+                  slug={app.slug}
+                  name={app.name.replace(" Premium", "").replace(" VIP", "")}
+                  iconUrl={app.iconUrl}
+                  emoji={app.emoji}
+                  version={app.version}
+                  developer={app.developer}
+                  updated={app.updated}
+                  rating={app.rating}
+                  category={app.category}
+                />
+              ))}
+            </div>
+          </section>
+        )}
 
-
-        <div style={{ marginBottom: '25px' }}>
-          <div className="hide-scrollbar" style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '8px' }}>
-            {categorias.map((cat, i) => (
-              <button
-                key={i}
-                onClick={() => setSelectedCategory(i)}
-                className="bounce-click"
-                style={{
-                  padding: '12px 22px',
-                  borderRadius: '999px',
-                  cursor: 'pointer',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  whiteSpace: 'nowrap',
-                  background: selectedCategory === i ? `linear-gradient(135deg, ${c.accent}, #f59e0b)` : c.card,
-                  color: selectedCategory === i ? '#0a0a0f' : c.muted,
-                  border: selectedCategory === i ? 'none' : `1px solid ${c.border}`,
-                  boxShadow: selectedCategory === i ? `0 10px 30px ${c.accent}40` : 'none',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                {cat === "+18" ? "🔞 +18" : cat}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* CATEGORÍAS (GRID) */}
+        <section style={{ marginBottom: '35px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>📂</span> Categorías
+          </h2>
+          <CategoryGrid
+            appCounts={appCounts}
+            selected={selectedCategory > 0 ? categorias[selectedCategory] : ""}
+            onSelect={handleCategorySelect}
+          />
+        </section>
 
         {/* LISTA DE APPS CON PAGINACIÓN */}
-        <section style={{ marginBottom: '30px' }}>
+        <section id="apps-list" style={{ marginBottom: '30px', scrollMarginTop: '20px' }}>
           <h2 style={{ fontSize: '20px', fontWeight: 900, color: c.text, margin: 0, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span>{selectedCategory === 0 ? "🎮" : "📂"}</span>
             {selectedCategory === 0 ? "Todas las apps" : categorias[selectedCategory]}
             <span style={{ fontSize: '13px', color: c.muted, fontWeight: 500, marginLeft: '4px' }}>({filteredApps.length})</span>
+            {selectedCategory !== 0 && (
+              <button
+                onClick={() => setSelectedCategory(0)}
+                className="bounce-click"
+                style={{ marginLeft: "auto", padding: "6px 12px", borderRadius: "999px", background: c.card, border: `1px solid ${c.border}`, color: c.muted, fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+              >
+                ✕ Limpiar
+              </button>
+            )}
           </h2>
 
           {loading ? (
