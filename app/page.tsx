@@ -11,6 +11,9 @@ import CategoryGrid from "@/components/CategoryGrid";
 const APPS_POR_PAGINA = 12;
 
 const RECENT_SLUGS = [
+  "deezer-premium",
+  "king-hydra",
+  "vn-video-editor",
   "ejercicios-en-casa",
   "hiper-calc-pro",
   "ilovepdf-premium",
@@ -33,9 +36,6 @@ const RECENT_SLUGS = [
 
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
 
-/* ============================================
-   BARRA INFERIOR ESTILO ANDROFOREVER - FUNCIONAL
-   ============================================ */
 function BottomNav({
   theme,
   current,
@@ -1463,7 +1463,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* BARRA INFERIOR FUNCIONAL */}
       <BottomNav theme={theme} current={viewMode} onNavigate={handleTabChange} />
     </div>
   );
