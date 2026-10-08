@@ -11,6 +11,12 @@ import CategoryGrid from "@/components/CategoryGrid";
 const APPS_POR_PAGINA = 12;
 
 const RECENT_SLUGS = [
+  "onii-sama-after-dark",
+  "katana-zero",
+  "psycho-love",
+  "deltarune",
+  "lovemaniac",
+  "minecraft",
   "deezer-premium",
   "king-hydra",
   "vn-video-editor",
@@ -32,7 +38,7 @@ const RECENT_SLUGS = [
   "devil-may-cry-4",
   "depth-live-wallpapers",
   "glass-widgets",
-];
+]; 
 
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
 
