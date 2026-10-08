@@ -10,6 +10,7 @@ import CategoryGrid from "@/components/CategoryGrid";
 
 const APPS_POR_PAGINA = 12;
 
+// ORDEN DE PRIORIDAD: primero los más recientes
 const RECENT_SLUGS = [
   "onii-sama-after-dark",
   "katana-zero",
@@ -38,7 +39,7 @@ const RECENT_SLUGS = [
   "devil-may-cry-4",
   "depth-live-wallpapers",
   "glass-widgets",
-]; 
+];
 
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
 
@@ -358,7 +359,12 @@ export default function Home() {
   });
 
   const topApps = apps.filter((a) => a.isTop);
-  const newApps = apps.filter((a) => RECENT_SLUGS.includes(a.slug)).slice(0, 9);
+
+  // 🔥 FIX: respeta el ORDEN de RECENT_SLUGS (más recientes primero)
+  const newApps = RECENT_SLUGS
+    .map((slug) => apps.find((a) => a.slug === slug))
+    .filter((a): a is NonNullable<typeof a> => Boolean(a))
+    .slice(0, 9);
 
   const appCounts: Record<string, number> = {};
   apps.forEach((a) => {
