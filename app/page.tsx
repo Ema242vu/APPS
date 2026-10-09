@@ -12,6 +12,16 @@ const APPS_POR_PAGINA = 12;
 
 // ORDEN DE PRIORIDAD: primero los más recientes
 const RECENT_SLUGS = [
+  "twitter-x-mod",
+  "proton-vpn-premium",
+  "photoroom-pro",
+  "photo-lab-pro",
+  "pixelcut-premium",
+  "video-compressor-premium",
+  "twitch-premium",
+  "strava-premium",
+  "standby-pro",
+  "pgt-pro",
   "onii-sama-after-dark",
   "katana-zero",
   "psycho-love",
@@ -40,7 +50,6 @@ const RECENT_SLUGS = [
   "depth-live-wallpapers",
   "glass-widgets",
 ];
-
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
 
 function BottomNav({
