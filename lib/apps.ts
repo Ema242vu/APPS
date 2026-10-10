@@ -2179,6 +2179,27 @@ export const apps: {
   developer: "Re-Logic",
   rating: 4.9,
 },
+{
+  slug: "slime-rancher",
+  name: "Slime Rancher",
+  description: "Cría slimes y construye tu rancho en un mundo colorido.",
+  longDescription: "Slime Rancher es un encantador juego de aventura y simulación donde te conviertes en Beatrix LeBeau, una valiente granjera que se muda a un planeta lejano para criar slimes. Explora un mundo abierto lleno de color, captura y alimenta a estas adorables criaturas, recolecta recursos y expande tu rancho. Con gráficos vibrantes, mecánicas relajantes y un sinfín de slimes por descubrir, es una experiencia perfecta para jugadores de todas las edades.",
+  link: "https://www.mediafire.com/file/sz40vvqumaf76pf/Slime_Rancher_v1.2_-_espacioapk.com.apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/efca8fc4-2b36-4ad2-9ff7-0ed9690cdbf2.webp",
+  emoji: "🟢",
+  category: "Juegos",
+  isTop: true,
+  isNew: true,
+  version: "1.2",
+  size: "401 MB",
+  updated: "Oct 2026",
+  glow: "rgba(74, 222, 128, 0.4)",
+  border: "rgba(74, 222, 128, 0.6)",
+  text: "#4ade80",
+  developer: "Monomi Park",
+  rating: 4.8
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
