@@ -2242,6 +2242,27 @@ export const apps: {
   developer: "Zedge",
   rating: 4.7
 },
+{
+  slug: "terabox-premium",
+  name: "TeraBox Premium",
+  description: "Almacenamiento en la nube gratis con hasta 1 TB.",
+  longDescription: "TeraBox es una app de almacenamiento en la nube que te ofrece hasta 1 TB de espacio gratuito para guardar tus fotos, videos, documentos y archivos. Sincroniza automáticamente tus datos, haz copias de seguridad y accede a ellos desde cualquier dispositivo. Incluye reproducción de video en línea, transferencia de archivos, y carga automática de fotos. Esta versión Premium elimina los anuncios y desbloquea funciones exclusivas como mayor velocidad de subida, reproducción en HD y almacenamiento ampliado.",
+  link: "https://www.mediafire.com/file/m024ypbbuyilsj5/TeraBox+Premium+v4.26.5+-+androforever.com.apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/69a5764b-02db-4526-af42-8fc4734670a2.png",
+  emoji: "☁️",
+  category: "Herramientas",
+  isTop: true,
+  isNew: true,
+  version: "4.26.5",
+  size: "158 MB",
+  updated: "Oct 2026",
+  glow: "rgba(56, 189, 248, 0.4)",
+  border: "rgba(56, 189, 248, 0.6)",
+  text: "#38bdf8",
+  developer: "Flextech Inc.",
+  rating: 4.6
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
