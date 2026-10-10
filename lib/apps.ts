@@ -2100,7 +2100,7 @@ export const apps: {
   name: "GearUP Booster",
   description: "Optimiza y reduce el ping en tus juegos móviles.",
   longDescription: "GearUP Booster es una potente herramienta de optimización de red diseñada para gamers móviles. Reduce el ping, estabiliza la conexión y elimina el lag en tus juegos favoritos como PUBG Mobile, Free Fire, Call of Duty Mobile y muchos más. Con servidores globales optimizados, mejora tu experiencia competitiva y juega sin interrupciones. Esta versión ViP desbloquea todas las funciones premium para un rendimiento máximo.",
-  link: "https://www.mediafire.com/file/e18zycu63xzecgo/GearUP+Booster+v3.36.0.0120+(ViP).apk/file",
+  link: "https://www.mediafire.com/file/8qax6m5zihxtf61/com.gearup.booster_4.0.7.xapk/file",
   altLinks: [],
   iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/3d89b3bc-5eb6-4898-973f-a5cc67c56bd5.webp",
   emoji: "🚀",
