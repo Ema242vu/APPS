@@ -2263,6 +2263,27 @@ export const apps: {
   developer: "Flextech Inc.",
   rating: 4.6
 },
+{
+  slug: "danganronpa-v3",
+  name: "Danganronpa V3",
+  description: "Novela visual de misterio y juicios con estilo anime.",
+  longDescription: "Danganronpa V3: Killing Harmony es una novela visual de misterio y asesinatos donde un grupo de estudiantes con talentos especiales queda atrapado en un juego mortal. Investiga escenas del crimen, reúne pistas y participa en los emocionantes Juicios de Clase para descubrir al culpable. Con un estilo artístico único, personajes carismáticos, giros inesperados y una banda sonora inolvidable, es una experiencia imprescindible para los fans del misterio y el anime.",
+  link: "https://www.mediafire.com/file/e9w84q44fbgihfa/DRV3-v1.0.4-full-apkvision.apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/c42ab9d9-e4c5-44de-b460-6b89280fadb8.webp",
+  emoji: "🩸",
+  category: "Juegos",
+  isTop: true,
+  isNew: true,
+  version: "1.0.4",
+  size: "79 MB",
+  updated: "Oct 2026",
+  glow: "rgba(244, 63, 94, 0.4)",
+  border: "rgba(244, 63, 94, 0.6)",
+  text: "#f43f5e",
+  developer: "Spike Chunsoft",
+  rating: 4.8
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
