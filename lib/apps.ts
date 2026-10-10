@@ -434,7 +434,7 @@ export const apps: {
     altLinks: [
       { label: "Versión para TV", url: "https://cloud.androforever.com/Apps/Xuper%20TV/Xuper%20TV%20Premium%20v5.0.7%20celular%20-%20androforever.com.apk" },
     ],
-    iconUrl: "https://androforever.com/wp-content/uploads/2026/03/Streamflix-apk-premium.jpg",
+    iconUrl: "https://xuperapk.tv/wp-content/uploads/2025/12/favicon.png",
     emoji: "⚡",
     category: "Herramientas",
     isTop: false,
@@ -2115,6 +2115,27 @@ export const apps: {
   text: "#3b82f6",
   developer: "GearUP",
   rating: 4.7
+},
+{
+  slug: "streamflix",
+  name: "Streamflix - Ver TV, Películas y Series",
+  description: "Disfruta de TV, películas y series en streaming gratis.",
+  longDescription: "Streamflix es una app de streaming todo en uno que te permite ver canales de TV en vivo, películas y series desde la comodidad de tu dispositivo. Cuenta con una interfaz intuitiva, múltiples categorías, subtítulos y una amplia biblioteca de contenido actualizado. Esta versión Mod desbloquea funciones premium para que disfrutes sin anuncios y con acceso completo a todo el catálogo. Ideal para los amantes del entretenimiento que buscan una alternativa gratuita y completa.",
+  link: "https://cloud.androforever.com/Apps/Streamflix/Streamflix%20Mod%20v1.7.235%20-%20androforever.com.apk",
+  altLinks: [],
+  iconUrl: "https://androforever.com/wp-content/uploads/2026/03/Streamflix-apk-premium.jpg",
+  emoji: "🍿",
+  category: "Video",
+  isTop: true,
+  isNew: true,
+  version: "1.7.235",
+  size: "34 MB",
+  updated: "Oct 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#ec4899",
+  developer: "AndroForever",
+  rating: 4.6
 },
 ];
 
