@@ -2284,6 +2284,27 @@ export const apps: {
   developer: "Spike Chunsoft",
   rating: 4.8
 },
+{
+  slug: "angry-birds-go",
+  name: "Angry Birds Go!",
+  description: "Carreras de karts con tus aves favoritas.",
+  longDescription: "Angry Birds Go! es un divertido juego de carreras de karts protagonizado por las aves y cerdos más famosos. Compite en circuitos llenos de obstáculos, derrapa en curvas imposibles, usa potenciadores y desbloquea nuevos personajes y vehículos. Con controles simples, modos de carrera variados y un estilo colorido, es una experiencia de velocidad ideal para jugar en cualquier momento. ¡Corre, choca y llega primero a la meta!",
+  link: "https://www.mediafire.com/file/h5ct5hp8z5v11if/Angry+Birds+Go+v2.9.1+-+espacioapk.com.xapk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/cfc08954-7b4b-4050-bb13-70e5d068dfd9.jpg",
+  emoji: "🐦",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "2.9.1",
+  size: "228 MB",
+  updated: "Oct 2026",
+  glow: "rgba(248, 113, 113, 0.4)",
+  border: "rgba(248, 113, 113, 0.6)",
+  text: "#f87171",
+  developer: "Rovio Entertainment",
+  rating: 4.5
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
