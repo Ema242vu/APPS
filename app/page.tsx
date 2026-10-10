@@ -12,6 +12,7 @@ const APPS_POR_PAGINA = 12;
 
 // ORDEN DE PRIORIDAD: primero los más recientes
 const RECENT_SLUGS = [
+  "slime-rancher",
   "terraria",
   "mango-sin-anuncios",
   "streamflix",
