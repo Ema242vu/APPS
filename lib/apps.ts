@@ -2137,6 +2137,27 @@ export const apps: {
   developer: "AndroForever",
   rating: 4.6
 },
+{
+  slug: "mango-sin-anuncios",
+  name: "Mango Sin Anuncios",
+  description: "Lee mangas sin anuncios ni restricciones.",
+  longDescription: "Mango Sin Anuncios es la versión modificada de la popular app de lectura de manga. Disfruta de miles de mangas en español sin publicidad molesta, sin anuncios intersticiales y con todas las funciones desbloqueadas. Catálogo completo y actualizaciones constantes.",
+  link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Mango.sin.anuncios-persons.apk",
+  altLinks: [],
+  iconUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsFTStXMy4redoL6f3Y_y4mHvjoqCwyb4drELJikvnrQ&s=10",
+  emoji: "📖",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "1.0",
+  size: "76 MB",
+  updated: "Oct 2026",
+  glow: "rgba(249, 115, 22, 0.4)",
+  border: "rgba(249, 115, 22, 0.6)",
+  text: "#f97316",
+  developer: "Mango Team",
+  rating: 4.6,
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
