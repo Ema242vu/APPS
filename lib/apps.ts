@@ -2031,6 +2031,27 @@ export const apps: {
   text: "#fb923c",
   developer: "PGT Team",
   rating: 4.5,
+}, 
+{
+  slug: "plantas-vs-zombies-fusion",
+  name: "Plantas vs Zombies Fusion",
+  description: "Fusión de plantas y zombies con mecánicas únicas.",
+  longDescription: "Plantas vs Zombies Fusion es una versión modificada del clásico juego de tower defense donde puedes combinar plantas para crear híbridos poderosos. Enfrenta oleadas de zombies con nuevas mecánicas de fusión, personajes exclusivos y desafíos mejorados. Incluye modos adicionales, plantas fusionadas únicas y una experiencia renovada para los fans de la saga.",
+  link: "https://www.mediafire.com/file_premium/ayfc8bzzfzeyd71/Pl4ntsVsZ%25E2%2588%2585mbiesRH_4.0.5.apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/7fa285b5-1cd5-4bd1-b79c-8c2fe87c3994.jpg",
+  emoji: "🌻",
+  category: "Juegos",
+  isTop: true,
+  isNew: true,
+  version: "4.0.5",
+  size: "535 MB",
+  updated: "Oct 2026",
+  glow: "rgba(34, 197, 94, 0.4)",
+  border: "rgba(34, 197, 94, 0.6)",
+  text: "#22c55e",
+  developer: "RH",
+  rating: 4.7
 },
 ];
 
