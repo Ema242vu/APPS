@@ -12,6 +12,7 @@ const APPS_POR_PAGINA = 12;
 
 // ORDEN DE PRIORIDAD: primero los más recientes
 const RECENT_SLUGS = [
+"HitCue",
 "plantas-vs-zombies-fusion",
   "twitter-x-mod",
   "proton-vpn-premium",
