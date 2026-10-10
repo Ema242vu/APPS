@@ -12,8 +12,8 @@ const APPS_POR_PAGINA = 12;
 
 // ORDEN DE PRIORIDAD: primero los más recientes
 const RECENT_SLUGS = [
-"HitCue",
-"plantas-vs-zombies-fusion",
+  "HitCue",
+  "plantas-vs-zombies-fusion",
   "twitter-x-mod",
   "proton-vpn-premium",
   "photoroom-pro",
@@ -47,10 +47,6 @@ const RECENT_SLUGS = [
   "yandere-simulator",
   "thats-not-my-neighbor",
   "simpsons-hit-and-run",
-  "gta-vice-city-definitive",
-  "devil-may-cry-4",
-  "depth-live-wallpapers",
-  "glass-widgets",
 ];
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
 
