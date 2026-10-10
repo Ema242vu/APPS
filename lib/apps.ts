@@ -2158,6 +2158,27 @@ export const apps: {
   developer: "Mango Team",
   rating: 4.6,
 },
+{
+  slug: "terraria",
+  name: "Terraria",
+  description: "Aventura sandbox 2D con exploración y combate.",
+  longDescription: "Terraria es un juego de aventura y sandbox en 2D donde exploras un mundo generado aleatoriamente, construyes bases, luchas contra jefes épicos y consigues miles de objetos únicos. Con más de 4000 items, 20+ jefes, modo multijugador y cientos de horas de contenido. Versión completa desbloqueada con todo el contenido premium.",
+  link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Terraria-v1.4.5.8.6-full-apkvision.apk",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/ee9fae26-ecdb-425d-ab76-998bc69479de.jpg",
+  emoji: "🌳",
+  category: "Juegos",
+  isTop: true,
+  isNew: true,
+  version: "1.4.5.8.6",
+  size: "202 MB",
+  updated: "Oct 2026",
+  glow: "rgba(34, 197, 94, 0.4)",
+  border: "rgba(34, 197, 94, 0.6)",
+  text: "#22c55e",
+  developer: "Re-Logic",
+  rating: 4.9,
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
