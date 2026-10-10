@@ -2305,6 +2305,27 @@ export const apps: {
   developer: "Rovio Entertainment",
   rating: 4.5
 },
+{
+  slug: "annelids",
+  name: "Annelids",
+  description: "Batallas online con gusanos en un mundo destructible.",
+  longDescription: "Annelids Online Battle es un juego de acción multijugador en 2D donde controlas a un gusano guerrero en intensas batallas online. Excava túneles, usa armas destructivas y compite contra jugadores de todo el mundo en mapas dinámicos. Con físicas realistas, personalización de gusanos y modos de juego variados, es una experiencia frenética y divertida. Perfecto para quienes buscan partidas rápidas y acción sin límites.",
+  link: "https://www.mediafire.com/file/cinynlig28q680n/Annelids_Online_Battle_1.121.5_1776162771_latestmodapks.com.apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/80ddd774-582e-4686-a827-30d8ab58ad6e.webp",
+  emoji: "🪱",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "1.121.5",
+  size: "15 MB",
+  updated: "Oct 2026",
+  glow: "rgba(16, 185, 129, 0.4)",
+  border: "rgba(16, 185, 129, 0.6)",
+  text: "#10b981",
+  developer: "Indie",
+  rating: 4.5
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
