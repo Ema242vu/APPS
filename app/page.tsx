@@ -12,6 +12,7 @@ const APPS_POR_PAGINA = 12;
 
 // ORDEN DE PRIORIDAD: primero los más recientes
 const RECENT_SLUGS = [
+  "terraria",
   "mango-sin-anuncios",
   "streamflix",
   "gearup-booster",
@@ -48,9 +49,6 @@ const RECENT_SLUGS = [
   "nzb360-pro",
   "osmand-premium",
   "pdf-scanner-premium",
-  "yandere-simulator",
-  "thats-not-my-neighbor",
-  "simpsons-hit-and-run",
 ];
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
 
