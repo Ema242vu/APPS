@@ -2074,6 +2074,27 @@ export const apps: {
   developer: "APKPure",
   rating: 4.6
 },
+{
+  slug: "sally-face",
+  name: "Sally Face",
+  description: "Aventura gráfica de terror psicológico y misterio.",
+  longDescription: "Sally Face es una aclamada aventura gráfica episódica de terror psicológico. Acompaña a Sal Fisher, un niño con una prótesis facial, mientras investiga sucesos oscuros y sobrenaturales en su nuevo vecindario. Resuelve puzzles, explora escenarios inquietantes y descubre una historia profunda cargada de misterio, con un estilo artístico único y una narrativa envolvente que te atrapará desde el primer episodio.",
+  link: "https://www.mediafire.com/file/jb0mo3bi4j60loz/Sally-Face-v1.5.51-full-apkvision.apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/8f02b42b-9dcc-41e1-b2f3-611d8028b374.jpg",
+  emoji: "💀",
+  category: "Juegos",
+  isTop: true,
+  isNew: true,
+  version: "1.5.51",
+  size: "698 MB",
+  updated: "Oct 2026",
+  glow: "rgba(239, 68, 68, 0.4)",
+  border: "rgba(239, 68, 68, 0.6)",
+  text: "#ef4444",
+  developer: "Portable Moose",
+  rating: 4.8
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
