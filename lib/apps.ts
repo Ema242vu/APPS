@@ -2053,6 +2053,27 @@ export const apps: {
   developer: "RH",
   rating: 4.7
 },
+{
+  slug: "hitcue",
+  name: "HitCue",
+  description: "Memoriza y practica tus líneas de actuación.",
+  longDescription: "HitCue es una herramienta ideal para actores y actrices que necesitan memorizar guiones y practicar sus líneas. Permite grabar y reproducir tus diálogos, escuchar las réplicas de otros personajes y ensayar en cualquier momento. Incluye funciones para marcar escenas, practicar con repetición y mejorar tu memorización de forma eficiente antes de cada audición o rodaje.",
+  link: "https://www.mediafire.com/file/urh8kmi5ohl51wx/HitCue_%252BMemorize%252BActing%252BLines_2.4.1_APKPure.xapk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/15ff4a18-c0e3-4c63-89d0-bf30024a270b.webp",
+  emoji: "🎬",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "2.4.1",
+  size: "102 MB",
+  updated: "Oct 2026",
+  glow: "rgba(168, 85, 247, 0.4)",
+  border: "rgba(168, 85, 247, 0.6)",
+  text: "#a855f7",
+  developer: "APKPure",
+  rating: 4.6
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
