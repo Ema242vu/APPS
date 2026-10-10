@@ -2200,6 +2200,27 @@ export const apps: {
   developer: "Monomi Park",
   rating: 4.8
 },
+{
+  slug: "caja-arena",
+  name: "Caja: Arena",
+  description: "Simulador de cajas de arena con físicas realistas.",
+  longDescription: "Caja: Arena (Sandbox: Arena) es un simulador de físicas donde puedes experimentar con cajas de arena, reacciones en cadena y elementos interactivos. Coloca diferentes materiales, activa explosivos, observa cómo reaccionan los líquidos, gases y sólidos en tiempo real. Con gráficos simples pero efectivos y un motor de físicas sorprendentemente detallado, es ideal para quienes disfrutan experimentar, crear y destruir sin límites. Perfecto para pasar horas descubriendo combinaciones y efectos únicos.",
+  link: "https://www.mediafire.com/file/om74v6vhv1gseww/pesochnicza-21_192-rattlesnake-mod.apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/7ba9943e-4da8-4c7a-9922-7988b904b78f.png",
+  emoji: "🏖️",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "21.192",
+  size: "6.1 MB",
+  updated: "Oct 2026",
+  glow: "rgba(251, 191, 36, 0.4)",
+  border: "rgba(251, 191, 36, 0.6)",
+  text: "#fbbf24",
+  developer: "Rattlesnake",
+  rating: 4.5
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
