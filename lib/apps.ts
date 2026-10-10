@@ -2221,6 +2221,27 @@ export const apps: {
   developer: "Rattlesnake",
   rating: 4.5
 },
+{
+  slug: "zedge",
+  name: "Zedge",
+  description: "Tonos, fondos de pantalla y alarmas para tu móvil.",
+  longDescription: "Zedge es la app de personalización más popular para Android. Encuentra millones de tonos de llamada, notificaciones, alarmas, fondos de pantalla, iconos y stickers para darle un toque único a tu dispositivo. Cuenta con contenido actualizado constantemente en categorías como música, juegos, películas, deportes y más. Esta versión Premium elimina los anuncios y desbloquea funciones exclusivas para una experiencia totalmente fluida y sin interrupciones.",
+  link: "https://www.mediafire.com/file/v9rjc2hijfp0wgu/Zedge+Premium+v9.4.1+-+androforever.com+(1).apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/8961bccf-d792-4499-bc08-0838d82bf44f.png",
+  emoji: "🎵",
+  category: "Personalización",
+  isTop: true,
+  isNew: true,
+  version: "9.4.1",
+  size: "54 MB",
+  updated: "Oct 2026",
+  glow: "rgba(139, 92, 246, 0.4)",
+  border: "rgba(139, 92, 246, 0.6)",
+  text: "#8b5cf6",
+  developer: "Zedge",
+  rating: 4.7
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
