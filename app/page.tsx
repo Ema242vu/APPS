@@ -12,7 +12,8 @@ const APPS_POR_PAGINA = 12;
 
 // ORDEN DE PRIORIDAD: primero los más recientes
 const RECENT_SLUGS = [
-  "zedge"
+  "terabox-premium",
+  "zedge",
   "caja-arena",
   "slime-rancher",
   "terraria",
