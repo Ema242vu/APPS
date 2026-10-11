@@ -2368,6 +2368,27 @@ export const apps: {
   developer: "Warner Bros. Discovery",
   rating: 4.7,
 },
+{
+  slug: "magic-rampage",
+  name: "Magic Rampage",
+  description: "Plataformas RPG con magia, acción y mazmorras.",
+  longDescription: "Magic Rampage es un emocionante juego de plataformas y RPG que combina acción frenética con elementos de rol. Elige entre varias clases de personajes, personaliza tu equipo y sumérgete en mazmorras llenas de enemigos, trampas y jefes épicos. Con gráficos estilo retro, multijugador online y un sistema de progresión profundo, es una aventura perfecta para los amantes de la acción y la fantasía. Esta versión mod desbloquea contenido premium para una experiencia completa.",
+  link: "https://www.mediafire.com/file/uq7z1c7xhsad54x/magic-rampage-mod_7.8.9-apkvision.apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/ab0b0705-db56-46d3-8ca2-19971a8583a2.webp",
+  emoji: "🗡️",
+  category: "Juegos",
+  isTop: true,
+  isNew: true,
+  version: "7.8.9",
+  size: "148 MB",
+  updated: "Oct 2026",
+  glow: "rgba(192, 38, 211, 0.4)",
+  border: "rgba(192, 38, 211, 0.6)",
+  text: "#c026d3",
+  developer: "Asantee Games",
+  rating: 4.7
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
