@@ -2389,6 +2389,27 @@ export const apps: {
   developer: "Asantee Games",
   rating: 4.7
 },
+{
+  slug: "y2k-editor-de-fotos-2000s",
+  name: "Y2K: Editor de Fotos 2000s",
+  description: "Editor de fotos con estética retro de los años 2000.",
+  longDescription: "Y2K: Editor de Fotos 2000s es la app perfecta para darle a tus imágenes ese toque nostálgico de la era dorada de los 2000. Aplica filtros vintage, efectos de flash, distorsiones, brillos, texturas y stickers que recrean la estética Y2K. Personaliza tus fotos con marcos, tipografías retro y elementos icónicos de la época. Ideal para crear contenido único con vibra de cámara digital antigua, flash de discoteca y estilo cyber. ¡Revive la magia de los 2000 en cada foto!",
+  link: "https://www.mediafire.com/file/24dd5cnvunj9ysl/com.abel.y2k_2.07.xapk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/c2fd7789-651f-4686-9c21-1cee12f2f074.png",
+  emoji: "📸",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "2.07",
+  size: "71 MB",
+  updated: "Oct 2026",
+  glow: "rgba(217, 70, 239, 0.4)",
+  border: "rgba(217, 70, 239, 0.6)",
+  text: "#d946ef",
+  developer: "Abel",
+  rating: 4.6
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
