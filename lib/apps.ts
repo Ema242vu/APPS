@@ -2347,6 +2347,27 @@ export const apps: {
   developer: "Zakeh",
   rating: 4.7
 },
+{
+  slug: "hbo-max-premium",
+  name: "HBO Max Premium",
+  description: "Series y películas de HBO, Warner y DC.",
+  longDescription: "HBO Max Premium desbloqueado con todo el catálogo disponible: series originales de HBO, películas de Warner Bros, contenido de DC, Cartoon Network y más. Sin anuncios, sin restricciones de región y todas las funciones premium activadas. Ve todo el catálogo en máxima calidad.",
+  link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/HBO.Max.Mod.09.10.2026.apk",
+  altLinks: [],
+  iconUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdrbviqAvWdPmPSZwfAIT46GyEJhyknTGzPahXNcSJ4w&s=10",
+  emoji: "🎬",
+  category: "Video",
+  isTop: true,
+  isNew: true,
+  version: "09.10.2026",
+  size: "80 MB",
+  updated: "Oct 2026",
+  glow: "rgba(139, 92, 246, 0.4)",
+  border: "rgba(139, 92, 246, 0.6)",
+  text: "#a78bfa",
+  developer: "Warner Bros. Discovery",
+  rating: 4.7,
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
