@@ -12,6 +12,7 @@ const APPS_POR_PAGINA = 12;
 
 // ORDEN DE PRIORIDAD: primero los más recientes
 const RECENT_SLUGS = [
+  "y2k-editor-de-fotos-2000s",
   "magic-rampage",
   "hbo-max-premium",
   "pou",
