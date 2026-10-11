@@ -2326,6 +2326,27 @@ export const apps: {
   developer: "Indie",
   rating: 4.5
 },
+{
+  slug: "pou",
+  name: "Pou",
+  description: "Cuida a tu mascota virtual Pou y juega minijuegos.",
+  longDescription: "Pou es una adorable mascota virtual que puedes cuidar desde tu móvil. Aliméntalo, báñalo, juega con él y observa cómo crece y evoluciona. Incluye decenas de minijuegos, atuendos personalizables, salas para decorar y un sistema de niveles que te mantendrá entretenido durante horas. Esta versión mod desbloquea monedas y funciones premium para que disfrutes al máximo de tu compañero alienígena. ¡El compañero perfecto para todas las edades!",
+  link: "https://www.mediafire.com/file/79as9p8uojyau3d/pou-mod_1.4.136-an1.com.apk/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/cdbc9319-01bc-4b4d-b9d2-2cc55e0160c2.png",
+  emoji: "🥔",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "1.4.136",
+  size: "89 MB",
+  updated: "Oct 2026",
+  glow: "rgba(196, 122, 84, 0.4)",
+  border: "rgba(196, 122, 84, 0.6)",
+  text: "#c47a54",
+  developer: "Zakeh",
+  rating: 4.7
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
