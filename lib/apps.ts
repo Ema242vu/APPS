@@ -50,6 +50,8 @@ export const apps: {
     glow: "rgba(250, 204, 21, 0.4)",
     border: "rgba(250, 204, 21, 0.6)",
     text: "#facc15",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "youtube",
@@ -69,6 +71,8 @@ export const apps: {
     glow: "rgba(251, 191, 36, 0.4)",
     border: "rgba(251, 191, 36, 0.6)",
     text: "#fbbf24",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "netflix",
@@ -88,6 +92,8 @@ export const apps: {
     glow: "rgba(220, 38, 38, 0.4)",
     border: "rgba(220, 38, 38, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "novastrim",
@@ -107,6 +113,8 @@ export const apps: {
     glow: "rgba(168, 85, 247, 0.4)",
     border: "rgba(168, 85, 247, 0.6)",
     text: "#d8b4fe",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "bowmasters",
@@ -128,6 +136,8 @@ export const apps: {
     text: "#f97316",
     developer: "Playgendary",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "worm-hunt",
@@ -149,6 +159,8 @@ export const apps: {
     text: "#84cc16",
     developer: "9mod",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "noutube",
@@ -168,6 +180,8 @@ export const apps: {
     glow: "rgba(239, 68, 68, 0.4)",
     border: "rgba(239, 68, 68, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "film-app",
@@ -187,6 +201,8 @@ export const apps: {
     glow: "rgba(220, 38, 38, 0.4)",
     border: "rgba(220, 38, 38, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "hittv",
@@ -206,6 +222,8 @@ export const apps: {
     glow: "rgba(249, 115, 22, 0.4)",
     border: "rgba(249, 115, 22, 0.6)",
     text: "#fdba74",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "dramabox",
@@ -225,6 +243,8 @@ export const apps: {
     glow: "rgba(236, 72, 153, 0.4)",
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "inshot",
@@ -244,6 +264,8 @@ export const apps: {
     glow: "rgba(239, 68, 68, 0.4)",
     border: "rgba(239, 68, 68, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "alight-motion",
@@ -263,6 +285,8 @@ export const apps: {
     glow: "rgba(139, 92, 246, 0.4)",
     border: "rgba(139, 92, 246, 0.6)",
     text: "#c4b5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "wink",
@@ -282,6 +306,8 @@ export const apps: {
     glow: "rgba(236, 72, 153, 0.4)",
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "filmora",
@@ -301,6 +327,8 @@ export const apps: {
     glow: "rgba(59, 130, 246, 0.4)",
     border: "rgba(59, 130, 246, 0.6)",
     text: "#93c5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "pixlr",
@@ -320,6 +348,8 @@ export const apps: {
     glow: "rgba(139, 92, 246, 0.4)",
     border: "rgba(139, 92, 246, 0.6)",
     text: "#c4b5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "spotify",
@@ -341,6 +371,8 @@ export const apps: {
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#86efac",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "youtube-music",
@@ -360,6 +392,8 @@ export const apps: {
     glow: "rgba(244, 63, 94, 0.4)",
     border: "rgba(244, 63, 94, 0.6)",
     text: "#fda4af",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "echo-music",
@@ -379,6 +413,8 @@ export const apps: {
     glow: "rgba(236, 72, 153, 0.4)",
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "soundcloud",
@@ -398,6 +434,8 @@ export const apps: {
     glow: "rgba(255, 85, 0, 0.4)",
     border: "rgba(255, 85, 0, 0.6)",
     text: "#fdba74",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "telegram",
@@ -417,6 +455,8 @@ export const apps: {
     glow: "rgba(14, 165, 233, 0.4)",
     border: "rgba(14, 165, 233, 0.6)",
     text: "#7dd3fc",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "tiktok-gold",
@@ -436,6 +476,8 @@ export const apps: {
     glow: "rgba(236, 72, 153, 0.4)",
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "instagram",
@@ -455,6 +497,8 @@ export const apps: {
     glow: "rgba(236, 72, 153, 0.4)",
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "emochi",
@@ -474,6 +518,8 @@ export const apps: {
     glow: "rgba(139, 92, 246, 0.4)",
     border: "rgba(139, 92, 246, 0.6)",
     text: "#c4b5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "xuper",
@@ -495,6 +541,8 @@ export const apps: {
     glow: "rgba(249, 115, 22, 0.4)",
     border: "rgba(249, 115, 22, 0.6)",
     text: "#fdba74",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "sp-ia",
@@ -514,6 +562,8 @@ export const apps: {
     glow: "rgba(59, 130, 246, 0.4)",
     border: "rgba(59, 130, 246, 0.6)",
     text: "#93c5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "imgbb-pro",
@@ -533,6 +583,8 @@ export const apps: {
     glow: "rgba(20, 184, 166, 0.4)",
     border: "rgba(20, 184, 166, 0.6)",
     text: "#5eead4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "symmetry",
@@ -552,6 +604,8 @@ export const apps: {
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#86efac",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "fitia",
@@ -571,6 +625,8 @@ export const apps: {
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#86efac",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "microg",
@@ -592,6 +648,8 @@ export const apps: {
     glow: "rgba(20, 184, 166, 0.4)",
     border: "rgba(20, 184, 166, 0.6)",
     text: "#5eead4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "remini",
@@ -611,6 +669,8 @@ export const apps: {
     glow: "rgba(236, 72, 153, 0.4)",
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "duolingo",
@@ -630,6 +690,8 @@ export const apps: {
     glow: "rgba(88, 204, 2, 0.4)",
     border: "rgba(88, 204, 2, 0.6)",
     text: "#a3e635",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "busuu",
@@ -649,6 +711,8 @@ export const apps: {
     glow: "rgba(139, 92, 246, 0.4)",
     border: "rgba(139, 92, 246, 0.6)",
     text: "#c4b5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "ibispaint",
@@ -668,6 +732,8 @@ export const apps: {
     glow: "rgba(236, 72, 153, 0.4)",
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "picsart",
@@ -687,6 +753,8 @@ export const apps: {
     glow: "rgba(168, 85, 247, 0.4)",
     border: "rgba(168, 85, 247, 0.6)",
     text: "#d8b4fe",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "background-eraser",
@@ -706,6 +774,8 @@ export const apps: {
     glow: "rgba(20, 184, 166, 0.4)",
     border: "rgba(20, 184, 166, 0.6)",
     text: "#5eead4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "kwgt",
@@ -725,6 +795,8 @@ export const apps: {
     glow: "rgba(168, 85, 247, 0.4)",
     border: "rgba(168, 85, 247, 0.6)",
     text: "#d8b4fe",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "smart-launcher",
@@ -744,6 +816,8 @@ export const apps: {
     glow: "rgba(14, 165, 233, 0.4)",
     border: "rgba(14, 165, 233, 0.6)",
     text: "#7dd3fc",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "icon-pack-studio",
@@ -763,6 +837,8 @@ export const apps: {
     glow: "rgba(236, 72, 153, 0.4)",
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "panda-mouse",
@@ -782,6 +858,8 @@ export const apps: {
     glow: "rgba(20, 184, 166, 0.4)",
     border: "rgba(20, 184, 166, 0.6)",
     text: "#5eead4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "mcpedl",
@@ -801,6 +879,8 @@ export const apps: {
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#86efac",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "the-amazing-spider-man",
@@ -820,6 +900,8 @@ export const apps: {
     glow: "rgba(220, 38, 38, 0.4)",
     border: "rgba(220, 38, 38, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "celeste",
@@ -839,6 +921,8 @@ export const apps: {
     glow: "rgba(139, 92, 246, 0.4)",
     border: "rgba(139, 92, 246, 0.6)",
     text: "#c4b5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "human-fall-flat",
@@ -858,6 +942,8 @@ export const apps: {
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#86efac",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "hello-neighbor",
@@ -877,6 +963,8 @@ export const apps: {
     glow: "rgba(249, 115, 22, 0.4)",
     border: "rgba(249, 115, 22, 0.6)",
     text: "#fdba74",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "cuphead",
@@ -896,6 +984,8 @@ export const apps: {
     glow: "rgba(220, 38, 38, 0.4)",
     border: "rgba(220, 38, 38, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "nso",
@@ -915,6 +1005,8 @@ export const apps: {
     glow: "rgba(139, 92, 246, 0.4)",
     border: "rgba(139, 92, 246, 0.6)",
     text: "#c4b5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "gta-iii-definitive",
@@ -934,6 +1026,8 @@ export const apps: {
     glow: "rgba(250, 204, 21, 0.4)",
     border: "rgba(250, 204, 21, 0.6)",
     text: "#facc15",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "gta-chinatown",
@@ -953,6 +1047,8 @@ export const apps: {
     glow: "rgba(239, 68, 68, 0.4)",
     border: "rgba(239, 68, 68, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "gta-san-andreas",
@@ -972,6 +1068,8 @@ export const apps: {
     glow: "rgba(250, 204, 21, 0.4)",
     border: "rgba(250, 204, 21, 0.6)",
     text: "#facc15",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "worldbox",
@@ -991,6 +1089,8 @@ export const apps: {
     glow: "rgba(59, 130, 246, 0.4)",
     border: "rgba(59, 130, 246, 0.6)",
     text: "#93c5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "scritchy-scratchy",
@@ -1010,6 +1110,8 @@ export const apps: {
     glow: "rgba(139, 92, 246, 0.4)",
     border: "rgba(139, 92, 246, 0.6)",
     text: "#c4b5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "lovely-craft",
@@ -1029,6 +1131,8 @@ export const apps: {
     glow: "rgba(220, 38, 38, 0.4)",
     border: "rgba(220, 38, 38, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "balatro",
@@ -1048,6 +1152,8 @@ export const apps: {
     glow: "rgba(220, 38, 38, 0.4)",
     border: "rgba(220, 38, 38, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "sonic-all-stars",
@@ -1067,6 +1173,8 @@ export const apps: {
     glow: "rgba(59, 130, 246, 0.4)",
     border: "rgba(59, 130, 246, 0.6)",
     text: "#93c5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "bendy-ink-machine",
@@ -1086,6 +1194,8 @@ export const apps: {
     glow: "rgba(107, 114, 128, 0.4)",
     border: "rgba(107, 114, 128, 0.6)",
     text: "#d1d5db",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "silksong",
@@ -1105,6 +1215,8 @@ export const apps: {
     glow: "rgba(239, 68, 68, 0.4)",
     border: "rgba(239, 68, 68, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "hollow-knight",
@@ -1124,6 +1236,8 @@ export const apps: {
     glow: "rgba(59, 130, 246, 0.4)",
     border: "rgba(59, 130, 246, 0.6)",
     text: "#93c5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "naruto-ultimate-ninja",
@@ -1143,6 +1257,8 @@ export const apps: {
     glow: "rgba(249, 115, 22, 0.4)",
     border: "rgba(249, 115, 22, 0.6)",
     text: "#fdba74",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "little-nightmares",
@@ -1162,6 +1278,8 @@ export const apps: {
     glow: "rgba(168, 85, 247, 0.4)",
     border: "rgba(168, 85, 247, 0.6)",
     text: "#d8b4fe",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "universal-truck",
@@ -1181,6 +1299,8 @@ export const apps: {
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#86efac",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "bob-esponja-bfbb",
@@ -1200,6 +1320,8 @@ export const apps: {
     glow: "rgba(250, 204, 21, 0.4)",
     border: "rgba(250, 204, 21, 0.6)",
     text: "#facc15",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "bob-esponja-cosmic-shake",
@@ -1219,6 +1341,8 @@ export const apps: {
     glow: "rgba(59, 130, 246, 0.4)",
     border: "rgba(59, 130, 246, 0.6)",
     text: "#93c5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "fnaf-1",
@@ -1238,6 +1362,8 @@ export const apps: {
     glow: "rgba(220, 38, 38, 0.4)",
     border: "rgba(220, 38, 38, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "fnaf-2",
@@ -1257,6 +1383,8 @@ export const apps: {
     glow: "rgba(249, 115, 22, 0.4)",
     border: "rgba(249, 115, 22, 0.6)",
     text: "#fdba74",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "fnaf-3",
@@ -1276,6 +1404,8 @@ export const apps: {
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#86efac",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "fnaf-4",
@@ -1295,6 +1425,8 @@ export const apps: {
     glow: "rgba(139, 92, 246, 0.4)",
     border: "rgba(139, 92, 246, 0.6)",
     text: "#c4b5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "fnaf-6",
@@ -1314,6 +1446,8 @@ export const apps: {
     glow: "rgba(249, 115, 22, 0.4)",
     border: "rgba(249, 115, 22, 0.6)",
     text: "#fdba74",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "ucn",
@@ -1333,6 +1467,8 @@ export const apps: {
     glow: "rgba(168, 85, 247, 0.4)",
     border: "rgba(168, 85, 247, 0.6)",
     text: "#d8b4fe",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "poppy-playtime-1",
@@ -1352,6 +1488,8 @@ export const apps: {
     glow: "rgba(236, 72, 153, 0.4)",
     border: "rgba(236, 72, 153, 0.6)",
     text: "#f9a8d4",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "poppy-playtime-2",
@@ -1371,6 +1509,8 @@ export const apps: {
     glow: "rgba(139, 92, 246, 0.4)",
     border: "rgba(139, 92, 246, 0.6)",
     text: "#c4b5fd",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "poppy-playtime-3",
@@ -1390,6 +1530,8 @@ export const apps: {
     glow: "rgba(220, 38, 38, 0.4)",
     border: "rgba(220, 38, 38, 0.6)",
     text: "#fca5a5",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "ppsspp-gold",
@@ -1409,6 +1551,8 @@ export const apps: {
     glow: "rgba(250, 204, 21, 0.4)",
     border: "rgba(250, 204, 21, 0.6)",
     text: "#facc15",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "halo-ce",
@@ -1428,6 +1572,8 @@ export const apps: {
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#86efac",
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "ejercicios-en-casa",
@@ -1449,6 +1595,8 @@ export const apps: {
     text: "#ef4444",
     developer: "Leap Fitness",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "hiper-calc-pro",
@@ -1470,6 +1618,8 @@ export const apps: {
     text: "#10b981",
     developer: "HiPER Development",
     rating: 4.8,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "ilovepdf-premium",
@@ -1491,6 +1641,8 @@ export const apps: {
     text: "#ef4444",
     developer: "iLovePDF",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "imprint-premium",
@@ -1512,6 +1664,8 @@ export const apps: {
     text: "#a78bfa",
     developer: "Imprint Learn",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "lifesum-premium",
@@ -1533,6 +1687,8 @@ export const apps: {
     text: "#22c55e",
     developer: "Lifesum",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "lightroom-premium",
@@ -1554,6 +1710,8 @@ export const apps: {
     text: "#38bdf8",
     developer: "Adobe",
     rating: 4.8,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "lockmypix-premium",
@@ -1575,6 +1733,8 @@ export const apps: {
     text: "#eab308",
     developer: "LockMyPix",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "moviebase-premium",
@@ -1596,6 +1756,8 @@ export const apps: {
     text: "#f97316",
     developer: "Moviebase",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "nzb360-pro",
@@ -1617,6 +1779,8 @@ export const apps: {
     text: "#3b82f6",
     developer: "Kevin Foreman",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "osmand-premium",
@@ -1638,6 +1802,8 @@ export const apps: {
     text: "#22c55e",
     developer: "OsmAnd",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "pdf-scanner-premium",
@@ -1659,6 +1825,8 @@ export const apps: {
     text: "#ef4444",
     developer: "PDF Scanner Team",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "deezer-premium",
@@ -1680,6 +1848,8 @@ export const apps: {
     text: "#c084fc",
     developer: "Deezer",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "king-hydra",
@@ -1701,6 +1871,8 @@ export const apps: {
     text: "#f87171",
     developer: "King Hydra",
     rating: 4.8,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "vn-video-editor",
@@ -1722,6 +1894,8 @@ export const apps: {
     text: "#38bdf8",
     developer: "Ubiquiti Inc",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "onii-sama-after-dark",
@@ -1743,6 +1917,8 @@ export const apps: {
     text: "#ec4899",
     developer: "ONII-SAMA",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "katana-zero",
@@ -1764,6 +1940,8 @@ export const apps: {
     text: "#ef4444",
     developer: "Askiisoft",
     rating: 4.9,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "psycho-love",
@@ -1785,6 +1963,8 @@ export const apps: {
     text: "#a855f7",
     developer: "Psycho Team",
     rating: 4.4,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "deltarune",
@@ -1806,6 +1986,8 @@ export const apps: {
     text: "#a78bfa",
     developer: "Toby Fox",
     rating: 4.9,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "lovemaniac",
@@ -1827,6 +2009,8 @@ export const apps: {
     text: "#f472b6",
     developer: "LoveManiac Team",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "minecraft",
@@ -1852,6 +2036,8 @@ export const apps: {
     text: "#22c55e",
     developer: "Mojang",
     rating: 4.9,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "video-compressor-premium",
@@ -1873,6 +2059,8 @@ export const apps: {
     text: "#38bdf8",
     developer: "Video Tools",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "twitter-x-mod",
@@ -1894,6 +2082,8 @@ export const apps: {
     text: "#e2e8f0",
     developer: "X Corp",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "twitch-premium",
@@ -1915,6 +2105,8 @@ export const apps: {
     text: "#a78bfa",
     developer: "Twitch Interactive",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "strava-premium",
@@ -1936,6 +2128,8 @@ export const apps: {
     text: "#fc5200",
     developer: "Strava Inc",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "standby-pro",
@@ -1957,6 +2151,8 @@ export const apps: {
     text: "#94a3b8",
     developer: "StandBy",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "proton-vpn-premium",
@@ -1978,6 +2174,8 @@ export const apps: {
     text: "#a78bfa",
     developer: "Proton AG",
     rating: 4.8,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "pixelcut-premium",
@@ -1999,6 +2197,8 @@ export const apps: {
     text: "#ec4899",
     developer: "Pixelcut",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "photoroom-pro",
@@ -2020,6 +2220,8 @@ export const apps: {
     text: "#60a5fa",
     developer: "PhotoRoom",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "photo-lab-pro",
@@ -2041,6 +2243,8 @@ export const apps: {
     text: "#c084fc",
     developer: "VicMan",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "pgt-pro",
@@ -2062,6 +2266,8 @@ export const apps: {
     text: "#fb923c",
     developer: "PGT Team",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "plantas-vs-zombies-fusion",
@@ -2083,6 +2289,8 @@ export const apps: {
     text: "#22c55e",
     developer: "RH",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "hitcue",
@@ -2104,6 +2312,8 @@ export const apps: {
     text: "#a855f7",
     developer: "APKPure",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "sally-face",
@@ -2125,6 +2335,8 @@ export const apps: {
     text: "#ef4444",
     developer: "Portable Moose",
     rating: 4.8,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "gearup-booster",
@@ -2146,6 +2358,8 @@ export const apps: {
     text: "#3b82f6",
     developer: "GearUP",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "streamflix",
@@ -2167,6 +2381,8 @@ export const apps: {
     text: "#ec4899",
     developer: "AndroForever",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "mango-sin-anuncios",
@@ -2188,6 +2404,8 @@ export const apps: {
     text: "#f97316",
     developer: "Mango Team",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "terraria",
@@ -2209,6 +2427,8 @@ export const apps: {
     text: "#22c55e",
     developer: "Re-Logic",
     rating: 4.9,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "slime-rancher",
@@ -2230,6 +2450,8 @@ export const apps: {
     text: "#4ade80",
     developer: "Monomi Park",
     rating: 4.8,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "caja-arena",
@@ -2251,6 +2473,8 @@ export const apps: {
     text: "#fbbf24",
     developer: "Rattlesnake",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "zedge",
@@ -2272,6 +2496,8 @@ export const apps: {
     text: "#8b5cf6",
     developer: "Zedge",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "terabox-premium",
@@ -2293,6 +2519,8 @@ export const apps: {
     text: "#38bdf8",
     developer: "Flextech Inc.",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "danganronpa-v3",
@@ -2314,6 +2542,8 @@ export const apps: {
     text: "#f43f5e",
     developer: "Spike Chunsoft",
     rating: 4.8,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "angry-birds-go",
@@ -2335,6 +2565,8 @@ export const apps: {
     text: "#f87171",
     developer: "Rovio Entertainment",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "annelids",
@@ -2356,6 +2588,8 @@ export const apps: {
     text: "#10b981",
     developer: "Indie",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "pou",
@@ -2377,6 +2611,8 @@ export const apps: {
     text: "#c47a54",
     developer: "Zakeh",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "hbo-max-premium",
@@ -2398,6 +2634,8 @@ export const apps: {
     text: "#a78bfa",
     developer: "Warner Bros. Discovery",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "magic-rampage",
@@ -2419,6 +2657,8 @@ export const apps: {
     text: "#c026d3",
     developer: "Asantee Games",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "y2k-editor-de-fotos-2000s",
@@ -2440,6 +2680,8 @@ export const apps: {
     text: "#d946ef",
     developer: "Abel",
     rating: 4.6,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "kissmycamera",
@@ -2461,6 +2703,8 @@ export const apps: {
     text: "#ec4899",
     developer: "Indie",
     rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "addon-infinite-durability",
@@ -2482,6 +2726,8 @@ export const apps: {
     text: "#06b6d4",
     developer: "Autor",
     rating: 4.7,
+    downloads: 0,
+    hasPremiumSection: false,
   },
   {
     slug: "mario-kart-64-rom",
@@ -2503,6 +2749,8 @@ export const apps: {
     text: "#3b82f6",
     developer: "Nintendo",
     rating: 5.0,
+    downloads: 0,
+    hasPremiumSection: false,
     romInfo: {
       console: "Nintendo 64",
       emulator: "Mupen64Plus",
@@ -2530,6 +2778,8 @@ export const apps: {
     text: "#ef4444",
     developer: "Nintendo",
     rating: 5.0,
+    downloads: 0,
+    hasPremiumSection: false,
     romInfo: {
       console: "Nintendo 64",
       emulator: "Mupen64Plus",
