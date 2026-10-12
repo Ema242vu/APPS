@@ -2452,6 +2452,27 @@ export const apps: {
   developer: "Abel",
   rating: 4.6
 },
+{
+‎  "slug": "kissmycamera",
+‎  "name": "KissMyCamera",
+‎  "description": "Juega con waifus",
+‎  "longDescription": "KissMyCamera es un juego en dónde puedes controlar a diferentes waifus para tener escenas +18.",
+‎  "link": "https://www.mediafire.com/file/5qas0unzldal7rp/KissMyCamera.apk/file",
+‎  "altLinks": [],
+‎  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/6ba3819e-b053-4082-90c0-3599f9d20edd.png",
+‎  "emoji": "🍑",
+‎  "category": "+18",
+‎  "isTop": false,
+‎  "isNew": true,
+‎  "version": "1.0.0",
+‎  "size": "170 MB",
+‎  "updated": "Oct 2026",
+‎  "glow": "rgba(236, 72, 153, 0.4)",
+‎  "border": "rgba(236, 72, 153, 0.6)",
+‎  "text": "#ec4899",
+‎  "developer": "Indie",
+‎  "rating": 4.5
+‎},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
