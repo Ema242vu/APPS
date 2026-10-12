@@ -9,9 +9,26 @@ import NativeBanner from "@/components/NativeBanner";
 import { AdsterraBanner300x250, AdsterraBanner468x60 } from "@/components/AdsterraBanners";
 import WaitModal from "@/components/WaitModal";
 
-function getPremiumFeatures(app: any): string[] {
-  const category = app.category;
+/* Design tokens (Figma discipline) */
+const R = { sm: 2, md: 8, lg: 16, pill: 50 };
+const S = { x4: 4, x8: 8, x12: 12, x16: 16, x20: 20, x24: 24, x32: 32, x40: 40, x48: 48 };
+const W = { light: 400, reg: 500, med: 600, semi: 700 };
 
+/**
+ * Devuelve las funciones premium a mostrar.
+ * Prioridad:
+ * 1) app.premiumFeatures (custom)
+ * 2) app.hasPremiumSection === false → se oculta
+ * 3) Fallback por categoría (para apps viejas)
+ */
+function getPremiumFeatures(app: any): string[] {
+  if (app.premiumFeatures && app.premiumFeatures.length > 0) {
+    return app.premiumFeatures;
+  }
+  if (app.hasPremiumSection === false) {
+    return [];
+  }
+  const category = app.category;
   if (category === "Juegos") {
     return [
       "Todos los niveles y personajes desbloqueados",
@@ -46,7 +63,7 @@ function getPremiumFeatures(app: any): string[] {
       "Descarga de fotos, videos e historias",
       "Sin restricciones de región",
       "Funciones premium desbloqueadas",
-      "Sin marca de agua ni marcas de visto",
+      "Sin marca de agua",
       "Personalización total",
     ];
   }
@@ -67,6 +84,9 @@ function getPremiumFeatures(app: any): string[] {
       "Sin restricciones de nivel",
     ];
   }
+  if (category === "ROMS" || category === "Add-ons Minecraft") {
+    return [];
+  }
   return [
     "Sin anuncios ni publicidad",
     "Todas las funciones Pro desbloqueadas",
@@ -83,7 +103,7 @@ export default function AppPage() {
   const slug = params.slug as string;
   const app = apps.find((a) => a.slug === slug);
 
-  const [downloads, setDownloads] = useState(0);
+  const [localDownloads, setLocalDownloads] = useState(0);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [ratings, setRatings] = useState<Record<string, number>>({});
   const [showAd, setShowAd] = useState(false);
@@ -101,15 +121,41 @@ export default function AppPage() {
     if (savedRatings) setRatings(JSON.parse(savedRatings));
     if (app) {
       const count = parseInt(localStorage.getItem(`downloads-${app.name}`) || "0");
-      setDownloads(count);
+      setLocalDownloads(count);
     }
   }, [app]);
 
   if (!app) {
     return (
-      <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "20px", fontFamily: "Inter, system-ui" }}>
-        <h1 style={{ fontSize: "32px" }}>App no encontrada 🐱</h1>
-        <button onClick={() => router.push("/")} style={{ padding: "14px 28px", borderRadius: "12px", backgroundColor: "#facc15", color: "#0d0d12", fontWeight: "bold", border: "none", cursor: "pointer" }}>
+      <div
+        style={{
+          minHeight: "100vh",
+          backgroundColor: "var(--bg-primary)",
+          color: "var(--text-primary)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          gap: S.x20,
+          fontFamily: "Inter, system-ui",
+          padding: S.x20,
+        }}
+      >
+        <h1 style={{ fontSize: "28px", fontWeight: W.semi, margin: 0 }}>App no encontrada</h1>
+        <button
+          onClick={() => router.push("/")}
+          style={{
+            padding: `${S.x12}px ${S.x24}px`,
+            borderRadius: R.pill,
+            backgroundColor: "#facc15",
+            color: "#0d0d12",
+            fontWeight: W.semi,
+            border: "none",
+            cursor: "pointer",
+            fontSize: "14px",
+            fontFamily: "inherit",
+          }}
+        >
           Volver a la tienda
         </button>
       </div>
@@ -120,6 +166,9 @@ export default function AppPage() {
   const rating = ratings[app.name] || 0;
   const hasIcon = app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN";
   const hasAlt = app.altLinks.length > 0;
+  const premiumFeatures = getPremiumFeatures(app);
+  const showPremiumSection = premiumFeatures.length > 0;
+  const totalDownloads = (app.downloads || 0) + localDownloads;
 
   const toggleFav = () => {
     const newFavs = isFav ? favorites.filter((f) => f !== app.name) : [...favorites, app.name];
@@ -134,8 +183,8 @@ export default function AppPage() {
   };
 
   const handleDownload = (url: string) => {
-    const newCount = downloads + 1;
-    setDownloads(newCount);
+    const newCount = localDownloads + 1;
+    setLocalDownloads(newCount);
     localStorage.setItem(`downloads-${app.name}`, newCount.toString());
     setFinalUrl(url);
     setShowAd(true);
@@ -165,136 +214,413 @@ export default function AppPage() {
         setShareText("¡Copiado!");
         setTimeout(() => setShareText("Compartir"), 2000);
       }
-    } catch (err) {
-      // El usuario canceló
-    }
+    } catch (err) {}
   };
 
-  const labelStyle = { fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase" as const, letterSpacing: "1px" };
-  const statsStyle = { fontSize: "13px", fontWeight: "bold" as const, color: "var(--text-primary)" };
+  /* Reusable styles */
+  const cardStyle: React.CSSProperties = {
+    padding: S.x20,
+    borderRadius: R.lg,
+    backgroundColor: "var(--bg-card)",
+    border: "1px solid var(--border-color)",
+    marginBottom: S.x16,
+  };
 
-  const downloadButtonStyle = {
-    display: "flex" as const,
-    alignItems: "center" as const,
-    justifyContent: "center" as const,
-    gap: "8px",
+  const labelStyle: React.CSSProperties = {
+    fontSize: "10px",
+    color: "var(--text-muted)",
+    textTransform: "uppercase",
+    letterSpacing: "0.8px",
+    fontWeight: W.reg,
+  };
+
+  const statsStyle: React.CSSProperties = {
+    fontSize: "13px",
+    fontWeight: W.semi,
+    color: "var(--text-primary)",
+    marginTop: S.x4,
+  };
+
+  const downloadButtonStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: S.x8,
     width: "100%",
-    padding: "16px",
-    borderRadius: "12px",
-    fontWeight: "bold" as const,
-    fontSize: "14px",
+    padding: S.x16,
+    borderRadius: R.pill,
+    fontWeight: W.semi,
+    fontSize: "13px",
     cursor: "pointer",
     border: "none",
-    textTransform: "uppercase" as const,
+    textTransform: "uppercase",
     letterSpacing: "0.5px",
-    transition: "all 0.3s ease",
+    fontFamily: "inherit",
+  };
+
+  const checkStyle: React.CSSProperties = {
+    width: 18,
+    height: 18,
+    borderRadius: R.sm,
+    background: "linear-gradient(135deg, #facc15, #f59e0b)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "10px",
+    color: "#0a0a0f",
+    fontWeight: W.semi,
+    flexShrink: 0,
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "Inter, system-ui, sans-serif", padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <div style={{ width: "100%", maxWidth: "600px" }}>
-
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "var(--bg-primary)",
+        color: "var(--text-primary)",
+        fontFamily: "Inter, system-ui, sans-serif",
+        padding: `${S.x16}px ${S.x16}px 120px`,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <div style={{ width: "100%", maxWidth: 560 }}>
         {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "25px" }}>
-          <button onClick={() => router.push("/")} className="bounce-click" style={{ background: "none", border: "none", color: "var(--text-muted)", fontSize: "14px", fontWeight: "bold", cursor: "pointer", padding: 0 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: S.x20,
+          }}
+        >
+          <button
+            onClick={() => router.push("/")}
+            className="bounce-click"
+            style={{
+              background: "none",
+              border: "none",
+              color: "var(--text-muted)",
+              fontSize: "13px",
+              fontWeight: W.reg,
+              cursor: "pointer",
+              padding: 0,
+              fontFamily: "inherit",
+            }}
+          >
             ← Volver
           </button>
-          <button onClick={handleShare} className="bounce-click" style={{ background: "rgba(250, 204, 21, 0.1)", border: "1px solid rgba(250, 204, 21, 0.3)", borderRadius: "20px", padding: "8px 16px", color: "#facc15", fontSize: "12px", fontWeight: "bold", cursor: "pointer" }}>
-            📤 {shareText}
+          <button
+            onClick={handleShare}
+            className="bounce-click"
+            style={{
+              background: "rgba(250, 204, 21, 0.08)",
+              border: "1px solid rgba(250, 204, 21, 0.25)",
+              borderRadius: R.pill,
+              padding: `${S.x8}px ${S.x16}px`,
+              color: "#facc15",
+              fontSize: "12px",
+              fontWeight: W.reg,
+              cursor: "pointer",
+              fontFamily: "inherit",
+            }}
+          >
+            {shareText}
           </button>
         </div>
 
         {/* Breadcrumb */}
-        <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "15px" }}>
+        <p
+          style={{
+            fontSize: "11px",
+            color: "var(--text-muted)",
+            marginBottom: S.x16,
+            fontWeight: W.light,
+          }}
+        >
           Inicio / {app.category} / {app.name}
         </p>
 
         {/* Icono + Nombre */}
-        <div style={{ display: "flex", alignItems: "center", gap: "18px", marginBottom: "25px" }}>
-          <div style={{ width: "90px", height: "90px", borderRadius: "20px", overflow: "hidden", backgroundColor: "rgba(0,0,0,0.4)", border: `2px solid ${app.border}`, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 8px 25px ${app.glow}` }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: S.x16,
+            marginBottom: S.x24,
+          }}
+        >
+          <div
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: R.lg,
+              overflow: "hidden",
+              backgroundColor: "rgba(0,0,0,0.4)",
+              border: `1px solid ${app.border}`,
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             {hasIcon ? (
-              <img src={app.iconUrl} alt={app.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img
+                src={app.iconUrl}
+                alt={app.name}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
             ) : (
-              <span style={{ fontSize: "45px" }}>{app.emoji}</span>
+              <span style={{ fontSize: "40px" }}>{app.emoji}</span>
             )}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h1 style={{ fontSize: "24px", fontWeight: 900, margin: 0, marginBottom: "5px", lineHeight: 1.2 }}>{app.name}</h1>
-            <p style={{ color: "#22c55e", fontSize: "13px", fontWeight: "bold", margin: 0 }}>{app.version} (Mod) · Última versión</p>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "8px" }}>
-              <span style={{ fontSize: "14px", color: "#facc15" }}>★★★★★</span>
-              <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>({rating > 0 ? rating : "4.4"}/5)</span>
+            <h1
+              style={{
+                fontSize: "22px",
+                fontWeight: W.semi,
+                margin: 0,
+                marginBottom: S.x4,
+                lineHeight: 1.2,
+                letterSpacing: "-0.3px",
+              }}
+            >
+              {app.name}
+            </h1>
+            <p
+              style={{
+                color: "#22c55e",
+                fontSize: "12px",
+                fontWeight: W.reg,
+                margin: 0,
+              }}
+            >
+              {app.version} (Mod) · Última versión
+            </p>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: S.x8,
+                marginTop: S.x8,
+              }}
+            >
+              <span style={{ fontSize: "13px", color: "#facc15" }}>★★★★★</span>
+              <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+                ({rating > 0 ? rating : "4.4"}/5)
+              </span>
             </div>
           </div>
         </div>
 
         {/* Info rápida */}
-        <div style={{ display: "flex", gap: "12px", marginBottom: "20px", padding: "15px", borderRadius: "14px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)" }}>
+        <div
+          style={{
+            display: "flex",
+            padding: S.x16,
+            borderRadius: R.lg,
+            backgroundColor: "var(--bg-card)",
+            border: "1px solid var(--border-color)",
+            marginBottom: S.x16,
+          }}
+        >
           <div style={{ flex: 1, textAlign: "center" }}>
             <div style={labelStyle}>Tamaño</div>
             <div style={statsStyle}>{app.size}</div>
           </div>
-          <div style={{ width: "1px", backgroundColor: "var(--border-color)" }}></div>
+          <div style={{ width: 1, backgroundColor: "var(--border-color)" }} />
           <div style={{ flex: 1, textAlign: "center" }}>
             <div style={labelStyle}>Descargas</div>
-            <div style={statsStyle}>{downloads.toLocaleString()}</div>
+            <div style={statsStyle}>{totalDownloads.toLocaleString()}</div>
           </div>
-          <div style={{ width: "1px", backgroundColor: "var(--border-color)" }}></div>
+          <div style={{ width: 1, backgroundColor: "var(--border-color)" }} />
           <div style={{ flex: 1, textAlign: "center" }}>
             <div style={labelStyle}>Actualizado</div>
-            <div style={statsStyle}>{app.updated.split(" ")[0]} {app.updated.split(" ")[1]?.slice(0,3)}</div>
+            <div style={statsStyle}>
+              {app.updated.split(" ")[0]} {app.updated.split(" ")[1]?.slice(0, 3)}
+            </div>
           </div>
         </div>
 
-        {/* Funciones Premium */}
-        <div style={{ padding: "20px", borderRadius: "16px", background: "linear-gradient(135deg, rgba(250, 204, 21, 0.08), rgba(249, 115, 22, 0.08))", border: "1px solid rgba(250, 204, 21, 0.25)", marginBottom: "20px" }}>
-          <h3 style={{ fontSize: "15px", fontWeight: 900, color: "#facc15", margin: 0, marginBottom: "14px", letterSpacing: "0.5px", display: "flex", alignItems: "center", gap: "8px" }}>
-            ✨ Funciones Premium que obtienes
+        {/* Info ROM (solo si aplica) */}
+        {app.romInfo && (
+          <div style={cardStyle}>
+            <h3
+              style={{
+                fontSize: "13px",
+                fontWeight: W.semi,
+                color: "var(--text-primary)",
+                margin: 0,
+                marginBottom: S.x12,
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
+              📋 Info de la ROM
+            </h3>
+            {app.romInfo.console && (
+              <p style={{ fontSize: "13px", color: "var(--text-muted)", margin: `0 0 ${S.x8}px 0` }}>
+                <b style={{ color: "var(--text-primary)" }}>Consola:</b> {app.romInfo.console}
+              </p>
+            )}
+            {app.romInfo.emulator && (
+              <p style={{ fontSize: "13px", color: "var(--text-muted)", margin: `0 0 ${S.x8}px 0` }}>
+                <b style={{ color: "var(--text-primary)" }}>Emulador:</b> {app.romInfo.emulator}
+              </p>
+            )}
+            {app.romInfo.format && (
+              <p style={{ fontSize: "13px", color: "var(--text-muted)", margin: `0 0 ${S.x8}px 0` }}>
+                <b style={{ color: "var(--text-primary)" }}>Formato:</b> {app.romInfo.format}
+              </p>
+            )}
+            {app.romInfo.instructions && (
+              <p style={{ fontSize: "13px", color: "var(--text-muted)", margin: 0, lineHeight: 1.5 }}>
+                <b style={{ color: "var(--text-primary)" }}>Instrucciones:</b> {app.romInfo.instructions}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Funciones Premium (oculto si está desactivado o vacío) */}
+        {showPremiumSection && (
+          <div
+            style={{
+              padding: S.x20,
+              borderRadius: R.lg,
+              background:
+                "linear-gradient(135deg, rgba(250, 204, 21, 0.08), rgba(249, 115, 22, 0.08))",
+              border: "1px solid rgba(250, 204, 21, 0.25)",
+              marginBottom: S.x16,
+            }}
+          >
+            <h3
+              style={{
+                fontSize: "13px",
+                fontWeight: W.semi,
+                color: "#facc15",
+                margin: 0,
+                marginBottom: S.x16,
+                letterSpacing: "0.3px",
+                textTransform: "uppercase",
+              }}
+            >
+              ✨ Funciones Premium que obtienes
+            </h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: S.x12 }}>
+              {premiumFeatures.map((feat, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: S.x12 }}>
+                  <span style={checkStyle}>✓</span>
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      color: "var(--text-primary)",
+                      lineHeight: 1.5,
+                      fontWeight: W.light,
+                    }}
+                  >
+                    {feat}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div
+              style={{
+                marginTop: S.x16,
+                paddingTop: S.x16,
+                borderTop: "1px dashed rgba(250, 204, 21, 0.2)",
+                display: "flex",
+                alignItems: "center",
+                gap: S.x8,
+              }}
+            >
+              <span style={{ fontSize: "11px", color: "#22c55e", fontWeight: W.reg }}>
+                🟢 Última versión disponible
+              </span>
+              <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>• {app.updated}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Mod Features */}
+        <div style={cardStyle}>
+          <h3
+            style={{
+              fontSize: "13px",
+              fontWeight: W.semi,
+              color: "#22c55e",
+              margin: 0,
+              marginBottom: S.x12,
+              letterSpacing: "0.5px",
+              textTransform: "uppercase",
+            }}
+          >
+            Mod
           </h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {getPremiumFeatures(app).map((feat, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
-                <span style={{ width: "20px", height: "20px", borderRadius: "6px", background: "linear-gradient(135deg, #facc15, #f59e0b)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", color: "#0a0a0f", fontWeight: 900, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: "13px", color: "var(--text-primary)", lineHeight: 1.5 }}>{feat}</span>
+          <div style={{ display: "flex", flexDirection: "column", gap: S.x12 }}>
+            {[
+              "Funciones Premium desbloqueadas.",
+              "Libre de anuncios.",
+              "Optimización mejorada.",
+            ].map((f, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: S.x12 }}>
+                <span
+                  style={{
+                    width: 18,
+                    height: 18,
+                    borderRadius: R.sm,
+                    backgroundColor: "#22c55e",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "11px",
+                    color: "#fff",
+                    fontWeight: W.semi,
+                    flexShrink: 0,
+                  }}
+                >
+                  ✓
+                </span>
+                <span style={{ fontSize: "13px", fontWeight: W.light }}>{f}</span>
               </div>
             ))}
           </div>
-          <div style={{ marginTop: "14px", paddingTop: "14px", borderTop: "1px dashed rgba(250, 204, 21, 0.2)", display: "flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "11px", color: "#22c55e", fontWeight: 800 }}>🟢 Última versión disponible</span>
-            <span style={{ fontSize: "11px", color: "var(--text-muted)" }}>• {app.updated}</span>
-          </div>
         </div>
 
-        {/* Mod Features */}
-        <div style={{ padding: "18px", borderRadius: "14px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "20px" }}>
-          <h3 style={{ fontSize: "14px", fontWeight: 900, color: "#22c55e", margin: 0, marginBottom: "12px", letterSpacing: "1px" }}>MOD</h3>
-          <div style={{ width: "100%", height: "3px", backgroundColor: "#22c55e", borderRadius: "2px", marginBottom: "15px", maxWidth: "80px" }}></div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{ width: "20px", height: "20px", borderRadius: "4px", backgroundColor: "#22c55e", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", color: "#fff", fontWeight: "bold" }}>✓</span>
-              <span style={{ fontSize: "13px" }}>Funciones Premium desbloqueadas.</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{ width: "20px", height: "20px", borderRadius: "4px", backgroundColor: "#22c55e", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", color: "#fff", fontWeight: "bold" }}>✓</span>
-              <span style={{ fontSize: "13px" }}>Libre de anuncios.</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{ width: "20px", height: "20px", borderRadius: "4px", backgroundColor: "#22c55e", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", color: "#fff", fontWeight: "bold" }}>✓</span>
-              <span style={{ fontSize: "13px" }}>Optimización mejorada.</span>
-            </div>
-          </div>
-        </div>
-
-        {/* DOWNLOAD LINKS */}
-        <div style={{ padding: "20px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, marginBottom: "20px", boxShadow: `0 10px 30px ${app.glow}` }}>
-          <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary)", margin: 0, marginBottom: "15px" }}>Download links</h3>
+        {/* Descarga */}
+        <div
+          style={{
+            padding: S.x20,
+            borderRadius: R.lg,
+            backgroundColor: "var(--bg-card)",
+            border: "1px solid var(--border-color)",
+            marginBottom: S.x16,
+          }}
+        >
+          <h3
+            style={{
+              fontSize: "15px",
+              fontWeight: W.semi,
+              color: "var(--text-primary)",
+              margin: 0,
+              marginBottom: S.x16,
+              letterSpacing: "-0.2px",
+            }}
+          >
+            Download links
+          </h3>
 
           <button
             onClick={() => handleDownload(app.link)}
             className="bounce-click"
-            style={{ ...downloadButtonStyle, backgroundColor: "#22c55e", color: "#ffffff", marginBottom: "10px", boxShadow: "0 6px 20px rgba(34, 197, 94, 0.4)" }}
+            style={{
+              ...downloadButtonStyle,
+              backgroundColor: "#22c55e",
+              color: "#ffffff",
+              marginBottom: S.x8,
+            }}
           >
-            <span style={{ fontSize: "18px" }}>⬇</span> Última Versión
+            <span style={{ fontSize: "16px" }}>⬇</span> Última Versión
           </button>
 
           {hasAlt && (
@@ -302,21 +628,38 @@ export default function AppPage() {
               <button
                 onClick={() => setShowAllOptions(!showAllOptions)}
                 className="bounce-click"
-                style={{ ...downloadButtonStyle, backgroundColor: "#16a34a", color: "#ffffff", boxShadow: "0 6px 20px rgba(22, 163, 74, 0.3)" }}
+                style={{
+                  ...downloadButtonStyle,
+                  backgroundColor: "#16a34a",
+                  color: "#ffffff",
+                }}
               >
-                <span style={{ fontSize: "18px" }}>⬇</span> {showAllOptions ? "Ocultar opciones" : `Más opciones (${app.altLinks.length})`}
+                <span style={{ fontSize: "16px" }}>⬇</span>{" "}
+                {showAllOptions ? "Ocultar opciones" : `Más opciones (${app.altLinks.length})`}
               </button>
 
               {showAllOptions && (
-                <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div
+                  style={{
+                    marginTop: S.x12,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: S.x8,
+                  }}
+                >
                   {app.altLinks.map((alt, i) => (
                     <button
                       key={i}
                       onClick={() => handleDownload(alt.url)}
                       className="bounce-click"
-                      style={{ ...downloadButtonStyle, backgroundColor: "rgba(34, 197, 94, 0.15)", color: "#86efac", border: "1px solid rgba(34, 197, 94, 0.4)" }}
+                      style={{
+                        ...downloadButtonStyle,
+                        backgroundColor: "rgba(34, 197, 94, 0.12)",
+                        color: "#86efac",
+                        border: "1px solid rgba(34, 197, 94, 0.3)",
+                      }}
                     >
-                      <span style={{ fontSize: "16px" }}>⬇</span> {alt.label}
+                      <span style={{ fontSize: "14px" }}>⬇</span> {alt.label}
                     </button>
                   ))}
                 </div>
@@ -324,99 +667,215 @@ export default function AppPage() {
             </>
           )}
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginTop: "15px" }}>
-            <span style={{ fontSize: "16px" }}>🛡️</span>
-            <span style={{ fontSize: "12px", color: "#22c55e", fontWeight: "bold" }}>Archivo Verificado</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: S.x8,
+              marginTop: S.x16,
+            }}
+          >
+            <span style={{ fontSize: "14px" }}>🛡️</span>
+            <span style={{ fontSize: "11px", color: "#22c55e", fontWeight: W.reg }}>
+              Archivo Verificado
+            </span>
           </div>
         </div>
 
-        {/* Adsterra Banner 300x250 */}
         <AdsterraBanner300x250 />
 
-        {/* Botón unirse */}
         <a
           href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm"
           target="_blank"
           rel="noopener noreferrer"
           className="bounce-click"
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", width: "100%", padding: "14px", borderRadius: "14px", backgroundColor: "#0ea5e9", color: "#ffffff", fontWeight: "bold", fontSize: "14px", textDecoration: "none", marginBottom: "25px" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: S.x8,
+            width: "100%",
+            padding: S.x16,
+            borderRadius: R.pill,
+            backgroundColor: "#0ea5e9",
+            color: "#ffffff",
+            fontWeight: W.semi,
+            fontSize: "13px",
+            textDecoration: "none",
+            marginBottom: S.x16,
+          }}
         >
-          🔥 ¡Únete para recibir actualizaciones!
+          ¡Únete para recibir actualizaciones!
         </a>
 
-        {/* Favorito */}
         <button
           onClick={toggleFav}
           className="bounce-click"
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", width: "100%", padding: "14px", borderRadius: "12px", backgroundColor: "transparent", border: `1px solid ${isFav ? "#facc15" : "var(--border-color)"}`, color: isFav ? "#facc15" : "var(--text-muted)", fontWeight: "bold", fontSize: "13px", cursor: "pointer", marginBottom: "25px" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: S.x8,
+            width: "100%",
+            padding: S.x16,
+            borderRadius: R.pill,
+            backgroundColor: "transparent",
+            border: `1px solid ${isFav ? "#facc15" : "var(--border-color)"}`,
+            color: isFav ? "#facc15" : "var(--text-muted)",
+            fontWeight: W.semi,
+            fontSize: "12px",
+            cursor: "pointer",
+            marginBottom: S.x16,
+            fontFamily: "inherit",
+          }}
         >
           {isFav ? "★ Guardado en favoritos" : "☆ Guardar en favoritos"}
         </button>
 
         {/* Cómo instalar */}
-        <div style={{ padding: "25px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "20px" }}>
-          <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary)", margin: 0, marginBottom: "12px" }}>📝 ¿Cómo descargar e instalar {app.name} APK?</h3>
-          <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1.7, margin: 0, marginBottom: "10px" }}>
+        <div style={cardStyle}>
+          <h3
+            style={{
+              fontSize: "14px",
+              fontWeight: W.semi,
+              color: "var(--text-primary)",
+              margin: 0,
+              marginBottom: S.x12,
+            }}
+          >
+            ¿Cómo descargar e instalar {app.name}?
+          </h3>
+          <p
+            style={{
+              color: "var(--text-muted)",
+              fontSize: "13px",
+              lineHeight: 1.6,
+              margin: `0 0 ${S.x8}px 0`,
+              fontWeight: W.light,
+            }}
+          >
             1. Toca el archivo APK de {app.name} descargado.
           </p>
-          <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1.7, margin: 0 }}>
+          <p
+            style={{
+              color: "var(--text-muted)",
+              fontSize: "13px",
+              lineHeight: 1.6,
+              margin: 0,
+              fontWeight: W.light,
+            }}
+          >
             2. Permite la instalación desde fuentes desconocidas si te lo pide.
           </p>
         </div>
 
-        {/* Adsterra Banner 468x60 */}
         <AdsterraBanner468x60 />
 
         {/* Descripción */}
-        <div style={{ padding: "25px", borderRadius: "16px", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-color)", marginBottom: "20px" }}>
-          <h3 style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary)", margin: 0, marginBottom: "12px" }}>📄 Descripción</h3>
-          <p style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1.8, margin: 0 }}>{app.longDescription}</p>
+        <div style={cardStyle}>
+          <h3
+            style={{
+              fontSize: "14px",
+              fontWeight: W.semi,
+              color: "var(--text-primary)",
+              margin: 0,
+              marginBottom: S.x12,
+            }}
+          >
+            Descripción
+          </h3>
+          <p
+            style={{
+              color: "var(--text-muted)",
+              fontSize: "13px",
+              lineHeight: 1.7,
+              margin: 0,
+              fontWeight: W.light,
+            }}
+          >
+            {app.longDescription}
+          </p>
         </div>
 
-        {/* Adsterra Native Banner */}
         <NativeBanner />
 
-        {/* Comentarios */}
         <Comments appName={app.name} />
 
-        {/* Botón Adsterra Enlace Directo */}
+        {/* Botones apoyo */}
         <a
           href="https://ardance.org/4/289d35b8457d3ebf55bb94697b169d11"
           target="_blank"
           rel="noopener noreferrer"
           className="bounce-click"
           style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-            width: "100%", marginTop: "20px", padding: "16px", borderRadius: "14px",
-            backgroundColor: "transparent", border: "2px dashed #22c55e", color: "#86efac",
-            fontWeight: "bold", fontSize: "14px", textDecoration: "none",
-            letterSpacing: "1px", textTransform: "uppercase",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            marginTop: S.x20,
+            padding: S.x16,
+            borderRadius: R.pill,
+            backgroundColor: "transparent",
+            border: "1px dashed #22c55e",
+            color: "#86efac",
+            fontWeight: W.semi,
+            fontSize: "12px",
+            textDecoration: "none",
+            letterSpacing: "0.5px",
+            textTransform: "uppercase",
           }}
         >
           💚 Apóyanos con un clic
         </a>
 
-        {/* Apoya al creador (Monetag) */}
         <a
           href="https://omg10.com/4/11940275"
           target="_blank"
           rel="noopener noreferrer"
           className="bounce-click"
           style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-            width: "100%", marginTop: "15px", padding: "16px", borderRadius: "14px",
-            backgroundColor: "transparent", border: "2px dashed #ec4899", color: "#f9a8d4",
-            fontWeight: "bold", fontSize: "14px", textDecoration: "none",
-            letterSpacing: "1px", textTransform: "uppercase",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            marginTop: S.x12,
+            padding: S.x16,
+            borderRadius: R.pill,
+            backgroundColor: "transparent",
+            border: "1px dashed #ec4899",
+            color: "#f9a8d4",
+            fontWeight: W.semi,
+            fontSize: "12px",
+            textDecoration: "none",
+            letterSpacing: "0.5px",
+            textTransform: "uppercase",
           }}
         >
           ❤️ Apoya al creador
         </a>
-        <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "10px", fontStyle: "italic" }}>
-          Muestra un anuncio voluntario y ayúdanos a seguir subiendo apps premium gratis 🐱
+        <p
+          style={{
+            textAlign: "center",
+            color: "var(--text-muted)",
+            fontSize: "11px",
+            marginTop: S.x12,
+            fontStyle: "italic",
+            fontWeight: W.light,
+          }}
+        >
+          Muestra un anuncio voluntario y ayúdanos a seguir subiendo apps premium gratis
         </p>
 
-        <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: "12px", marginTop: "30px", fontFamily: "monospace" }}>
+        <p
+          style={{
+            textAlign: "center",
+            color: "var(--text-muted)",
+            fontSize: "11px",
+            marginTop: S.x32,
+            fontFamily: "monospace",
+          }}
+        >
           PERSONS-COMUNITY // HECHO CON 💛 DESDE TERMUX
         </p>
       </div>
