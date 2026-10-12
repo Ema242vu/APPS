@@ -7,10 +7,14 @@ import { apps, categorias } from "@/lib/apps";
 import AdModal from "@/components/AdModal";
 import AppCardCompact from "@/components/AppCardCompact";
 import CategoryGrid from "@/components/CategoryGrid";
+import RomAddonCard from "@/components/RomAddonCard";
 
 const APPS_POR_PAGINA = 12;
 
 const RECENT_SLUGS = [
+  "addon-infinite-durability",
+  "mario-kart-64-rom",
+  "super-mario-64-rom",
   "kissmycamera",
   "y2k-editor-de-fotos-2000s",
   "magic-rampage",
@@ -274,6 +278,7 @@ export default function Home() {
   const [show18Modal, setShow18Modal] = useState(false);
   const [pending18Slug, setPending18Slug] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [detailApp, setDetailApp] = useState<any | null>(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -412,12 +417,18 @@ export default function Home() {
     return pages;
   };
 
+  const currentCategoryName = categorias[selectedCategory];
+
+  const isSpecialCategory =
+    selectedCategory > 0 &&
+    (currentCategoryName === "ROMS" || currentCategoryName === "Add-ons Minecraft");
+
   const sectionTitle = (() => {
     if (viewMode === "juegos") return "Juegos";
     if (viewMode === "apps") return "Apps";
     if (viewMode === "popular") return "Popular";
     if (selectedCategory === 0) return "Todas las apps";
-    return categorias[selectedCategory];
+    return currentCategoryName;
   })();
 
   const sectionEmoji = (() => {
@@ -425,8 +436,8 @@ export default function Home() {
     if (viewMode === "apps") return "📱";
     if (viewMode === "popular") return "⭐";
     if (selectedCategory === 0) return "🎮";
-    if (categorias[selectedCategory] === "Add-ons Minecraft") return "🧱";
-    if (categorias[selectedCategory] === "ROMS") return "🕹️";
+    if (currentCategoryName === "Add-ons Minecraft") return "🧱";
+    if (currentCategoryName === "ROMS") return "🕹️";
     return "📂";
   })();
 
@@ -1025,7 +1036,6 @@ export default function Home() {
                 gap: "12px",
               }}
             >
-              {/* Card Add-ons Minecraft */}
               <button
                 onClick={() => handleCategorySelect("Add-ons Minecraft")}
                 className="bounce-click glass-hover"
@@ -1049,27 +1059,14 @@ export default function Home() {
                 <span style={{ fontSize: "13px", fontWeight: 800, lineHeight: 1.2 }}>
                   Add-ons Minecraft
                 </span>
-                <span
-                  style={{
-                    fontSize: "10px",
-                    color: "#86efac",
-                    fontWeight: 600,
-                  }}
-                >
+                <span style={{ fontSize: "10px", color: "#86efac", fontWeight: 600 }}>
                   Bedrock · Mods y texturas
                 </span>
-                <span
-                  style={{
-                    fontSize: "9px",
-                    color: c.muted,
-                    marginTop: "2px",
-                  }}
-                >
+                <span style={{ fontSize: "9px", color: c.muted, marginTop: "2px" }}>
                   {appCounts["Add-ons Minecraft"] ?? 0} items
                 </span>
               </button>
 
-              {/* Card ROMs */}
               <button
                 onClick={() => handleCategorySelect("ROMS")}
                 className="bounce-click glass-hover"
@@ -1093,22 +1090,10 @@ export default function Home() {
                 <span style={{ fontSize: "13px", fontWeight: 800, lineHeight: 1.2 }}>
                   ROMs Retro
                 </span>
-                <span
-                  style={{
-                    fontSize: "10px",
-                    color: "#fca5a5",
-                    fontWeight: 600,
-                  }}
-                >
+                <span style={{ fontSize: "10px", color: "#fca5a5", fontWeight: 600 }}>
                   Nintendo 64 · Super Nintendo
                 </span>
-                <span
-                  style={{
-                    fontSize: "9px",
-                    color: c.muted,
-                    marginTop: "2px",
-                  }}
-                >
+                <span style={{ fontSize: "9px", color: c.muted, marginTop: "2px" }}>
                   {appCounts["ROMS"] ?? 0} juegos
                 </span>
               </button>
@@ -1167,190 +1152,221 @@ export default function Home() {
             </div>
           ) : filteredApps.length > 0 ? (
             <>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "14px", marginBottom: "30px" }}>
-                {paginatedApps.map((app, index) => (
-                  <Link
-                    key={index}
-                    href={`/apps/${app.slug}`}
-                    className="bounce-click"
-                    onClick={(e) => handleAppClick(e, app)}
-                    style={{
-                      padding: "14px",
-                      borderRadius: "20px",
-                      background: c.card,
-                      border: `1px solid ${app.category === "+18" ? "rgba(220, 38, 38, 0.4)" : c.border}`,
-                      textDecoration: "none",
-                      color: c.text,
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "8px",
-                      textAlign: "center",
-                      position: "relative",
-                      transition: "all 0.3s ease",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {app.isTop && (
-                      <span
-                        style={{
-                          position: "absolute",
-                          top: "8px",
-                          right: "8px",
-                          background: "rgba(250, 204, 21, 0.2)",
-                          color: "#facc15",
-                          padding: "2px 7px",
-                          borderRadius: "999px",
-                          fontSize: "8px",
-                          fontWeight: 800,
-                        }}
-                      >
-                        🔥 TOP
-                      </span>
-                    )}
-                    {app.isNew && !app.isTop && app.category !== "+18" && (
-                      <span
-                        style={{
-                          position: "absolute",
-                          top: "8px",
-                          right: "8px",
-                          background: "rgba(34, 197, 94, 0.2)",
-                          color: "#22c55e",
-                          padding: "2px 7px",
-                          borderRadius: "999px",
-                          fontSize: "8px",
-                          fontWeight: 800,
-                        }}
-                      >
-                        ✨ NUEVO
-                      </span>
-                    )}
-                    {app.category === "+18" && (
-                      <span
-                        style={{
-                          position: "absolute",
-                          top: "8px",
-                          right: "8px",
-                          background: "rgba(220, 38, 38, 0.25)",
-                          color: "#fca5a5",
-                          padding: "2px 7px",
-                          borderRadius: "999px",
-                          fontSize: "8px",
-                          fontWeight: 800,
-                        }}
-                      >
-                        🔞
-                      </span>
-                    )}
-
-                    <button
-                      onClick={(e) => toggleFavorite(app.name, e)}
+              {isSpecialCategory ? (
+                // Layout especial para ROMS / Add-ons
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(1, 1fr)",
+                    gap: "14px",
+                    marginBottom: "30px",
+                  }}
+                >
+                  {paginatedApps.map((app, index) => (
+                    <RomAddonCard
+                      key={index}
+                      slug={app.slug}
+                      name={app.name}
+                      iconUrl={app.iconUrl}
+                      emoji={app.emoji}
+                      description={app.description}
+                      category={app.category}
+                      isNew={app.isNew}
+                      isTop={app.isTop}
+                      glow={app.glow}
+                      border={app.border}
+                      text={app.text}
+                      onOpenDetail={() => setDetailApp(app)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                // Layout normal para el resto
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "14px", marginBottom: "30px" }}>
+                  {paginatedApps.map((app, index) => (
+                    <Link
+                      key={index}
+                      href={`/apps/${app.slug}`}
+                      className="bounce-click"
+                      onClick={(e) => handleAppClick(e, app)}
                       style={{
-                        position: "absolute",
-                        top: "8px",
-                        left: "8px",
-                        background: "none",
-                        border: "none",
-                        fontSize: "15px",
-                        cursor: "pointer",
-                        color: favorites.includes(app.name) ? "#facc15" : c.muted,
-                        padding: 0,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {favorites.includes(app.name) ? "★" : "☆"}
-                    </button>
-
-                    <div
-                      style={{
-                        width: "75px",
-                        height: "75px",
-                        borderRadius: "18px",
-                        overflow: "hidden",
-                        background: "rgba(0,0,0,0.3)",
-                        border: `1px solid ${app.border}`,
+                        padding: "14px",
+                        borderRadius: "20px",
+                        background: c.card,
+                        border: `1px solid ${app.category === "+18" ? "rgba(220, 38, 38, 0.4)" : c.border}`,
+                        textDecoration: "none",
+                        color: c.text,
                         display: "flex",
+                        flexDirection: "column",
                         alignItems: "center",
-                        justifyContent: "center",
-                        marginTop: "12px",
-                        boxShadow: `0 8px 20px ${app.glow}`,
-                      }}
-                    >
-                      {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (
-                        <img
-                          src={app.iconUrl}
-                          alt={`Descargar ${app.name}`}
-                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                            e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 36px;">${app.emoji}</span>`;
-                          }}
-                        />
-                      ) : (
-                        <span style={{ fontSize: "36px" }}>{app.emoji}</span>
-                      )}
-                    </div>
-
-                    <h3
-                      style={{
-                        fontSize: "13px",
-                        fontWeight: 800,
-                        margin: 0,
-                        whiteSpace: "nowrap",
+                        gap: "8px",
+                        textAlign: "center",
+                        position: "relative",
+                        transition: "all 0.3s ease",
                         overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        width: "100%",
-                        lineHeight: 1.3,
                       }}
                     >
-                      {app.name.replace(" Premium", "").replace(" VIP", "")}
-                    </h3>
-
-                    <p style={{ fontSize: "10px", color: c.muted, margin: 0, fontWeight: 500 }}>
-                      {app.version} (Mod)
-                    </p>
-                    <p style={{ fontSize: "10px", color: "#22c55e", margin: 0, fontWeight: 700 }}>
-                      ✨ Última versión
-                    </p>
-
-                    <div style={{ display: "flex", gap: "2px", fontSize: "11px", marginTop: "2px" }}>
-                      {[1, 2, 3, 4, 5].map((star) => (
+                      {app.isTop && (
                         <span
-                          key={star}
-                          onClick={(e) => setRating(app.name, star, e)}
                           style={{
-                            cursor: "pointer",
-                            color: (ratings[app.name] || 0) >= star ? "#facc15" : c.muted,
+                            position: "absolute",
+                            top: "8px",
+                            right: "8px",
+                            background: "rgba(250, 204, 21, 0.2)",
+                            color: "#facc15",
+                            padding: "2px 7px",
+                            borderRadius: "999px",
+                            fontSize: "8px",
+                            fontWeight: 800,
                           }}
                         >
-                          ★
+                          🔥 TOP
                         </span>
-                      ))}
-                    </div>
+                      )}
+                      {app.isNew && !app.isTop && app.category !== "+18" && (
+                        <span
+                          style={{
+                            position: "absolute",
+                            top: "8px",
+                            right: "8px",
+                            background: "rgba(34, 197, 94, 0.2)",
+                            color: "#22c55e",
+                            padding: "2px 7px",
+                            borderRadius: "999px",
+                            fontSize: "8px",
+                            fontWeight: 800,
+                          }}
+                        >
+                          ✨ NUEVO
+                        </span>
+                      )}
+                      {app.category === "+18" && (
+                        <span
+                          style={{
+                            position: "absolute",
+                            top: "8px",
+                            right: "8px",
+                            background: "rgba(220, 38, 38, 0.25)",
+                            color: "#fca5a5",
+                            padding: "2px 7px",
+                            borderRadius: "999px",
+                            fontSize: "8px",
+                            fontWeight: 800,
+                          }}
+                        >
+                          🔞
+                        </span>
+                      )}
 
-                    <span
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "100%",
-                        padding: "10px",
-                        borderRadius: "12px",
-                        fontWeight: 800,
-                        fontSize: "11px",
-                        background: `linear-gradient(135deg, ${app.glow}, ${app.border})`,
-                        border: `1px solid ${app.border}`,
-                        color: app.text,
-                        marginTop: "4px",
-                        letterSpacing: "0.5px",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      Descargar
-                    </span>
-                  </Link>
-                ))}
-              </div>
+                      <button
+                        onClick={(e) => toggleFavorite(app.name, e)}
+                        style={{
+                          position: "absolute",
+                          top: "8px",
+                          left: "8px",
+                          background: "none",
+                          border: "none",
+                          fontSize: "15px",
+                          cursor: "pointer",
+                          color: favorites.includes(app.name) ? "#facc15" : c.muted,
+                          padding: 0,
+                          lineHeight: 1,
+                        }}
+                      >
+                        {favorites.includes(app.name) ? "★" : "☆"}
+                      </button>
+
+                      <div
+                        style={{
+                          width: "75px",
+                          height: "75px",
+                          borderRadius: "18px",
+                          overflow: "hidden",
+                          background: "rgba(0,0,0,0.3)",
+                          border: `1px solid ${app.border}`,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          marginTop: "12px",
+                          boxShadow: `0 8px 20px ${app.glow}`,
+                        }}
+                      >
+                        {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (
+                          <img
+                            src={app.iconUrl}
+                            alt={`Descargar ${app.name}`}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                              e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 36px;">${app.emoji}</span>`;
+                            }}
+                          />
+                        ) : (
+                          <span style={{ fontSize: "36px" }}>{app.emoji}</span>
+                        )}
+                      </div>
+
+                      <h3
+                        style={{
+                          fontSize: "13px",
+                          fontWeight: 800,
+                          margin: 0,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          width: "100%",
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {app.name.replace(" Premium", "").replace(" VIP", "")}
+                      </h3>
+
+                      <p style={{ fontSize: "10px", color: c.muted, margin: 0, fontWeight: 500 }}>
+                        {app.version} (Mod)
+                      </p>
+                      <p style={{ fontSize: "10px", color: "#22c55e", margin: 0, fontWeight: 700 }}>
+                        ✨ Última versión
+                      </p>
+
+                      <div style={{ display: "flex", gap: "2px", fontSize: "11px", marginTop: "2px" }}>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <span
+                            key={star}
+                            onClick={(e) => setRating(app.name, star, e)}
+                            style={{
+                              cursor: "pointer",
+                              color: (ratings[app.name] || 0) >= star ? "#facc15" : c.muted,
+                            }}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "100%",
+                          padding: "10px",
+                          borderRadius: "12px",
+                          fontWeight: 800,
+                          fontSize: "11px",
+                          background: `linear-gradient(135deg, ${app.glow}, ${app.border})`,
+                          border: `1px solid ${app.border}`,
+                          color: app.text,
+                          marginTop: "4px",
+                          letterSpacing: "0.5px",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        Descargar
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
 
               {totalPages > 1 && (
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "6px", flexWrap: "wrap", marginTop: "30px" }}>
@@ -1535,6 +1551,217 @@ export default function Home() {
                 cursor: "pointer",
                 fontSize: "13px",
                 fontWeight: 600,
+              }}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE DETALLES PARA ROMS Y ADD-ONS */}
+      {detailApp && (
+        <div
+          onClick={() => setDetailApp(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.92)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+            padding: "20px",
+            backdropFilter: "blur(15px)",
+            overflowY: "auto",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="slide-up"
+            style={{
+              maxWidth: "480px",
+              width: "100%",
+              maxHeight: "90vh",
+              overflowY: "auto",
+              padding: "28px 22px",
+              borderRadius: "26px",
+              background: "#12121a",
+              border: `1.5px solid ${detailApp.border || "rgba(255,255,255,0.15)"}`,
+              boxShadow: `0 25px 70px ${detailApp.glow || "rgba(0,0,0,0.6)"}`,
+              margin: "auto",
+            }}
+          >
+            {/* Header con imagen */}
+            <div style={{ display: "flex", gap: "15px", alignItems: "flex-start", marginBottom: "20px" }}>
+              <div
+                style={{
+                  width: "90px",
+                  height: "90px",
+                  minWidth: "90px",
+                  borderRadius: "20px",
+                  overflow: "hidden",
+                  background: "rgba(0,0,0,0.4)",
+                  border: `2px solid ${detailApp.border}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: `0 10px 30px ${detailApp.glow}`,
+                }}
+              >
+                {detailApp.iconUrl && detailApp.iconUrl.startsWith("http") ? (
+                  <img
+                    src={detailApp.iconUrl}
+                    alt={detailApp.name}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                      e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 42px;">${detailApp.emoji}</span>`;
+                    }}
+                  />
+                ) : (
+                  <span style={{ fontSize: "42px" }}>{detailApp.emoji}</span>
+                )}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <h2
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: 900,
+                    color: "#ffffff",
+                    margin: 0,
+                    marginBottom: "6px",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {detailApp.name}
+                </h2>
+                <span
+                  style={{
+                    display: "inline-block",
+                    fontSize: "10px",
+                    fontWeight: 700,
+                    color: detailApp.text,
+                    background: detailApp.glow,
+                    padding: "3px 10px",
+                    borderRadius: "999px",
+                    marginBottom: "8px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {detailApp.category}
+                </span>
+                <div style={{ display: "flex", gap: "12px", fontSize: "11px", color: "#9ca3af" }}>
+                  <span>v{detailApp.version}</span>
+                  <span>·</span>
+                  <span>{detailApp.size}</span>
+                  <span>·</span>
+                  <span>{detailApp.updated}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Descripción larga */}
+            <p
+              style={{
+                fontSize: "14px",
+                color: "#d1d5db",
+                lineHeight: 1.7,
+                margin: 0,
+                marginBottom: "20px",
+              }}
+            >
+              {detailApp.longDescription}
+            </p>
+
+            {/* Info ROM (solo si es ROM) */}
+            {detailApp.romInfo && (
+              <div
+                style={{
+                  padding: "16px",
+                  borderRadius: "16px",
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  marginBottom: "20px",
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: "13px",
+                    fontWeight: 800,
+                    color: "#ffffff",
+                    margin: 0,
+                    marginBottom: "12px",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px",
+                  }}
+                >
+                  📋 Información de la ROM
+                </h3>
+                {detailApp.romInfo.console && (
+                  <p style={{ fontSize: "13px", color: "#9ca3af", margin: "0 0 8px 0" }}>
+                    <b style={{ color: "#ffffff" }}>Consola:</b> {detailApp.romInfo.console}
+                  </p>
+                )}
+                {detailApp.romInfo.emulator && (
+                  <p style={{ fontSize: "13px", color: "#9ca3af", margin: "0 0 8px 0" }}>
+                    <b style={{ color: "#ffffff" }}>Emulador:</b> {detailApp.romInfo.emulator}
+                  </p>
+                )}
+                {detailApp.romInfo.format && (
+                  <p style={{ fontSize: "13px", color: "#9ca3af", margin: "0 0 8px 0" }}>
+                    <b style={{ color: "#ffffff" }}>Formato:</b> {detailApp.romInfo.format}
+                  </p>
+                )}
+                {detailApp.romInfo.instructions && (
+                  <p style={{ fontSize: "13px", color: "#9ca3af", margin: 0, lineHeight: 1.6 }}>
+                    <b style={{ color: "#ffffff" }}>Instrucciones:</b> {detailApp.romInfo.instructions}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Botones */}
+            <a
+              href={detailApp.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bounce-click"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                width: "100%",
+                padding: "18px",
+                borderRadius: "14px",
+                background: `linear-gradient(135deg, ${detailApp.glow}, ${detailApp.border})`,
+                border: `1px solid ${detailApp.border}`,
+                color: detailApp.text,
+                fontWeight: 900,
+                fontSize: "14px",
+                textDecoration: "none",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                marginBottom: "10px",
+              }}
+            >
+              ⬇ Descargar ahora
+            </a>
+
+            <button
+              onClick={() => setDetailApp(null)}
+              style={{
+                width: "100%",
+                padding: "14px",
+                borderRadius: "12px",
+                background: "transparent",
+                color: "#8b8b9a",
+                border: "1px solid rgba(255,255,255,0.12)",
+                cursor: "pointer",
+                fontSize: "13px",
+                fontWeight: 600,
+                fontFamily: "inherit",
               }}
             >
               Cerrar
