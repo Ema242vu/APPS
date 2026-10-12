@@ -2537,6 +2537,27 @@ export const apps: {
       instructions: "Crear una carpeta especial para los juegos de Nintendo 64, poner el juego en la carpeta, después ir al emulador, agregar esa carpeta donde tienes los juegos y listo a jugar!",
     },
   },
+  {
+  slug: "gouge-descent",
+  name: "Gouge",
+  description: "Aférrate a las paredes con tu pico de Minecraft.",
+  longDescription: "Gouge (Descent) es un add-on para Minecraft Bedrock inspirado en el popular mod de Java. Golpea tu pico contra las paredes para aferrarte y escalar por ellas como un auténtico escalador. Perfecto para explorar cuevas, construir en acantilados o simplemente disfrutar de una nueva forma de movimiento vertical. Compatible con la última versión de Minecraft Bedrock 1.26.52. ⚠️ Advertencia: desactiva los logros de la partida. Créditos: oreogatox.",
+  link: "https://www.mediafire.com/file/q0x4nvjcy2d0g1m/Descent_v1.13.mcaddon/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/e11f3f33-1e67-4ace-9642-5c004ff09d3d.jpg",
+  emoji: "🪝",
+  category: "Add-ons Minecraft",
+  isTop: false,
+  isNew: true,
+  version: "1.13",
+  size: "5 MB",
+  updated: "Oct 2026",
+  glow: "rgba(6, 182, 212, 0.4)",
+  border: "rgba(6, 182, 212, 0.6)",
+  text: "#06b6d4",
+  developer: "oreogatox",
+  rating: 4.7,
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
