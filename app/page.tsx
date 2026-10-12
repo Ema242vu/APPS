@@ -12,6 +12,7 @@ import RomAddonCard from "@/components/RomAddonCard";
 const APPS_POR_PAGINA = 12;
 
 const RECENT_SLUGS = [
+  "gouge-descent",
   "addon-infinite-durability",
   "mario-kart-64-rom",
   "super-mario-64-rom",
