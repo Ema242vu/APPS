@@ -9,9 +9,17 @@ import AppCardCompact from "@/components/AppCardCompact";
 import CategoryGrid from "@/components/CategoryGrid";
 import RomAddonCard from "@/components/RomAddonCard";
 
+/* ============================================
+   TOKENS — design system
+   ============================================ */
+const R = { sm: 2, md: 8, lg: 16, pill: 50 };
+const S = { x4: 4, x8: 8, x12: 12, x16: 16, x20: 20, x24: 24, x32: 32, x40: 40, x48: 48, x56: 56, x64: 64, x80: 80 };
+const W = { light: 400, reg: 500, med: 600, semi: 700 };
+
 const APPS_POR_PAGINA = 12;
 
 const RECENT_SLUGS = [
+  "gouge-descent",
   "addon-infinite-durability",
   "mario-kart-64-rom",
   "super-mario-64-rom",
@@ -66,6 +74,9 @@ const RECENT_SLUGS = [
 
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
 
+/* ============================================
+   BOTTOM NAV — radius pill, spacing scale
+   ============================================ */
 function BottomNav({
   theme,
   current,
@@ -78,7 +89,7 @@ function BottomNav({
   const isLight = theme === "light";
   const bg = isLight ? "#ffffff" : "#0a0a0f";
   const border = isLight ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)";
-  const inactive = isLight ? "#94a3b8" : "#6b7280";
+  const inactive = isLight ? "#595959" : "#6b7280";
   const active = "#facc15";
 
   const items: {
@@ -143,8 +154,7 @@ function BottomNav({
         zIndex: 100,
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        padding: "8px 0 10px",
-        boxShadow: "0 -4px 20px rgba(0,0,0,0.15)",
+        padding: `${S.x8}px 0 ${S.x12}px`,
       }}
     >
       {items.map((item, i) => {
@@ -162,12 +172,12 @@ function BottomNav({
                 alignItems: "center",
                 justifyContent: "center",
                 textDecoration: "none",
-                padding: "4px 0",
+                padding: `${S.x4}px 0`,
               }}
             >
               <svg
-                width="24"
-                height="24"
+                width="22"
+                height="22"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -178,7 +188,7 @@ function BottomNav({
               >
                 {item.svg}
               </svg>
-              <span style={{ fontSize: "11px", fontWeight: 600, color: inactive, marginTop: "2px" }}>
+              <span style={{ fontSize: "11px", fontWeight: W.reg, color: inactive, marginTop: S.x4 }}>
                 {item.label}
               </span>
             </a>
@@ -198,8 +208,7 @@ function BottomNav({
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              textDecoration: "none",
-              padding: "4px 0",
+              padding: `${S.x4}px 0`,
               background: "none",
               border: "none",
               cursor: "pointer",
@@ -207,8 +216,8 @@ function BottomNav({
             }}
           >
             <svg
-              width="24"
-              height="24"
+              width="22"
+              height="22"
               viewBox="0 0 24 24"
               fill={item.label === "Inicio" || item.label === "Popular" ? color : "none"}
               stroke={color}
@@ -218,7 +227,7 @@ function BottomNav({
             >
               {item.svg}
             </svg>
-            <span style={{ fontSize: "11px", fontWeight: 600, color, marginTop: "2px" }}>
+            <span style={{ fontSize: "11px", fontWeight: W.reg, color, marginTop: S.x4 }}>
               {item.label}
             </span>
           </button>
@@ -254,7 +263,7 @@ function FloatingParticles() {
             height: `${p.size}px`,
             animationDuration: `${p.duration}s`,
             animationDelay: `${p.delay}s`,
-            opacity: 0.12,
+            opacity: 0.1,
           }}
         />
       ))}
@@ -262,6 +271,9 @@ function FloatingParticles() {
   );
 }
 
+/* ============================================
+   MAIN
+   ============================================ */
 export default function Home() {
   const router = useRouter();
   const [hasEntered, setHasEntered] = useState(false);
@@ -441,10 +453,11 @@ export default function Home() {
     return "📂";
   })();
 
+  /* ---- theme colors (Figma discipline: 1 accent max) ---- */
   const c = {
     bg:
       theme === "light"
-        ? "#f8f8fc"
+        ? "#ffffff"
         : theme === "cyberpunk"
         ? "#08001a"
         : theme === "sunset"
@@ -454,7 +467,7 @@ export default function Home() {
         : "#0a0a0f",
     text:
       theme === "light"
-        ? "#0a0a0f"
+        ? "#000000"
         : theme === "cyberpunk"
         ? "#e0d4ff"
         : theme === "sunset"
@@ -464,7 +477,7 @@ export default function Home() {
         : "#ffffff",
     muted:
       theme === "light"
-        ? "#6b7280"
+        ? "#595959"
         : theme === "cyberpunk"
         ? "#a78bfa"
         : theme === "sunset"
@@ -472,7 +485,8 @@ export default function Home() {
         : theme === "ice"
         ? "#94a3b8"
         : "#8b8b9a",
-    card: theme === "light" ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.025)",
+    card: theme === "light" ? "#ffffff" : "rgba(255,255,255,0.025)",
+    cardSoft: theme === "light" ? "#f7f7f8" : "rgba(255,255,255,0.04)",
     border: theme === "light" ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)",
     accent:
       theme === "cyberpunk"
@@ -484,6 +498,7 @@ export default function Home() {
         : "#facc15",
   };
 
+  /* ---- ENTRY GATE ---- */
   if (!hasEntered) {
     return (
       <div
@@ -495,29 +510,35 @@ export default function Home() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "20px",
+          padding: S.x20,
           textAlign: "center",
         }}
       >
         <div
           className="slide-up"
           style={{
-            maxWidth: "420px",
-            padding: "45px 35px",
-            borderRadius: "28px",
+            maxWidth: 400,
+            padding: S.x40,
+            borderRadius: R.lg,
             background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.1)",
+            border: "1px solid rgba(255,255,255,0.08)",
             backdropFilter: "blur(20px)",
-            boxShadow: "0 30px 80px rgba(0,0,0,0.6)",
+            boxShadow: "0 24px 70px rgba(0,0,0,0.4)",
           }}
         >
-          <div className="pulse-soft" style={{ fontSize: "70px", marginBottom: "20px" }}>
-            🛡️
-          </div>
-          <h1 style={{ fontSize: "28px", fontWeight: 900, marginBottom: "15px", letterSpacing: "-0.5px" }}>
+          <div style={{ fontSize: "60px", marginBottom: S.x20 }}>🛡️</div>
+          <h1
+            style={{
+              fontSize: "28px",
+              fontWeight: W.semi,
+              marginBottom: S.x16,
+              letterSpacing: "-0.5px",
+              lineHeight: 1.15,
+            }}
+          >
             PERSONS-COMUNITY
           </h1>
-          <p style={{ color: "#8b8b9a", fontSize: "15px", lineHeight: 1.7, marginBottom: "32px" }}>
+          <p style={{ color: "#8b8b9a", fontSize: "16px", lineHeight: 1.5, marginBottom: S.x32 }}>
             Entrarás a la zona de descargas. Son{" "}
             <b style={{ color: "#facc15" }}>apps modificadas de terceros</b>: descárgalas bajo tu
             propia responsabilidad.
@@ -527,17 +548,16 @@ export default function Home() {
             className="bounce-click"
             style={{
               width: "100%",
-              padding: "18px",
-              borderRadius: "16px",
+              padding: `${S.x16}px ${S.x24}px`,
+              borderRadius: R.pill,
               background: "linear-gradient(135deg, #facc15, #f59e0b)",
               color: "#0a0a0f",
-              fontWeight: 800,
+              fontWeight: W.semi,
               fontSize: "15px",
               border: "none",
               cursor: "pointer",
               textTransform: "uppercase",
-              letterSpacing: "1.5px",
-              boxShadow: "0 15px 40px rgba(250, 204, 21, 0.3)",
+              letterSpacing: "1px",
             }}
           >
             Entrar a la tienda
@@ -547,6 +567,7 @@ export default function Home() {
     );
   }
 
+  /* ---- MAIN ---- */
   return (
     <div
       style={{
@@ -556,25 +577,11 @@ export default function Home() {
         fontFamily: "Inter, system-ui, sans-serif",
         position: "relative",
         overflow: "hidden",
-        transition: "background-color 0.5s ease",
+        transition: "background-color 0.4s ease",
       }}
     >
       <FloatingParticles />
 
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `linear-gradient(${
-            theme === "light" ? "rgba(0,0,0,0.025)" : "rgba(255,255,255,0.02)"
-          } 1px, transparent 1px), linear-gradient(90deg, ${
-            theme === "light" ? "rgba(0,0,0,0.025)" : "rgba(255,255,255,0.02)"
-          } 1px, transparent 1px)`,
-          backgroundSize: "50px 50px",
-          zIndex: 0,
-          pointerEvents: "none",
-        }}
-      ></div>
       <div
         style={{
           position: "absolute",
@@ -583,7 +590,7 @@ export default function Home() {
           transform: "translateX(-50%)",
           width: "800px",
           height: "800px",
-          background: `radial-gradient(circle, ${c.accent}22 0%, transparent 60%)`,
+          background: `radial-gradient(circle, ${c.accent}18 0%, transparent 60%)`,
           filter: "blur(80px)",
           zIndex: 0,
           pointerEvents: "none",
@@ -593,53 +600,54 @@ export default function Home() {
       <div
         style={{
           width: "100%",
-          maxWidth: "720px",
+          maxWidth: 640,
           margin: "0 auto",
           position: "relative",
           zIndex: 10,
-          padding: "20px 20px 120px 20px",
+          padding: `${S.x20}px ${S.x16}px 120px`,
         }}
       >
-        {/* HEADER */}
+        {/* ============ HEADER ============ */}
         <nav
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            paddingBottom: "22px",
+            paddingBottom: S.x20,
             borderBottom: `1px solid ${c.border}`,
-            marginBottom: "40px",
+            marginBottom: S.x32,
           }}
         >
           <Link
             href="/"
-            style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none", color: c.text }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: S.x12,
+              textDecoration: "none",
+              color: c.text,
+            }}
           >
             <img
               src="https://i.postimg.cc/QdBk2k5q/13.jpg"
-              alt="PERSONS-COMUNITY Logo"
+              alt="PERSONS-COMUNITY"
               style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "14px",
+                width: 40,
+                height: 40,
+                borderRadius: R.md,
                 objectFit: "cover",
-                border: `2px solid ${c.accent}`,
+                border: `1px solid ${c.accent}`,
               }}
             />
             <div>
               <p
-                className="animated-gradient"
                 style={{
-                  fontSize: "18px",
-                  fontWeight: 900,
-                  letterSpacing: "1px",
-                  background: `linear-gradient(90deg, ${c.text}, ${c.accent}, ${c.text})`,
-                  backgroundSize: "200% 200%",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  textTransform: "uppercase",
+                  fontSize: "16px",
+                  fontWeight: W.semi,
+                  letterSpacing: "0.5px",
                   margin: 0,
                   lineHeight: 1,
+                  color: c.text,
                 }}
               >
                 PERSONS
@@ -648,8 +656,8 @@ export default function Home() {
                 style={{
                   fontSize: "10px",
                   color: c.muted,
-                  margin: "2px 0 0 0",
-                  letterSpacing: "2px",
+                  margin: `${S.x4}px 0 0 0`,
+                  letterSpacing: "1.5px",
                   textTransform: "uppercase",
                 }}
               >
@@ -663,8 +671,8 @@ export default function Home() {
             style={{
               background: c.card,
               border: `1px solid ${c.border}`,
-              borderRadius: "12px",
-              padding: "8px 12px",
+              borderRadius: R.md,
+              padding: `${S.x8}px ${S.x12}px`,
               color: c.text,
               fontSize: "12px",
               cursor: "pointer",
@@ -679,81 +687,94 @@ export default function Home() {
           </select>
         </nav>
 
-        {/* HERO */}
-        <section style={{ textAlign: "center", marginBottom: "45px" }}>
+        {/* ============ HERO ============ */}
+        <section style={{ marginBottom: S.x32 }}>
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "8px",
-              padding: "8px 16px",
-              borderRadius: "999px",
+              gap: S.x8,
+              padding: `${S.x8}px ${S.x12}px`,
+              borderRadius: R.pill,
               background: `${c.accent}15`,
-              border: `1px solid ${c.accent}33`,
+              border: `1px solid ${c.accent}30`,
               fontSize: "12px",
               color: c.accent,
-              marginBottom: "20px",
-              fontWeight: 600,
+              marginBottom: S.x16,
+              fontWeight: W.reg,
             }}
           >
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#22c55e" }}></span>
+            <span
+              style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e" }}
+            ></span>
             {apps.length}+ apps disponibles
           </div>
+
           <h1
             style={{
-              fontSize: "44px",
-              fontWeight: 900,
-              lineHeight: 1.05,
-              marginBottom: "15px",
-              letterSpacing: "-2px",
+              fontSize: "36px",
+              fontWeight: W.med,
+              lineHeight: 1.1,
+              marginBottom: S.x16,
+              letterSpacing: "-1px",
               color: c.text,
             }}
           >
             Lo mejor en
             <br />
             <span
-              className="animated-gradient"
               style={{
-                background: `linear-gradient(90deg, ${c.accent}, #f59e0b, #facc15)`,
-                backgroundSize: "200% 200%",
+                background: `linear-gradient(90deg, ${c.accent}, #f59e0b)`,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                animation: "gradient-shift 4s ease infinite",
+                backgroundClip: "text",
               }}
             >
               Apps y Juegos Android
             </span>
           </h1>
-          <p style={{ color: c.muted, fontSize: "15px", lineHeight: 1.6, maxWidth: "480px", margin: "0 auto 30px" }}>
-            Descubre las mejores aplicaciones y los juegos más divertidos para Android. Última
-            versión, premium y sin anuncios.
+
+          <p
+            style={{
+              color: c.muted,
+              fontSize: "15px",
+              lineHeight: 1.5,
+              maxWidth: 460,
+              marginBottom: S.x24,
+            }}
+          >
+            Descubre las mejores aplicaciones y juegos para Android. Última versión, premium y sin
+            anuncios.
           </p>
 
-          {/* REDES SOCIALES */}
-          <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "35px", flexWrap: "wrap" }}>
+          {/* Redes sociales */}
+          <div
+            style={{
+              display: "flex",
+              gap: S.x8,
+              marginBottom: S.x24,
+              flexWrap: "wrap",
+            }}
+          >
             {[
               {
                 img: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/a65cde85-132a-4209-a867-68fe6054722f.jpg",
                 href: "https://chat.whatsapp.com/LCGW1WtQbYACZKKeBPzsXI",
-                color: "#25D366",
                 name: "WhatsApp",
               },
               {
                 img: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/4724e75f-6363-4c1b-b929-627a6a582e4f.jpg",
                 href: "https://t.me/personsapks",
-                color: "#0EA5E9",
                 name: "Telegram",
               },
               {
                 img: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/38cb9e6a-b3d2-41dd-bde6-c249217ddf29.jpg",
                 href: "https://www.instagram.com/persons.177",
-                color: "#EC4899",
                 name: "Instagram",
               },
               {
                 img: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/daeecf20-0396-4b3e-a595-3852f29a0b95.jpg",
                 href: "https://discord.gg/A2vWQKj9w",
-                color: "#5865F2",
                 name: "Discord",
               },
             ].map((s, i) => (
@@ -765,37 +786,39 @@ export default function Home() {
                 className="bounce-click"
                 title={s.name}
                 style={{
-                  width: "52px",
-                  height: "52px",
-                  borderRadius: "16px",
+                  width: 44,
+                  height: 44,
+                  borderRadius: R.md,
                   background: c.card,
-                  border: `1px solid ${s.color}40`,
+                  border: `1px solid ${c.border}`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   textDecoration: "none",
                   overflow: "hidden",
-                  transition: "all 0.3s ease",
-                  boxShadow: `0 8px 20px ${s.color}20`,
                 }}
               >
-                <img src={s.img} alt={s.name} style={{ width: "60%", height: "60%", objectFit: "contain" }} />
+                <img
+                  src={s.img}
+                  alt={s.name}
+                  style={{ width: "60%", height: "60%", objectFit: "contain" }}
+                />
               </a>
             ))}
           </div>
         </section>
 
-        {/* BUSCADOR */}
-        <div style={{ position: "relative", marginBottom: "35px" }}>
+        {/* ============ BUSCADOR ============ */}
+        <div style={{ marginBottom: S.x24 }}>
           <input
             type="text"
-            placeholder="🔍  Busca tu juego favorito..."
+            placeholder="Busca tu juego favorito..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
               width: "100%",
-              padding: "20px 24px",
-              borderRadius: "18px",
+              padding: `${S.x16}px ${S.x20}px`,
+              borderRadius: R.lg,
               backgroundColor: c.card,
               border: `1px solid ${c.border}`,
               color: c.text,
@@ -806,95 +829,120 @@ export default function Home() {
           />
         </div>
 
-        {/* NAVEGACIÓN SECUNDARIA */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px", marginBottom: "45px" }}>
+        {/* ============ NAV SECUNDARIA ============ */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: S.x8,
+            marginBottom: S.x32,
+          }}
+        >
           {[
-            { href: "/", emoji: "🏠", label: "Inicio", color: "#facc15" },
-            { href: "/codigos", emoji: "🔑", label: "Códigos", color: "#f97316" },
-            { href: "/escaner", emoji: "🔍", label: "Escáner", color: "#22c55e" },
-            { href: "/blog", emoji: "📚", label: "Blog", color: "#0ea5e9" },
-            { href: "/tutorial", emoji: "📖", label: "Tutorial", color: "#a855f7" },
-            { href: "/faq", emoji: "❓", label: "FAQ", color: "#ef4444" },
+            { href: "/", emoji: "🏠", label: "Inicio" },
+            { href: "/codigos", emoji: "🔑", label: "Códigos" },
+            { href: "/escaner", emoji: "🔍", label: "Escáner" },
+            { href: "/blog", emoji: "📚", label: "Blog" },
+            { href: "/tutorial", emoji: "📖", label: "Tutorial" },
+            { href: "/faq", emoji: "❓", label: "FAQ" },
           ].map((item, i) => (
             <Link
               key={i}
               href={item.href}
-              className="bounce-click glass-hover"
+              className="bounce-click"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: "8px",
-                padding: "20px 10px",
-                borderRadius: "18px",
-                background: `${item.color}10`,
-                border: `1px solid ${item.color}30`,
+                gap: S.x4,
+                padding: `${S.x16}px ${S.x8}px`,
+                borderRadius: R.lg,
+                background: c.card,
+                border: `1px solid ${c.border}`,
                 textDecoration: "none",
                 color: c.text,
                 textAlign: "center",
-                transition: "all 0.3s ease",
               }}
             >
-              <span style={{ fontSize: "26px" }}>{item.emoji}</span>
-              <span style={{ fontSize: "12px", fontWeight: 700 }}>{item.label}</span>
+              <span style={{ fontSize: "22px" }}>{item.emoji}</span>
+              <span style={{ fontSize: "11px", fontWeight: W.reg }}>{item.label}</span>
             </Link>
           ))}
         </div>
 
-        {/* BANNER CÓDIGOS */}
-        <Link href="/codigos" className="bounce-click" style={{ display: "block", textDecoration: "none", marginBottom: "40px" }}>
+        {/* ============ BANNER CÓDIGOS ============ */}
+        <Link
+          href="/codigos"
+          className="bounce-click"
+          style={{ display: "block", textDecoration: "none", marginBottom: S.x32 }}
+        >
           <div
-            className="pulse-soft"
             style={{
-              padding: "28px",
-              borderRadius: "22px",
-              background: "linear-gradient(135deg, rgba(250, 204, 21, 0.15) 0%, rgba(249, 115, 22, 0.15) 100%)",
-              border: "1px solid rgba(250, 204, 21, 0.35)",
+              padding: S.x24,
+              borderRadius: R.lg,
+              background: `${c.accent}10`,
+              border: `1px solid ${c.accent}30`,
               display: "flex",
               alignItems: "center",
-              gap: "20px",
+              gap: S.x16,
             }}
           >
-            <div style={{ fontSize: "46px" }}>🔑</div>
+            <div style={{ fontSize: "36px" }}>🔑</div>
             <div style={{ flex: 1 }}>
-              <h2 style={{ fontSize: "19px", fontWeight: 900, color: c.text, margin: 0, marginBottom: "4px" }}>
+              <h2
+                style={{
+                  fontSize: "16px",
+                  fontWeight: W.semi,
+                  color: c.text,
+                  margin: 0,
+                  marginBottom: S.x4,
+                }}
+              >
                 Códigos Premium Gratis
               </h2>
-              <p style={{ fontSize: "13px", color: c.muted, margin: 0 }}>Netflix, Anime WF, Xuper Hydra y más.</p>
+              <p style={{ fontSize: "12px", color: c.muted, margin: 0 }}>
+                Netflix, Anime WF, Xuper Hydra y más.
+              </p>
             </div>
-            <span style={{ fontSize: "22px", color: "#facc15" }}>→</span>
+            <span style={{ fontSize: "18px", color: c.accent }}>→</span>
           </div>
         </Link>
 
-        {/* TOP DESCARGAS */}
+        {/* ============ TENDENCIA ============ */}
         {topApps.length > 0 && viewMode === "inicio" && (
-          <section style={{ marginBottom: "40px" }}>
+          <section style={{ marginBottom: S.x40 }}>
             <h2
               style={{
-                fontSize: "20px",
-                fontWeight: 900,
+                fontSize: "18px",
+                fontWeight: W.semi,
                 color: c.text,
                 margin: 0,
-                marginBottom: "18px",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
+                marginBottom: S.x16,
+                letterSpacing: "-0.3px",
               }}
             >
-              <span>🔥</span> Tendencia hoy
+              🔥 Tendencia hoy
             </h2>
-            <div className="hide-scrollbar" style={{ display: "flex", gap: "14px", overflowX: "auto", paddingBottom: "8px" }}>
+            <div
+              className="hide-scrollbar"
+              style={{
+                display: "flex",
+                gap: S.x12,
+                overflowX: "auto",
+                paddingBottom: S.x4,
+              }}
+            >
               {topApps.map((app, i) => (
                 <Link
                   key={i}
                   href={`/apps/${app.slug}`}
                   onClick={(e) => handleAppClick(e, app)}
-                  className="bounce-click glass-hover"
+                  className="bounce-click"
                   style={{
                     flex: "0 0 auto",
-                    width: "160px",
-                    padding: "18px",
-                    borderRadius: "18px",
+                    width: 140,
+                    padding: S.x16,
+                    borderRadius: R.lg,
                     background: c.card,
                     border: `1px solid ${c.border}`,
                     textDecoration: "none",
@@ -903,20 +951,20 @@ export default function Home() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: "10px",
+                    gap: S.x8,
                   }}
                 >
                   <div
                     style={{
-                      width: "70px",
-                      height: "70px",
-                      borderRadius: "16px",
+                      width: 60,
+                      height: 60,
+                      borderRadius: R.md,
                       overflow: "hidden",
                       background: "rgba(0,0,0,0.3)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      border: `1px solid ${app.border}`,
+                      border: `1px solid ${c.border}`,
                     }}
                   >
                     {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (
@@ -926,13 +974,13 @@ export default function Home() {
                         style={{ width: "100%", height: "100%", objectFit: "cover" }}
                       />
                     ) : (
-                      <span style={{ fontSize: "35px" }}>{app.emoji}</span>
+                      <span style={{ fontSize: "28px" }}>{app.emoji}</span>
                     )}
                   </div>
                   <span
                     style={{
-                      fontSize: "13px",
-                      fontWeight: 700,
+                      fontSize: "12px",
+                      fontWeight: W.reg,
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
@@ -941,34 +989,45 @@ export default function Home() {
                   >
                     {app.name.replace(" Premium", "").replace(" VIP", "")}
                   </span>
-                  <span style={{ fontSize: "10px", color: "#22c55e", fontWeight: 600 }}>Última versión</span>
-                  <div style={{ display: "flex", gap: "2px", fontSize: "12px", color: "#facc15" }}>★★★★★</div>
                 </Link>
               ))}
             </div>
           </section>
         )}
 
-        {/* ÚLTIMAS ACTUALIZACIONES */}
+        {/* ============ ÚLTIMAS ACTUALIZACIONES ============ */}
         {newApps.length > 0 && viewMode === "inicio" && selectedCategory === 0 && (
-          <section style={{ marginBottom: "40px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px" }}>
+          <section style={{ marginBottom: S.x40 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: S.x16,
+              }}
+            >
               <h2
                 style={{
-                  fontSize: "20px",
-                  fontWeight: 900,
+                  fontSize: "18px",
+                  fontWeight: W.semi,
                   color: c.text,
                   margin: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
+                  letterSpacing: "-0.3px",
                 }}
               >
-                <span>🆕</span> Últimas actualizaciones
+                🆕 Últimas actualizaciones
               </h2>
-              <span style={{ fontSize: "12px", color: c.muted, fontWeight: 600 }}>{newApps.length} nuevas</span>
+              <span style={{ fontSize: "11px", color: c.muted, fontWeight: W.reg }}>
+                {newApps.length} nuevas
+              </span>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: S.x8,
+              }}
+            >
               {newApps.map((app, i) => (
                 <AppCardCompact
                   key={i}
@@ -987,22 +1046,20 @@ export default function Home() {
           </section>
         )}
 
-        {/* CATEGORÍAS GRID */}
+        {/* ============ CATEGORÍAS ============ */}
         {viewMode === "inicio" && (
-          <section style={{ marginBottom: "35px" }}>
+          <section style={{ marginBottom: S.x32 }}>
             <h2
               style={{
-                fontSize: "20px",
-                fontWeight: 900,
+                fontSize: "18px",
+                fontWeight: W.semi,
                 color: c.text,
                 margin: 0,
-                marginBottom: "6px",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
+                marginBottom: S.x12,
+                letterSpacing: "-0.3px",
               }}
             >
-              <span>📂</span> Categorías
+              📂 Categorías
             </h2>
             <CategoryGrid
               appCounts={appCounts}
@@ -1012,88 +1069,78 @@ export default function Home() {
           </section>
         )}
 
-        {/* CONTENIDO ESPECIAL: Add-ons Minecraft + ROMs */}
+        {/* ============ CONTENIDO ESPECIAL ============ */}
         {viewMode === "inicio" && selectedCategory === 0 && (
-          <section style={{ marginBottom: "35px" }}>
+          <section style={{ marginBottom: S.x32 }}>
             <h2
               style={{
-                fontSize: "20px",
-                fontWeight: 900,
+                fontSize: "18px",
+                fontWeight: W.semi,
                 color: c.text,
                 margin: 0,
-                marginBottom: "14px",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
+                marginBottom: S.x12,
+                letterSpacing: "-0.3px",
               }}
             >
-              <span>✨</span> Contenido Especial
+              ✨ Contenido Especial
             </h2>
             <div
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "12px",
+                gap: S.x8,
               }}
             >
               <button
                 onClick={() => handleCategorySelect("Add-ons Minecraft")}
-                className="bounce-click glass-hover"
+                className="bounce-click"
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  gap: "8px",
-                  padding: "22px 12px",
-                  borderRadius: "20px",
-                  background: "linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(22, 163, 74, 0.05))",
-                  border: "1px solid rgba(34, 197, 94, 0.35)",
+                  gap: S.x4,
+                  padding: S.x16,
+                  borderRadius: R.lg,
+                  background: c.card,
+                  border: `1px solid rgba(34,197,94,0.3)`,
                   color: c.text,
                   cursor: "pointer",
-                  transition: "all 0.3s ease",
                   fontFamily: "inherit",
                   textAlign: "center",
                 }}
               >
-                <span style={{ fontSize: "42px", lineHeight: 1 }}>🧱</span>
-                <span style={{ fontSize: "13px", fontWeight: 800, lineHeight: 1.2 }}>
+                <span style={{ fontSize: "32px", lineHeight: 1 }}>🧱</span>
+                <span style={{ fontSize: "13px", fontWeight: W.semi, lineHeight: 1.2 }}>
                   Add-ons Minecraft
                 </span>
-                <span style={{ fontSize: "10px", color: "#86efac", fontWeight: 600 }}>
-                  Bedrock · Mods y texturas
-                </span>
-                <span style={{ fontSize: "9px", color: c.muted, marginTop: "2px" }}>
+                <span style={{ fontSize: "10px", color: c.muted }}>
                   {appCounts["Add-ons Minecraft"] ?? 0} items
                 </span>
               </button>
 
               <button
                 onClick={() => handleCategorySelect("ROMS")}
-                className="bounce-click glass-hover"
+                className="bounce-click"
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  gap: "8px",
-                  padding: "22px 12px",
-                  borderRadius: "20px",
-                  background: "linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.05))",
-                  border: "1px solid rgba(239, 68, 68, 0.35)",
+                  gap: S.x4,
+                  padding: S.x16,
+                  borderRadius: R.lg,
+                  background: c.card,
+                  border: `1px solid rgba(239,68,68,0.3)`,
                   color: c.text,
                   cursor: "pointer",
-                  transition: "all 0.3s ease",
                   fontFamily: "inherit",
                   textAlign: "center",
                 }}
               >
-                <span style={{ fontSize: "42px", lineHeight: 1 }}>🎮</span>
-                <span style={{ fontSize: "13px", fontWeight: 800, lineHeight: 1.2 }}>
+                <span style={{ fontSize: "32px", lineHeight: 1 }}>🎮</span>
+                <span style={{ fontSize: "13px", fontWeight: W.semi, lineHeight: 1.2 }}>
                   ROMs Retro
                 </span>
-                <span style={{ fontSize: "10px", color: "#fca5a5", fontWeight: 600 }}>
-                  Nintendo 64 · Super Nintendo
-                </span>
-                <span style={{ fontSize: "9px", color: c.muted, marginTop: "2px" }}>
+                <span style={{ fontSize: "10px", color: c.muted }}>
                   {appCounts["ROMS"] ?? 0} juegos
                 </span>
               </button>
@@ -1101,25 +1148,38 @@ export default function Home() {
           </section>
         )}
 
-        {/* LISTA DE APPS CON PAGINACIÓN */}
-        <section id="apps-list" style={{ marginBottom: "30px", scrollMarginTop: "20px" }}>
-          <h2
+        {/* ============ LISTA ============ */}
+        <section id="apps-list" style={{ marginBottom: S.x24, scrollMarginTop: S.x20 }}>
+          <div
             style={{
-              fontSize: "20px",
-              fontWeight: 900,
-              color: c.text,
-              margin: 0,
-              marginBottom: "20px",
               display: "flex",
               alignItems: "center",
-              gap: "8px",
+              gap: S.x8,
+              marginBottom: S.x20,
             }}
           >
-            <span>{sectionEmoji}</span>
-            {sectionTitle}
-            <span style={{ fontSize: "13px", color: c.muted, fontWeight: 500, marginLeft: "4px" }}>
-              ({filteredApps.length})
-            </span>
+            <h2
+              style={{
+                fontSize: "18px",
+                fontWeight: W.semi,
+                color: c.text,
+                margin: 0,
+                letterSpacing: "-0.3px",
+                flex: 1,
+              }}
+            >
+              {sectionTitle}
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: c.muted,
+                  fontWeight: W.light,
+                  marginLeft: S.x8,
+                }}
+              >
+                ({filteredApps.length})
+              </span>
+            </h2>
             {(selectedCategory !== 0 || viewMode !== "inicio") && (
               <button
                 onClick={() => {
@@ -1128,38 +1188,47 @@ export default function Home() {
                 }}
                 className="bounce-click"
                 style={{
-                  marginLeft: "auto",
-                  padding: "6px 12px",
-                  borderRadius: "999px",
+                  padding: `${S.x4}px ${S.x12}px`,
+                  borderRadius: R.pill,
                   background: c.card,
                   border: `1px solid ${c.border}`,
                   color: c.muted,
                   fontSize: "11px",
-                  fontWeight: 700,
+                  fontWeight: W.reg,
                   cursor: "pointer",
+                  fontFamily: "inherit",
                 }}
               >
                 ✕ Limpiar
               </button>
             )}
-          </h2>
+          </div>
 
           {loading ? (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "14px" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: S.x12,
+              }}
+            >
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="skeleton-shimmer" style={{ height: "230px", borderRadius: "20px" }} />
+                <div
+                  key={i}
+                  className="skeleton-shimmer"
+                  style={{ height: 220, borderRadius: R.lg }}
+                />
               ))}
             </div>
           ) : filteredApps.length > 0 ? (
             <>
               {isSpecialCategory ? (
-                // Layout especial para ROMS / Add-ons
                 <div
                   style={{
                     display: "grid",
                     gridTemplateColumns: "repeat(1, 1fr)",
-                    gap: "14px",
-                    marginBottom: "30px",
+                    gap: S.x12,
+                    marginBottom: S.x24,
                   }}
                 >
                   {paginatedApps.map((app, index) => (
@@ -1181,8 +1250,14 @@ export default function Home() {
                   ))}
                 </div>
               ) : (
-                // Layout normal para el resto
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "14px", marginBottom: "30px" }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(2, 1fr)",
+                    gap: S.x12,
+                    marginBottom: S.x24,
+                  }}
+                >
                   {paginatedApps.map((app, index) => (
                     <Link
                       key={index}
@@ -1190,19 +1265,18 @@ export default function Home() {
                       className="bounce-click"
                       onClick={(e) => handleAppClick(e, app)}
                       style={{
-                        padding: "14px",
-                        borderRadius: "20px",
+                        padding: S.x12,
+                        borderRadius: R.lg,
                         background: c.card,
-                        border: `1px solid ${app.category === "+18" ? "rgba(220, 38, 38, 0.4)" : c.border}`,
+                        border: `1px solid ${c.border}`,
                         textDecoration: "none",
                         color: c.text,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        gap: "8px",
+                        gap: S.x8,
                         textAlign: "center",
                         position: "relative",
-                        transition: "all 0.3s ease",
                         overflow: "hidden",
                       }}
                     >
@@ -1210,51 +1284,17 @@ export default function Home() {
                         <span
                           style={{
                             position: "absolute",
-                            top: "8px",
-                            right: "8px",
-                            background: "rgba(250, 204, 21, 0.2)",
-                            color: "#facc15",
-                            padding: "2px 7px",
-                            borderRadius: "999px",
+                            top: S.x8,
+                            right: S.x8,
+                            background: `${c.accent}20`,
+                            color: c.accent,
+                            padding: `2px ${S.x8}px`,
+                            borderRadius: R.md,
                             fontSize: "8px",
-                            fontWeight: 800,
+                            fontWeight: W.semi,
                           }}
                         >
-                          🔥 TOP
-                        </span>
-                      )}
-                      {app.isNew && !app.isTop && app.category !== "+18" && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "8px",
-                            right: "8px",
-                            background: "rgba(34, 197, 94, 0.2)",
-                            color: "#22c55e",
-                            padding: "2px 7px",
-                            borderRadius: "999px",
-                            fontSize: "8px",
-                            fontWeight: 800,
-                          }}
-                        >
-                          ✨ NUEVO
-                        </span>
-                      )}
-                      {app.category === "+18" && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "8px",
-                            right: "8px",
-                            background: "rgba(220, 38, 38, 0.25)",
-                            color: "#fca5a5",
-                            padding: "2px 7px",
-                            borderRadius: "999px",
-                            fontSize: "8px",
-                            fontWeight: 800,
-                          }}
-                        >
-                          🔞
+                          TOP
                         </span>
                       )}
 
@@ -1262,13 +1302,13 @@ export default function Home() {
                         onClick={(e) => toggleFavorite(app.name, e)}
                         style={{
                           position: "absolute",
-                          top: "8px",
-                          left: "8px",
+                          top: S.x8,
+                          left: S.x8,
                           background: "none",
                           border: "none",
-                          fontSize: "15px",
+                          fontSize: "14px",
                           cursor: "pointer",
-                          color: favorites.includes(app.name) ? "#facc15" : c.muted,
+                          color: favorites.includes(app.name) ? c.accent : c.muted,
                           padding: 0,
                           lineHeight: 1,
                         }}
@@ -1278,17 +1318,16 @@ export default function Home() {
 
                       <div
                         style={{
-                          width: "75px",
-                          height: "75px",
-                          borderRadius: "18px",
+                          width: 64,
+                          height: 64,
+                          borderRadius: R.md,
                           overflow: "hidden",
                           background: "rgba(0,0,0,0.3)",
-                          border: `1px solid ${app.border}`,
+                          border: `1px solid ${c.border}`,
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          marginTop: "12px",
-                          boxShadow: `0 8px 20px ${app.glow}`,
+                          marginTop: S.x12,
                         }}
                       >
                         {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (
@@ -1298,18 +1337,18 @@ export default function Home() {
                             style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             onError={(e) => {
                               e.currentTarget.style.display = "none";
-                              e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 36px;">${app.emoji}</span>`;
+                              e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 28px;">${app.emoji}</span>`;
                             }}
                           />
                         ) : (
-                          <span style={{ fontSize: "36px" }}>{app.emoji}</span>
+                          <span style={{ fontSize: "28px" }}>{app.emoji}</span>
                         )}
                       </div>
 
                       <h3
                         style={{
-                          fontSize: "13px",
-                          fontWeight: 800,
+                          fontSize: "12px",
+                          fontWeight: W.semi,
                           margin: 0,
                           whiteSpace: "nowrap",
                           overflow: "hidden",
@@ -1321,21 +1360,25 @@ export default function Home() {
                         {app.name.replace(" Premium", "").replace(" VIP", "")}
                       </h3>
 
-                      <p style={{ fontSize: "10px", color: c.muted, margin: 0, fontWeight: 500 }}>
-                        {app.version} (Mod)
-                      </p>
-                      <p style={{ fontSize: "10px", color: "#22c55e", margin: 0, fontWeight: 700 }}>
-                        ✨ Última versión
+                      <p style={{ fontSize: "10px", color: c.muted, margin: 0, fontWeight: W.light }}>
+                        {app.version}
                       </p>
 
-                      <div style={{ display: "flex", gap: "2px", fontSize: "11px", marginTop: "2px" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "1px",
+                          fontSize: "10px",
+                          marginTop: S.x4,
+                        }}
+                      >
                         {[1, 2, 3, 4, 5].map((star) => (
                           <span
                             key={star}
                             onClick={(e) => setRating(app.name, star, e)}
                             style={{
                               cursor: "pointer",
-                              color: (ratings[app.name] || 0) >= star ? "#facc15" : c.muted,
+                              color: (ratings[app.name] || 0) >= star ? c.accent : c.muted,
                             }}
                           >
                             ★
@@ -1349,15 +1392,15 @@ export default function Home() {
                           alignItems: "center",
                           justifyContent: "center",
                           width: "100%",
-                          padding: "10px",
-                          borderRadius: "12px",
-                          fontWeight: 800,
-                          fontSize: "11px",
-                          background: `linear-gradient(135deg, ${app.glow}, ${app.border})`,
-                          border: `1px solid ${app.border}`,
-                          color: app.text,
-                          marginTop: "4px",
-                          letterSpacing: "0.5px",
+                          padding: `${S.x8}px`,
+                          borderRadius: R.md,
+                          fontWeight: W.semi,
+                          fontSize: "10px",
+                          background: `${c.accent}15`,
+                          border: `1px solid ${c.accent}30`,
+                          color: c.accent,
+                          marginTop: S.x4,
+                          letterSpacing: "0.3px",
                           textTransform: "uppercase",
                         }}
                       >
@@ -1368,8 +1411,18 @@ export default function Home() {
                 </div>
               )}
 
+              {/* Paginación */}
               {totalPages > 1 && (
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "6px", flexWrap: "wrap", marginTop: "30px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: S.x4,
+                    flexWrap: "wrap",
+                    marginTop: S.x24,
+                  }}
+                >
                   {getPageNumbers().map((page, i) =>
                     typeof page === "number" ? (
                       <button
@@ -1377,113 +1430,197 @@ export default function Home() {
                         onClick={() => goToPage(page)}
                         className="bounce-click"
                         style={{
-                          minWidth: "40px",
-                          height: "40px",
-                          borderRadius: "50%",
+                          minWidth: 36,
+                          height: 36,
+                          borderRadius: R.md,
                           cursor: "pointer",
-                          fontSize: "14px",
-                          fontWeight: 800,
-                          background: currentPage === page ? "linear-gradient(135deg, #22c55e, #16a34a)" : c.card,
-                          color: currentPage === page ? "#ffffff" : c.muted,
+                          fontSize: "13px",
+                          fontWeight: W.reg,
+                          background: currentPage === page ? c.accent : c.card,
+                          color: currentPage === page ? c.bg : c.muted,
                           border: currentPage === page ? "none" : `1px solid ${c.border}`,
-                          transition: "all 0.3s ease",
-                          boxShadow: currentPage === page ? "0 8px 20px rgba(34, 197, 94, 0.4)" : "none",
+                          fontFamily: "inherit",
                         }}
                       >
                         {page}
                       </button>
                     ) : (
-                      <span key={i} style={{ color: c.muted, fontSize: "14px", padding: "0 4px" }}>
+                      <span key={i} style={{ color: c.muted, fontSize: "12px", padding: `0 ${S.x4}px` }}>
                         ...
                       </span>
                     )
-                  )}
-                  {currentPage < totalPages && (
-                    <button
-                      onClick={() => goToPage(currentPage + 1)}
-                      className="bounce-click"
-                      style={{
-                        padding: "0 16px",
-                        height: "40px",
-                        borderRadius: "20px",
-                        border: `1px solid ${c.border}`,
-                        cursor: "pointer",
-                        fontSize: "13px",
-                        fontWeight: 700,
-                        background: c.card,
-                        color: c.text,
-                        marginLeft: "4px",
-                      }}
-                    >
-                      Siguiente »
-                    </button>
                   )}
                 </div>
               )}
             </>
           ) : (
-            <div style={{ padding: "60px 20px", textAlign: "center", borderRadius: "20px", background: c.card, border: `1px dashed ${c.border}` }}>
-              <div style={{ fontSize: "50px", marginBottom: "15px" }}>😿</div>
-              <p style={{ color: c.muted, fontSize: "14px", margin: 0 }}>No se encontraron apps con ese nombre</p>
+            <div
+              style={{
+                padding: S.x48,
+                textAlign: "center",
+                borderRadius: R.lg,
+                background: c.card,
+                border: `1px dashed ${c.border}`,
+              }}
+            >
+              <div style={{ fontSize: "40px", marginBottom: S.x12 }}>😿</div>
+              <p style={{ color: c.muted, fontSize: "13px", margin: 0 }}>
+                No se encontraron apps
+              </p>
             </div>
           )}
         </section>
 
-        {/* PRÓXIMAMENTE */}
-        {viewMode === "inicio" && (
-          <section style={{ marginBottom: "50px" }}>
-            <h2
-              style={{
-                fontSize: "20px",
-                fontWeight: 900,
-                color: c.text,
-                margin: 0,
-                marginBottom: "18px",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
-              <span>🚀</span> Próximamente
-            </h2>
-            <div style={{ padding: "35px 20px", borderRadius: "20px", border: `1px dashed ${c.border}`, background: c.card, textAlign: "center", color: c.muted }}>
-              <p style={{ fontSize: "14px", margin: 0 }}>Nuevas apps premium cada semana. ¡Vuelve pronto! 🐱</p>
-            </div>
-          </section>
-        )}
-
-        {/* FOOTER */}
-        <footer style={{ borderTop: `1px solid ${c.border}`, paddingTop: "30px", paddingBottom: "40px", textAlign: "center" }}>
-          <div style={{ display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap", marginBottom: "18px" }}>
-            <Link href="/privacidad" style={{ color: c.muted, fontSize: "12px", textDecoration: "none", fontWeight: 500 }}>
-              Privacidad
-            </Link>
-            <Link href="/terminos" style={{ color: c.muted, fontSize: "12px", textDecoration: "none", fontWeight: 500 }}>
-              Términos
-            </Link>
-            <Link href="/faq" style={{ color: c.muted, fontSize: "12px", textDecoration: "none", fontWeight: 500 }}>
-              FAQ
-            </Link>
-            <Link href="/tutorial" style={{ color: c.muted, fontSize: "12px", textDecoration: "none", fontWeight: 500 }}>
-              Tutorial
-            </Link>
-            <Link href="/blog" style={{ color: c.muted, fontSize: "12px", textDecoration: "none", fontWeight: 500 }}>
-              Blog
-            </Link>
+        {/* ============ FOOTER ============ */}
+        <footer
+          style={{
+            borderTop: `1px solid ${c.border}`,
+            paddingTop: S.x24,
+            paddingBottom: S.x32,
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              gap: S.x16,
+              justifyContent: "center",
+              flexWrap: "wrap",
+              marginBottom: S.x16,
+            }}
+          >
+            {[
+              { href: "/privacidad", label: "Privacidad" },
+              { href: "/terminos", label: "Términos" },
+              { href: "/faq", label: "FAQ" },
+              { href: "/tutorial", label: "Tutorial" },
+              { href: "/blog", label: "Blog" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                style={{
+                  color: c.muted,
+                  fontSize: "11px",
+                  textDecoration: "none",
+                  fontWeight: W.light,
+                }}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
-          <p style={{ color: c.muted, fontSize: "11px", fontFamily: "monospace", marginBottom: "5px" }}>
+          <p
+            style={{
+              color: c.muted,
+              fontSize: "10px",
+              fontFamily: "monospace",
+              marginBottom: S.x4,
+            }}
+          >
             © 2026 PERSONS-COMUNITY
           </p>
-          <p style={{ color: c.muted, fontSize: "10px", margin: 0, opacity: 0.7 }}>Hecho con 💛 desde Termux</p>
+          <p style={{ color: c.muted, fontSize: "10px", margin: 0, opacity: 0.7 }}>
+            Hecho con 💛 desde Termux
+          </p>
         </footer>
       </div>
 
       <AdModal isOpen={showAd} onClose={() => setShowAd(false)} appName={pendingAppName} />
 
-      {/* MODAL +18 */}
+      {/* ============ MODAL +18 ============ */}
       {show18Modal && (
         <div
           onClick={close18}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.85)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+            padding: S.x20,
+            backdropFilter: "blur(10px)",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="slide-up"
+            style={{
+              maxWidth: 380,
+              width: "100%",
+              padding: S.x32,
+              borderRadius: R.lg,
+              background: "#12121a",
+              border: "1px solid rgba(220, 38, 38, 0.4)",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontSize: "48px", marginBottom: S.x16 }}>🔞</div>
+            <h2
+              style={{
+                fontSize: "18px",
+                fontWeight: W.semi,
+                color: "#fff",
+                marginBottom: S.x12,
+              }}
+            >
+              Contenido +18
+            </h2>
+            <p
+              style={{
+                color: "#8b8b9a",
+                fontSize: "13px",
+                lineHeight: 1.5,
+                marginBottom: S.x24,
+              }}
+            >
+              Este contenido es solo para <b style={{ color: "#fca5a5" }}>mayores de 18 años</b>.
+            </p>
+            <button
+              onClick={confirm18}
+              className="bounce-click"
+              style={{
+                width: "100%",
+                padding: S.x16,
+                borderRadius: R.pill,
+                background: "linear-gradient(135deg, #22c55e, #16a34a)",
+                color: "#fff",
+                fontWeight: W.semi,
+                fontSize: "13px",
+                border: "none",
+                cursor: "pointer",
+                marginBottom: S.x8,
+              }}
+            >
+              Confirmar
+            </button>
+            <button
+              onClick={close18}
+              style={{
+                width: "100%",
+                padding: S.x12,
+                borderRadius: R.md,
+                background: "transparent",
+                color: "#8b8b9a",
+                border: "1px solid rgba(255,255,255,0.1)",
+                cursor: "pointer",
+                fontSize: "12px",
+                fontWeight: W.light,
+                fontFamily: "inherit",
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ============ MODAL ROM/ADDON ============ */}
+      {detailApp && (
+        <div
+          onClick={() => setDetailApp(null)}
           style={{
             position: "fixed",
             inset: 0,
@@ -1492,87 +1629,8 @@ export default function Home() {
             alignItems: "center",
             justifyContent: "center",
             zIndex: 9999,
-            padding: "20px",
-            backdropFilter: "blur(15px)",
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="slide-up"
-            style={{
-              maxWidth: "400px",
-              width: "100%",
-              padding: "38px 28px",
-              borderRadius: "26px",
-              background: "#12121a",
-              border: "1.5px solid rgba(220, 38, 38, 0.5)",
-              boxShadow: "0 25px 70px rgba(220, 38, 38, 0.3)",
-              textAlign: "center",
-            }}
-          >
-            <div style={{ fontSize: "64px", marginBottom: "15px" }}>🔞</div>
-            <h2 style={{ fontSize: "23px", fontWeight: 900, color: "#fff", marginBottom: "12px" }}>
-              Contenido +18
-            </h2>
-            <p style={{ color: "#8b8b9a", fontSize: "14px", lineHeight: 1.7, marginBottom: "28px" }}>
-              Este contenido es solo para <b style={{ color: "#fca5a5" }}>mayores de 18 años</b>. ¿Confirmas que
-              tienes 18 años o más?
-            </p>
-            <button
-              onClick={confirm18}
-              className="bounce-click"
-              style={{
-                width: "100%",
-                padding: "16px",
-                borderRadius: "14px",
-                background: "linear-gradient(135deg, #22c55e, #16a34a)",
-                color: "#fff",
-                fontWeight: 800,
-                fontSize: "14px",
-                border: "none",
-                cursor: "pointer",
-                textTransform: "uppercase",
-                letterSpacing: "1.2px",
-                marginBottom: "12px",
-                boxShadow: "0 12px 35px rgba(34, 197, 94, 0.4)",
-              }}
-            >
-              ✓ Confirmar
-            </button>
-            <button
-              onClick={close18}
-              style={{
-                width: "100%",
-                padding: "14px",
-                borderRadius: "12px",
-                background: "transparent",
-                color: "#8b8b9a",
-                border: "1px solid rgba(255,255,255,0.12)",
-                cursor: "pointer",
-                fontSize: "13px",
-                fontWeight: 600,
-              }}
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL DE DETALLES PARA ROMS Y ADD-ONS */}
-      {detailApp && (
-        <div
-          onClick={() => setDetailApp(null)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.92)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 9999,
-            padding: "20px",
-            backdropFilter: "blur(15px)",
+            padding: S.x20,
+            backdropFilter: "blur(10px)",
             overflowY: "auto",
           }}
         >
@@ -1580,33 +1638,37 @@ export default function Home() {
             onClick={(e) => e.stopPropagation()}
             className="slide-up"
             style={{
-              maxWidth: "480px",
+              maxWidth: 440,
               width: "100%",
               maxHeight: "90vh",
               overflowY: "auto",
-              padding: "28px 22px",
-              borderRadius: "26px",
+              padding: S.x24,
+              borderRadius: R.lg,
               background: "#12121a",
-              border: `1.5px solid ${detailApp.border || "rgba(255,255,255,0.15)"}`,
-              boxShadow: `0 25px 70px ${detailApp.glow || "rgba(0,0,0,0.6)"}`,
+              border: "1px solid rgba(255,255,255,0.1)",
               margin: "auto",
             }}
           >
-            {/* Header con imagen */}
-            <div style={{ display: "flex", gap: "15px", alignItems: "flex-start", marginBottom: "20px" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: S.x12,
+                alignItems: "flex-start",
+                marginBottom: S.x20,
+              }}
+            >
               <div
                 style={{
-                  width: "90px",
-                  height: "90px",
-                  minWidth: "90px",
-                  borderRadius: "20px",
+                  width: 80,
+                  height: 80,
+                  minWidth: 80,
+                  borderRadius: R.md,
                   overflow: "hidden",
                   background: "rgba(0,0,0,0.4)",
-                  border: `2px solid ${detailApp.border}`,
+                  border: "1px solid rgba(255,255,255,0.1)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  boxShadow: `0 10px 30px ${detailApp.glow}`,
                 }}
               >
                 {detailApp.iconUrl && detailApp.iconUrl.startsWith("http") ? (
@@ -1614,114 +1676,88 @@ export default function Home() {
                     src={detailApp.iconUrl}
                     alt={detailApp.name}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                      e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 42px;">${detailApp.emoji}</span>`;
-                    }}
                   />
                 ) : (
-                  <span style={{ fontSize: "42px" }}>{detailApp.emoji}</span>
+                  <span style={{ fontSize: "36px" }}>{detailApp.emoji}</span>
                 )}
               </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ flex: 1 }}>
                 <h2
                   style={{
-                    fontSize: "20px",
-                    fontWeight: 900,
+                    fontSize: "18px",
+                    fontWeight: W.semi,
                     color: "#ffffff",
                     margin: 0,
-                    marginBottom: "6px",
+                    marginBottom: S.x4,
                     lineHeight: 1.2,
                   }}
                 >
                   {detailApp.name}
                 </h2>
-                <span
-                  style={{
-                    display: "inline-block",
-                    fontSize: "10px",
-                    fontWeight: 700,
-                    color: detailApp.text,
-                    background: detailApp.glow,
-                    padding: "3px 10px",
-                    borderRadius: "999px",
-                    marginBottom: "8px",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {detailApp.category}
-                </span>
-                <div style={{ display: "flex", gap: "12px", fontSize: "11px", color: "#9ca3af" }}>
-                  <span>v{detailApp.version}</span>
-                  <span>·</span>
-                  <span>{detailApp.size}</span>
-                  <span>·</span>
-                  <span>{detailApp.updated}</span>
-                </div>
+                <p style={{ fontSize: "12px", color: "#9ca3af", margin: 0 }}>
+                  v{detailApp.version} · {detailApp.size}
+                </p>
               </div>
             </div>
 
-            {/* Descripción larga */}
             <p
               style={{
-                fontSize: "14px",
+                fontSize: "13px",
                 color: "#d1d5db",
-                lineHeight: 1.7,
+                lineHeight: 1.6,
                 margin: 0,
-                marginBottom: "20px",
+                marginBottom: S.x20,
               }}
             >
               {detailApp.longDescription}
             </p>
 
-            {/* Info ROM (solo si es ROM) */}
             {detailApp.romInfo && (
               <div
                 style={{
-                  padding: "16px",
-                  borderRadius: "16px",
+                  padding: S.x16,
+                  borderRadius: R.md,
                   background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  marginBottom: "20px",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  marginBottom: S.x20,
                 }}
               >
                 <h3
                   style={{
-                    fontSize: "13px",
-                    fontWeight: 800,
+                    fontSize: "11px",
+                    fontWeight: W.semi,
                     color: "#ffffff",
                     margin: 0,
-                    marginBottom: "12px",
+                    marginBottom: S.x12,
                     textTransform: "uppercase",
                     letterSpacing: "0.5px",
                   }}
                 >
-                  📋 Información de la ROM
+                  📋 Info de la ROM
                 </h3>
                 {detailApp.romInfo.console && (
-                  <p style={{ fontSize: "13px", color: "#9ca3af", margin: "0 0 8px 0" }}>
+                  <p style={{ fontSize: "12px", color: "#9ca3af", margin: `0 0 ${S.x8}px 0` }}>
                     <b style={{ color: "#ffffff" }}>Consola:</b> {detailApp.romInfo.console}
                   </p>
                 )}
                 {detailApp.romInfo.emulator && (
-                  <p style={{ fontSize: "13px", color: "#9ca3af", margin: "0 0 8px 0" }}>
+                  <p style={{ fontSize: "12px", color: "#9ca3af", margin: `0 0 ${S.x8}px 0` }}>
                     <b style={{ color: "#ffffff" }}>Emulador:</b> {detailApp.romInfo.emulator}
                   </p>
                 )}
                 {detailApp.romInfo.format && (
-                  <p style={{ fontSize: "13px", color: "#9ca3af", margin: "0 0 8px 0" }}>
+                  <p style={{ fontSize: "12px", color: "#9ca3af", margin: `0 0 ${S.x8}px 0` }}>
                     <b style={{ color: "#ffffff" }}>Formato:</b> {detailApp.romInfo.format}
                   </p>
                 )}
                 {detailApp.romInfo.instructions && (
-                  <p style={{ fontSize: "13px", color: "#9ca3af", margin: 0, lineHeight: 1.6 }}>
+                  <p style={{ fontSize: "12px", color: "#9ca3af", margin: 0, lineHeight: 1.5 }}>
                     <b style={{ color: "#ffffff" }}>Instrucciones:</b> {detailApp.romInfo.instructions}
                   </p>
                 )}
               </div>
             )}
 
-            {/* Botones */}
             <a
               href={detailApp.link}
               target="_blank"
@@ -1731,36 +1767,34 @@ export default function Home() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: "8px",
                 width: "100%",
-                padding: "18px",
-                borderRadius: "14px",
-                background: `linear-gradient(135deg, ${detailApp.glow}, ${detailApp.border})`,
-                border: `1px solid ${detailApp.border}`,
-                color: detailApp.text,
-                fontWeight: 900,
-                fontSize: "14px",
+                padding: S.x16,
+                borderRadius: R.pill,
+                background: "linear-gradient(135deg, #facc15, #f59e0b)",
+                color: "#0a0a0f",
+                fontWeight: W.semi,
+                fontSize: "13px",
                 textDecoration: "none",
                 textTransform: "uppercase",
-                letterSpacing: "1px",
-                marginBottom: "10px",
+                letterSpacing: "0.5px",
+                marginBottom: S.x8,
               }}
             >
-              ⬇ Descargar ahora
+              ⬇ Descargar
             </a>
 
             <button
               onClick={() => setDetailApp(null)}
               style={{
                 width: "100%",
-                padding: "14px",
-                borderRadius: "12px",
+                padding: S.x12,
+                borderRadius: R.md,
                 background: "transparent",
                 color: "#8b8b9a",
-                border: "1px solid rgba(255,255,255,0.12)",
+                border: "1px solid rgba(255,255,255,0.1)",
                 cursor: "pointer",
-                fontSize: "13px",
-                fontWeight: 600,
+                fontSize: "12px",
+                fontWeight: W.light,
                 fontFamily: "inherit",
               }}
             >
@@ -1770,29 +1804,36 @@ export default function Home() {
         </div>
       )}
 
-      {/* COOKIES */}
+      {/* ============ COOKIES ============ */}
       {showCookies && (
         <div
           style={{
             position: "fixed",
-            bottom: "80px",
-            left: "10px",
-            right: "10px",
-            maxWidth: "520px",
+            bottom: 80,
+            left: S.x12,
+            right: S.x12,
+            maxWidth: 480,
             margin: "0 auto",
             background: "rgba(10,10,15,0.98)",
             border: `1px solid ${c.border}`,
-            borderRadius: "20px",
-            padding: "22px",
+            borderRadius: R.lg,
+            padding: S.x20,
             zIndex: 200,
             backdropFilter: "blur(15px)",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
           }}
         >
-          <p style={{ color: c.muted, fontSize: "13px", lineHeight: 1.6, margin: 0, marginBottom: "15px" }}>
-            🍪 Usamos cookies para mejorar tu experiencia. Al continuar, aceptas su uso.
+          <p
+            style={{
+              color: c.muted,
+              fontSize: "12px",
+              lineHeight: 1.5,
+              margin: 0,
+              marginBottom: S.x12,
+            }}
+          >
+            🍪 Usamos cookies para mejorar tu experiencia.
           </p>
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", gap: S.x8 }}>
             <button
               onClick={() => {
                 setShowCookies(false);
@@ -1801,14 +1842,15 @@ export default function Home() {
               className="bounce-click"
               style={{
                 flex: 1,
-                padding: "12px",
-                borderRadius: "12px",
+                padding: S.x12,
+                borderRadius: R.pill,
                 background: "linear-gradient(135deg, #facc15, #f59e0b)",
                 color: "#0a0a0f",
-                fontWeight: 800,
+                fontWeight: W.semi,
                 border: "none",
                 cursor: "pointer",
-                fontSize: "13px",
+                fontSize: "12px",
+                fontFamily: "inherit",
               }}
             >
               Aceptar
@@ -1821,14 +1863,15 @@ export default function Home() {
               className="bounce-click"
               style={{
                 flex: 1,
-                padding: "12px",
-                borderRadius: "12px",
+                padding: S.x12,
+                borderRadius: R.pill,
                 background: "transparent",
                 color: c.muted,
                 border: `1px solid ${c.border}`,
                 cursor: "pointer",
-                fontSize: "13px",
-                fontWeight: 600,
+                fontSize: "12px",
+                fontWeight: W.light,
+                fontFamily: "inherit",
               }}
             >
               Rechazar
