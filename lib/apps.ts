@@ -34,7 +34,7 @@ export const apps: {
     name: "CapCut Premium",
     description: "Editor de video con todas las funciones desbloqueadas.",
     longDescription: "CapCut Premium es la versión desbloqueada del popular editor de video de ByteDance. Incluye todas las funciones Pro sin marca de agua, efectos exclusivos, plantillas premium y exportación en alta calidad.",
-    link: "https://cloud.androforever.com/Apps/CapCut/CapCut%20v19.9.0%20ULT%E2%93%A1A%20Unlocked.apk",
+    link: "https://cloud.androforever.com/Apps/CapCut/%F0%9D%97%96%F0%9D%97%AE%F0%9D%97%BD%F0%9D%97%B0%F0%9D%97%8E%F0%9D%98%81_%F0%9D%97%A3%F0%9D%97%BF0_%F0%9D%97%A0%F0%9D%97%AE%F0%9D%98%85_19_9_1_%F0%9D%97%A8%F0%9D%97%B9%F0%9D%98%81%F0%9D%97%BF%F0%9D%97%AE_2027.apk",
     altLinks: [
       { label: "Opción 2", url: "https://transfer.it/t/T6Ewvbxx1RoK" },
       { label: "Opción 3", url: "https://www.mediafire.com/file/hpu826yzkqn2xke/CapCut_23.0.0_UltraPro.apk/file" },
@@ -2537,6 +2537,27 @@ export const apps: {
       instructions: "Crear una carpeta especial para los juegos de Nintendo 64, poner el juego en la carpeta, después ir al emulador, agregar esa carpeta donde tienes los juegos y listo a jugar!",
     },
   },
+  {
+  slug: "gouge-descent",
+  name: "Gouge",
+  description: "Aférrate a las paredes con tu pico de Minecraft.",
+  longDescription: "Gouge (Descent) es un add-on para Minecraft Bedrock inspirado en el popular mod de Java. Golpea tu pico contra las paredes para aferrarte y escalar por ellas como un auténtico escalador. Perfecto para explorar cuevas, construir en acantilados o simplemente disfrutar de una nueva forma de movimiento vertical. Compatible con la última versión de Minecraft Bedrock 1.26.52. ⚠️ Advertencia: desactiva los logros de la partida. Créditos: oreogatox.",
+  link: "https://www.mediafire.com/file/q0x4nvjcy2d0g1m/Descent_v1.13.mcaddon/file",
+  altLinks: [],
+  iconUrl: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/e11f3f33-1e67-4ace-9642-5c004ff09d3d.jpg",
+  emoji: "🪝",
+  category: "Add-ons Minecraft",
+  isTop: false,
+  isNew: true,
+  version: "1.13",
+  size: "5 MB",
+  updated: "Oct 2026",
+  glow: "rgba(6, 182, 212, 0.4)",
+  border: "rgba(6, 182, 212, 0.6)",
+  text: "#06b6d4",
+  developer: "oreogatox",
+  rating: 4.7,
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
