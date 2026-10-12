@@ -10,8 +10,28 @@ import CategoryGrid from "@/components/CategoryGrid";
 
 const APPS_POR_PAGINA = 12;
 
-// ORDEN DE PRIORIDAD: primero los más recientes
 const RECENT_SLUGS = [
+  "kissmycamera",
+  "y2k-editor-de-fotos-2000s",
+  "magic-rampage",
+  "hbo-max-premium",
+  "pou",
+  "annelids",
+  "angry-birds-go",
+  "danganronpa-v3",
+  "terabox-premium",
+  "zedge",
+  "caja-arena",
+  "slime-rancher",
+  "terraria",
+  "mango-sin-anuncios",
+  "streamflix",
+  "gearup-booster",
+  "sally-face",
+  "hitcue",
+  "plantas-vs-zombies-fusion",
+  "bowmasters",
+  "worm-hunt",
   "twitter-x-mod",
   "proton-vpn-premium",
   "photoroom-pro",
@@ -42,14 +62,8 @@ const RECENT_SLUGS = [
   "nzb360-pro",
   "osmand-premium",
   "pdf-scanner-premium",
-  "yandere-simulator",
-  "thats-not-my-neighbor",
-  "simpsons-hit-and-run",
-  "gta-vice-city-definitive",
-  "devil-may-cry-4",
-  "depth-live-wallpapers",
-  "glass-widgets",
 ];
+
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
 
 function BottomNav({
@@ -369,7 +383,6 @@ export default function Home() {
 
   const topApps = apps.filter((a) => a.isTop);
 
-  // 🔥 FIX: respeta el ORDEN de RECENT_SLUGS (más recientes primero)
   const newApps = RECENT_SLUGS
     .map((slug) => apps.find((a) => a.slug === slug))
     .filter((a): a is NonNullable<typeof a> => Boolean(a))
@@ -416,6 +429,8 @@ export default function Home() {
     if (viewMode === "apps") return "📱";
     if (viewMode === "popular") return "⭐";
     if (selectedCategory === 0) return "🎮";
+    if (categorias[selectedCategory] === "Add-ons Minecraft") return "🧱";
+    if (categorias[selectedCategory] === "ROMS") return "🕹️";
     return "📂";
   })();
 
@@ -987,6 +1002,121 @@ export default function Home() {
               selected={selectedCategory > 0 ? categorias[selectedCategory] : ""}
               onSelect={handleCategorySelect}
             />
+          </section>
+        )}
+
+        {/* CONTENIDO ESPECIAL: Add-ons Minecraft + ROMs */}
+        {viewMode === "inicio" && selectedCategory === 0 && (
+          <section style={{ marginBottom: "35px" }}>
+            <h2
+              style={{
+                fontSize: "20px",
+                fontWeight: 900,
+                color: c.text,
+                margin: 0,
+                marginBottom: "14px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <span>✨</span> Contenido Especial
+            </h2>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "12px",
+              }}
+            >
+              {/* Card Add-ons Minecraft */}
+              <button
+                onClick={() => handleCategorySelect("Add-ons Minecraft")}
+                className="bounce-click glass-hover"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "22px 12px",
+                  borderRadius: "20px",
+                  background: "linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(22, 163, 74, 0.05))",
+                  border: "1px solid rgba(34, 197, 94, 0.35)",
+                  color: c.text,
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  fontFamily: "inherit",
+                  textAlign: "center",
+                }}
+              >
+                <span style={{ fontSize: "42px", lineHeight: 1 }}>🧱</span>
+                <span style={{ fontSize: "13px", fontWeight: 800, lineHeight: 1.2 }}>
+                  Add-ons Minecraft
+                </span>
+                <span
+                  style={{
+                    fontSize: "10px",
+                    color: "#86efac",
+                    fontWeight: 600,
+                  }}
+                >
+                  Bedrock · Mods y texturas
+                </span>
+                <span
+                  style={{
+                    fontSize: "9px",
+                    color: c.muted,
+                    marginTop: "2px",
+                  }}
+                >
+                  {appCounts["Add-ons Minecraft"] ?? 0} items
+                </span>
+              </button>
+
+              {/* Card ROMs */}
+              <button
+                onClick={() => handleCategorySelect("ROMS")}
+                className="bounce-click glass-hover"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "22px 12px",
+                  borderRadius: "20px",
+                  background: "linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.05))",
+                  border: "1px solid rgba(239, 68, 68, 0.35)",
+                  color: c.text,
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  fontFamily: "inherit",
+                  textAlign: "center",
+                }}
+              >
+                <span style={{ fontSize: "42px", lineHeight: 1 }}>🎮</span>
+                <span style={{ fontSize: "13px", fontWeight: 800, lineHeight: 1.2 }}>
+                  ROMs Retro
+                </span>
+                <span
+                  style={{
+                    fontSize: "10px",
+                    color: "#fca5a5",
+                    fontWeight: 600,
+                  }}
+                >
+                  Nintendo 64 · Super Nintendo
+                </span>
+                <span
+                  style={{
+                    fontSize: "9px",
+                    color: c.muted,
+                    marginTop: "2px",
+                  }}
+                >
+                  {appCounts["ROMS"] ?? 0} juegos
+                </span>
+              </button>
+            </div>
           </section>
         )}
 
