@@ -28,6 +28,9 @@ export const apps: {
   developer?: string;
   rating?: number;
   romInfo?: RomInfo;
+  downloads?: number;
+  hasPremiumSection?: boolean;
+  premiumFeatures?: string[];
 }[] = [
   {
     slug: "capcut",
