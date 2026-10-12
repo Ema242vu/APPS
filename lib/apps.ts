@@ -2034,4 +2034,4 @@ export const apps: {
 },
 ];
 
-export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
+export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
