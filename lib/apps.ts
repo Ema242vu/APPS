@@ -2453,8 +2453,8 @@ export const apps: {
   rating: 4.6
 },
 {
-‎  "slug": "kissmycamera",
-‎  "name": "KissMyCamera",
+  "slug": "kissmycamera",
+  "name": "KissMyCamera",
 ‎  "description": "Juega con waifus",
 ‎  "longDescription": "KissMyCamera es un juego en dónde puedes controlar a diferentes waifus para tener escenas +18.",
 ‎  "link": "https://www.mediafire.com/file/5qas0unzldal7rp/KissMyCamera.apk/file",
