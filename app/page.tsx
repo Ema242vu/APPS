@@ -58,10 +58,6 @@ const RECENT_SLUGS = [
   "lifesum-premium",
   "lightroom-premium",
   "lockmypix-premium",
-  "moviebase-premium",
-  "nzb360-pro",
-  "osmand-premium",
-  "pdf-scanner-premium",
 ];
 
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
