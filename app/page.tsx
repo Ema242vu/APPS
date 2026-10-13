@@ -19,6 +19,7 @@ const W = { light: 400, reg: 500, med: 600, semi: 700 };
 const APPS_POR_PAGINA = 12;
 
 const RECENT_SLUGS = [
+   "novel-stars",
   "gouge-descent",
   "addon-infinite-durability",
   "mario-kart-64-rom",
@@ -67,9 +68,6 @@ const RECENT_SLUGS = [
   "hiper-calc-pro",
   "ilovepdf-premium",
   "imprint-premium",
-  "lifesum-premium",
-  "lightroom-premium",
-  "lockmypix-premium",
 ];
 
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
