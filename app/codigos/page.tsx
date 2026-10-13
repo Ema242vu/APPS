@@ -4,13 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 const codigos = [
-  { servicio: "Netflix Premium", codigo: "5840265", color: "#e50914" },
-  { servicio: "Anime WF", codigo: "6731463", color: "#8b5cf6" },
-  { servicio: "Xuper Hydra 1080p/4K", codigo: "2587082", color: "#facc15" },
-  { servicio: "Xuper TV Premium", codigo: "3905611", color: "#22c55e" },
-  { servicio: "Xuper TV Premium", codigo: "3435719", color: "#22c55e" },
-  { servicio: "Xuper TV Premium", codigo: "2628629", color: "#22c55e" },
-  { servicio: "Xuper TV Premium", codigo: "4952975", color: "#22c55e" },
+  { servicio: "Xuper TV Premium", codigo: "5661797", color: "#22c55e" },
 ];
 
 export default function Codigos() {
