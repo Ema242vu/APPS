@@ -19,12 +19,25 @@ const W = { light: 400, reg: 500, med: 600, semi: 700 };
 const APPS_POR_PAGINA = 12;
 
 const RECENT_SLUGS = [
-  "songsterr",
-  "novel-stars",
+  "lark-player-premium",
+  "proton-mail-premium",
+  "forager",
+  "addon-health-bar",
+  "addon-night-vision-universal",
+  "addon-spider-man-project",
+  "addon-lilium-dynamic-light",
+  "addon-3d-totem-player",
+  "addon-view-model",
+  "addon-item-physics",
+  "addon-reforge-armor",
+  "addon-prizma-visual",
+  "addon-jennys-mod",
+  "addon-actions-and-stuff",
   "gouge-descent",
   "addon-infinite-durability",
   "mario-kart-64-rom",
   "super-mario-64-rom",
+  "novel-stars",
   "kissmycamera",
   "y2k-editor-de-fotos-2000s",
   "magic-rampage",
@@ -69,6 +82,9 @@ const RECENT_SLUGS = [
   "hiper-calc-pro",
   "ilovepdf-premium",
   "imprint-premium",
+  "lifesum-premium",
+  "lightroom-premium",
+  "lockmypix-premium",
 ];
 
 type ViewMode = "inicio" | "apps" | "juegos" | "popular";
