@@ -3194,7 +3194,7 @@ export const apps: {
   rating: 4.7,
   downloads: 0,
   hasPremiumSection: false,
-}
+},
 {
   slug: "flipaclip-premium",
   name: "FlipaClip Premium",
