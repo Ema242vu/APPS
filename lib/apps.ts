@@ -2885,6 +2885,7 @@ export const apps: {
     "Requiere Android 8 o superior",
     "Arquitecturas: armeabi-v7a y arm64-v8a",
     "Recursos optimizados para carga rápida",
+  ],
 },
 {
   slug: "proton-mail-premium",
@@ -2916,6 +2917,7 @@ export const apps: {
     "Alias de correo ilimitados",
     "Filtros y carpetas personalizadas",
     "Soporte prioritario",
+  ],
 },
 {
   slug: "forager",
