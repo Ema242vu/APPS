@@ -19,6 +19,13 @@ const W = { light: 400, reg: 500, med: 600, semi: 700 };
 const APPS_POR_PAGINA = 12;
 
 const RECENT_SLUGS = [
+  "addon-ai-players",
+  "addon-backpack-stuff",
+  "addon-immersive-physics",
+  "addon-ocean-biomes",
+  "addon-portal-gun",
+  "addon-smooth-moves",
+  "addon-villager-news",
   "flipaclip-premium",
   "lark-player-premium",
   "proton-mail-premium",
