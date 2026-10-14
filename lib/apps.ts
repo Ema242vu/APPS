@@ -3225,6 +3225,7 @@ export const apps: {
     "Importación de audio premium",
     "Efectos y herramientas avanzadas",
     "Exportación en alta calidad",
+],
 },
 ];
 
