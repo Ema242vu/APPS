@@ -361,7 +361,7 @@ export const apps: {
     format: ".n64",
     instructions: "Crear una carpeta especial para los juegos de Nintendo 64, poner el juego en la carpeta, después ir al emulador, agregar esa carpeta donde tienes los juegos y listo a jugar!",
   },
-}
+},
   {
     slug: "wink",
     name: "Wink Premium",
