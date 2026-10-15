@@ -61,7 +61,7 @@ export const apps: {
     name: "YouTube Premium",
     description: "Videos sin anuncios y reproducción en segundo plano.",
     longDescription: "YouTube Premium te permite disfrutar de todos los videos sin anuncios, reproducir en segundo plano, descargar videos para verlos sin conexión y acceder a YouTube Music Premium.",
-    link: "https://cloud.androforever.com/Apps/YouTube/YouTube%20Premium%20v21.40.162%20-%20androforever.com.apk",
+    link: "https://cloud.androforever.com/Apps/YouTube/YouTube%20Premium%20v21.41.525%20-%20androforever.com.apk",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/BvSZ8Ngg/eca9ac47a486c83541fa5f81159b8349.jpg",
     emoji: "▶️",
