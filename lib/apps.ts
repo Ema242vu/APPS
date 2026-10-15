@@ -3501,6 +3501,27 @@ export const apps: {
   downloads: 0,
   hasPremiumSection: false,
 },
+{
+  "slug": "shotgun-king",
+  "name": "Shotgun King: The Final Checkmate",
+  "description": "Ajedrez estratégico con un giro explosivo: controlas al rey armado con una escopeta.",
+  "longDescription": "Shotgun King es un innovador juego de estrategia roguelike donde el ajedrez tradicional se encuentra con el combate táctico. Tras ser abandonado por todo su ejército, el Rey Negro decide tomar el asunto en sus propias manos con una poderosa escopeta. Muévete por el tablero, dispara a las piezas enemigas, recarga tu arma y elige cartas de mejoras tras cada oleada. Esta versión MOD desbloquea contenido premium para disfrutar de una experiencia completa llena de acción y táctica.",
+  "link": "https://www.mediafire.com/file/eu61ybnbjmxtdx8/com.pid.shotgunking_1.1.30.E-google-APK_Award-Mod.apk/file",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/478bf588-ebcb-4831-8be4-1921d1a364af.png",
+  "emoji": "♚",
+  "category": "Juegos",
+  "isTop": false,
+  "isNew": true,
+  "version": "1.1.30.E",
+  "size": "180 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(234, 179, 8, 0.4)",
+  "border": "rgba(234, 179, 8, 0.6)",
+  "text": "#eab308",
+  "developer": "PUNKCAKE Delicieux",
+  "rating": 4.7
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
