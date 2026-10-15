@@ -3196,7 +3196,7 @@ export const apps: {
   name: "Jenny's Mod",
   description: "Mod con personaje interactivo. Contenido +18.",
   longDescription: "Jenny's Mod es un mod para Minecraft que añade a Jenny, un personaje interactivo con el que puedes hablar y desarrollar diferentes interacciones dentro del juego. Incluye animaciones, diálogos y funciones especiales que lo diferencian de los mods convencionales. Su contenido está enfocado en las interacciones con personajes y está dirigido a un público más maduro que el de Minecraft tradicional. ADVERTENCIA: Este mod contiene contenido para adultos y no es adecuado para todos los jugadores.",
-  link: "https://www.mediafire.com/file/7wba5moidvbsqq0/Jenny-Update-MC-26.30plus.mcaddon/file",
+  link: "https://www.mediafire.com/file/4gh208xbilwfl3z/Jenny_addon_Update.mcaddon/file",
   altLinks: [],
   iconUrl: "https://play-lh.googleusercontent.com/ylXt-XvNM0La2FPkiMrq9Sk8RcMqFXe40-DYOUT0xqUAtAsGXeDmz5O_sf-hK8d8Rph2inUvDiKlsZNS9KlZ4g=s0-br30",
   emoji: "💜",
