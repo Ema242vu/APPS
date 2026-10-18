@@ -418,6 +418,27 @@ export const apps: {
   "rating": 4.7
   },
   {
+  "slug": "snaptube-vip",
+  "name": "SnapTube VIP",
+  "description": "Descarga videos y música de múltiples plataformas.",
+  "longDescription": "SnapTube VIP es una potente herramienta que te permite descargar videos y música desde YouTube, Facebook, Instagram, TikTok, Twitter y muchas otras plataformas en cuestión de segundos. Elige la calidad y el formato que prefieras, desde 144p hasta 4K, o extrae solo el audio en MP3. Incluye un navegador integrado, gestión de descargas y reproducción sin conexión. Esta versión VIP elimina todos los anuncios y desbloquea funciones premium como descargas en máxima calidad, sin marca de agua y con velocidad optimizada. Ideal para quienes quieren llevar su contenido favorito a todas partes sin depender de internet.",
+  "link": "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/SnapTube.VIP.v7.73.1.76801805.apk",
+  "altLinks": [],
+  "iconUrl": "https://i.postimg.cc/SRXJcX4P/b117ce7ff728bd1bf2883fdffdcb170f487a793a8f65db956649a846861e138c-600.jpg",
+  "emoji": "⬇️",
+  "category": "Herramientas",
+  "isTop": true,
+  "isNew": true,
+  "version": "7.73.1.76801805",
+  "size": "25 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(239, 68, 68, 0.4)",
+  "border": "rgba(239, 68, 68, 0.6)",
+  "text": "#ef4444",
+  "developer": "SnapTube",
+  "rating": 4.8
+ },
+  {
     slug: "alight-motion",
     name: "Alight Motion Premium",
     description: "Editor de video y animación profesional en tu celular.",
