@@ -397,6 +397,27 @@ export const apps: {
   "rating": 4.7
   },
   {
+  "slug": "sticker-ly-plus",
+  "name": "Sticker.ly Plus",
+  "description": "Crea y comparte stickers para WhatsApp sin límites.",
+  "longDescription": "Sticker.ly Plus es la app definitiva para crear, descubrir y compartir stickers personalizados para WhatsApp y otras apps de mensajería. Convierte tus fotos o videos en stickers en segundos, recorta fondos, agrega texto y efectos, y explora millones de paquetes creados por la comunidad. Organiza tus colecciones favoritas, importa packs directamente a WhatsApp con un solo toque y crea stickers animados en alta calidad. Esta versión Plus elimina los anuncios y desbloquea funciones premium como creación ilimitada, herramientas avanzadas de edición y acceso completo al catálogo exclusivo.",
+  "link": "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Sticker.ly.Plus.v3.48.0.apk",
+  "altLinks": [],
+  "iconUrl": "https://i.postimg.cc/Dw14CbG2/images.jpg",
+  "emoji": "🎨",
+  "category":"Herramientas",
+  "isTop": false,
+  "isNew": true,
+  "version": "3.48.0",
+  "size": "45 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(34, 197, 94, 0.4)",
+  "border": "rgba(34, 197, 94, 0.6)",
+  "text": "#22c55e",
+  "developer": "Sticker.ly",
+  "rating": 4.7
+  },
+  {
     slug: "alight-motion",
     name: "Alight Motion Premium",
     description: "Editor de video y animación profesional en tu celular.",
