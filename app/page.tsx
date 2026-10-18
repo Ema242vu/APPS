@@ -19,6 +19,7 @@ const W = { light: 400, reg: 500, med: 600, semi: 700 };
 const APPS_POR_PAGINA = 12;
 
 const RECENT_SLUGS = [
+  "vpn-super-unlimited-proxy",
   "xrecorder-pro",
   "buena-pizza-gran-pizza",
   "mini-soccer-star",
