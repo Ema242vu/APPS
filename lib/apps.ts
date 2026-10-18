@@ -3648,6 +3648,27 @@ export const apps: {
   "developer": "PUNKCAKE Delicieux",
   "rating": 4.7
 },
+{
+  "slug": "xnxx-premium",
+  "name": "Xnxx Premium",
+  "description": "Plataforma de entretenimiento en línea dedicada a la transmisión y búsqueda de contenido audiovisual explícito para adultos..",
+  "longDescription": "XNXX es una plataforma en línea dedicada a la transmisión e intercambio de contenido audiovisual para adultos. Fundada a principios de la década de los 2000, la plataforma se ha consolidado como uno de los portales de entretenimiento erótico más visitados globalmente. El sitio ofrece un extenso catálogo de videos clasificados por categorías, etiquetas, duración y popularidad, permitiendo a los usuarios buscar y visualizar material explícito, así como interactuar mediante valoraciones, comentarios y listas de reproducción personalizadas. Debido a la naturaleza estrictamente explícita de sus contenidos, el acceso y uso de esta plataforma está restringido legalmente de forma exclusiva a personas mayores de edad.",
+  "link": "https://www.mediafire.com/file/ai8qsgtqyahd2mx/XNXX+Premium+v1.63+@VictorRaulRR.apk/file",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/a8b904e4-8c7b-4422-a088-3e9399fc49d9.png",
+  "emoji": "🔞",
+  "category": "+18",
+  "isTop": false,
+  "isNew": true,
+  "version": "1.4",
+  "size": "28 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(234, 179, 8, 0.4)",
+  "border": "rgba(234, 179, 8, 0.6)",
+  "text": "#eab308",
+  "developer": "Ubisoft",
+  "rating": 4.6
+},
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
