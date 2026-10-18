@@ -915,7 +915,7 @@ export const apps: {
     name: "Telegram Premium",
     description: "Mensajería rápida, segura y sin límites.",
     longDescription: "Telegram Premium con todas las funciones desbloqueadas: sin límites de subida, stickers exclusivos, velocidad de descarga mejorada.",
-    link: "https://cloud.androforever.com/Apps/Telegram/Telegram%20Premium%20v13.0.1%20-%20androforever.com.apk",
+    link: "https://cloud.androforever.com/Apps/Telegram/Telegram%20Premium%20v13.0.3%20-%20androforever.com.apk",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/9XKfxdmy/2952b7f67446895f8f11c3afacc89edc.jpg",
     emoji: "✈️",
