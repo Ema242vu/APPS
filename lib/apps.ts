@@ -835,7 +835,7 @@ export const apps: {
   "altLinks": [],
   "iconUrl": "https://i.postimg.cc/8zdsdg8m/images.png",
   "emoji": "⚽",
-  "category": Herramientas",
+  "category": "Herramientas",
   "isTop": true,
   "isNew": true,
   "version": "15.164.0",
