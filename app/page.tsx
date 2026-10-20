@@ -331,7 +331,7 @@ export default function Home() {
   const [theme, setTheme] = useState("dark");
   const [ratings, setRatings] = useState<Record<string, number>>({});
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showCookies, setShowCookies] = useState(false);
   const [showAd, setShowAd] = useState(false);
   const [pendingAppName, setPendingAppName] = useState("");
@@ -349,7 +349,8 @@ export default function Home() {
     const savedFavs = localStorage.getItem("favorites");
     if (savedFavs) setFavorites(JSON.parse(savedFavs));
     if (!localStorage.getItem("cookiesAccepted")) setShowCookies(true);
-    setTimeout(() => setLoading(false), 1000);
+    // El gate de entrada solo se ve una vez por sesión (antes salía en cada visita)
+    if (sessionStorage.getItem("enteredStore") === "yes") setHasEntered(true);
   }, []);
 
   useEffect(() => {
@@ -592,7 +593,10 @@ export default function Home() {
             propia responsabilidad.
           </p>
           <button
-            onClick={() => setHasEntered(true)}
+            onClick={() => {
+              sessionStorage.setItem("enteredStore", "yes");
+              setHasEntered(true);
+            }}
             className="bounce-click"
             style={{
               width: "100%",

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Script from "next/script";
 import AdBlockBlocker from "@/components/AdBlockBlocker";
+import ThemeSync from "@/components/ThemeSync";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://apps-peach-two.vercel.app"),
@@ -47,11 +48,13 @@ export const metadata: Metadata = {
     siteName: "PERSONS-COMUNITY",
     title: "PERSONS-COMUNITY | Apps Premium y Juegos Mod Gratis",
     description: "Descarga gratis apps premium y juegos mod para Android. Última versión, sin anuncios y 100% funcionales.",
+    images: [{ url: "https://i.postimg.cc/QdBk2k5q/13.jpg", width: 512, height: 512, alt: "PERSONS-COMUNITY" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "PERSONS-COMUNITY | Apps Premium y Juegos Mod",
     description: "Descarga gratis apps premium y juegos mod para Android.",
+    images: ["https://i.postimg.cc/QdBk2k5q/13.jpg"],
   },
   robots: {
     index: true,
@@ -83,7 +86,6 @@ export default function RootLayout({
     <html lang="es" data-theme="dark" suppressHydrationWarning>
       <head>
         <meta name="google-site-verification" content="HQZMfoyoknT16-KfNb7dod3ZhXSqbREY6_elZCzsgvA" />
-        <link rel="canonical" href="https://apps-peach-two.vercel.app" />
 
         {/* JSON-LD Structured Data */}
         <script
@@ -137,6 +139,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <ThemeSync />
         {children}
         <AdBlockBlocker />
       </body>

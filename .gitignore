@@ -40,3 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env.local
+
+# firmas de APKs y llaves (NUNCA subir al repo)
+apk_sign/
+*.apk

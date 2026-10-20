@@ -2,7 +2,7 @@ import Link from "next/link";
 import { blogPosts } from "@/lib/blog";
 
 export const metadata = {
-  title: "Blog - Mi Store",
+  title: "Blog",
   description: "Tutoriales, recomendaciones y guías sobre apps premium para Android.",
 };
 

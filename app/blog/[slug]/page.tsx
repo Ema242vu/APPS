@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = blogPosts.find((p) => p.slug === slug);
   if (!post) return { title: "Artículo no encontrado" };
   return {
-    title: `${post.title} - Mi Store Blog`,
+    title: `${post.title} | PERSONS-COMUNITY Blog`,
     description: post.description,
     openGraph: {
       title: post.title,

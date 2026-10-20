@@ -48,11 +48,11 @@ export default function CategoryGrid({
               borderRadius: "16px",
               background: isActive
                 ? `linear-gradient(135deg, ${cat.color}33, ${cat.color}11)`
-                : "rgba(255,255,255,0.03)",
+                : "var(--bg-card)",
               border: isActive
                 ? `1.5px solid ${cat.color}`
-                : "1px solid rgba(255,255,255,0.06)",
-              color: isActive ? "#ffffff" : "#d1d5db",
+                : "1px solid var(--border-color)",
+              color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
               cursor: "pointer",
               transition: "all 0.25s ease",
               boxShadow: isActive ? `0 8px 22px ${cat.color}44` : "none",
@@ -69,7 +69,7 @@ export default function CategoryGrid({
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: "100%",
-                color: isActive ? "#ffffff" : "#e5e7eb",
+                color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
               }}
             >
               {cat.name}
@@ -77,7 +77,7 @@ export default function CategoryGrid({
             <span
               style={{
                 fontSize: "9px",
-                color: isActive ? cat.color : "#9ca3af",
+                color: isActive ? cat.color : "var(--text-muted)",
                 fontWeight: 600,
               }}
             >

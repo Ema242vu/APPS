@@ -221,3 +221,32 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ============================================= */
+/* HOVER + TEXTO SECUNDARIO (soporte tema claro) */
+/* ============================================= */
+
+:root {
+  --hover-bg: rgba(255, 255, 255, 0.06);
+  --text-secondary: #d1d5db;
+}
+
+[data-theme="light"] {
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --text-secondary: #374151;
+}
+
+[data-theme="cyberpunk"] {
+  --hover-bg: rgba(139, 92, 246, 0.14);
+  --text-secondary: #cfc4ff;
+}
+
+[data-theme="sunset"] {
+  --hover-bg: rgba(251, 146, 60, 0.12);
+  --text-secondary: #ffd9a8;
+}
+
+[data-theme="ice"] {
+  --hover-bg: rgba(148, 163, 184, 0.12);
+  --text-secondary: #cbd5e1;
+}

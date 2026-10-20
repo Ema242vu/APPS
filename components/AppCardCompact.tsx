@@ -26,7 +26,7 @@ function StarRating({ rating = 4.5 }: { rating?: number }) {
             key={s}
             style={{
               fontSize: "11px",
-              color: filled || half ? "#facc15" : "rgba(255,255,255,0.2)",
+              color: filled || half ? "var(--accent)" : "rgba(128,128,128,0.35)",
               lineHeight: 1,
             }}
           >
@@ -68,7 +68,7 @@ export default function AppCardCompact({
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.background = "rgba(255,255,255,0.04)";
+        el.style.background = "var(--hover-bg)";
         el.style.transform = "translateY(-2px)";
       }}
       onMouseLeave={(e) => {
@@ -108,7 +108,7 @@ export default function AppCardCompact({
           style={{
             fontSize: "13px",
             fontWeight: 600,
-            color: "#ffffff",
+            color: "var(--text-primary)",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -120,7 +120,7 @@ export default function AppCardCompact({
         <div
           style={{
             fontSize: "11px",
-            color: "#9ca3af",
+            color: "var(--text-muted)",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -132,7 +132,7 @@ export default function AppCardCompact({
         <div
           style={{
             fontSize: "11px",
-            color: "#9ca3af",
+            color: "var(--text-muted)",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -144,7 +144,7 @@ export default function AppCardCompact({
         <div
           style={{
             fontSize: "11px",
-            color: "#9ca3af",
+            color: "var(--text-muted)",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",

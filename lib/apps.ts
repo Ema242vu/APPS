@@ -4010,3 +4010,6 @@ export const apps: {
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
+
+/* Tipo de una app (derivado del array) para tipar props y metadata */
+export type App = (typeof apps)[number];

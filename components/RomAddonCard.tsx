@@ -39,7 +39,7 @@ export default function RomAddonCard({
         gap: "10px",
         padding: "14px",
         borderRadius: "20px",
-        background: "rgba(255,255,255,0.025)",
+        background: "var(--bg-card)",
         border: `1px solid ${border}`,
         position: "relative",
         overflow: "hidden",
@@ -123,7 +123,7 @@ export default function RomAddonCard({
               fontWeight: 800,
               margin: 0,
               marginBottom: "4px",
-              color: "#ffffff",
+              color: "var(--text-primary)",
               lineHeight: 1.2,
             }}
           >
@@ -148,7 +148,7 @@ export default function RomAddonCard({
           <p
             style={{
               fontSize: "12px",
-              color: "#9ca3af",
+              color: "var(--text-muted)",
               margin: 0,
               lineHeight: 1.4,
               display: "-webkit-box",
