@@ -114,6 +114,7 @@ export default function RootLayout({
         />
         <script data-cfasync="false" src="https://bellnewyork.org/14/cfed6f54b73385057c4c709b0d06da79" />
         <script async data-cfasync="false" src="https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034" />
+        <script async data-cfasync="false" src="https://quge5.com/88/tag.min.js" data-zone="289447" />
 
         {/* Google AdSense */}
         <Script

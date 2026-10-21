@@ -19,7 +19,7 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
-  if (event.request.url.includes("bellnewyork") || event.request.url.includes("al5sm") || event.request.url.includes("n6wxm") || event.request.url.includes("omg10") || event.request.url.includes("ardance")) return;
+  if (event.request.url.includes("bellnewyork") || event.request.url.includes("al5sm") || event.request.url.includes("n6wxm") || event.request.url.includes("omg10") || event.request.url.includes("ardance") || event.request.url.includes("quge5")) return;
 
   event.respondWith(
     fetch(event.request)
