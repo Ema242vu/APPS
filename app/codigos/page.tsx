@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 const codigos = [
+  { servicio: "Xuper TV NF Premium", codigo: "3435719", color: "#38bdf8" },
   { servicio: "Xuper TV Premium", codigo: "5661797", color: "#22c55e" },
 ];
 
