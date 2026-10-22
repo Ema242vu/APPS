@@ -1222,6 +1222,39 @@ export const apps: {
     ],
   },
   {
+    slug: "muso-premium",
+    name: "Muso Premium",
+    description: "Reproductor de música offline con letras, EQ y temas premium.",
+    longDescription:
+      "Muso es uno de los reproductores de música offline más completos para Android. Reproduce MP3, FLAC, M4A, WAV, AAC, OGG y WMA sin depender de internet, con letras sincronizadas en tiempo real, letras flotantes en pantalla y visualizadores que reaccionan al ritmo de la música. La versión Premium incluye el ecualizador de 5 bandas con presets, temas exclusivos (Space, Neon, Rock...), aumento de volumen hasta 200%, creador de tonos de llamada, listas personalizadas y reproducción continua sin pausas ni anuncios.",
+    link: "https://apps.descargas.top/Muso_Player_v1.3.11_MOD_mundoperfecto.net.apk",
+    altLinks: [],
+    iconUrl: "https://i.postimg.cc/rwSr07D5/unnamed.webp",
+    emoji: "🎵",
+    category: "Música",
+    isTop: false,
+    isNew: true,
+    version: "1.3.11",
+    size: "34 MB",
+    updated: "Oct 2026",
+    glow: "rgba(139, 92, 246, 0.4)",
+    border: "rgba(139, 92, 246, 0.6)",
+    text: "#c4b5fd",
+    developer: "BEABLE TECHNOLOGY",
+    rating: 4.6,
+    downloads: 10000000,
+    hasPremiumSection: true,
+    premiumFeatures: [
+      "Premium desbloqueado al 100%",
+      "Sin anuncios",
+      "Ecualizador de 5 bandas y presets completos",
+      "Letras sincronizadas y letras flotantes en pantalla",
+      "Temas premium y visualizadores reactivos",
+      "Aumento de volumen hasta 200%",
+      "Creador de tonos de llamada y temporizador para dormir",
+    ],
+  },
+  {
     slug: "sp-ia",
     name: "SP-IA V1",
     description: "Asistente de inteligencia artificial en español, todo en uno.",
@@ -4094,6 +4127,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "muso-premium",
   "geometry-dash",
   "archivetune",
   "xuper-tv-nf-premium",
