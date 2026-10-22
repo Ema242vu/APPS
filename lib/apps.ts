@@ -4091,3 +4091,126 @@ export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas"
 
 /* Tipo de una app (derivado del array) para tipar props y metadata */
 export type App = (typeof apps)[number];
+
+/* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
+export const recentOrder: string[] = [
+  "geometry-dash",
+  "archivetune",
+  "xuper-tv-nf-premium",
+  "seekee-premium",
+  "super-gyro",
+  "my-femboy-roommate",
+  "bedrock-customize",
+  "magic-tiles-3",
+  "tiktok-lite-premium",
+  "tiktok-premium",
+  "cx-file-explorer-premium",
+  "bubble-translate-premium",
+  "nova-launcher-prime",
+  "onefootball-premium",
+  "snaptube-vip",
+  "sticker-ly-plus",
+  "vpn-super-unlimited-proxy",
+  "xrecorder-pro",
+  "buena-pizza-gran-pizza",
+  "mini-soccer-star",
+  "rayman-mini",
+  "resident-evil-4-mobile-edition",
+  "repo",
+  "shotgun-king",
+  "dead-cells", "the-legend-of-zelda-ocarina-of-time-rom",
+  "super-meat-boy-forever",
+  "flightradar24",
+  "shadow-fight-2",
+  "addon-ai-players",
+  "addon-backpack-stuff",
+  "addon-immersive-physics",
+  "addon-ocean-biomes",
+  "addon-portal-gun",
+  "addon-smooth-moves",
+  "addon-villager-news",
+  "flipaclip-premium",
+  "lark-player-premium",
+  "proton-mail-premium",
+  "forager",
+  "addon-health-bar",
+  "addon-night-vision-universal",
+  "addon-spider-man-project",
+  "addon-lilium-dynamic-light",
+  "addon-3d-totem-player",
+  "addon-view-model",
+  "addon-item-physics",
+  "addon-reforge-armor",
+  "addon-prizma-visual",
+  "addon-jennys-mod",
+  "addon-actions-and-stuff",
+  "gouge-descent",
+  "addon-infinite-durability",
+  "mario-kart-64-rom",
+  "super-mario-64-rom",
+  "novel-stars",
+  "kissmycamera",
+  "y2k-editor-de-fotos-2000s",
+  "magic-rampage",
+  "hbo-max-premium",
+  "pou",
+  "annelids",
+  "angry-birds-go",
+  "danganronpa-v3",
+  "terabox-premium",
+  "zedge",
+  "caja-arena",
+  "slime-rancher",
+  "terraria",
+  "mango-sin-anuncios",
+  "streamflix",
+  "gearup-booster",
+  "sally-face",
+  "hitcue",
+  "plantas-vs-zombies-fusion",
+  "bowmasters",
+  "worm-hunt",
+  "twitter-x-mod",
+  "proton-vpn-premium",
+  "photoroom-pro",
+  "photo-lab-pro",
+  "pixelcut-premium",
+  "video-compressor-premium",
+  "twitch-premium",
+  "strava-premium",
+  "standby-pro",
+  "pgt-pro",
+  "onii-sama-after-dark",
+  "katana-zero",
+  "psycho-love",
+  "deltarune",
+  "lovemaniac",
+  "minecraft",
+  "deezer-premium",
+  "king-hydra",
+  "vn-video-editor",
+  "ejercicios-en-casa",
+  "hiper-calc-pro",
+  "ilovepdf-premium",
+  "imprint-premium",
+  "lifesum-premium",
+  "lightroom-premium",
+  "lockmypix-premium",
+];
+
+/* Slice seguro del índice de apps nuevas para la portada */
+export function recentApps(count: number): App[] {
+  return recentOrder
+    .map((slug) => apps.find((a) => a.slug === slug))
+    .filter((a): a is App => Boolean(a))
+    .slice(0, count);
+}
+
+/* Apps del mismo rubro (empieza por TOP) para 'relacionadas' en la ficha */
+export function relatedApps(current: App, count = 6): App[] {
+  const sameCat = apps.filter((a) => a.slug !== current.slug && a.category === current.category);
+  const ordered = [...sameCat.filter((a) => a.isTop), ...sameCat.filter((a) => !a.isTop)];
+  if (ordered.length >= count) return ordered.slice(0, count);
+  const fill = apps.filter((a) => a.slug !== current.slug && !sameCat.includes(a) && a.isTop);
+  return [...ordered, ...fill].slice(0, count);
+}

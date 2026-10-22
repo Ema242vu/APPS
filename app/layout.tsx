@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import AdBlockBlocker from "@/components/AdBlockBlocker";
 import ThemeSync from "@/components/ThemeSync";
 
@@ -143,6 +144,7 @@ export default function RootLayout({
         <ThemeSync />
         {children}
         <AdBlockBlocker />
+        <Analytics />
       </body>
     </html>
   );

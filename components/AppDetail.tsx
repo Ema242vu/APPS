@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import type { App } from "@/lib/apps";
+import { relatedApps } from "@/lib/apps";
+import AppCardCompact from "@/components/AppCardCompact";
 import AdModal from "@/components/AdModal";
 import Comments from "@/components/Comments";
 import NativeBanner from "@/components/NativeBanner";
@@ -759,6 +761,50 @@ export default function AppDetail({ app }: { app: App }) {
         </div>
 
         <NativeBanner />
+
+        {/* Apps relacionadas (mismo rubro, empieza por TOP) */}
+        {(() => {
+          const rel = relatedApps(app);
+          if (rel.length === 0) return null;
+          return (
+            <section style={{ marginTop: S.x32, marginBottom: S.x24 }}>
+              <h3
+                style={{
+                  fontSize: "14px",
+                  fontWeight: W.semi,
+                  color: "var(--text-primary)",
+                  margin: 0,
+                  marginBottom: S.x12,
+                  letterSpacing: "-0.2px",
+                }}
+              >
+                🔥 Apps relacionadas
+              </h3>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3, 1fr)",
+                  gap: S.x8,
+                }}
+              >
+                {rel.map((r) => (
+                  <AppCardCompact
+                    key={r.slug}
+                    slug={r.slug}
+                    name={r.name.replace(" Premium", "").replace(" VIP", "")}
+                    iconUrl={r.iconUrl}
+                    emoji={r.emoji}
+                    version={r.version}
+                    developer={r.developer}
+                    updated={r.updated}
+                    rating={r.rating}
+                    category={r.category}
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })()}
 
         <Comments appName={app.name} />
 

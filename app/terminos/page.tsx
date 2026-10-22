@@ -1,3 +1,12 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Términos y Condiciones",
+  description:
+    "Términos de uso de PERSONS-COMUNITY: responsabilidad sobre las apps modificadas, propiedad intelectual y contacto.",
+  alternates: { canonical: "/terminos" },
+};
+
 export default function Terminos() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: 'system-ui, sans-serif', padding: '40px 20px' }}>

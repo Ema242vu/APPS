@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 
-const WAIT_SECONDS = 20;
+const WAIT_SECONDS = 10;
 
 export default function AdBlockBlocker() {
   const [showBlocker, setShowBlocker] = useState(false);
@@ -32,7 +32,7 @@ export default function AdBlockBlocker() {
   useEffect(() => {
     if (!showBlocker) return;
 
-    // Countdown de 20 segundos
+    // Countdown de 10 segundos
     countdownRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {

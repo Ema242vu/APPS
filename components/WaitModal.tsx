@@ -25,17 +25,18 @@ export default function WaitModal({
   appVersion,
   appCategory,
 }: WaitModalProps) {
-  const [countdown, setCountdown] = useState(5);
+  const WAIT_SECONDS = 3;
+  const [countdown, setCountdown] = useState(WAIT_SECONDS);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
-      setCountdown(5);
+      setCountdown(WAIT_SECONDS);
       setReady(false);
       return;
     }
 
-    setCountdown(5);
+    setCountdown(WAIT_SECONDS);
     setReady(false);
 
     const interval = setInterval(() => {
@@ -134,7 +135,7 @@ export default function WaitModal({
         >
           <div
             style={{
-              width: `${((5 - countdown) / 5) * 100}%`,
+              width: `${((WAIT_SECONDS - countdown) / WAIT_SECONDS) * 100}%`,
               height: "100%",
               backgroundColor: "#facc15",
               borderRadius: "3px",

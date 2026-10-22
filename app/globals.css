@@ -4,11 +4,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 /* ============================================= */
-/* TAILWIND                                      */
+/* RESET (reemplaza al preflight de Tailwind)    */
 /* ============================================= */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p, blockquote, figure, ul, ol {
+  margin: 0;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
 
 /* ============================================= */
 /* BASE                                          */

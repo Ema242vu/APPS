@@ -1,3 +1,12 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tutorial de Instalación",
+  description:
+    "Aprende paso a paso a instalar apps premium y juegos mod desde PERSONS-COMUNITY, sin root y sin complicaciones.",
+  alternates: { canonical: "/tutorial" },
+};
+
 export default function Tutorial() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: 'system-ui, sans-serif', padding: '40px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
