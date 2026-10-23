@@ -460,6 +460,27 @@ export const apps: {
   "rating": 4.7
   },
   {
+  "slug": "knowunity",
+  "name": "Knowunity",
+  "description": "Apuntes, resúmenes y ayuda escolar de estudiantes reales.",
+  "longDescription": "Knowunity es una plataforma educativa donde estudiantes de todo el mundo comparten apuntes, resúmenes, esquemas y materiales de estudio. Encuentra contenido por asignatura y nivel, desde primaria hasta universidad, y estudia con recursos creados por otros alumnos. Incluye flashcards, quizzes interactivos, grupos de estudio y la posibilidad de hacer preguntas a una comunidad activa. Esta versión Premium desbloquea el acceso completo a todos los apuntes, descargas ilimitadas, funciones de IA para resumir y generar preguntas, y una experiencia sin anuncios. Ideal para preparar exámenes y estudiar de forma más eficiente.",
+  "link": "https://www.mediafire.com/file/7p3i5cfu08m4ms1/Knowunity+v6.42.1+(Premium).apk/file",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/cedc49f2-6e88-4747-b7fc-be79773ed763.jpg",
+  "emoji": "📚",
+  "category": "Educación",
+  "isTop": true,
+  "isNew": true,
+  "version": "6.42.1",
+  "size": "89 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(99, 102, 241, 0.4)",
+  "border": "rgba(99, 102, 241, 0.6)",
+  "text": "#6366f1",
+  "developer": "Knowunity",
+  "rating": 4.6
+  },
+  {
     slug: "inshot",
     name: "InShot Premium",
     description: "Editor de video y fotos con todas las funciones Pro.",
