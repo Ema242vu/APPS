@@ -1308,6 +1308,30 @@ export const apps: {
     ],
   },
   {
+    slug: "easyplay-tv",
+    name: "EasyPlay TV",
+    description: "TV en vivo global, películas y series gratis en un solo APK.",
+    longDescription:
+      "EasyPlay TV es una app de streaming para ver TV y todo tipo de contenido desde tu Android. Ofrece más de 25.000 canales de TV en vivo de todo el mundo —deportes, noticias, cine, series e infantil— además de películas y series para ver cuando quieras, todo gratis y sin suscripción. Funciona en teléfonos, tablets, Android TV y dispositivos Fire OS, con los canales globales agrupados en la sección Live TV para que encontrar tu contenido sea muy fácil.",
+    link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/EasyPlay.apk",
+    altLinks: [],
+    iconUrl: "https://i.postimg.cc/Gmj8bdvL/IMG-20261024-WA0228.jpg",
+    emoji: "📺",
+    category: "Video",
+    isTop: false,
+    isNew: true,
+    version: "1.2.87",
+    size: "54 MB",
+    updated: "Oct 2026",
+    glow: "rgba(45, 212, 191, 0.4)",
+    border: "rgba(45, 212, 191, 0.6)",
+    text: "#5eead4",
+    developer: "EasyPlay.TV",
+    rating: 4.5,
+    downloads: 0,
+    hasPremiumSection: false,
+  },
+  {
     slug: "sp-ia",
     name: "SP-IA V1",
     description: "Asistente de inteligencia artificial en español, todo en uno.",
@@ -4180,6 +4204,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "easyplay-tv",
   "chatgpt-premium",
   "muso-premium",
   "streamflix",
