@@ -11,6 +11,7 @@ const codigos: {
 }[] = [
   { servicio: "Xuper TV NF Premium", codigo: "3435719", color: "#38bdf8", tipo: "downloader" },
   { servicio: "Xuper TV Premium", codigo: "5661797", color: "#22c55e", tipo: "downloader" },
+  { servicio: "EasyPlay TV", codigo: "5464526", color: "#2dd4bf", tipo: "downloader" },
 ];
 
 export default function CodigosList() {
