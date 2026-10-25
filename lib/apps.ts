@@ -481,6 +481,27 @@ export const apps: {
   "rating": 4.6
   },
   {
+  "slug": "m64plus-fz-emulator",
+  "name": "M64Plus FZ Emulator",
+  "description": "Emulador de Nintendo 64 para Android.",
+  "longDescription": "M64Plus FZ Emulator es uno de los emuladores de Nintendo 64 más completos y estables para Android. Ejecuta tus juegos favoritos de N64 con buena compatibilidad, soporte para mandos físicos, guardado rápido, savestates, configuraciones de vídeo y audio ajustables, y plugins gráficos para mejorar los visuales. Incluye una biblioteca integrada para organizar tus ROMs y opciones avanzadas para usuarios expertos.",
+  "link": "https://www.mediafire.com/file/gfalwt30i2jcwx0/M64Plus_FZ_Pro.apk/file",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/ae64a9db-9f45-497e-afa3-ac2c4b621ede.jpg",
+  "emoji": "🎮",
+  "category": "Herramientas",
+  "isTop": false,
+  "isNew": false,
+  "version": "1.0.0",
+  "size": "22 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(249, 115, 22, 0.4)",
+  "border": "rgba(249, 115, 22, 0.6)",
+  "text": "#f97316",
+  "developer": "Francisco Zurita",
+  "rating": 4.5
+  },
+  {
     slug: "inshot",
     name: "InShot Premium",
     description: "Editor de video y fotos con todas las funciones Pro.",
