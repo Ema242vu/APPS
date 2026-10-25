@@ -4255,6 +4255,7 @@ export type App = (typeof apps)[number];
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
   "play-tv",
+  "m64plus-fz-emulator",
   "easyplay-tv",
   "chatgpt-premium",
   "muso-premium",
