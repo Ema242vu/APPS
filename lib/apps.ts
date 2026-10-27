@@ -299,7 +299,8 @@ export const apps: {
   "border": "rgba(239, 68, 68, 0.6)",
   "text": "#ef4444",
   "developer": "CAPCOM",
-  "rating": 4.7
+  "rating": 4.7,
+},
 {
   slug: "seekee-premium",
   name: "Seekee Premium",
