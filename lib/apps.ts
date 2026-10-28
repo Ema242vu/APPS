@@ -1299,7 +1299,7 @@ export const apps: {
     description: "Reproductor de música offline con letras, EQ y temas premium.",
     longDescription:
       "Muso es uno de los reproductores de música offline más completos para Android. Reproduce MP3, FLAC, M4A, WAV, AAC, OGG y WMA sin depender de internet, con letras sincronizadas en tiempo real, letras flotantes en pantalla y visualizadores que reaccionan al ritmo de la música. La versión Premium incluye el ecualizador de 5 bandas con presets, temas exclusivos (Space, Neon, Rock...), aumento de volumen hasta 200%, creador de tonos de llamada, listas personalizadas y reproducción continua sin pausas ni anuncios.",
-    link: "https://apps.descargas.top/Muso_Player_v1.3.11_MOD_mundoperfecto.net.apk",
+    link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Muso_Player_v1.3.11_MOD_mundoperfecto.net.apk",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/rwSr07D5/unnamed.webp",
     emoji: "🎵",
