@@ -5,21 +5,21 @@ import { useState, useEffect, useRef } from "react";
 const WAIT_SECONDS = 10;
 
 /* ============================================================
-   TÉCNICAS DE DETECCIÓN — múltiples métodos para que funcione
-   en Brave, uBlock, AdGuard y otros bloqueadores modernos
+   TÉCNICAS DE DETECCIÓN — conservadoras para evitar
+   falsos positivos en Chrome/Firefox sin bloqueador
    ============================================================ */
 
 /**
- * Técnica 1: Elemento clásico con clases de anuncio
- * Brave/AdGuard ocultan elementos con selectores cosméticos
- * como `.adsbox`, `.ad-banner`, `[id^="ad-"]`, etc.
+ * Técnica 1 (PRINCIPAL): Elemento con clases de anuncio + MutationObserver
+ * Detecta si el bloqueador oculta o elimina el elemento.
+ * Funciona en Brave Shields, uBlock, AdGuard.
+ * NO da falsos positivos: sin bloqueador, el elemento permanece visible.
  */
 function detectByElement(): Promise<boolean> {
   return new Promise((resolve) => {
     const testEl = document.createElement("div");
-    testEl.className = "adsbox ad-banner ad-banner-slot pub_300x250 adsbygoogle";
+    testEl.className = "adsbox ad-banner pub_300x250 adsbygoogle";
     testEl.setAttribute("data-ad-client", "ca-pub-5959908767381687");
-    testEl.setAttribute("id", "ad-container-test");
     testEl.style.position = "absolute";
     testEl.style.left = "-9999px";
     testEl.style.top = "-9999px";
@@ -28,20 +28,17 @@ function detectByElement(): Promise<boolean> {
     testEl.innerHTML = "&nbsp;";
     document.body.appendChild(testEl);
 
-    // Usar MutationObserver para detectar si el bloqueador
-    // elimina u oculta el elemento inmediatamente
-    let detected = false;
+    let removedOrHidden = false;
+
     const observer = new MutationObserver(() => {
       const style = getComputedStyle(testEl);
       if (
+        !document.body.contains(testEl) ||
         style.display === "none" ||
         style.visibility === "hidden" ||
-        style.opacity === "0" ||
-        testEl.offsetParent === null ||
-        testEl.offsetHeight === 0 ||
-        !document.body.contains(testEl)
+        parseFloat(style.opacity) < 0.1
       ) {
-        detected = true;
+        removedOrHidden = true;
         observer.disconnect();
       }
     });
@@ -57,202 +54,108 @@ function detectByElement(): Promise<boolean> {
       observer.disconnect();
       const style = getComputedStyle(testEl);
       const isBlocked =
-        detected ||
+        removedOrHidden ||
         testEl.offsetHeight === 0 ||
-        testEl.clientHeight === 0 ||
         testEl.offsetParent === null ||
+        !document.body.contains(testEl) ||
         style.display === "none" ||
         style.visibility === "hidden" ||
-        parseFloat(style.opacity) < 0.1 ||
-        !document.body.contains(testEl);
+        parseFloat(style.opacity) < 0.1;
       testEl.remove();
       resolve(isBlocked);
-    }, 300);
+    }, 400);
   });
 }
 
 /**
- * Técnica 2: Fetch a un recurso típicamente bloqueado
- * Si el bloqueador intercepta la petición de red → detectado
+ * Técnica 2: Segundo elemento con clases diferentes
+ * Algunos bloqueadores solo filtran ciertas clases.
  */
-function detectByFetch(): Promise<boolean> {
+function detectByElement2(): Promise<boolean> {
   return new Promise((resolve) => {
-    // URL que está en casi todas las listas de bloqueadores
-    const testUrls = [
-      "/ad/banner.js",
-      "/ads.js",
-      "/pagead/js/adsbygoogle.js",
-    ];
-
-    let detected = false;
-    let completed = 0;
-
-    const check = (blocked: boolean) => {
-      completed++;
-      if (blocked) {
-        detected = true;
-        resolve(true);
-      } else if (completed >= testUrls.length) {
-        resolve(detected);
-      }
-    };
-
-    testUrls.forEach((url) => {
-      fetch(url, { method: "HEAD" })
-        .then((res) => {
-          // Si la respuesta es 404 normal, no es bloqueo
-          // Si falla con error de red o 0, probablemente es bloqueo
-          check(res.status === 0 || res.type === "opaque");
-        })
-        .catch(() => {
-          // Una petición rechazada puede ser bloqueo
-          check(true);
-        });
-    });
-
-    // Timeout de seguridad
-    setTimeout(() => resolve(detected), 1500);
-  });
-}
-
-/**
- * Técnica 3: Inyectar script con identificadores de anuncio
- * Algunos bloqueadores eliminan scripts con ciertos patrones
- */
-function detectByScript(): Promise<boolean> {
-  return new Promise((resolve) => {
-    const script = document.createElement("script");
-    script.setAttribute("data-ad-client", "ca-pub-5959908767381687");
-    script.setAttribute("data-ad-slot", "test");
-    script.setAttribute("class", "adsbygoogle");
-    script.innerHTML = "window.__adblockTest = true;";
-
-    const parent = document.createElement("div");
-    parent.className = "adsbygoogle ad-slot ad-unit";
-    parent.appendChild(script);
-    parent.style.position = "absolute";
-    parent.style.left = "-9999px";
-    document.body.appendChild(parent);
+    const el = document.createElement("ins");
+    el.className = "adsbygoogle";
+    el.setAttribute("data-ad-client", "ca-pub-test");
+    el.setAttribute("data-ad-slot", "123456");
+    el.style.display = "inline-block";
+    el.style.width = "300px";
+    el.style.height = "250px";
+    el.style.position = "absolute";
+    el.style.left = "-9999px";
+    document.body.appendChild(el);
 
     setTimeout(() => {
-      // Si el script fue bloqueado, __adblockTest no existirá
-      const scriptBlocked =
-        !document.body.contains(script) ||
-        typeof (window as any).__adblockTest === "undefined";
-
-      delete (window as any).__adblockTest;
-      parent.remove();
-
-      resolve(scriptBlocked);
-    }, 300);
+      const style = getComputedStyle(el);
+      const isBlocked =
+        el.offsetHeight === 0 ||
+        el.offsetParent === null ||
+        !document.body.contains(el) ||
+        style.display === "none" ||
+        style.visibility === "hidden";
+      el.remove();
+      resolve(isBlocked);
+    }, 400);
   });
 }
 
 /**
- * Técnica 4: Verificar si hay hooks de Brave Shields
- * Brave expone ciertas señales cuando Shields está activo
+ * Técnica 3: Solo se ejecuta si Brave está detectado.
+ * Verifica si Brave Shields bloquea contenido.
  */
 function detectByBrave(): Promise<boolean> {
   return new Promise((resolve) => {
-    // Brave detectable fingerprints
-    const braveSignals = [
-      typeof (navigator as any).brave !== "undefined",
+    const isBrave =
+      typeof (navigator as any).brave !== "undefined" ||
       typeof (window as any).chrome !== "undefined" &&
-        typeof (navigator as any).brave !== "undefined",
-    ];
+        typeof (navigator as any).brave !== "undefined";
 
-    if (braveSignals.some(Boolean)) {
-      // Brave detectado, verificar si Shields bloquea ads
-      // Crear iframe con contenido de anuncio
-      const iframe = document.createElement("iframe");
-      iframe.style.position = "absolute";
-      iframe.style.left = "-9999px";
-      iframe.style.width = "300px";
-      iframe.style.height = "250px";
-      iframe.srcdoc = `
-        <div class="adsbygoogle ad-banner" data-ad-client="ca-pub-test" style="width:300px;height:250px;background:red;">AD</div>
-        <script>try{document.querySelector('.adsbygoogle').style.display='block'}catch(e){}</script>
-      `;
-      document.body.appendChild(iframe);
-
-      setTimeout(() => {
-        try {
-          const adEl = iframe.contentDocument?.querySelector(".adsbygoogle");
-          const style = adEl
-            ? getComputedStyle(adEl as Element)
-            : null;
-          const blocked =
-            !adEl ||
-            !style ||
-            style.display === "none" ||
-            style.visibility === "hidden" ||
-            parseFloat(style.opacity) < 0.1;
-          iframe.remove();
-          resolve(blocked);
-        } catch {
-          // Si no podemos acceder al iframe, es sospechoso
-          iframe.remove();
-          resolve(true);
-        }
-      }, 500);
-    } else {
+    if (!isBrave) {
       resolve(false);
+      return;
     }
-  });
-}
 
-/**
- * Técnica 5: Verificar bloqueo de recursos de AdSense
- * Usa un canvas o imagen para detectar si recursos externos se bloquean
- */
-function detectByResource(): Promise<boolean> {
-  return new Promise((resolve) => {
-    const img = new Image();
-    let blocked = false;
-
-    img.onload = () => resolve(false);
-    img.onerror = () => {
-      blocked = true;
-      resolve(true);
-    };
-
-    // URL de AdSense que está en listas de bloqueo
-    img.src =
-      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5959908767381687&_=" +
-      Date.now();
+    // Brave detectado: probar con elemento adicional
+    const el = document.createElement("div");
+    el.className = "adsbygoogle ad-banner";
+    el.setAttribute("data-ad-client", "ca-pub-test");
+    el.style.width = "300px";
+    el.style.height = "250px";
+    el.style.position = "absolute";
+    el.style.left = "-9999px";
+    document.body.appendChild(el);
 
     setTimeout(() => {
-      if (!blocked) {
-        // Si no hubo error ni carga en 1.5s, puede ser bloqueado
-        resolve(img.complete === false && img.naturalWidth === 0);
-      }
-    }, 1500);
+      const style = getComputedStyle(el);
+      const blocked =
+        el.offsetHeight === 0 ||
+        el.offsetParent === null ||
+        !document.body.contains(el) ||
+        style.display === "none" ||
+        parseFloat(style.opacity) < 0.1;
+      el.remove();
+      resolve(blocked);
+    }, 400);
   });
 }
 
 /**
- * Ejecuta todas las técnicas y devuelve true si ALGUNA detecta bloqueo.
- * Usa Promise.any para la primera respuesta positiva.
+ * Detección principal: combina técnicas.
+ * SOLO reporta bloqueo si al menos 2 técnicas coinciden
+ * O si la técnica principal (detectByElement) detecta bloqueo.
  */
-async function detectAdBlockMultiMethod(): Promise<boolean> {
-  const methods = [
+async function detectAdBlock(): Promise<boolean> {
+  const [r1, r2, r3] = await Promise.all([
     detectByElement(),
-    detectByFetch(),
-    detectByScript(),
+    detectByElement2(),
     detectByBrave(),
-    detectByResource(),
-  ];
+  ]);
 
-  // Si alguna técnica detecta bloqueo → true
-  const results = await Promise.allSettled(
-    methods.map((p) =>
-      p.catch(() => false)
-    )
-  );
+  // Si la técnica principal detecta → bloqueo confirmado
+  if (r1) return true;
 
-  return results.some(
-    (r) => r.status === "fulfilled" && r.value === true
-  );
+  // Si al menos 2 de 3 coinciden → bloqueo probable
+  const count = [r1, r2, r3].filter(Boolean).length;
+  return count >= 2;
 }
 
 /* ============================================================
@@ -264,21 +167,15 @@ export default function AdBlockBlocker() {
   const [countdown, setCountdown] = useState(WAIT_SECONDS);
   const [canContinue, setCanContinue] = useState(false);
   const [adblockActive, setAdblockActive] = useState(true);
-  const [checking, setChecking] = useState(true);
   const intervalRef = useRef<any>(null);
   const countdownRef = useRef<any>(null);
 
   useEffect(() => {
-    // Si ya pasó el bloqueo en esta sesión, no molestar
     const alreadyPassed = sessionStorage.getItem("adblockBlockerPassed");
     if (alreadyPassed === "yes") return;
 
-    // Esperar a que cargue la página
     const initialTimer = setTimeout(async () => {
-      setChecking(true);
-      const detected = await detectAdBlockMultiMethod();
-      setChecking(false);
-
+      const detected = await detectAdBlock();
       if (detected) {
         setAdblockActive(true);
         setShowBlocker(true);
@@ -295,7 +192,6 @@ export default function AdBlockBlocker() {
   useEffect(() => {
     if (!showBlocker) return;
 
-    // Countdown
     countdownRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
@@ -307,16 +203,16 @@ export default function AdBlockBlocker() {
       });
     }, 1000);
 
-    // Re-verificar cada segundo si el usuario desactivó el bloqueador
+    // Re-verificar si el usuario desactivó el bloqueador
     intervalRef.current = setInterval(async () => {
-      const detected = await detectAdBlockMultiMethod();
+      const detected = await detectAdBlock();
       if (!detected) {
         setAdblockActive(false);
         setCanContinue(true);
         if (intervalRef.current) clearInterval(intervalRef.current);
         if (countdownRef.current) clearInterval(countdownRef.current);
       }
-    }, 1000);
+    }, 1500);
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -364,24 +260,17 @@ export default function AdBlockBlocker() {
           Bloqueador detectado
         </h2>
         <p style={{ color: "#9ca3af", fontSize: "14px", lineHeight: 1.7, marginBottom: "20px" }}>
-          Hemos detectado que tienes un bloqueador de anuncios activo
-          (Brave Shields, uBlock, AdGuard, etc.).
+          Hemos detectado que tienes un bloqueador de anuncios activo.
           Los anuncios nos ayudan a mantener la web gratis y a seguir subiendo apps premium.
         </p>
 
-        {checking && (
-          <p style={{ color: "#facc15", fontSize: "13px", marginBottom: "20px", fontStyle: "italic" }}>
-            🔍 Verificando bloqueador...
-          </p>
-        )}
-
-        {adblockActive && !canContinue && !checking && (
+        {adblockActive && !canContinue && (
           <p style={{ color: "#facc15", fontSize: "13px", lineHeight: 1.6, marginBottom: "20px", fontStyle: "italic" }}>
-            Desactiva tu bloqueador (Brave Shield 🛡️, uBlock, etc.) o espera el contador para continuar.
+            Desactiva tu bloqueador (Brave Shield 🛡️, uBlock, etc.) o espera el contador.
           </p>
         )}
 
-        {!adblockActive && !checking && (
+        {!adblockActive && (
           <p style={{ color: "#22c55e", fontSize: "14px", fontWeight: "bold", marginBottom: "20px" }}>
             ✅ ¡Gracias por apoyarnos!
           </p>
