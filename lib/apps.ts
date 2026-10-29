@@ -4337,6 +4337,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "pvz-lawn",
   "hypic",
   "play-tv",
   "m64plus-fz-emulator",
