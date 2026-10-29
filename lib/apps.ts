@@ -838,7 +838,7 @@ export const apps: {
     name: "Spotify Premium",
     description: "Música sin anuncios y descargas offline.",
     longDescription: "Spotify Premium desbloqueado con todas las funciones: música sin anuncios, saltos ilimitados, descargas offline y calidad de audio extrema.",
-    link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Spotify_v9.1.92.3058_MOD_mundoperfecto.net.apk",
+    link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Spotify_v9.1.94.1929_MOD_V2_mundoperfecto.net.apk",
     altLinks: [
       { label: "Opción 2", url: "https://www.mediafire.com/file/o3owv3cvz0qyxwb/Spotify_pro_x4x_.apk/file" },
     ],
