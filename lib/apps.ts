@@ -4052,7 +4052,7 @@ export const apps: {
   name: "Actions & Stuff",
   description: "Animaciones fluidas y cinematográficas.",
   longDescription: "Actions & Stuff es un complemento para Minecraft que transforma las animaciones del juego, haciendo que los movimientos del jugador y los combates se vean mucho más fluidos y dinámicos. Añade animaciones más detalladas al utilizar armas, herramientas y otros objetos, dándole una apariencia más cinematográfica a las acciones del personaje. También mejora la forma en que se muestran los movimientos en tercera persona, haciendo que las aventuras y los enfrentamientos sean visualmente más impresionantes.",
-  link: "https://www.mediafire.com/file/o0n7qqrup0c28nz/Actions_Stuff_1.12_By_dks_david.mcpack.zip/file",
+  link: "https://www.mediafire.com/file/6f05oo0x01s2num/By_Alemox_Actions_Stuff_1.12.mcpack/file",
   altLinks: [],
   iconUrl: "https://i.ytimg.com/vi/cH-pu-6W33o/mqdefault.jpg",
   emoji: "⚔️",
