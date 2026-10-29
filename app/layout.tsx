@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
-import AdBlockBlocker from "@/components/AdBlockBlocker";
 import ThemeSync from "@/components/ThemeSync";
 
 export const metadata: Metadata = {
@@ -107,25 +105,6 @@ export default function RootLayout({
           }}
         />
 
-        {/* Monetag */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(s){s.dataset.zone='11940277',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
-          }}
-        />
-        <script data-cfasync="false" src="https://bellnewyork.org/14/cfed6f54b73385057c4c709b0d06da79" />
-        <script async data-cfasync="false" src="https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034" />
-        <script async data-cfasync="false" src="https://quge5.com/88/tag.min.js" data-zone="289447" />
-
-        {/* Google AdSense */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5959908767381687"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-        <meta name="google-adsense-account" content="ca-pub-5959908767381687" />
-
         {/* PWA */}
         <link rel="apple-touch-icon" href="https://i.postimg.cc/QdBk2k5q/13.jpg" />
         <script
@@ -143,7 +122,6 @@ export default function RootLayout({
       <body>
         <ThemeSync />
         {children}
-        <AdBlockBlocker />
         <Analytics />
       </body>
     </html>

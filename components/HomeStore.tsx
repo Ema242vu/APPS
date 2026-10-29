@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { apps, categorias, recentApps } from "@/lib/apps";
-import AdModal from "@/components/AdModal";
 import AppCardCompact from "@/components/AppCardCompact";
 import CategoryGrid from "@/components/CategoryGrid";
 import RomAddonCard from "@/components/RomAddonCard";
@@ -232,8 +231,6 @@ export default function Home() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [showCookies, setShowCookies] = useState(false);
-  const [showAd, setShowAd] = useState(false);
-  const [pendingAppName, setPendingAppName] = useState("");
   const [show18Modal, setShow18Modal] = useState(false);
   const [pending18Slug, setPending18Slug] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -1402,8 +1399,6 @@ export default function Home() {
           </p>
         </footer>
       </div>
-
-      <AdModal isOpen={showAd} onClose={() => setShowAd(false)} appName={pendingAppName} />
 
       {/* ============ MODAL +18 ============ */}
       {show18Modal && (

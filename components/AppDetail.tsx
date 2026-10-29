@@ -5,11 +5,7 @@ import { useState, useEffect } from "react";
 import type { App } from "@/lib/apps";
 import { relatedApps } from "@/lib/apps";
 import AppCardCompact from "@/components/AppCardCompact";
-import AdModal from "@/components/AdModal";
 import Comments from "@/components/Comments";
-import NativeBanner from "@/components/NativeBanner";
-import { AdsterraBanner300x250, AdsterraBanner468x60 } from "@/components/AdsterraBanners";
-import WaitModal from "@/components/WaitModal";
 
 /* Design tokens (Figma discipline) */
 const R = { sm: 2, md: 8, lg: 16, pill: 50 };
@@ -105,11 +101,7 @@ export default function AppDetail({ app }: { app: App }) {
   const [localDownloads, setLocalDownloads] = useState(0);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [ratings, setRatings] = useState<Record<string, number>>({});
-  const [showAd, setShowAd] = useState(false);
   const [shareText, setShareText] = useState("Compartir");
-  const [showWait, setShowWait] = useState(false);
-  const [finalUrl, setFinalUrl] = useState("");
-  const [showAllOptions, setShowAllOptions] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -127,7 +119,6 @@ export default function AppDetail({ app }: { app: App }) {
   const isFav = favorites.includes(app.name);
   const rating = ratings[app.name] || 0;
   const hasIcon = app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN";
-  const hasAlt = app.altLinks.length > 0;
   const premiumFeatures = getPremiumFeatures(app);
   const showPremiumSection = premiumFeatures.length > 0;
   const totalDownloads = (app.downloads || 0) + localDownloads;
@@ -144,22 +135,11 @@ export default function AppDetail({ app }: { app: App }) {
     localStorage.setItem("ratings", JSON.stringify(newRatings));
   };
 
-  const handleDownload = (url: string) => {
+  const handleDownload = () => {
     const newCount = localDownloads + 1;
     setLocalDownloads(newCount);
     localStorage.setItem(`downloads-${app.name}`, newCount.toString());
-    setFinalUrl(url);
-    setShowAd(true);
-  };
-
-  const handleAdClose = () => {
-    setShowAd(false);
-    setShowWait(true);
-  };
-
-  const handleWaitContinue = () => {
-    setShowWait(false);
-    window.open(finalUrl, "_blank");
+    router.push(`/dl/${app.slug}`);
   };
 
   const handleShare = async () => {
@@ -573,7 +553,7 @@ export default function AppDetail({ app }: { app: App }) {
           </h3>
 
           <button
-            onClick={() => handleDownload(app.link)}
+            onClick={handleDownload}
             className="bounce-click"
             style={{
               ...downloadButtonStyle,
@@ -582,52 +562,8 @@ export default function AppDetail({ app }: { app: App }) {
               marginBottom: S.x8,
             }}
           >
-            <span style={{ fontSize: "16px" }}>⬇</span> Última Versión
+            <span style={{ fontSize: "16px" }}>⬇</span> Descargar Ahora
           </button>
-
-          {hasAlt && (
-            <>
-              <button
-                onClick={() => setShowAllOptions(!showAllOptions)}
-                className="bounce-click"
-                style={{
-                  ...downloadButtonStyle,
-                  backgroundColor: "#16a34a",
-                  color: "#ffffff",
-                }}
-              >
-                <span style={{ fontSize: "16px" }}>⬇</span>{" "}
-                {showAllOptions ? "Ocultar opciones" : `Más opciones (${app.altLinks.length})`}
-              </button>
-
-              {showAllOptions && (
-                <div
-                  style={{
-                    marginTop: S.x12,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: S.x8,
-                  }}
-                >
-                  {app.altLinks.map((alt, i) => (
-                    <button
-                      key={i}
-                      onClick={() => handleDownload(alt.url)}
-                      className="bounce-click"
-                      style={{
-                        ...downloadButtonStyle,
-                        backgroundColor: "rgba(34, 197, 94, 0.12)",
-                        color: "#86efac",
-                        border: "1px solid rgba(34, 197, 94, 0.3)",
-                      }}
-                    >
-                      <span style={{ fontSize: "14px" }}>⬇</span> {alt.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </>
-          )}
 
           <div
             style={{
@@ -644,8 +580,6 @@ export default function AppDetail({ app }: { app: App }) {
             </span>
           </div>
         </div>
-
-        <AdsterraBanner300x250 />
 
         <a
           href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm"
@@ -732,8 +666,6 @@ export default function AppDetail({ app }: { app: App }) {
           </p>
         </div>
 
-        <AdsterraBanner468x60 />
-
         {/* Descripción */}
         <div style={cardStyle}>
           <h3
@@ -759,8 +691,6 @@ export default function AppDetail({ app }: { app: App }) {
             {app.longDescription}
           </p>
         </div>
-
-        <NativeBanner />
 
         {/* Apps relacionadas (mismo rubro, empieza por TOP) */}
         {(() => {
@@ -885,20 +815,6 @@ export default function AppDetail({ app }: { app: App }) {
           PERSONS-COMUNITY // HECHO CON 💛 DESDE TERMUX
         </p>
       </div>
-
-      <AdModal isOpen={showAd} onClose={handleAdClose} appName={app.name} />
-
-      <WaitModal
-        isOpen={showWait}
-        onClose={() => setShowWait(false)}
-        onContinue={handleWaitContinue}
-        appName={app.name}
-        appIcon={app.iconUrl}
-        appEmoji={app.emoji}
-        appSize={app.size}
-        appVersion={app.version}
-        appCategory={app.category}
-      />
     </div>
   );
 }
