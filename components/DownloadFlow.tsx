@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import AdsterraSocialBar from "@/components/AdsterraSocialBar";
-import NativeBanner from "@/components/NativeBanner";
 
 const MONETAG_URL = "https://omg10.com/4/11940275";
 
@@ -18,12 +17,9 @@ const C = {
   accent: "#facc15",
   green: "#22c55e",
   greenDark: "#16a34a",
-  red: "#ef4444",
   blue: "#3b82f6",
   orange: "#f97316",
   purple: "#8b5cf6",
-  teal: "#14b8a6",
-  pink: "#ec4899",
 };
 
 type Props = {
@@ -40,7 +36,7 @@ type Props = {
 };
 
 /* ============================================================
-   CONTENIDO IRRELEVANTE — párrafos de relleno para cada paso
+   CONTENIDO IRRELEVANTE
    ============================================================ */
 const FILLER_FACTS = [
   "El primer teléfono móvil pesaba más de 1 kg y solo podía hacer llamadas durante 30 minutos. Hoy los smartphones pesan menos de 200 gramos y duran todo el día con una sola carga.",
@@ -65,7 +61,7 @@ const FILLER_TIPS = [
   "Activa el modo ahorro de batería cuando el nivel baje del 30% para extender la vida útil de tu pantalla.",
   "Usa fondos de pantalla oscuros en pantallas AMOLED para ahorrar hasta un 30% de batería.",
   "Actualiza tu sistema operativo regularmente para recibir parches de seguridad y mejoras de rendimiento.",
-  "Desinstala las apps que no uses: cada app ocupa espacio y puede consumir recursos en segundo plano.",
+  "Desinstala las apps que no usas: cada app ocupa espacio y puede consumir recursos en segundo plano.",
   "Haz copias de seguridad en la nube al menos una vez por semana para proteger tus fotos y archivos importantes.",
   "Activa la verificación en dos pasos en todas tus cuentas para mayor seguridad.",
   "Si tu teléfono se calienta mucho, cierra las apps en segundo plano y quítale la funda por unos minutos.",
@@ -83,16 +79,77 @@ const FILLER_STEPS = [
 ];
 
 /* ============================================================
-   CONTENIDO COMÚN — cabecera clara de cada sub-página
+   MONETAG GATE — banner obligatorio en CADA paso de CADA app
    ============================================================ */
-function PageShell({ children, step, appName, slug }: { children: React.ReactNode; step: number; appName: string; slug?: string }) {
+function MonetagGate({ slug, step, children }: { slug: string; step: number; children: React.ReactNode }) {
+  const key = `monetag_${slug}_step${step}`;
+  const [passed, setPassed] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem(key) === "yes") setPassed(true);
+    const handler = () => {
+      if (!document.hidden && sessionStorage.getItem(key) === "yes") setPassed(true);
+    };
+    document.addEventListener("visibilitychange", handler);
+    window.addEventListener("focus", handler);
+    return () => { document.removeEventListener("visibilitychange", handler); window.removeEventListener("focus", handler); };
+  }, [key]);
+
+  const handleClick = () => {
+    sessionStorage.setItem(key, "yes");
+    setPassed(true);
+    window.open(MONETAG_URL, "_blank");
+  };
+
+  if (passed) return <>{children}</>;
+
+  return (
+    <div style={{ backgroundColor: "#fffbeb", borderRadius: "16px", border: "2px solid #fde68a", padding: "22px", marginBottom: "18px", textAlign: "center" }}>
+      <p style={{ fontSize: "14px", color: "#92400e", fontWeight: 700, margin: "0 0 6px 0" }}>📢 Para seguir debes tocar:</p>
+      <p style={{ fontSize: "12px", color: "#a16207", margin: "0 0 14px 0" }}>Es un paso rápido y necesario para continuar</p>
+      <button
+        onClick={handleClick}
+        className="bounce-click"
+        style={{
+          width: "100%", padding: "14px 24px", borderRadius: "10px",
+          backgroundColor: C.green, color: "#ffffff", fontWeight: 700,
+          fontSize: "16px", border: "none", cursor: "pointer",
+          letterSpacing: "0.5px", textTransform: "uppercase",
+          boxShadow: "0 4px 15px rgba(34, 197, 94, 0.35)",
+        }}
+      >
+        👆 Click Aquí
+      </button>
+      <p style={{ fontSize: "11px", color: C.light, margin: "12px 0 0 0", lineHeight: 1.5 }}>Toca el botón, vuelve a esta pestaña y podrás continuar</p>
+    </div>
+  );
+}
+
+/* ============================================================
+   PAGE SHELL — fondo blanco + social bar + native banner
+   ============================================================ */
+function PageShell({ children, step, appName, slug }: { children: React.ReactNode; step: number; appName: string; slug: string }) {
+  const [nbLoaded, setNbLoaded] = useState(false);
+
+  useEffect(() => {
+    if (nbLoaded) return;
+    setNbLoaded(true);
+    const existing = document.querySelector('script[src*="bellnewyork.org/21/"]');
+    if (!existing) {
+      const s = document.createElement("script");
+      s.async = true;
+      s.setAttribute("data-cfasync", "false");
+      s.src = "https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034";
+      document.body.appendChild(s);
+    }
+  }, [nbLoaded]);
+
   return (
     <div style={{ minHeight: "100vh", backgroundColor: C.bg, color: C.text, fontFamily: "Inter, system-ui, sans-serif" }}>
       <AdsterraSocialBar />
-      <NativeBanner />
 
       <div style={{ maxWidth: "520px", margin: "0 auto", padding: "16px 14px 140px" }}>
-        {/* Header blanco */}
+        {/* Header */}
         <div style={{ textAlign: "center", paddingTop: "8px", marginBottom: "18px" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", backgroundColor: C.accent, color: "#000", fontSize: "11px", fontWeight: 700, padding: "4px 14px", borderRadius: "20px", marginBottom: "10px" }}>
             PASO {step} DE 4
@@ -101,28 +158,27 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
           <p style={{ fontSize: "12px", color: C.muted, margin: "4px 0 0 0" }}>PERSONS-COMUNITY — Descarga verificada y segura</p>
         </div>
 
-        {/* Barra de progreso de 4 pasos */}
+        {/* Barra de progreso 4 pasos */}
         <div style={{ display: "flex", gap: "6px", marginBottom: "20px" }}>
           {[1, 2, 3, 4].map((s) => (
             <div key={s} style={{ flex: 1, height: "5px", borderRadius: "3px", backgroundColor: s <= step ? C.green : C.border }} />
           ))}
         </div>
 
+        {/* Contenido del paso (envuelto en MonetagGate por el padre) */}
         {children}
 
-        {/* Native banner blanco */}
+        {/* Native banner blanco (contenedor limpio) */}
         <div style={{ backgroundColor: "#ffffff", borderRadius: "14px", border: `1px solid ${C.border}`, padding: "16px", marginTop: "24px", display: "flex", justifyContent: "center", minHeight: "120px", alignItems: "center" }}>
           <div id="container-885a3a3a0173836d790936818ab5a034"></div>
         </div>
 
         {/* Footer */}
         <div style={{ textAlign: "center", marginTop: "24px" }}>
-          {slug && (
-            <Link href={`/apps/${slug}`} style={{ fontSize: "12px", color: C.light, textDecoration: "none" }}>
-              ← Volver a la tienda
-            </Link>
-          )}
-          <p style={{ fontSize: "10px", color: C.light, marginTop: slug ? "8px" : 0 }}>PERSONS-COMUNITY © 2026 — Hecho con 💛 desde Termux</p>
+          <Link href={`/apps/${slug}`} style={{ fontSize: "12px", color: C.light, textDecoration: "none" }}>
+            ← Volver a la tienda
+          </Link>
+          <p style={{ fontSize: "10px", color: C.light, marginTop: "8px" }}>PERSONS-COMUNITY © 2026 — Hecho con 💛 desde Termux</p>
         </div>
       </div>
     </div>
@@ -130,8 +186,26 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
 }
 
 /* ============================================================
-   SECCIÓN DE CONTENIDO IRRELEVANTE REUTILIZABLE
+   COMPONENTES DE CONTENIDO IRRELEVANTE
    ============================================================ */
+function FactCard({ index }: { index: number }) {
+  return (
+    <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "16px", marginBottom: "14px" }}>
+      <p style={{ fontSize: "11px", fontWeight: 700, color: C.blue, margin: "0 0 6px 0", textTransform: "uppercase", letterSpacing: "0.5px" }}>💡 ¿Sabías que…?</p>
+      <p style={{ fontSize: "13px", color: C.muted, margin: 0, lineHeight: 1.6 }}>{FILLER_FACTS[index % FILLER_FACTS.length]}</p>
+    </div>
+  );
+}
+
+function TipCard({ index }: { index: number }) {
+  return (
+    <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "16px", marginBottom: "14px" }}>
+      <p style={{ fontSize: "11px", fontWeight: 700, color: C.orange, margin: "0 0 6px 0", textTransform: "uppercase", letterSpacing: "0.5px" }}>📌 Consejo útil</p>
+      <p style={{ fontSize: "13px", color: C.muted, margin: 0, lineHeight: 1.6 }}>{FILLER_TIPS[index % FILLER_TIPS.length]}</p>
+    </div>
+  );
+}
+
 function FillerSection({ title, items }: { title: string; items: { icon: string; title: string; desc: string }[] }) {
   return (
     <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
@@ -145,26 +219,6 @@ function FillerSection({ title, items }: { title: string; items: { icon: string;
           </div>
         </div>
       ))}
-    </div>
-  );
-}
-
-function FactCard({ index }: { index: number }) {
-  const fact = FILLER_FACTS[index % FILLER_FACTS.length];
-  return (
-    <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "16px", marginBottom: "14px" }}>
-      <p style={{ fontSize: "11px", fontWeight: 700, color: C.blue, margin: "0 0 6px 0", textTransform: "uppercase", letterSpacing: "0.5px" }}>💡 ¿Sabías que…?</p>
-      <p style={{ fontSize: "13px", color: C.muted, margin: 0, lineHeight: 1.6 }}>{fact}</p>
-    </div>
-  );
-}
-
-function TipCard({ index }: { index: number }) {
-  const tip = FILLER_TIPS[index % FILLER_TIPS.length];
-  return (
-    <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "16px", marginBottom: "14px" }}>
-      <p style={{ fontSize: "11px", fontWeight: 700, color: C.orange, margin: "0 0 6px 0", textTransform: "uppercase", letterSpacing: "0.5px" }}>📌 Consejo útil</p>
-      <p style={{ fontSize: "13px", color: C.muted, margin: 0, lineHeight: 1.6 }}>{tip}</p>
     </div>
   );
 }
@@ -200,331 +254,16 @@ function InfoBlock({ appName, appCategory, appVersion, appSize, appDescription, 
       <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
         <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>📖 Descripción</h3>
         <p style={{ fontSize: "13px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>{appLongDescription}</p>
-        <p style={{ fontSize: "13px", color: C.muted, margin: 0, lineHeight: 1.7 }}>{appDescription} Esta versión ha sido modificada para ofrecerte la mejor experiencia posible, eliminando restricciones y desbloqueando todo el contenido premium que normalmente requiere un pago por suscripción. Disfruta de todas las funciones sin límites, sin interrupciones y sin necesidad de gastar dinero.</p>
+        <p style={{ fontSize: "13px", color: C.muted, margin: 0, lineHeight: 1.7 }}>{appDescription} Esta versión ha sido modificada para ofrecerte la mejor experiencia posible, eliminando restricciones y desbloqueando todo el contenido premium que normalmente requiere un pago por suscripción.</p>
       </div>
     </>
   );
 }
 
 /* ============================================================
-   PASO 1 — Información + botón "I'm not a robot"
+   CONTADOR REUTILIZABLE (5 segundos)
    ============================================================ */
-function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, appDescription, appLongDescription, onContinue, slug }: {
-  appName: string; appIcon: string; appEmoji: string; appVersion: string; appSize: string;
-  appCategory: string; appDescription: string; appLongDescription: string; onContinue: () => void; slug: string;
-}) {
-  const [robotChecked, setRobotChecked] = useState(false);
-
-  return (
-    <PageShell step={1} appName={appName} slug={slug}>
-      {/* Icono de la app */}
-      <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "18px" }}>
-        <div style={{ width: "60px", height: "60px", borderRadius: "16px", overflow: "hidden", backgroundColor: "#f1f5f9", border: `2px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-          {appIcon && appIcon.startsWith("http") ? (
-            <img src={appIcon} alt={appName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          ) : (
-            <span style={{ fontSize: "30px" }}>{appEmoji}</span>
-          )}
-        </div>
-        <div>
-          <h2 style={{ fontSize: "17px", fontWeight: 700, margin: 0, color: C.text }}>{appName}</h2>
-          <p style={{ fontSize: "12px", color: C.muted, margin: "4px 0 0 0" }}>{appCategory} · v{appVersion} · {appSize}</p>
-          <div style={{ display: "flex", gap: "6px", marginTop: "6px" }}>
-            <span style={{ fontSize: "10px", backgroundColor: C.green, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>✓ Verificado</span>
-            <span style={{ fontSize: "10px", backgroundColor: C.blue, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>MOD</span>
-            <span style={{ fontSize: "10px", backgroundColor: C.purple, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>Premium</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Información de la app */}
-      <InfoBlock appName={appName} appCategory={appCategory} appVersion={appVersion} appSize={appSize} appDescription={appDescription} appLongDescription={appLongDescription} />
-
-      {/* Fact irrelevante 1 */}
-      <FactCard index={0} />
-
-      {/* Instrucciones */}
-      <div style={{ backgroundColor: "#fffbeb", borderRadius: "14px", border: "1px solid #fde68a", padding: "16px", marginBottom: "16px" }}>
-        <p style={{ fontSize: "13px", color: "#92400e", fontWeight: 700, margin: "0 0 8px 0" }}>⚠️ Antes de continuar</p>
-        <p style={{ fontSize: "12px", color: "#a16207", lineHeight: 1.6, margin: 0 }}>Para descargar {appName} necesitas completar la verificación rápida. Toca el botón verde de abajo para avanzar al siguiente paso. El proceso es gratuito y toma menos de un minuto.</p>
-      </div>
-
-      {/* Botón I'm not a robot */}
-      <div style={{ textAlign: "center", marginBottom: "18px" }}>
-        <button
-          onClick={() => { setRobotChecked(true); setTimeout(() => onContinue(), 400); }}
-          className="bounce-click"
-          style={{
-            display: "inline-flex", alignItems: "center", gap: "8px",
-            padding: "13px 36px", borderRadius: "10px",
-            backgroundColor: robotChecked ? C.greenDark : C.green,
-            color: "#ffffff", fontWeight: 700, fontSize: "15px",
-            border: "none", cursor: robotChecked ? "default" : "pointer",
-            letterSpacing: "0.3px", transition: "all 0.3s ease",
-            boxShadow: "0 4px 15px rgba(34, 197, 94, 0.35)",
-          }}
-        >
-          {robotChecked ? "✅ Verificado correctamente" : "🤖 I'm not a robot"}
-        </button>
-        <p style={{ fontSize: "11px", color: C.light, marginTop: "10px", marginBottom: 0 }}>Toca el botón para pasar la verificación</p>
-      </div>
-
-      {/* Tip irrelevante */}
-      <TipCard index={0} />
-
-      {/* Contenido irrelevante extra — scroll largo */}
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>📱 Consejos para tu dispositivo Android</h3>
-        {FILLER_TIPS.slice(1, 5).map((tip, i) => (
-          <div key={i} style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
-            <span style={{ color: C.green, fontWeight: 700, fontSize: "13px" }}>•</span>
-            <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.6 }}>{tip}</p>
-          </div>
-        ))}
-      </div>
-
-      <FactCard index={1} />
-      <TipCard index={1} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🔍 Datos curiosos sobre tecnología</h3>
-        {FILLER_FACTS.slice(2, 6).map((fact, i) => (
-          <p key={i} style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.6, paddingBottom: "10px", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>{fact}</p>
-        ))}
-      </div>
-
-      <FactCard index={3} />
-      <TipCard index={2} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>📊 Estadísticas del sitio</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
-          {[
-            { num: "190+", label: "Apps disponibles" },
-            { num: "50K+", label: "Descargas mensuales" },
-            { num: "4.8★", label: "Calificación promedio" },
-            { num: "24/7", label: "Soporte activo" },
-            { num: "100%", label: "Archivos verificados" },
-            { num: "0$", label: "Costo para ti" },
-          ].map((s) => (
-            <div key={s.label} style={{ textAlign: "center", backgroundColor: "#ffffff", borderRadius: "10px", padding: "10px 6px", border: `1px solid ${C.border}` }}>
-              <p style={{ fontSize: "16px", fontWeight: 800, color: C.green, margin: 0 }}>{s.num}</p>
-              <p style={{ fontSize: "9px", color: C.light, margin: "2px 0 0 0" }}>{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <FactCard index={5} />
-      <TipCard index={3} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🌐 Historia de las aplicaciones móviles</h3>
-        <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>
-          Las primeras aplicaciones móviles aparecieron en 1997 con el Nokia 6110, que incluía el juego Snake. Desde entonces, el ecosistema de apps ha crecido hasta alcanzar más de 3.5 millones de aplicaciones disponibles en Google Play Store. La App Store de Apple, lanzada en 2008, revolucionó la industria al crear un modelo de distribución digital que cambió para siempre la forma en que consumimos software.
-        </p>
-        <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>
-          Actualmente, un usuario promedio pasa alrededor de 4.5 horas al día usando aplicaciones en su teléfono. Las categorías más populares son las redes sociales, los juegos, los mensajes de texto y las aplicaciones de productividad. La descarga promedio de apps gratuitas supera las 10 millones de instalaciones para las aplicaciones más exitosas.
-        </p>
-        <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.7 }}>
-          El desarrollo de aplicaciones ha evolucionado significativamente. Hoy en día existen frameworks como React Native, Flutter y Kotlin Multiplatform que permiten a los desarrolladores crear apps para múltiples plataformas desde un solo código base, reduciendo costos y tiempos de desarrollo.
-        </p>
-      </div>
-
-      <FactCard index={7} />
-      <TipCard index={4} />
-    </PageShell>
-  );
-}
-
-/* ============================================================
-   PASO 2 — Banner Monetag + espera 5s + botón Descargar
-   ============================================================ */
-function Step2({ appName, step, onContinue, slug }: { appName: string; step: number; onContinue: () => void; slug: string }) {
-  const [monetagClicked, setMonetagClicked] = useState(false);
-  const [showWait, setShowWait] = useState(false);
-  const [countdown, setCountdown] = useState(5);
-  const [ready, setReady] = useState(false);
-  const storageKey = `monetag_clicked_step${step}`;
-
-  useEffect(() => {
-    if (sessionStorage.getItem(storageKey) === "yes") setMonetagClicked(true);
-    const handler = () => {
-      if (!document.hidden && sessionStorage.getItem(storageKey) === "yes") setMonetagClicked(true);
-    };
-    document.addEventListener("visibilitychange", handler);
-    window.addEventListener("focus", handler);
-    return () => { document.removeEventListener("visibilitychange", handler); window.removeEventListener("focus", handler); };
-  }, [storageKey]);
-
-  const handleMonetagClick = () => {
-    sessionStorage.setItem(storageKey, "yes");
-    setMonetagClicked(true);
-    window.open(MONETAG_URL, "_blank");
-  };
-
-  useEffect(() => {
-    if (!showWait || ready) return;
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) { clearInterval(interval); setReady(true); return 0; }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [showWait, ready]);
-
-  return (
-    <PageShell step={step} appName={appName} slug={slug}>
-      {/* Banner: Para seguir debes tocar */}
-      {!monetagClicked && (
-        <div style={{ backgroundColor: "#fffbeb", borderRadius: "16px", border: "2px solid #fde68a", padding: "20px", marginBottom: "18px", textAlign: "center" }}>
-          <p style={{ fontSize: "14px", color: "#92400e", fontWeight: 700, margin: "0 0 6px 0" }}>📢 Para seguir debes tocar:</p>
-          <p style={{ fontSize: "12px", color: "#a16207", margin: "0 0 14px 0" }}>Es un paso rápido y necesario para continuar</p>
-          <button
-            onClick={handleMonetagClick}
-            className="bounce-click"
-            style={{
-              width: "100%", padding: "14px 24px", borderRadius: "10px",
-              backgroundColor: C.green, color: "#ffffff", fontWeight: 700,
-              fontSize: "16px", border: "none", cursor: "pointer",
-              letterSpacing: "0.5px", textTransform: "uppercase",
-              boxShadow: "0 4px 15px rgba(34, 197, 94, 0.35)",
-            }}
-          >
-            👆 Click Aquí
-          </button>
-          <p style={{ fontSize: "11px", color: C.light, margin: "12px 0 0 0", lineHeight: 1.5 }}>Toca el botón, vuelve a esta pestaña y podrás continuar</p>
-        </div>
-      )}
-
-      {/* Después del click: Espera 5s + Comenzar */}
-      {monetagClicked && !showWait && (
-        <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px", textAlign: "center" }}>
-          <div style={{ fontSize: "36px", marginBottom: "8px" }}>✅</div>
-          <p style={{ fontSize: "15px", color: C.green, fontWeight: 700, margin: "0 0 6px 0" }}>¡Paso completado!</p>
-          <p style={{ fontSize: "13px", color: C.muted, margin: "0 0 18px 0", lineHeight: 1.5 }}>Espera 5 segundos para seguir</p>
-          <button
-            onClick={() => setShowWait(true)}
-            className="bounce-click"
-            style={{
-              width: "100%", padding: "14px 24px", borderRadius: "10px",
-              backgroundColor: C.accent, color: "#000000", fontWeight: 700,
-              fontSize: "15px", border: "none", cursor: "pointer",
-              letterSpacing: "0.5px", textTransform: "uppercase",
-              boxShadow: "0 4px 15px rgba(250, 204, 21, 0.35)",
-            }}
-          >
-            ▶ Comenzar
-          </button>
-        </div>
-      )}
-
-      {/* Contador 5s + botón Descargar */}
-      {showWait && (
-        <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "28px 20px", marginBottom: "18px", textAlign: "center" }}>
-          <div style={{
-            width: "80px", height: "80px", borderRadius: "50%", margin: "0 auto 14px",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            backgroundColor: ready ? "rgba(34, 197, 94, 0.12)" : "rgba(250, 204, 21, 0.12)",
-            border: `3px solid ${ready ? C.green : C.accent}`, transition: "all 0.3s ease",
-          }}>
-            <span style={{ fontSize: ready ? "34px" : "26px", fontWeight: 800, color: ready ? C.green : "#000" }}>
-              {ready ? "✓" : countdown}
-            </span>
-          </div>
-
-          {!ready ? (
-            <>
-              <p style={{ fontSize: "14px", color: C.text, fontWeight: 600, margin: "0 0 4px 0" }}>Espera {countdown} segundo{countdown !== 1 ? "s" : ""}…</p>
-              <p style={{ fontSize: "12px", color: C.light, margin: 0 }}>Preparando tu descarga</p>
-              <div style={{ width: "100%", height: "6px", borderRadius: "3px", backgroundColor: C.border, marginTop: "16px", overflow: "hidden" }}>
-                <div style={{ width: `${((5 - countdown) / 5) * 100}%`, height: "100%", backgroundColor: C.accent, borderRadius: "3px", transition: "width 1s linear" }} />
-              </div>
-            </>
-          ) : (
-            <>
-              <p style={{ fontSize: "14px", color: C.green, fontWeight: 700, margin: "0 0 14px 0" }}>¡Listo! Tu descarga está preparada</p>
-              <button
-                onClick={onContinue}
-                className="bounce-click"
-                style={{
-                  width: "100%", padding: "16px 24px", borderRadius: "12px",
-                  backgroundColor: C.green, color: "#ffffff", fontWeight: 700,
-                  fontSize: "16px", border: "none", cursor: "pointer",
-                  letterSpacing: "0.5px", textTransform: "uppercase",
-                  boxShadow: "0 6px 20px rgba(34, 197, 94, 0.4)",
-                }}
-              >
-                ⬇ Descargar
-              </button>
-            </>
-          )}
-        </div>
-      )}
-
-      {/* Contenido irrelevante */}
-      <FactCard index={step * 2} />
-      <TipCard index={step} />
-
-      <FillerSection title="📖 Guía rápida de instalación APK" items={FILLER_STEPS} />
-
-      <FactCard index={step * 2 + 1} />
-      <TipCard index={step + 2} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🧠 ¿Por qué esta app es popular?</h3>
-        <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>
-          {appName} se ha convertido en una de las aplicaciones más descargadas en su categoría debido a su interfaz intuitiva, sus actualizaciones constantes y la comunidad activa de usuarios que comparten consejos y trucos. Los desarrolladores trabajan día a día para mejorar la experiencia, corregir errores y añadir nuevas funcionalidades que los usuarios solicitan.
-        </p>
-        <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>
-          La versión MOD incluye todas las características de la versión premium sin las limitaciones impuestas por el modelo de suscripción. Esto significa que puedes acceder a contenido exclusivo, herramientas avanzadas y funciones que normalmente solo están disponibles para usuarios de pago.
-        </p>
-        <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.7 }}>
-          Nuestro equipo verifica cada archivo antes de publicarlo para garantizar que esté libre de malware, virus o cualquier tipo de software malicioso. Puedes descargar con total confianza sabiendo que el archivo ha sido escaneado con múltiples motores de antivirus.
-        </p>
-      </div>
-
-      <FactCard index={9} />
-      <TipCard index={5} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🔗 Enlaces relacionados</h3>
-        {["Mejores apps premium para Android 2026", "Cómo instalar APKs de forma segura", "Top 10 juegos mod más populares", "Guía completa de Android para principiantes", "Las mejores apps de productividad 2026", "Trucos ocultos que todo usuario de Android debería conocer"].map((link, i) => (
-          <p key={i} style={{ fontSize: "12px", color: C.blue, margin: "0 0 8px 0", cursor: "pointer" }}>▸ {link}</p>
-        ))}
-      </div>
-
-      <FactCard index={11} />
-      <TipCard index={7} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>⚙️ Requisitos del sistema</h3>
-        {[
-          { label: "Sistema operativo", value: "Android 7.0 (Nougat) o superior" },
-          { label: "RAM mínima", value: "3 GB de memoria RAM" },
-          { label: "Almacenamiento", value: "Espacio libre según tamaño de la app" },
-          { label: "Procesador", value: "ARM64 o superior recomendado" },
-          { label: "Conexión", value: "Internet estable para la primera ejecución" },
-          { label: "Permisos", value: "Almacenamiento, Internet, notificaciones" },
-        ].map((req) => (
-          <div key={req.label} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: `1px solid ${C.border}` }}>
-            <span style={{ fontSize: "12px", color: C.muted }}>{req.label}</span>
-            <span style={{ fontSize: "12px", color: C.text, fontWeight: 600, textAlign: "right" }}>{req.value}</span>
-          </div>
-        ))}
-      </div>
-
-      <FactCard index={13} />
-      <TipCard index={9} />
-    </PageShell>
-  );
-}
-
-/* ============================================================
-   PASO 3 — Contenido irrelevante + botón para paso 4
-   ============================================================ */
-function Step3({ appName, onContinue, slug }: { appName: string; onContinue: () => void; slug: string }) {
+function WaitCountdown({ onReady, label }: { onReady: () => void; label: string }) {
   const [countdown, setCountdown] = useState(5);
   const [ready, setReady] = useState(false);
 
@@ -539,101 +278,301 @@ function Step3({ appName, onContinue, slug }: { appName: string; onContinue: () 
   }, []);
 
   return (
-    <PageShell step={3} appName={appName} slug={slug}>
-      {/* Contador 5s + botón Descargar → paso 4 */}
-      <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "28px 20px", marginBottom: "18px", textAlign: "center" }}>
-        <div style={{ fontSize: "32px", marginBottom: "8px" }}>⏳</div>
-        <p style={{ fontSize: "14px", color: C.text, fontWeight: 700, margin: "0 0 4px 0" }}>Casi listo, {appName}</p>
-        <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 18px 0" }}>Espera {ready ? "0" : countdown} segundo{countdown !== 1 && !ready ? "s" : ""} para continuar al último paso</p>
+    <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "28px 20px", marginBottom: "18px", textAlign: "center" }}>
+      <div style={{
+        width: "80px", height: "80px", borderRadius: "50%", margin: "0 auto 14px",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        backgroundColor: ready ? "rgba(34, 197, 94, 0.12)" : "rgba(250, 204, 21, 0.12)",
+        border: `3px solid ${ready ? C.green : C.accent}`, transition: "all 0.3s ease",
+      }}>
+        <span style={{ fontSize: ready ? "34px" : "26px", fontWeight: 800, color: ready ? C.green : "#000" }}>
+          {ready ? "✓" : countdown}
+        </span>
+      </div>
 
-        {!ready ? (
-          <div style={{ width: "100%", height: "6px", borderRadius: "3px", backgroundColor: C.border, overflow: "hidden" }}>
+      {!ready ? (
+        <>
+          <p style={{ fontSize: "14px", color: C.text, fontWeight: 600, margin: "0 0 4px 0" }}>Espera {countdown} segundo{countdown !== 1 ? "s" : ""}…</p>
+          <p style={{ fontSize: "12px", color: C.light, margin: 0 }}>{label}</p>
+          <div style={{ width: "100%", height: "6px", borderRadius: "3px", backgroundColor: C.border, marginTop: "16px", overflow: "hidden" }}>
             <div style={{ width: `${((5 - countdown) / 5) * 100}%`, height: "100%", backgroundColor: C.accent, borderRadius: "3px", transition: "width 1s linear" }} />
           </div>
-        ) : (
+        </>
+      ) : (
+        <button
+          onClick={onReady}
+          className="bounce-click"
+          style={{
+            width: "100%", padding: "16px 24px", borderRadius: "12px",
+            backgroundColor: C.green, color: "#ffffff", fontWeight: 700,
+            fontSize: "16px", border: "none", cursor: "pointer",
+            letterSpacing: "0.5px", textTransform: "uppercase",
+            boxShadow: "0 6px 20px rgba(34, 197, 94, 0.4)",
+          }}
+        >
+          ⬇ Descargar
+        </button>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================
+   PASO 1 — Info + "I'm not a robot"
+   ============================================================ */
+function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, appDescription, appLongDescription, onContinue, slug }: {
+  appName: string; appIcon: string; appEmoji: string; appVersion: string; appSize: string;
+  appCategory: string; appDescription: string; appLongDescription: string; onContinue: () => void; slug: string;
+}) {
+  const [robotChecked, setRobotChecked] = useState(false);
+
+  return (
+    <PageShell step={1} appName={appName} slug={slug}>
+      <MonetagGate slug={slug} step={1}>
+        {/* Icono de la app */}
+        <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "18px" }}>
+          <div style={{ width: "60px", height: "60px", borderRadius: "16px", overflow: "hidden", backgroundColor: "#f1f5f9", border: `2px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            {appIcon && appIcon.startsWith("http") ? (
+              <img src={appIcon} alt={appName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            ) : (
+              <span style={{ fontSize: "30px" }}>{appEmoji}</span>
+            )}
+          </div>
+          <div>
+            <h2 style={{ fontSize: "17px", fontWeight: 700, margin: 0, color: C.text }}>{appName}</h2>
+            <p style={{ fontSize: "12px", color: C.muted, margin: "4px 0 0 0" }}>{appCategory} · v{appVersion} · {appSize}</p>
+            <div style={{ display: "flex", gap: "6px", marginTop: "6px" }}>
+              <span style={{ fontSize: "10px", backgroundColor: C.green, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>✓ Verificado</span>
+              <span style={{ fontSize: "10px", backgroundColor: C.blue, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>MOD</span>
+              <span style={{ fontSize: "10px", backgroundColor: C.purple, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>Premium</span>
+            </div>
+          </div>
+        </div>
+
+        <InfoBlock appName={appName} appCategory={appCategory} appVersion={appVersion} appSize={appSize} appDescription={appDescription} appLongDescription={appLongDescription} />
+
+        <FactCard index={0} />
+
+        {/* Instrucciones */}
+        <div style={{ backgroundColor: "#fffbeb", borderRadius: "14px", border: "1px solid #fde68a", padding: "16px", marginBottom: "16px" }}>
+          <p style={{ fontSize: "13px", color: "#92400e", fontWeight: 700, margin: "0 0 8px 0" }}>⚠️ Antes de continuar</p>
+          <p style={{ fontSize: "12px", color: "#a16207", lineHeight: 1.6, margin: 0 }}>Para descargar {appName} necesitas completar la verificación rápida. Toca el botón verde de abajo para avanzar al siguiente paso. El proceso es gratuito y toma menos de un minuto.</p>
+        </div>
+
+        {/* Botón I'm not a robot */}
+        <div style={{ textAlign: "center", marginBottom: "18px" }}>
           <button
-            onClick={onContinue}
+            onClick={() => { setRobotChecked(true); setTimeout(() => onContinue(), 400); }}
             className="bounce-click"
             style={{
-              width: "100%", padding: "16px 24px", borderRadius: "12px",
-              backgroundColor: C.green, color: "#ffffff", fontWeight: 700,
-              fontSize: "16px", border: "none", cursor: "pointer",
-              letterSpacing: "0.5px", textTransform: "uppercase",
-              boxShadow: "0 6px 20px rgba(34, 197, 94, 0.4)",
+              display: "inline-flex", alignItems: "center", gap: "8px",
+              padding: "13px 36px", borderRadius: "10px",
+              backgroundColor: robotChecked ? C.greenDark : C.green,
+              color: "#ffffff", fontWeight: 700, fontSize: "15px",
+              border: "none", cursor: robotChecked ? "default" : "pointer",
+              letterSpacing: "0.3px", transition: "all 0.3s ease",
+              boxShadow: "0 4px 15px rgba(34, 197, 94, 0.35)",
             }}
           >
-            ⬇ Descargar
+            {robotChecked ? "✅ Verificado correctamente" : "🤖 I'm not a robot"}
           </button>
-        )}
-      </div>
+          <p style={{ fontSize: "11px", color: C.light, marginTop: "10px", marginBottom: 0 }}>Toca el botón para pasar la verificación</p>
+        </div>
 
-      {/* Contenido irrelevante masivo */}
-      <FactCard index={4} />
-      <TipCard index={4} />
+        <TipCard index={0} />
+        <FactCard index={1} />
+        <TipCard index={1} />
 
-      <FillerSection title="🛡️ Seguridad y verificación" items={[
-        { icon: "🔐", title: "Cifrado de extremo a extremo", desc: "Todos los archivos se suben con cifrado AES-256 para garantizar que nadie pueda interceptar o modificar el contenido durante la transferencia." },
-        { icon: "🧪", title: "Escaneo multi-motor", desc: "Cada APK se verifica con más de 68 motores antivirus antes de ser publicado en nuestro servidor." },
-        { icon: "🔄", title: "Actualizaciones automáticas", desc: "Te notificamos cuando hay una nueva versión disponible para que siempre tengas lo último." },
-        { icon: "📋", title: "Registro de cambios", desc: "Mantenemos un historial completo de todas las modificaciones realizadas en cada versión del archivo." },
-      ]} />
-
-      <FactCard index={6} />
-      <TipCard index={6} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>📰 Noticias del mundo tech</h3>
-        {FILLER_FACTS.slice(6, 11).map((fact, i) => (
-          <div key={i} style={{ marginBottom: "12px", paddingBottom: "12px", borderBottom: i < 4 ? `1px solid ${C.border}` : "none" }}>
-            <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.6 }}>{fact}</p>
-          </div>
-        ))}
-      </div>
-
-      <FactCard index={8} />
-      <TipCard index={8} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>💬 Lo que dicen los usuarios</h3>
-        {[
-          { user: "Carlos M.", text: "¡Increíble! La app funciona perfectamente en mi Samsung Galaxy S23. Todas las funciones premium desbloqueadas sin ningún problema.", stars: 5 },
-          { user: "Ana L.", text: "Me encanta, la descarga fue rapidísima y el archivo estaba completamente limpio. Recomendado al 100%.", stars: 5 },
-          { user: "Roberto G.", text: "Llevo 3 meses usando esta app y sigue funcionando de maravilla. Las actualizaciones llegan a tiempo.", stars: 4 },
-          { user: "María P.", text: "Muy fácil de instalar. Seguí los pasos y en menos de 5 minutos tenía todo funcionando. Excelente sitio.", stars: 5 },
-          { user: "Diego F.", text: "La mejor página para descargar apps premium. Nunca he tenido problemas con los archivos.", stars: 5 },
-        ].map((review, i) => (
-          <div key={i} style={{ marginBottom: i < 4 ? "14px" : 0, paddingBottom: i < 4 ? "14px" : 0, borderBottom: i < 4 ? `1px solid ${C.border}` : "none" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-              <span style={{ fontSize: "12px", fontWeight: 700, color: C.text }}>{review.user}</span>
-              <span style={{ fontSize: "12px", color: C.accent }}>{"★".repeat(review.stars)}{"☆".repeat(5 - review.stars)}</span>
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>📱 Consejos para tu dispositivo Android</h3>
+          {FILLER_TIPS.slice(1, 5).map((tip, i) => (
+            <div key={i} style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
+              <span style={{ color: C.green, fontWeight: 700, fontSize: "13px" }}>•</span>
+              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.6 }}>{tip}</p>
             </div>
-            <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>{review.text}</p>
+          ))}
+        </div>
+
+        <FactCard index={3} />
+        <TipCard index={2} />
+
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>📊 Estadísticas del sitio</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+            {[
+              { num: "190+", label: "Apps disponibles" }, { num: "50K+", label: "Descargas/mes" }, { num: "4.8★", label: "Calificación" },
+              { num: "24/7", label: "Soporte activo" }, { num: "100%", label: "Verificados" }, { num: "0$", label: "Costo para ti" },
+            ].map((s) => (
+              <div key={s.label} style={{ textAlign: "center", backgroundColor: "#ffffff", borderRadius: "10px", padding: "10px 6px", border: `1px solid ${C.border}` }}>
+                <p style={{ fontSize: "16px", fontWeight: 800, color: C.green, margin: 0 }}>{s.num}</p>
+                <p style={{ fontSize: "9px", color: C.light, margin: "2px 0 0 0" }}>{s.label}</p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
 
-      <FactCard index={10} />
-      <TipCard index={10} />
+        <FactCard index={5} />
+        <TipCard index={3} />
 
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🏆 Apps populares en nuestra tienda</h3>
-        {["Spotify Premium", "CapCut Pro", "YouTube Premium", "Netflix Mod", "Minecraft PE", "Free Fire Hack", "Instagram Plus", "WhatsApp Gold"].map((app, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "8px 0", borderBottom: i < 7 ? `1px solid ${C.border}` : "none" }}>
-            <span style={{ fontSize: "14px", fontWeight: 800, color: C.accent, width: "24px" }}>{i + 1}</span>
-            <span style={{ fontSize: "13px", color: C.text, fontWeight: 500 }}>{app}</span>
-            <span style={{ marginLeft: "auto", fontSize: "11px", color: C.green, fontWeight: 600 }}>↓ {((i + 1) * 1379).toLocaleString()}</span>
-          </div>
-        ))}
-      </div>
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🌐 Historia de las aplicaciones móviles</h3>
+          <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>Las primeras aplicaciones móviles aparecieron en 1997 con el Nokia 6110, que incluía el juego Snake. Desde entonces, el ecosistema de apps ha crecido hasta alcanzar más de 3.5 millones de aplicaciones disponibles en Google Play Store.</p>
+          <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.7 }}>Actualmente, un usuario promedio pasa alrededor de 4.5 horas al día usando aplicaciones en su teléfono. Las categorías más populares son las redes sociales, los juegos, los mensajes de texto y las aplicaciones de productividad.</p>
+        </div>
 
-      <FactCard index={12} />
-      <TipCard index={11} />
+        <FactCard index={7} />
+        <TipCard index={4} />
+      </MonetagGate>
     </PageShell>
   );
 }
 
 /* ============================================================
-   PASO 4 — Espera 5s + link de descarga final
+   PASO 2 — Comenzar → 5s → Descargar
+   ============================================================ */
+function Step2({ appName, onContinue, slug }: { appName: string; onContinue: () => void; slug: string }) {
+  const [showWait, setShowWait] = useState(false);
+
+  return (
+    <PageShell step={2} appName={appName} slug={slug}>
+      <MonetagGate slug={slug} step={2}>
+        {!showWait ? (
+          <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px", textAlign: "center" }}>
+            <div style={{ fontSize: "36px", marginBottom: "8px" }}>✅</div>
+            <p style={{ fontSize: "15px", color: C.green, fontWeight: 700, margin: "0 0 6px 0" }}>¡Paso completado!</p>
+            <p style={{ fontSize: "13px", color: C.muted, margin: "0 0 18px 0", lineHeight: 1.5 }}>Espera 5 segundos para seguir</p>
+            <button
+              onClick={() => setShowWait(true)}
+              className="bounce-click"
+              style={{
+                width: "100%", padding: "14px 24px", borderRadius: "10px",
+                backgroundColor: C.accent, color: "#000000", fontWeight: 700,
+                fontSize: "15px", border: "none", cursor: "pointer",
+                letterSpacing: "0.5px", textTransform: "uppercase",
+                boxShadow: "0 4px 15px rgba(250, 204, 21, 0.35)",
+              }}
+            >
+              ▶ Comenzar
+            </button>
+          </div>
+        ) : (
+          <WaitCountdown onReady={onContinue} label="Preparando tu descarga" />
+        )}
+
+        <FactCard index={4} />
+        <TipCard index={2} />
+        <FillerSection title="📖 Guía rápida de instalación APK" items={FILLER_STEPS} />
+        <FactCard index={6} />
+        <TipCard index={5} />
+
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🧠 ¿Por qué esta app es popular?</h3>
+          <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>{appName} se ha convertido en una de las aplicaciones más descargadas en su categoría debido a su interfaz intuitiva, sus actualizaciones constantes y la comunidad activa de usuarios que comparten consejos y trucos.</p>
+          <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.7 }}>La versión MOD incluye todas las características de la versión premium sin las limitaciones impuestas por el modelo de suscripción. Disfruta de contenido exclusivo y herramientas avanzadas.</p>
+        </div>
+
+        <FactCard index={8} />
+        <TipCard index={6} />
+
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>⚙️ Requisitos del sistema</h3>
+          {[
+            { label: "Sistema operativo", value: "Android 7.0 o superior" },
+            { label: "RAM mínima", value: "3 GB de memoria RAM" },
+            { label: "Almacenamiento", value: "Espacio libre según tamaño" },
+            { label: "Procesador", value: "ARM64 o superior" },
+            { label: "Conexión", value: "Internet estable" },
+            { label: "Permisos", value: "Almacenamiento, Internet" },
+          ].map((req) => (
+            <div key={req.label} style={{ display: "flex", justifyContent: "space-between", padding: "7px 0", borderBottom: `1px solid ${C.border}` }}>
+              <span style={{ fontSize: "12px", color: C.muted }}>{req.label}</span>
+              <span style={{ fontSize: "12px", color: C.text, fontWeight: 600, textAlign: "right" }}>{req.value}</span>
+            </div>
+          ))}
+        </div>
+
+        <FactCard index={10} />
+        <TipCard index={7} />
+      </MonetagGate>
+    </PageShell>
+  );
+}
+
+/* ============================================================
+   PASO 3 — 5s → Descargar
+   ============================================================ */
+function Step3({ appName, onContinue, slug }: { appName: string; onContinue: () => void; slug: string }) {
+  return (
+    <PageShell step={3} appName={appName} slug={slug}>
+      <MonetagGate slug={slug} step={3}>
+        <WaitCountdown onReady={onContinue} label="Preparando tu descarga" />
+
+        <FactCard index={9} />
+        <TipCard index={4} />
+
+        <FillerSection title="🛡️ Seguridad y verificación" items={[
+          { icon: "🔐", title: "Cifrado de extremo a extremo", desc: "Todos los archivos se suben con cifrado AES-256 para garantizar la seguridad durante la transferencia." },
+          { icon: "🧪", title: "Escaneo multi-motor", desc: "Cada APK se verifica con más de 68 motores antivirus antes de ser publicado." },
+          { icon: "🔄", title: "Actualizaciones automáticas", desc: "Te notificamos cuando hay una nueva versión disponible." },
+          { icon: "📋", title: "Registro de cambios", desc: "Historial completo de todas las modificaciones en cada versión." },
+        ]} />
+
+        <FactCard index={11} />
+        <TipCard index={8} />
+
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>📰 Noticias del mundo tech</h3>
+          {FILLER_FACTS.slice(6, 11).map((fact, i) => (
+            <div key={i} style={{ marginBottom: "12px", paddingBottom: "12px", borderBottom: i < 4 ? `1px solid ${C.border}` : "none" }}>
+              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.6 }}>{fact}</p>
+            </div>
+          ))}
+        </div>
+
+        <FactCard index={13} />
+        <TipCard index={9} />
+
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>💬 Lo que dicen los usuarios</h3>
+          {[
+            { user: "Carlos M.", text: "¡Increíble! Funciona perfectamente en mi Samsung Galaxy S23.", stars: 5 },
+            { user: "Ana L.", text: "La descarga fue rapidísima y el archivo estaba completamente limpio.", stars: 5 },
+            { user: "Roberto G.", text: "Llevo 3 meses usando esta app y sigue funcionando de maravilla.", stars: 4 },
+            { user: "María P.", text: "Muy fácil de instalar. En menos de 5 minutos tenía todo funcionando.", stars: 5 },
+          ].map((review, i) => (
+            <div key={i} style={{ marginBottom: i < 3 ? "14px" : 0, paddingBottom: i < 3 ? "14px" : 0, borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                <span style={{ fontSize: "12px", fontWeight: 700, color: C.text }}>{review.user}</span>
+                <span style={{ fontSize: "12px", color: C.accent }}>{"★".repeat(review.stars)}{"☆".repeat(5 - review.stars)}</span>
+              </div>
+              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>{review.text}</p>
+            </div>
+          ))}
+        </div>
+
+        <FactCard index={2} />
+        <TipCard index={10} />
+
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🏆 Apps populares en nuestra tienda</h3>
+          {["Spotify Premium", "CapCut Pro", "YouTube Premium", "Netflix Mod", "Minecraft PE", "Free Fire Hack", "Instagram Plus", "WhatsApp Gold"].map((app, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "8px 0", borderBottom: i < 7 ? `1px solid ${C.border}` : "none" }}>
+              <span style={{ fontSize: "14px", fontWeight: 800, color: C.accent, width: "24px" }}>{i + 1}</span>
+              <span style={{ fontSize: "13px", color: C.text, fontWeight: 500 }}>{app}</span>
+              <span style={{ marginLeft: "auto", fontSize: "11px", color: C.green, fontWeight: 600 }}>↓ {((i + 1) * 1379).toLocaleString()}</span>
+            </div>
+          ))}
+        </div>
+
+        <FactCard index={5} />
+        <TipCard index={11} />
+      </MonetagGate>
+    </PageShell>
+  );
+}
+
+/* ============================================================
+   PASO 4 — 5s → link APK final
    ============================================================ */
 function Step4({ appName, downloadUrl, onDownload, slug }: {
   appName: string; downloadUrl: string; onDownload: () => void; slug: string;
@@ -653,116 +592,106 @@ function Step4({ appName, downloadUrl, onDownload, slug }: {
 
   return (
     <PageShell step={4} appName={appName} slug={slug}>
-      {/* Contenido final */}
-      <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "30px 20px", marginBottom: "18px", textAlign: "center" }}>
-        <div style={{ fontSize: "40px", marginBottom: "10px" }}>🎉</div>
-        <div style={{
-          width: "90px", height: "90px", borderRadius: "50%", margin: "0 auto 16px",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          backgroundColor: ready ? "rgba(34, 197, 94, 0.12)" : "rgba(250, 204, 21, 0.12)",
-          border: `3px solid ${ready ? C.green : C.accent}`, transition: "all 0.3s ease",
-        }}>
-          <span style={{ fontSize: ready ? "38px" : "28px", fontWeight: 800, color: ready ? C.green : "#000" }}>
-            {ready ? "✓" : countdown}
-          </span>
+      <MonetagGate slug={slug} step={4}>
+        <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "30px 20px", marginBottom: "18px", textAlign: "center" }}>
+          <div style={{ fontSize: "40px", marginBottom: "10px" }}>🎉</div>
+          <div style={{
+            width: "90px", height: "90px", borderRadius: "50%", margin: "0 auto 16px",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            backgroundColor: ready ? "rgba(34, 197, 94, 0.12)" : "rgba(250, 204, 21, 0.12)",
+            border: `3px solid ${ready ? C.green : C.accent}`, transition: "all 0.3s ease",
+          }}>
+            <span style={{ fontSize: ready ? "38px" : "28px", fontWeight: 800, color: ready ? C.green : "#000" }}>
+              {ready ? "✓" : countdown}
+            </span>
+          </div>
+
+          {!ready ? (
+            <>
+              <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: "0 0 6px 0" }}>Espera {countdown} segundo{countdown !== 1 ? "s" : ""} para descargar</p>
+              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Estamos preparando tu archivo APK</p>
+              <div style={{ width: "100%", height: "6px", borderRadius: "3px", backgroundColor: C.border, marginTop: "18px", overflow: "hidden" }}>
+                <div style={{ width: `${((5 - countdown) / 5) * 100}%`, height: "100%", backgroundColor: C.accent, borderRadius: "3px", transition: "width 1s linear" }} />
+              </div>
+            </>
+          ) : (
+            <>
+              <p style={{ fontSize: "15px", color: C.green, fontWeight: 700, margin: "0 0 6px 0" }}>✅ ¡Tu descarga está lista!</p>
+              <p style={{ fontSize: "13px", color: C.muted, margin: "0 0 20px 0", lineHeight: 1.5 }}>Toca el botón para descargar {appName}</p>
+              <a
+                href={downloadUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onDownload}
+                className="bounce-click"
+                style={{
+                  display: "block", width: "100%", padding: "18px 24px",
+                  borderRadius: "14px", backgroundColor: C.green, color: "#ffffff",
+                  fontWeight: 700, fontSize: "17px", border: "none", cursor: "pointer",
+                  letterSpacing: "0.5px", textTransform: "uppercase", textDecoration: "none",
+                  textAlign: "center", boxShadow: "0 6px 25px rgba(34, 197, 94, 0.4)",
+                }}
+              >
+                ⬇ Descargar APK
+              </a>
+            </>
+          )}
         </div>
 
-        {!ready ? (
-          <>
-            <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: "0 0 6px 0" }}>
-              Espera {countdown} segundo{countdown !== 1 ? "s" : ""} para descargar
-            </p>
-            <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Estamos preparando tu archivo APK</p>
-            <div style={{ width: "100%", height: "6px", borderRadius: "3px", backgroundColor: C.border, marginTop: "18px", overflow: "hidden" }}>
-              <div style={{ width: `${((5 - countdown) / 5) * 100}%`, height: "100%", backgroundColor: C.accent, borderRadius: "3px", transition: "width 1s linear" }} />
+        {/* Info de seguridad */}
+        <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
+          <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
+          <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
+        </div>
+
+        <FactCard index={14} />
+        <TipCard index={3} />
+
+        <FillerSection title="🚀 Después de instalar" items={[
+          { icon: "🔄", title: "Reinicia tu dispositivo", desc: "Reinicia tu teléfono para que todos los cambios se apliquen correctamente." },
+          { icon: "📂", title: "Otorga permisos", desc: "Concede los permisos necesarios para una experiencia completa." },
+          { icon: "☁️", title: "Inicia sesión", desc: "Inicia sesión con tu cuenta para sincronizar tus datos en la nube." },
+          { icon: "⚙️", title: "Configura a tu gusto", desc: "Personaliza la app: tema, notificaciones, idioma, etc." },
+        ]} />
+
+        <FactCard index={7} />
+        <TipCard index={1} />
+
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>❓ Preguntas frecuentes</h3>
+          {[
+            { q: "¿Es seguro descargar esta app?", a: "Sí, todos los archivos son verificados y escaneados antes de publicarse." },
+            { q: "¿Necesito root?", a: "No, la app funciona perfectamente en dispositivos sin root." },
+            { q: "¿Funciona en todos los Android?", a: "Compatible con Android 7.0 en adelante." },
+            { q: "¿Tiene virus?", a: "No, cada archivo pasa por múltiples escaneos antivirus." },
+            { q: "¿Es gratis?", a: "Sí, la descarga es completamente gratuita." },
+          ].map((faq, i) => (
+            <div key={i} style={{ marginBottom: i < 4 ? "12px" : 0, paddingBottom: i < 4 ? "12px" : 0, borderBottom: i < 4 ? `1px solid ${C.border}` : "none" }}>
+              <p style={{ fontSize: "12px", fontWeight: 700, color: C.text, margin: "0 0 4px 0" }}>Q: {faq.q}</p>
+              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>A: {faq.a}</p>
             </div>
-          </>
-        ) : (
-          <>
-            <p style={{ fontSize: "15px", color: C.green, fontWeight: 700, margin: "0 0 6px 0" }}>✅ ¡Tu descarga está lista!</p>
-            <p style={{ fontSize: "13px", color: C.muted, margin: "0 0 20px 0", lineHeight: 1.5 }}>Toca el botón para descargar {appName}</p>
-            <a
-              href={downloadUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={onDownload}
-              className="bounce-click"
-              style={{
-                display: "block", width: "100%", padding: "18px 24px",
-                borderRadius: "14px", backgroundColor: C.green, color: "#ffffff",
-                fontWeight: 700, fontSize: "17px", border: "none", cursor: "pointer",
-                letterSpacing: "0.5px", textTransform: "uppercase", textDecoration: "none",
-                textAlign: "center", boxShadow: "0 6px 25px rgba(34, 197, 94, 0.4)",
-              }}
-            >
-              ⬇ Descargar APK
-            </a>
-          </>
-        )}
-      </div>
+          ))}
+        </div>
 
-      {/* Info de seguridad */}
-      <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
-        <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
-        <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
-      </div>
+        <FactCard index={9} />
+        <TipCard index={6} />
 
-      {/* Contenido irrelevante final */}
-      <FactCard index={14} />
-      <TipCard index={3} />
+        <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
+          <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🌐 El futuro de las aplicaciones móviles</h3>
+          <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>El mundo de las aplicaciones móviles está en constante evolución. Con la llegada de la inteligencia artificial, el 5G y la computación en la nube, las apps se están volviendo más inteligentes, rápidas y personalizadas que nunca.</p>
+          <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.7 }}>Las aplicaciones progresivas (PWA) están ganando popularidad ya que ofrecen experiencias nativas sin necesidad de instalación. Además, el desarrollo para wearables está abriendo nuevas fronteras.</p>
+        </div>
 
-      <FillerSection title="🚀 Después de instalar" items={[
-        { icon: "🔄", title: "Reinicia tu dispositivo", desc: "Después de instalar, reinicia tu teléfono para que todos los cambios se apliquen correctamente y la app funcione sin problemas." },
-        { icon: "📂", title: "Otorga permisos", desc: "Abre la app y concede los permisos necesarios (almacenamiento, notificaciones) para una experiencia completa." },
-        { icon: "☁️", title: "Inicia sesión", desc: "Si la app lo solicita, inicia sesión con tu cuenta para sincronizar tus datos y preferencias en la nube." },
-        { icon: "⚙️", title: "Configura a tu gusto", desc: "Ve a la sección de ajustes y personaliza la app según tus necesidades: tema oscuro, notificaciones, idioma, etc." },
-      ]} />
+        <FactCard index={12} />
+        <TipCard index={9} />
 
-      <FactCard index={2} />
-      <TipCard index={1} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>❓ Preguntas frecuentes</h3>
-        {[
-          { q: "¿Es seguro descargar esta app?", a: "Sí, todos los archivos son verificados y escaneados antes de publicarse." },
-          { q: "¿Necesito root?", a: "No, la app funciona perfectamente en dispositivos sin root." },
-          { q: "¿Funciona en todos los Android?", a: "Compatible con Android 7.0 en adelante. La mayoría de dispositivos modernos son compatibles." },
-          { q: "¿Tiene virus?", a: "No, cada archivo pasa por múltiples escaneos antivirus antes de estar disponible." },
-          { q: "¿Es gratis?", a: "Sí, la descarga es completamente gratuita sin costos ocultos." },
-          { q: "¿Cómo actualizo?", a: "Te notificaremos cuando haya una nueva versión disponible en la tienda." },
-        ].map((faq, i) => (
-          <div key={i} style={{ marginBottom: i < 5 ? "12px" : 0, paddingBottom: i < 5 ? "12px" : 0, borderBottom: i < 5 ? `1px solid ${C.border}` : "none" }}>
-            <p style={{ fontSize: "12px", fontWeight: 700, color: C.text, margin: "0 0 4px 0" }}>Q: {faq.q}</p>
-            <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>A: {faq.a}</p>
-          </div>
-        ))}
-      </div>
-
-      <FactCard index={5} />
-      <TipCard index={6} />
-
-      <div style={{ backgroundColor: C.card, borderRadius: "14px", border: `1px solid ${C.border}`, padding: "18px", marginBottom: "16px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>🌐 El futuro de las aplicaciones móviles</h3>
-        <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>
-          El mundo de las aplicaciones móviles está en constante evolución. Con la llegada de la inteligencia artificial, el 5G y la computación en la nube, las apps se están volviendo más inteligentes, rápidas y personalizadas que nunca. Se espera que para 2030 el mercado global de apps supere los 900 mil millones de dólares.
-        </p>
-        <p style={{ fontSize: "12px", color: C.muted, margin: "0 0 10px 0", lineHeight: 1.7 }}>
-          Las aplicaciones progresivas (PWA) están ganando popularidad ya que ofrecen experiencias nativas sin necesidad de instalación desde tiendas. Además, el desarrollo de apps para wearables como smartwatches y gafas inteligentes está abriendo nuevas fronteras en la interacción humano-máquina.
-        </p>
-        <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.7 }}>
-          La realidad aumentada y la realidad virtual también están transformando la forma en que usamos las aplicaciones, desde juegos inmersivos hasta herramientas de productividad que superponen información digital en el mundo real.
-        </p>
-      </div>
-
-      <FactCard index={9} />
-      <TipCard index={9} />
-
-      {/* Volver */}
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <Link href={`/apps/${slug}`} style={{ fontSize: "13px", color: C.blue, textDecoration: "none", fontWeight: 600 }}>
-          ← Volver a la página de {appName}
-        </Link>
-      </div>
+        {/* Volver */}
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <Link href={`/apps/${slug}`} style={{ fontSize: "13px", color: C.blue, textDecoration: "none", fontWeight: 600 }}>
+            ← Volver a la página de {appName}
+          </Link>
+        </div>
+      </MonetagGate>
     </PageShell>
   );
 }
@@ -796,13 +725,8 @@ export default function DownloadFlow(props: Props) {
     );
   }
 
-  if (step === 2) {
-    return <Step2 appName={props.appName} step={2} onContinue={goStep3} slug={props.slug} />;
-  }
-
-  if (step === 3) {
-    return <Step3 appName={props.appName} onContinue={goStep4} slug={props.slug} />;
-  }
+  if (step === 2) return <Step2 appName={props.appName} onContinue={goStep3} slug={props.slug} />;
+  if (step === 3) return <Step3 appName={props.appName} onContinue={goStep4} slug={props.slug} />;
 
   return (
     <Step4
