@@ -129,20 +129,22 @@ function MonetagGate({ slug, step, children }: { slug: string; step: number; chi
    PAGE SHELL — fondo blanco + social bar + native banner
    ============================================================ */
 function PageShell({ children, step, appName, slug }: { children: React.ReactNode; step: number; appName: string; slug: string }) {
-  const [nbLoaded, setNbLoaded] = useState(false);
-
   useEffect(() => {
-    if (nbLoaded) return;
-    setNbLoaded(true);
-    const existing = document.querySelector('script[src*="bellnewyork.org/21/"]');
-    if (!existing) {
+    // Remover script viejo y reinyectar en cada paso para que el ad se vuelva a renderizar
+    const old = document.querySelector('script[src*="bellnewyork.org/21/"]');
+    if (old) old.remove();
+
+    // Esperar a que React monte el div del nuevo paso
+    const t = setTimeout(() => {
       const s = document.createElement("script");
       s.async = true;
       s.setAttribute("data-cfasync", "false");
       s.src = "https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034";
       document.body.appendChild(s);
-    }
-  }, [nbLoaded]);
+    }, 150);
+
+    return () => clearTimeout(t);
+  }, [step]);
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: C.bg, color: C.text, fontFamily: "Inter, system-ui, sans-serif" }}>
@@ -168,8 +170,8 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
         {/* Contenido del paso (envuelto en MonetagGate por el padre) */}
         {children}
 
-        {/* Native banner blanco (contenedor limpio) */}
-        <div style={{ backgroundColor: "#ffffff", borderRadius: "14px", border: `1px solid ${C.border}`, padding: "16px", marginTop: "24px", display: "flex", justifyContent: "center", minHeight: "120px", alignItems: "center" }}>
+        {/* Native banner blanco (contenedor limpio) — key fuerza re-mount en cada paso */}
+        <div key={`native-banner-${step}`} style={{ backgroundColor: "#ffffff", borderRadius: "14px", border: `1px solid ${C.border}`, padding: "16px", marginTop: "24px", display: "flex", justifyContent: "center", minHeight: "120px", alignItems: "center" }}>
           <div id="container-885a3a3a0173836d790936818ab5a034"></div>
         </div>
 
