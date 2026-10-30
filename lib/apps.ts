@@ -458,6 +458,7 @@ export const apps: {
   "developer": "Amanotes",
   "rating": 4.6
 },
+  {
   "name": "Hitman Sniper",
   "description": "Ponte en la piel del Agente 47 y ejecuta misiones de francotirador de alta precisión.",
   "longDescription": "Hitman Sniper te convierte en el icónico Agente 47 en una experiencia de francotirador táctica y sigilosa. Asume misiones en Montenegro, elimina a tus objetivos de forma creativa utilizando el entorno, completa misiones secundarias y reúne piezas para desbloquear y personalizar un arsenal de potentes rifles. Esta versión MOD ofrece dinero ilimitado que se incrementa al gastar, permitiéndote mejorar tu armamento desde el primer momento. Perfecto para los amantes del sigilo, la estrategia y los disparos de precisión.",
