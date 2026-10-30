@@ -438,7 +438,6 @@ export const apps: {
   developer: "KineMaster",
   rating: 4.8,
   downloads: 0,
-  {
   "slug": "magic-tiles-3",
   "name": "Magic Tiles 3",
   "description": "Juego de ritmo con piano: toca las teclas al compás.",
