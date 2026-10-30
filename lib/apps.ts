@@ -401,7 +401,7 @@ export const apps: {
     name: "DramaBox Premium",
     description: "Dramas cortos, series y contenido exclusivo sin anuncios.",
     longDescription: "DramaBox Premium es la versión desbloqueada de la popular app de dramas cortos.",
-    link: "https://cloud.androforever.com/Apps/DramaBox/DramaBox%20Premium%20v6.9.3%20-%20androforever.com.apk",
+    link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/DramaBox_6.9.3_Mod.apk",
     altLinks: [],
     iconUrl: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/81409931-3bd1-4fd9-9b7f-306275e52e20.jpg",
     emoji: "🎭",
