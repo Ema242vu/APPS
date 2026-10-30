@@ -418,6 +418,27 @@ export const apps: {
     hasPremiumSection: false,
   },
   {
+  slug: "kinemaster-premium",
+  name: "KineMaster Premium",
+  description: "Editor de video profesional con todas las funciones desbloqueadas.",
+  longDescription: "KineMaster Premium es la versión completa y desbloqueada del popular editor de video para móvil. Incluye todas las herramientas profesionales: capas de video, audio, texto, efectos especiales, transiciones y animaciones. Exporta tus videos en alta calidad sin marcas de agua. Ideal para creadores de contenido, YouTubers y cualquier persona que quiera editar videos directamente desde su dispositivo Android.",
+  link: "https://dl.apkmod.dev/app/video/kinemaster-8.2.12.37366.GP-modgame-dev-p.apk",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/Gmn7Qtcw/images-(5).jpg",
+  emoji: "🎬",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "8.2.12",
+  size: "80 MB",
+  updated: "Oct 2026",
+  glow: "rgba(255, 165, 0, 0.4)",
+  border: "rgba(255, 165, 0, 0.6)",
+  text: "#ffa500",
+  developer: "KineMaster",
+  rating: 4.8,
+  downloads: 0,
+  {
   "slug": "magic-tiles-3",
   "name": "Magic Tiles 3",
   "description": "Juego de ritmo con piano: toca las teclas al compás.",
@@ -4337,6 +4358,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "kinemaster-premium",
   "pvz-lawn",
   "hypic",
   "play-tv",
