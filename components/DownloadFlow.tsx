@@ -33,6 +33,14 @@ type Props = {
   appDescription: string;
   appLongDescription: string;
   downloadUrl: string;
+  romInfo?: {
+    console?: string;
+    emulator?: string;
+    format?: string;
+    instructions?: string;
+  };
+  hasPremiumSection?: boolean;
+  premiumFeatures?: string[];
 };
 
 /* ============================================================
@@ -76,6 +84,22 @@ const FILLER_STEPS = [
   { icon: "⚙️", title: "Permisos de instalación", desc: "Ve a Ajustes > Seguridad y activa 'Fuentes desconocidas' para permitir la instalación de apps fuera de Play Store." },
   { icon: "📱", title: "Instala la APK", desc: "Abre el archivo APK descargado y toca 'Instalar'. El proceso tomará solo unos segundos dependiendo de tu dispositivo." },
   { icon: "✅", title: "Abre y disfruta", desc: "Una vez instalada, abre la app desde tu cajón de aplicaciones y disfruta de todas las funciones premium desbloqueadas." },
+];
+
+/* Pasos específicos para ROMs de emuladores */
+const ROM_STEPS = [
+  { icon: "📥", title: "Descarga la ROM", desc: "Una vez completado el proceso, verás el botón de descarga que te llevará al archivo de la ROM lista para instalar." },
+  { icon: "🎮", title: "Instala el emulador", desc: "Primero instala un emulador compatible como Mupen64Plus, MESSENY o similar desde la tienda." },
+  { icon: "📂", title: "Coloca la ROM", desc: "Guarda el archivo .z64, .n64 o .v64 en la carpeta de ROMs del emulador o crea una carpeta especial." },
+  { icon: "▶️", title: "Carga la ROM", desc: "Abre el emulador, busca la carpeta de ROMs y selecciona el archivo descargado para jugar." },
+];
+
+/* Pasos específicos para add-ons y mods */
+const ADDON_STEPS = [
+  { icon: "📥", title: "Descarga el archivo", desc: "Una vez completado el proceso, verás el botón de descarga que te llevará al archivo listo para instalar." },
+  { icon: "📦", title: "Extrae el archivo", desc: "Si el archivo está comprimido (.zip), extrae su contido a una carpeta." },
+  { icon: "📂", title: "Coloca en la carpeta correcta", desc: "Mueve los archivos extraídos a la carpeta especifica del juego o app." },
+  { icon: "✅", title: "Reinicia la app", desc: "Cierra y vuelve a abrir la app/juego para que los cambios surtan efecto." },
 ];
 
 /* ============================================================
@@ -355,9 +379,10 @@ function ScrollToContinue({ children, label }: { children: React.ReactNode; labe
 /* ============================================================
    PASO 1 — Info + "I'm not a robot" (botón al final)
    ============================================================ */
-function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, appDescription, appLongDescription, onContinue, slug }: {
+function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, appDescription, appLongDescription, onContinue, slug, romInfo, hasPremiumSection }: {
   appName: string; appIcon: string; appEmoji: string; appVersion: string; appSize: string;
   appCategory: string; appDescription: string; appLongDescription: string; onContinue: () => void; slug: string;
+  romInfo?: Props["romInfo"]; hasPremiumSection?: boolean;
 }) {
   const [robotChecked, setRobotChecked] = useState(false);
 
@@ -376,11 +401,17 @@ function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, a
           <div>
             <h2 style={{ fontSize: "17px", fontWeight: 700, margin: 0, color: C.text }}>{appName}</h2>
             <p style={{ fontSize: "12px", color: C.muted, margin: "4px 0 0 0" }}>{appCategory} · v{appVersion} · {appSize}</p>
-            <div style={{ display: "flex", gap: "6px", marginTop: "6px" }}>
+            {romInfo ? (
+              <span style={{ fontSize: "10px", backgroundColor: C.blue, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>🎮 ROM</span>
+            ) : hasPremiumSection ? (
+              <div style={{ display: "flex", gap: "6px", marginTop: "6px" }}>
+                <span style={{ fontSize: "10px", backgroundColor: C.green, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>✓ Verificado</span>
+                <span style={{ fontSize: "10px", backgroundColor: C.blue, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>MOD</span>
+                <span style={{ fontSize: "10px", backgroundColor: C.purple, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>Premium</span>
+              </div>
+            ) : (
               <span style={{ fontSize: "10px", backgroundColor: C.green, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>✓ Verificado</span>
-              <span style={{ fontSize: "10px", backgroundColor: C.blue, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>MOD</span>
-              <span style={{ fontSize: "10px", backgroundColor: C.purple, color: "#fff", padding: "2px 8px", borderRadius: "10px", fontWeight: 600 }}>Premium</span>
-            </div>
+            )}
           </div>
         </div>
 
@@ -464,8 +495,11 @@ function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, a
 /* ============================================================
    PASO 2 — Comenzar → 5s → Descargar (botón al final)
    ============================================================ */
-function Step2({ appName, onContinue, slug }: { appName: string; onContinue: () => void; slug: string }) {
+function Step2({ appName, onContinue, slug, romInfo }: { appName: string; onContinue: () => void; slug: string; romInfo?: Props["romInfo"] }) {
   const [showWait, setShowWait] = useState(false);
+
+  // Seleccionamos los pasos según el tipo de contenido
+  const steps = romInfo ? ROM_STEPS : FILLER_STEPS;
 
   return (
     <PageShell step={2} appName={appName} slug={slug}>
@@ -480,7 +514,7 @@ function Step2({ appName, onContinue, slug }: { appName: string; onContinue: () 
 
             <FactCard index={4} />
             <TipCard index={2} />
-            <FillerSection title="📖 Guía rápida de instalación APK" items={FILLER_STEPS} />
+            <FillerSection title="📖 Guía rápida de instalación" items={steps} />
             <FactCard index={6} />
             <TipCard index={5} />
 
@@ -536,7 +570,7 @@ function Step2({ appName, onContinue, slug }: { appName: string; onContinue: () 
 
             <FactCard index={4} />
             <TipCard index={2} />
-            <FillerSection title="📖 Guía rápida de instalación APK" items={FILLER_STEPS} />
+            <FillerSection title="📖 Guía rápida de instalación" items={steps} />
             <FactCard index={6} />
             <TipCard index={5} />
 
@@ -578,7 +612,7 @@ function Step2({ appName, onContinue, slug }: { appName: string; onContinue: () 
 /* ============================================================
    PASO 3 — 5s → Descargar (botón al final)
    ============================================================ */
-function Step3({ appName, onContinue, slug }: { appName: string; onContinue: () => void; slug: string }) {
+function Step3({ appName, onContinue, slug, romInfo }: { appName: string; onContinue: () => void; slug: string; romInfo?: Props["romInfo"] }) {
   const [countdown, setCountdown] = useState(5);
   const [ready, setReady] = useState(false);
 
@@ -777,8 +811,9 @@ function Step3({ appName, onContinue, slug }: { appName: string; onContinue: () 
 /* ============================================================
    PASO 4 — 5s → link APK final (botón al final)
    ============================================================ */
-function Step4({ appName, downloadUrl, onDownload, slug }: {
+function Step4({ appName, downloadUrl, onDownload, slug, romInfo }: {
   appName: string; downloadUrl: string; onDownload: () => void; slug: string;
+  romInfo?: Props["romInfo"];
 }) {
   const [countdown, setCountdown] = useState(5);
   const [ready, setReady] = useState(false);
@@ -792,6 +827,12 @@ function Step4({ appName, downloadUrl, onDownload, slug }: {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Texto dependiente del tipo de contenido
+  const downloadLabel = romInfo ? "Descargar ROM" : "Descargar APK";
+  const preparingText = romInfo
+    ? "Estamos preparando tu archivo ROM"
+    : "Estamos preparando tu archivo APK";
 
   return (
     <PageShell step={4} appName={appName} slug={slug}>
@@ -811,7 +852,7 @@ function Step4({ appName, downloadUrl, onDownload, slug }: {
                 </span>
               </div>
               <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: "0 0 6px 0" }}>Espera {countdown} segundo{countdown !== 1 ? "s" : ""} para descargar</p>
-              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Estamos preparando tu archivo APK</p>
+              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>{preparingText}</p>
               <div style={{ width: "100%", height: "6px", borderRadius: "3px", backgroundColor: C.border, marginTop: "18px", overflow: "hidden" }}>
                 <div style={{ width: `${((5 - countdown) / 5) * 100}%`, height: "100%", backgroundColor: C.accent, borderRadius: "3px", transition: "width 1s linear" }} />
               </div>
@@ -927,8 +968,8 @@ function Step4({ appName, downloadUrl, onDownload, slug }: {
             <FactCard index={12} />
             <TipCard index={9} />
 
-            {/* Link APK final al final */}
-            <ScrollToContinue label="descargar apk">
+            {/* Link final al final */}
+            <ScrollToContinue label="descargar">
               <a
                 href={downloadUrl}
                 target="_blank"
@@ -943,7 +984,7 @@ function Step4({ appName, downloadUrl, onDownload, slug }: {
                   textAlign: "center", boxShadow: "0 8px 30px rgba(34, 197, 94, 0.45)",
                 }}
               >
-                ⬇ Descargar APK
+                ⬇ {downloadLabel}
               </a>
             </ScrollToContinue>
 
@@ -985,17 +1026,20 @@ export default function DownloadFlow(props: Props) {
         appVersion={props.appVersion} appSize={props.appSize} appCategory={props.appCategory}
         appDescription={props.appDescription} appLongDescription={props.appLongDescription}
         onContinue={goStep2} slug={props.slug}
+        romInfo={props.romInfo}
+        hasPremiumSection={props.hasPremiumSection}
       />
     );
   }
 
-  if (step === 2) return <Step2 appName={props.appName} onContinue={goStep3} slug={props.slug} />;
-  if (step === 3) return <Step3 appName={props.appName} onContinue={goStep4} slug={props.slug} />;
+  if (step === 2) return <Step2 appName={props.appName} onContinue={goStep3} slug={props.slug} romInfo={props.romInfo} />;
+  if (step === 3) return <Step3 appName={props.appName} onContinue={goStep4} slug={props.slug} romInfo={props.romInfo} />;
 
   return (
     <Step4
       appName={props.appName} downloadUrl={props.downloadUrl}
       onDownload={handleDownload} slug={props.slug}
+      romInfo={props.romInfo}
     />
   );
 }

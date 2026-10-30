@@ -39,6 +39,9 @@ export default async function DownloadPage({ params }: PageProps) {
       appDescription={app.description}
       appLongDescription={app.longDescription}
       downloadUrl={app.link}
+      romInfo={app.romInfo}
+      hasPremiumSection={app.hasPremiumSection}
+      premiumFeatures={app.premiumFeatures}
     />
   );
 }
