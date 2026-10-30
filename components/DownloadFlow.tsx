@@ -423,6 +423,7 @@ function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, a
         <div style={{ backgroundColor: "#fffbeb", borderRadius: "14px", border: "1px solid #fde68a", padding: "16px", marginBottom: "16px" }}>
           <p style={{ fontSize: "13px", color: "#92400e", fontWeight: 700, margin: "0 0 8px 0" }}>⚠️ Antes de continuar</p>
           <p style={{ fontSize: "12px", color: "#a16207", lineHeight: 1.6, margin: 0 }}>Para descargar {appName} necesitas completar la verificación rápida. Desliza hacia abajo y toca el botón verde al final. El proceso es gratuito y toma menos de un minuto.</p>
+          <p style={{ fontSize: "12px", color: "#a16207", lineHeight: 1.6, margin: "8px 0 0 0" }}>⏱️ Ten paciencia, el anuncio se abre en una nueva pestaña. 👆 Click aquí cuando veas el botón de verificación.</p>
         </div>
 
         <TipCard index={0} />
