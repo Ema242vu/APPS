@@ -40,6 +40,14 @@ type Props = {
 };
 
 /* ============================================================
+   NATIVE BANNER (pasos 2 y 4)
+   ============================================================ */
+const NATIVE_BANNER = {
+  scriptSrc: "https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034",
+  containerId: "container-885a3a3a0173836d790936818ab5a034",
+} as const;
+
+/* ============================================================
    MONETAG GATE — SIEMPRE muestra el banner "Click Aquí"
    (key único por paso → instancia nueva → banner siempre)
    ============================================================ */
@@ -49,20 +57,30 @@ function MonetagGate({
   description,
   onContinue,
   downloadUrl,
+  waitBeforeContinue,
+  nativeBanner,
 }: {
   step: number;
   title: string;
   description?: string;
   onContinue?: () => void;
   downloadUrl?: string;
+  waitBeforeContinue?: number; // segundos a esperar tras el click
+  nativeBanner?: { scriptSrc: string; containerId: string };
 }) {
   const [passed, setPassed] = useState(false);
   const [justClicked, setJustClicked] = useState(false);
+  const [timer, setTimer] = useState(0);
 
+  // Al volver a la pestaña tras el click: iniciar espera o pasar directo
   useEffect(() => {
     const check = () => {
       if (justClicked && !document.hidden) {
-        setPassed(true);
+        if (waitBeforeContinue && waitBeforeContinue > 0) {
+          setTimer(waitBeforeContinue);
+        } else {
+          setPassed(true);
+        }
       }
     };
     check();
@@ -72,7 +90,34 @@ function MonetagGate({
       document.removeEventListener("visibilitychange", check);
       window.removeEventListener("focus", check);
     };
-  }, [justClicked]);
+  }, [justClicked, waitBeforeContinue]);
+
+  // Cuenta regresiva → habilitar continuar
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((t) => {
+          if (t <= 1) {
+            setPassed(true);
+            return 0;
+          }
+          return t - 1;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timer]);
+
+  // Inyectar script del native banner una sola vez
+  useEffect(() => {
+    if (nativeBanner && !document.getElementById(nativeBanner.containerId)) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.setAttribute("data-cfasync", "false");
+      script.src = nativeBanner.scriptSrc;
+      document.head.appendChild(script);
+    }
+  }, [nativeBanner]);
 
   const handleClick = () => {
     setJustClicked(true);
@@ -87,6 +132,9 @@ function MonetagGate({
     } catch {}
   };
 
+  /* ============================================================
+     YA PASÓ → mostrar Continuar / Descargar
+     ============================================================ */
   if (passed) {
     return (
       <div style={{ padding: "16px", textAlign: "center" }}>
@@ -143,6 +191,28 @@ function MonetagGate({
     );
   }
 
+  /* ============================================================
+     ESPERANDO TEMPORIZADOR → mostrar native banner + cuenta atrás
+     ============================================================ */
+  if (timer > 0) {
+    return (
+      <div style={{ padding: "16px", textAlign: "center" }}>
+        <h2 style={{ fontSize: "17px", fontWeight: 700, margin: "0 0 12px 0", color: C.text }}>
+          {title}
+        </h2>
+        {nativeBanner && <div id={nativeBanner.containerId}></div>}
+        <div style={{ backgroundColor: "#fffbeb", borderRadius: "16px", border: "2px solid #fde68a", padding: "22px", marginBottom: "18px", textAlign: "center" }}>
+          <p style={{ fontSize: "14px", color: "#92400e", fontWeight: 700, margin: "0 0 8px 0" }}>⏳ Espera para continuar</p>
+          <p style={{ fontSize: "20px", fontWeight: 800, color: "#1e293b", margin: "0 0 12px 0" }}>{timer}s</p>
+          <p style={{ fontSize: "12px", color: "#64748b", margin: 0 }}>Vuelve a esta pestaña y pulsa Continuar cuando termine</p>
+        </div>
+      </div>
+    );
+  }
+
+  /* ============================================================
+     PANTALLA INICIAL → banner "Click Aquí"
+     ============================================================ */
   return (
     <div style={{ padding: "16px", textAlign: "center" }}>
       {/* Icono del paso */}
@@ -236,6 +306,12 @@ export default function DownloadFlow(props: Props) {
     6: "¡Casi listo! Verificando enlace de descarga...",
   };
 
+  // Pasos 2 y 4: espera de 15 segundos + native banner tras el click
+  const waitSteps: Record<number, number> = {
+    2: 15,
+    4: 15,
+  };
+
   // Pasos 1-6: cada paso muestra el banner de "Click Aquí"
   // El `key` único fuerza a React a montar una instancia nueva
   // por paso, así el banner siempre aparece en todos los pasos.
@@ -248,6 +324,8 @@ export default function DownloadFlow(props: Props) {
           title={`Paso ${step}`}
           description={stepDescriptions[step]}
           onContinue={() => setStep(step + 1)}
+          waitBeforeContinue={waitSteps[step]}
+          nativeBanner={waitSteps[step] ? NATIVE_BANNER : undefined}
         />
       ) : (
         <>
