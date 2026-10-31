@@ -42,23 +42,22 @@ type Props = {
 /* ============================================================
    MONETAG GATE — verificación obligatoria
    ============================================================ */
+/* ============================================================
+   MONETAG GATE — verificación obligatoria (SIEMPRE MUESTRA BANNER)
+   ============================================================ */
 function MonetagGate({ slug, step, children }: { slug: string; step: number; children: React.ReactNode }) {
-  const key = `monetag_${slug}_step${step}`;
   const [passed, setPassed] = useState(false);
+  const [justClicked, setJustClicked] = useState(false);
 
+  // SIEMPRE mostrar banner - no usamos sessionStorage
   useEffect(() => {
-    if (sessionStorage.getItem(key) === "yes") setPassed(true);
-    const handler = () => {
-      if (!document.hidden && sessionStorage.getItem(key) === "yes") setPassed(true);
-    };
-    document.addEventListener("visibilitychange", handler);
-    window.addEventListener("focus", handler);
-    return () => { document.removeEventListener("visibilitychange", handler); window.removeEventListener("focus", handler); };
-  }, [key]);
+    if (justClicked && !document.hidden) {
+      setPassed(true);
+    }
+  }, [justClicked]);
 
   const handleClick = () => {
-    sessionStorage.setItem(key, "yes");
-    setPassed(true);
+    setJustClicked(true);
     window.open(MONETAG_URL, "_blank");
   };
 
