@@ -40,21 +40,38 @@ type Props = {
 };
 
 /* ============================================================
-   MONETAG GATE — verificación obligatoria (SIEMPRE MUESTRA BANNER)
+   MONETAG GATE — SIEMPRE muestra el banner "Click Aquí"
+   (key único por paso → instancia nueva → banner siempre)
    ============================================================ */
-function MonetagGate({ step, title, description, onContinue }: {
+function MonetagGate({
+  step,
+  title,
+  description,
+  onContinue,
+  downloadUrl,
+}: {
   step: number;
   title: string;
   description?: string;
-  onContinue: () => void;
+  onContinue?: () => void;
+  downloadUrl?: string;
 }) {
   const [passed, setPassed] = useState(false);
   const [justClicked, setJustClicked] = useState(false);
 
   useEffect(() => {
-    if (justClicked && !document.hidden) {
-      setPassed(true);
-    }
+    const check = () => {
+      if (justClicked && !document.hidden) {
+        setPassed(true);
+      }
+    };
+    check();
+    document.addEventListener("visibilitychange", check);
+    window.addEventListener("focus", check);
+    return () => {
+      document.removeEventListener("visibilitychange", check);
+      window.removeEventListener("focus", check);
+    };
   }, [justClicked]);
 
   const handleClick = () => {
@@ -62,11 +79,45 @@ function MonetagGate({ step, title, description, onContinue }: {
     window.open(MONETAG_URL, "_blank");
   };
 
+  const handleDownload = () => {
+    try {
+      const key = `downloads-${downloadUrl}`;
+      const count = parseInt(localStorage.getItem(key) || "0");
+      localStorage.setItem(key, (count + 1).toString());
+    } catch {}
+  };
+
   if (passed) {
     return (
       <div style={{ padding: "16px", textAlign: "center" }}>
-        {/* Botón Continuar */}
-        <div style={{ paddingBottom: "30px" }}>
+        {downloadUrl ? (
+          <a
+            href={downloadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleDownload}
+            className="bounce-click"
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "20px 24px",
+              borderRadius: "16px",
+              backgroundColor: C.green,
+              color: "#ffffff",
+              fontWeight: 700,
+              fontSize: "18px",
+              border: "none",
+              cursor: "pointer",
+              letterSpacing: "0.5px",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              textAlign: "center",
+              boxShadow: "0 8px 30px rgba(34, 197, 94, 0.45)",
+            }}
+          >
+            ⬇ Descargar
+          </a>
+        ) : (
           <button
             onClick={onContinue}
             className="bounce-click"
@@ -87,19 +138,26 @@ function MonetagGate({ step, title, description, onContinue }: {
           >
             ✓ Continuar
           </button>
-        </div>
-
-        {/* Indicador scroll */}
-        <div style={{ textAlign: "center", padding: "20px 0 8px" }}>
-          <span style={{ color: "#64748b", fontSize: "11px", fontWeight: 600 }}>👇 Desliza hacia abajo</span>
-        </div>
+        )}
       </div>
     );
   }
 
   return (
     <div style={{ padding: "16px", textAlign: "center" }}>
-      {/* Banner de monetag */}
+      {/* Icono del paso */}
+      <div style={{ display: "flex", alignItems: "center", gap: "14px", justifyContent: "center", marginBottom: "18px" }}>
+        <div style={{ width: "60px", height: "60px", borderRadius: "16px", backgroundColor: "#f1f5f9", border: "2px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <span style={{ fontSize: "30px" }}>🎮</span>
+        </div>
+        <h2 style={{ fontSize: "17px", fontWeight: 700, margin: 0, color: C.text }}>{title}</h2>
+      </div>
+
+      {description && (
+        <p style={{ fontSize: "13px", color: C.muted, margin: "0 0 16px 0", lineHeight: 1.6 }}>{description}</p>
+      )}
+
+      {/* Banner de monetag — APARECE SIEMPRE EN CADA PASO */}
       <div style={{ backgroundColor: "#fffbeb", borderRadius: "16px", border: "2px solid #fde68a", padding: "22px", marginBottom: "18px", textAlign: "center" }}>
         <p style={{ fontSize: "14px", color: "#92400e", fontWeight: 700, margin: "0 0 6px 0" }}>📢 Para seguir debes tocar:</p>
         <p style={{ fontSize: "12px", color: "#a16207", margin: "0 0 14px 0" }}>Es un paso rápido y necesario para continuar</p>
@@ -164,187 +222,59 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
 }
 
 /* ============================================================
-   DOWNLOAD BUTTON — con monetag
-   ============================================================ */
-function DownloadButton({ downloadUrl, appName }: { downloadUrl: string; appName: string }) {
-  const [passed, setPassed] = useState(false);
-  const [justClicked, setJustClicked] = useState(false);
-
-  useEffect(() => {
-    if (justClicked && !document.hidden) {
-      setPassed(true);
-    }
-  }, [justClicked]);
-
-  const handleClick = () => {
-    setJustClicked(true);
-    window.open(MONETAG_URL, "_blank");
-  };
-
-  const handleDownload = () => {
-    try {
-      const key = `downloads-${appName}`;
-      const count = parseInt(localStorage.getItem(key) || "0");
-      localStorage.setItem(key, (count + 1).toString());
-    } catch {}
-  };
-
-  if (passed) {
-    return (
-      <a
-        href={downloadUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={handleDownload}
-        style={{
-          display: "block",
-          width: "100%",
-          padding: "20px 24px",
-          borderRadius: "16px",
-          backgroundColor: C.green,
-          color: "#ffffff",
-          fontWeight: 700,
-          fontSize: "18px",
-          border: "none",
-          cursor: "pointer",
-          letterSpacing: "0.5px",
-          textTransform: "uppercase",
-          textDecoration: "none",
-          textAlign: "center",
-          boxShadow: "0 8px 30px rgba(34, 197, 94, 0.45)",
-        }}
-      >
-        ⬇ Descargar
-      </a>
-    );
-  }
-
-  return (
-    <button
-      onClick={handleClick}
-      className="bounce-click"
-      style={{
-        display: "block",
-        width: "100%",
-        padding: "20px 24px",
-        borderRadius: "16px",
-        backgroundColor: C.green,
-        color: "#ffffff",
-        fontWeight: 700,
-        fontSize: "18px",
-        border: "none",
-        cursor: "pointer",
-        letterSpacing: "0.5px",
-        textTransform: "uppercase",
-        boxShadow: "0 8px 30px rgba(34, 197, 94, 0.45)",
-        textAlign: "center",
-      }}
-    >
-      ⬇ Descargar
-    </button>
-  );
-}
-
-/* ============================================================
-   COMPONENTE PRINCIPAL — 6 pasos con monetag en cada uno
+   COMPONENTE PRINCIPAL — banner de monetag en los 6 pasos
    ============================================================ */
 export default function DownloadFlow(props: Props) {
   const [step, setStep] = useState(1);
-  const [step6Passed, setStep6Passed] = useState(false);
 
-  if (step === 1) {
-    return (
-      <PageShell step={1} appName={props.appName} slug={props.slug}>
-        <MonetagGate
-          step={1}
-          title="Paso 1"
-          description="Verificando información de la aplicación..."
-          onContinue={() => setStep(2)}
-        />
-      </PageShell>
-    );
-  }
+  const stepDescriptions: Record<number, string> = {
+    1: "Verificando información de la aplicación...",
+    2: "Verificación de seguridad en curso...",
+    3: "Preparando tu archivo de descarga...",
+    4: "Verificando compatibilidad del archivo...",
+    5: "Generando enlace de descarga...",
+    6: "¡Casi listo! Verificando enlace de descarga...",
+  };
 
-  if (step === 2) {
-    return (
-      <PageShell step={2} appName={props.appName} slug={props.slug}>
-        <MonetagGate
-          step={2}
-          title="Paso 2"
-          description="Verificación de seguridad en curso..."
-          onContinue={() => setStep(3)}
-        />
-      </PageShell>
-    );
-  }
-
-  if (step === 3) {
-    return (
-      <PageShell step={3} appName={props.appName} slug={props.slug}>
-        <MonetagGate
-          step={3}
-          title="Paso 3"
-          description="Preparando tu archivo de descarga..."
-          onContinue={() => setStep(4)}
-        />
-      </PageShell>
-    );
-  }
-
-  if (step === 4) {
-    return (
-      <PageShell step={4} appName={props.appName} slug={props.slug}>
-        <MonetagGate
-          step={4}
-          title="Paso 4"
-          description="Verificando compatibilidad del archivo..."
-          onContinue={() => setStep(5)}
-        />
-      </PageShell>
-    );
-  }
-
-  if (step === 5) {
-    return (
-      <PageShell step={5} appName={props.appName} slug={props.slug}>
-        <MonetagGate
-          step={5}
-          title="Paso 5"
-          description="Generando enlace de descarga..."
-          onContinue={() => setStep(6)}
-        />
-      </PageShell>
-    );
-  }
-
-  // Paso 6 - Descarga (con banner de click aquí como los demás pasos)
+  // Pasos 1-6: cada paso muestra el banner de "Click Aquí"
+  // El `key` único fuerza a React a montar una instancia nueva
+  // por paso, así el banner siempre aparece en todos los pasos.
   return (
-    <PageShell step={6} appName={props.appName} slug={props.slug}>
-      {!step6Passed ? (
+    <PageShell step={step} appName={props.appName} slug={props.slug}>
+      {step <= 5 ? (
         <MonetagGate
-          step={6}
-          title="Paso 6"
-          description="Último paso antes de descargar tu APK..."
-          onContinue={() => setStep6Passed(true)}
+          key={`gate-paso-${step}`}
+          step={step}
+          title={`Paso ${step}`}
+          description={stepDescriptions[step]}
+          onContinue={() => setStep(step + 1)}
         />
-      ) : !props.downloadUrl ? (
-        <div style={{ padding: "16px", textAlign: "center" }}>
-          <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px" }}>
-            <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: 0 }}>Sin enlace de descarga disponible</p>
-          </div>
-        </div>
       ) : (
         <>
-          {/* Info de seguridad */}
-          <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
-            <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
-            <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
-          </div>
+          {!props.downloadUrl ? (
+            <div style={{ padding: "16px", textAlign: "center" }}>
+              <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px" }}>
+                <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: 0 }}>Sin enlace de descarga disponible</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Info de seguridad */}
+              <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
+                <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
+                <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
+              </div>
 
-          {/* Botón Descargar (con monetag) */}
-          <div style={{ textAlign: "center", paddingBottom: "30px" }}>
-            <DownloadButton downloadUrl={props.downloadUrl} appName={props.appName} />
-          </div>
+              {/* Banner de monetag en el paso 6 → Descargar */}
+              <MonetagGate
+                key="gate-paso-6"
+                step={6}
+                title="Paso 6"
+                description={stepDescriptions[6]}
+                downloadUrl={props.downloadUrl}
+              />
+            </>
+          )}
         </>
       )}
     </PageShell>
