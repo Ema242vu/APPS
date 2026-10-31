@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const MONETAG_URL = "https://omg10.com/4/11940275";
 
@@ -17,6 +18,9 @@ const C = {
   blue: "#3b82f6",
   purple: "#8b5cf6",
 };
+
+const NATIVE_BANNER_SCRIPT_SRC = "https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034";
+const NATIVE_BANNER_CONTAINER_ID = "container-885a3a3a0173836d790936818ab5a034";
 
 type Props = {
   slug: string;
@@ -40,47 +44,38 @@ type Props = {
 };
 
 /* ============================================================
-   NATIVE BANNER (pasos 2 y 4)
-   ============================================================ */
-const NATIVE_BANNER = {
-  scriptSrc: "https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034",
-  containerId: "container-885a3a3a0173836d790936818ab5a034",
-} as const;
-
-/* ============================================================
    MONETAG GATE — SIEMPRE muestra el banner "Click Aquí"
-   (key único por paso → instancia nueva → banner siempre)
+   Cada paso es una URL independiente (?step=N) con recarga
+   completa de página, así el script del native banner se
+   ejecuta de nuevo en cada paso y el banner aparece en TODOS.
    ============================================================ */
 function MonetagGate({
   step,
   title,
   description,
-  onContinue,
+  slug,
+  appName,
   downloadUrl,
-  waitBeforeContinue,
-  nativeBanner,
 }: {
   step: number;
   title: string;
   description?: string;
-  onContinue?: () => void;
+  slug: string;
+  appName: string;
   downloadUrl?: string;
-  waitBeforeContinue?: number; // segundos a esperar tras el click
-  nativeBanner?: { scriptSrc: string; containerId: string };
 }) {
   const [passed, setPassed] = useState(false);
   const [justClicked, setJustClicked] = useState(false);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(15);
 
-  // Al volver a la pestaña tras el click: iniciar espera o pasar directo
+  const searchParams = useSearchParams();
+  const currentStepFromUrl = parseInt(searchParams.get("step") || "1", 10);
+
+  // Al volver a la pestaña tras el click: iniciar cuenta regresiva
   useEffect(() => {
     const check = () => {
       if (justClicked && !document.hidden) {
-        if (waitBeforeContinue && waitBeforeContinue > 0) {
-          setTimer(waitBeforeContinue);
-        } else {
-          setPassed(true);
-        }
+        setPassed(true); // habilitar temporizador
       }
     };
     check();
@@ -90,39 +85,46 @@ function MonetagGate({
       document.removeEventListener("visibilitychange", check);
       window.removeEventListener("focus", check);
     };
-  }, [justClicked, waitBeforeContinue]);
+  }, [justClicked]);
 
-  // Cuenta regresiva → habilitar continuar
+  // Cuenta regresiva de 15s → navegar al siguiente paso (recarga completa)
   useEffect(() => {
-    if (timer > 0) {
-      const interval = setInterval(() => {
-        setTimer((t) => {
-          if (t <= 1) {
-            setPassed(true);
+    if (!passed) return;
+
+    const interval = setInterval(() => {
+      setTimer((t) => {
+        if (t <= 1) {
+          // Ir al siguiente paso con recarga completa de página
+          const nextStep = step + 1;
+          if (downloadUrl && nextStep > 5) {
+            // Paso 6: ya mostramos descargar, no navegar más
+            setPassed(false);
+            setTimer(15);
             return 0;
           }
-          return t - 1;
-        });
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [timer]);
+          window.location.href = `/dl/${slug}?step=${nextStep}`;
+          return 0;
+        }
+        return t - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [passed, step, slug, downloadUrl]);
 
-  // Inyectar script del native banner en CADA paso.
-  // Se crea el <div> imperativamente ANTES de inyectar el script
-  // para que el script lo encuentre al ejecutarse.
+  // Inyectar script del native banner DESPUÉS de que el <div> exista.
+  // Como cada paso recarga la página completa, esto se ejecuta en cada paso.
   useEffect(() => {
-    if (!nativeBanner) return;
+    if (!passed) return;
 
-    // Crear el div contenedor si no existe en el DOM
-    if (!document.getElementById(nativeBanner.containerId)) {
+    // Crear el div contenedor si no existe
+    if (!document.getElementById(NATIVE_BANNER_CONTAINER_ID)) {
       const div = document.createElement("div");
-      div.id = nativeBanner.containerId;
+      div.id = NATIVE_BANNER_CONTAINER_ID;
       document.body.appendChild(div);
     }
 
     // Remover script previo para forzar recarga
-    const existing = document.querySelector(`script[src*="${nativeBanner.scriptSrc}"]`);
+    const existing = document.querySelector(`script[src*="${NATIVE_BANNER_SCRIPT_SRC}"]`);
     if (existing) {
       existing.remove();
     }
@@ -130,15 +132,13 @@ function MonetagGate({
     const script = document.createElement("script");
     script.async = true;
     script.setAttribute("data-cfasync", "false");
-    script.src = `${nativeBanner.scriptSrc}?t=${Date.now()}`;
+    script.src = `${NATIVE_BANNER_SCRIPT_SRC}?t=${Date.now()}`;
     document.head.appendChild(script);
 
     return () => {
       script.remove();
-      const div = document.getElementById(nativeBanner.containerId);
-      if (div) div.remove();
     };
-  }, [nativeBanner]);
+  }, [passed]);
 
   const handleClick = () => {
     setJustClicked(true);
@@ -154,9 +154,9 @@ function MonetagGate({
   };
 
   /* ============================================================
-     YA PASÓ → mostrar Continuar / Descargar
+     YA PASÓ LA CUENTA → mostrar Continuar / Descargar
      ============================================================ */
-  if (passed) {
+  if (passed && timer <= 0) {
     return (
       <div style={{ padding: "16px", textAlign: "center" }}>
         {downloadUrl ? (
@@ -188,7 +188,10 @@ function MonetagGate({
           </a>
         ) : (
           <button
-            onClick={onContinue}
+            onClick={() => {
+              const nextStep = step + 1;
+              window.location.href = `/dl/${slug}?step=${nextStep}`;
+            }}
             className="bounce-click"
             style={{
               width: "100%",
@@ -213,15 +216,15 @@ function MonetagGate({
   }
 
   /* ============================================================
-     ESPERANDO TEMPORIZADOR → mostrar native banner + cuenta atrás
+     ESPERANDO CUENTA REGRESIVA → mostrar native banner + temporizador
      ============================================================ */
-  if (timer > 0) {
+  if (passed && timer > 0) {
     return (
       <div style={{ padding: "16px", textAlign: "center" }}>
         <h2 style={{ fontSize: "17px", fontWeight: 700, margin: "0 0 12px 0", color: C.text }}>
           {title}
         </h2>
-        {nativeBanner && <div id={nativeBanner.containerId}></div>}
+        <div id={NATIVE_BANNER_CONTAINER_ID}></div>
         <div style={{ backgroundColor: "#fffbeb", borderRadius: "16px", border: "2px solid #fde68a", padding: "22px", marginBottom: "18px", textAlign: "center" }}>
           <p style={{ fontSize: "14px", color: "#92400e", fontWeight: 700, margin: "0 0 8px 0" }}>⏳ Espera para continuar</p>
           <p style={{ fontSize: "20px", fontWeight: 800, color: "#1e293b", margin: "0 0 12px 0" }}>{timer}s</p>
@@ -313,10 +316,12 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
 }
 
 /* ============================================================
-   COMPONENTE PRINCIPAL — banner de monetag en los 6 pasos
+   COMPONENTE PRINCIPAL — cada paso es una URL independiente
    ============================================================ */
 export default function DownloadFlow(props: Props) {
-  const [step, setStep] = useState(1);
+  const searchParams = useSearchParams();
+  const stepFromUrl = parseInt(searchParams.get("step") || "1", 10);
+  const step = stepFromUrl >= 1 && stepFromUrl <= 6 ? stepFromUrl : 1;
 
   const stepDescriptions: Record<number, string> = {
     1: "Verificando información de la aplicación...",
@@ -327,23 +332,15 @@ export default function DownloadFlow(props: Props) {
     6: "¡Casi listo! Verificando enlace de descarga...",
   };
 
-  // Todos los pasos (1-6): espera de 15 segundos + native banner tras el click
-  const WAIT_SECONDS = 15;
-
-  // Pasos 1-6: cada paso muestra el banner de "Click Aquí"
-  // El `key` único fuerza a React a montar una instancia nueva
-  // por paso, así el banner siempre aparece en todos los pasos.
   return (
     <PageShell step={step} appName={props.appName} slug={props.slug}>
       {step <= 5 ? (
         <MonetagGate
-          key={`gate-paso-${step}`}
           step={step}
           title={`Paso ${step}`}
           description={stepDescriptions[step]}
-          onContinue={() => setStep(step + 1)}
-          waitBeforeContinue={WAIT_SECONDS}
-          nativeBanner={NATIVE_BANNER}
+          slug={props.slug}
+          appName={props.appName}
         />
       ) : (
         <>
@@ -361,15 +358,14 @@ export default function DownloadFlow(props: Props) {
                 <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
               </div>
 
-              {/* Banner de monetag en el paso 6 → Descargar (también con espera 15s) */}
+              {/* Paso 6: banner de "Click Aquí" → Descargar (con native banner y 15s) */}
               <MonetagGate
-                key="gate-paso-6"
                 step={6}
                 title="Paso 6"
                 description={stepDescriptions[6]}
+                slug={props.slug}
+                appName={props.appName}
                 downloadUrl={props.downloadUrl}
-                waitBeforeContinue={WAIT_SECONDS}
-                nativeBanner={NATIVE_BANNER}
               />
             </>
           )}
