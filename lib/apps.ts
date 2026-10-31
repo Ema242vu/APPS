@@ -4552,6 +4552,29 @@ export const apps: {
   "developer": "Ubisoft",
   "rating": 4.6
 },
+
+{
+  "slug": "airvid-premium",
+  "name": "Airvid Premium",
+  "description": "Grabador de pantalla con todas las funciones desbloqueadas.",
+  "longDescription": "Airvid Premium es la versión desbloqueada del popular grabador de pantalla. Incluye todas las funciones Pro sin marca de agua, alta calidad de grabación, ediciones ilimitadas y exportación en resolución 4K.",
+  "link": "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Airvid_2.2.1_1789575349.apk",
+  "altLinks": [],
+  "iconUrl": "https://i.postimg.cc/FRx5d8cr/unnamed-(1).webp",
+  "emoji": "📹",
+  "category": "Video",
+  "isTop": false,
+  "isNew": true,
+  "version": "2.2.1",
+  "size": "293 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(250, 204, 21, 0.4)",
+  "border": "rgba(250, 204, 21, 0.4)",
+  "text": "#facc15",
+  "downloads": 0,
+  "hasPremiumSection": false,
+  "premiumFeatures": [],
+}
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
