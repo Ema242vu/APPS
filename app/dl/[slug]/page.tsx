@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { apps } from "@/lib/apps";
@@ -35,21 +36,40 @@ export default async function DownloadPage({ params }: PageProps) {
         data-cfasync="false"
         strategy="beforeInteractive"
       />
-      <DownloadFlow
-        slug={app.slug}
-        appName={app.name}
-        appIcon={app.iconUrl}
-        appEmoji={app.emoji}
-        appVersion={app.version}
-        appSize={app.size}
-        appCategory={app.category}
-        appDescription={app.description}
-        appLongDescription={app.longDescription}
-        downloadUrl={app.link}
-        romInfo={app.romInfo}
-        hasPremiumSection={app.hasPremiumSection}
-        premiumFeatures={app.premiumFeatures}
-      />
+      <Suspense
+        fallback={
+          <div
+            style={{
+              minHeight: "100vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#ffffff",
+              color: "#1e293b",
+              fontFamily: "system-ui, sans-serif",
+              fontSize: "14px",
+            }}
+          >
+            Cargando descarga...
+          </div>
+        }
+      >
+        <DownloadFlow
+          slug={app.slug}
+          appName={app.name}
+          appIcon={app.iconUrl}
+          appEmoji={app.emoji}
+          appVersion={app.version}
+          appSize={app.size}
+          appCategory={app.category}
+          appDescription={app.description}
+          appLongDescription={app.longDescription}
+          downloadUrl={app.link}
+          romInfo={app.romInfo}
+          hasPremiumSection={app.hasPremiumSection}
+          premiumFeatures={app.premiumFeatures}
+        />
+      </Suspense>
     </>
   );
 }

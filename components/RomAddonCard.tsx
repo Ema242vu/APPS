@@ -98,21 +98,26 @@ export default function RomAddonCard({
             alignItems: "center",
             justifyContent: "center",
             boxShadow: `0 6px 18px ${glow}`,
+            position: "relative",
           }}
         >
-          {hasIcon ? (
+          <span style={{ fontSize: "36px" }}>{emoji}</span>
+          {hasIcon && (
             <img
               src={iconUrl}
               alt={name}
               loading="lazy"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
               onError={(e) => {
                 e.currentTarget.style.display = "none";
-                e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 36px;">${emoji}</span>`;
               }}
             />
-          ) : (
-            <span style={{ fontSize: "36px" }}>{emoji}</span>
           )}
         </div>
 

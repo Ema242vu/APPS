@@ -839,16 +839,25 @@ export default function Home() {
                       alignItems: "center",
                       justifyContent: "center",
                       border: `1px solid ${c.border}`,
+                      position: "relative",
                     }}
                   >
-                    {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (
+                    <span style={{ fontSize: "28px" }}>{app.emoji}</span>
+                    {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" && (
                       <img
                         src={app.iconUrl}
                         alt={app.name}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
                       />
-                    ) : (
-                      <span style={{ fontSize: "28px" }}>{app.emoji}</span>
                     )}
                   </div>
                   <span
@@ -1133,51 +1142,19 @@ export default function Home() {
                   }}
                 >
                   {paginatedApps.map((app, index) => (
-                    <Link
-                      key={index}
-                      href={`/apps/${app.slug}`}
-                      className="bounce-click"
-                      onClick={(e) => handleAppClick(e, app)}
-                      style={{
-                        padding: S.x12,
-                        borderRadius: R.lg,
-                        background: c.card,
-                        border: `1px solid ${c.border}`,
-                        textDecoration: "none",
-                        color: c.text,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: S.x8,
-                        textAlign: "center",
-                        position: "relative",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {app.isTop && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: S.x8,
-                            right: S.x8,
-                            background: `${c.accent}20`,
-                            color: c.accent,
-                            padding: `2px ${S.x8}px`,
-                            borderRadius: R.md,
-                            fontSize: "8px",
-                            fontWeight: W.semi,
-                          }}
-                        >
-                          TOP
-                        </span>
-                      )}
-
+                    <div key={index} style={{ position: "relative" }}>
                       <button
                         onClick={(e) => toggleFavorite(app.name, e)}
+                        aria-label={
+                          favorites.includes(app.name)
+                            ? `Quitar ${app.name} de favoritos`
+                            : `Añadir ${app.name} a favoritos`
+                        }
                         style={{
                           position: "absolute",
                           top: S.x8,
                           left: S.x8,
+                          zIndex: 2,
                           background: "none",
                           border: "none",
                           fontSize: "14px",
@@ -1190,97 +1167,142 @@ export default function Home() {
                         {favorites.includes(app.name) ? "★" : "☆"}
                       </button>
 
-                      <div
+                      <Link
+                        href={`/apps/${app.slug}`}
+                        className="bounce-click"
+                        onClick={(e) => handleAppClick(e, app)}
                         style={{
-                          width: 64,
-                          height: 64,
-                          borderRadius: R.md,
-                          overflow: "hidden",
-                          background: "rgba(0,0,0,0.3)",
+                          height: "100%",
+                          padding: S.x12,
+                          borderRadius: R.lg,
+                          background: c.card,
                           border: `1px solid ${c.border}`,
+                          textDecoration: "none",
+                          color: c.text,
                           display: "flex",
+                          flexDirection: "column",
                           alignItems: "center",
-                          justifyContent: "center",
-                          marginTop: S.x12,
-                        }}
-                      >
-                        {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" ? (
-                          <img
-                            src={app.iconUrl}
-                            alt={`Descargar ${app.name}`}
-                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            onError={(e) => {
-                              e.currentTarget.style.display = "none";
-                              e.currentTarget.parentElement!.innerHTML = `<span style="font-size: 28px;">${app.emoji}</span>`;
-                            }}
-                          />
-                        ) : (
-                          <span style={{ fontSize: "28px" }}>{app.emoji}</span>
-                        )}
-                      </div>
-
-                      <h3
-                        style={{
-                          fontSize: "12px",
-                          fontWeight: W.semi,
-                          margin: 0,
-                          whiteSpace: "nowrap",
+                          gap: S.x8,
+                          textAlign: "center",
+                          position: "relative",
                           overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          width: "100%",
-                          lineHeight: 1.3,
                         }}
                       >
-                        {app.name.replace(" Premium", "").replace(" VIP", "")}
-                      </h3>
-
-                      <p style={{ fontSize: "10px", color: c.muted, margin: 0, fontWeight: W.light }}>
-                        {app.version}
-                      </p>
-
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: "1px",
-                          fontSize: "10px",
-                          marginTop: S.x4,
-                        }}
-                      >
-                        {[1, 2, 3, 4, 5].map((star) => (
+                        {app.isTop && (
                           <span
-                            key={star}
-                            onClick={(e) => setRating(app.name, star, e)}
                             style={{
-                              cursor: "pointer",
-                              color: (ratings[app.name] || 0) >= star ? c.accent : c.muted,
+                              position: "absolute",
+                              top: S.x8,
+                              right: S.x8,
+                              background: `${c.accent}20`,
+                              color: c.accent,
+                              padding: `2px ${S.x8}px`,
+                              borderRadius: R.md,
+                              fontSize: "8px",
+                              fontWeight: W.semi,
                             }}
                           >
-                            ★
+                            TOP
                           </span>
-                        ))}
-                      </div>
+                        )}
 
-                      <span
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          width: "100%",
-                          padding: `${S.x8}px`,
-                          borderRadius: R.md,
-                          fontWeight: W.semi,
-                          fontSize: "10px",
-                          background: `${c.accent}15`,
-                          border: `1px solid ${c.accent}30`,
-                          color: c.accent,
-                          marginTop: S.x4,
-                          letterSpacing: "0.3px",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        Descargar
-                      </span>
-                    </Link>
+                        <div
+                          style={{
+                            width: 64,
+                            height: 64,
+                            borderRadius: R.md,
+                            overflow: "hidden",
+                            background: "rgba(0,0,0,0.3)",
+                            border: `1px solid ${c.border}`,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginTop: S.x12,
+                            position: "relative",
+                          }}
+                        >
+                          <span style={{ fontSize: "28px" }}>{app.emoji}</span>
+                          {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" && (
+                            <img
+                              src={app.iconUrl}
+                              alt={`Descargar ${app.name}`}
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                              onError={(e) => {
+                                e.currentTarget.style.display = "none";
+                              }}
+                            />
+                          )}
+                        </div>
+
+                        <h3
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: W.semi,
+                            margin: 0,
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            width: "100%",
+                            lineHeight: 1.3,
+                          }}
+                        >
+                          {app.name.replace(" Premium", "").replace(" VIP", "")}
+                        </h3>
+
+                        <p style={{ fontSize: "10px", color: c.muted, margin: 0, fontWeight: W.light }}>
+                          {app.version}
+                        </p>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "1px",
+                            fontSize: "10px",
+                            marginTop: S.x4,
+                          }}
+                        >
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <span
+                              key={star}
+                              onClick={(e) => setRating(app.name, star, e)}
+                              style={{
+                                cursor: "pointer",
+                                color: (ratings[app.name] || 0) >= star ? c.accent : c.muted,
+                              }}
+                            >
+                              ★
+                            </span>
+                          ))}
+                        </div>
+
+                        <span
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100%",
+                            padding: `${S.x8}px`,
+                            borderRadius: R.md,
+                            fontWeight: W.semi,
+                            fontSize: "10px",
+                            background: `${c.accent}15`,
+                            border: `1px solid ${c.accent}30`,
+                            color: c.accent,
+                            marginTop: S.x4,
+                            letterSpacing: "0.3px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Descargar
+                        </span>
+                      </Link>
+                    </div>
                   ))}
                 </div>
               )}
@@ -1541,16 +1563,25 @@ export default function Home() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  position: "relative",
                 }}
               >
-                {detailApp.iconUrl && detailApp.iconUrl.startsWith("http") ? (
+                <span style={{ fontSize: "36px" }}>{detailApp.emoji}</span>
+                {detailApp.iconUrl && detailApp.iconUrl.startsWith("http") && (
                   <img
                     src={detailApp.iconUrl}
                     alt={detailApp.name}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
                   />
-                ) : (
-                  <span style={{ fontSize: "36px" }}>{detailApp.emoji}</span>
                 )}
               </div>
               <div style={{ flex: 1 }}>

@@ -305,16 +305,25 @@ export default function AppDetail({ app }: { app: App }) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              position: "relative",
             }}
           >
-            {hasIcon ? (
+            <span style={{ fontSize: "40px" }}>{app.emoji}</span>
+            {hasIcon && (
               <img
                 src={app.iconUrl}
                 alt={app.name}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
               />
-            ) : (
-              <span style={{ fontSize: "40px" }}>{app.emoji}</span>
             )}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>

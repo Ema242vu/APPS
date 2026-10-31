@@ -54,27 +54,24 @@ function MonetagGate({
   title,
   description,
   slug,
-  appName,
   downloadUrl,
 }: {
   step: number;
   title: string;
   description?: string;
   slug: string;
-  appName: string;
   downloadUrl?: string;
 }) {
   const [passed, setPassed] = useState(false);
   const [justClicked, setJustClicked] = useState(false);
   const [timer, setTimer] = useState(15);
 
-  const searchParams = useSearchParams();
-  const currentStepFromUrl = parseInt(searchParams.get("step") || "1", 10);
-
   // Al volver a la pestaña tras el click: iniciar cuenta regresiva
   useEffect(() => {
+    if (!justClicked) return;
+
     const check = () => {
-      if (justClicked && !document.hidden) {
+      if (!document.hidden) {
         setPassed(true); // habilitar temporizador
       }
     };
@@ -87,29 +84,20 @@ function MonetagGate({
     };
   }, [justClicked]);
 
-  // Cuenta regresiva de 15s → navegar al siguiente paso (recarga completa)
+  // Cuenta regresiva de 15s (se detiene sola al llegar a 0)
   useEffect(() => {
-    if (!passed) return;
+    if (!passed || timer <= 0) return;
 
-    const interval = setInterval(() => {
-      setTimer((t) => {
-        if (t <= 1) {
-          // Ir al siguiente paso con recarga completa de página
-          const nextStep = step + 1;
-          if (downloadUrl && nextStep > 5) {
-            // Paso 6: ya mostramos descargar, no navegar más
-            setPassed(false);
-            setTimer(15);
-            return 0;
-          }
-          window.location.href = `/dl/${slug}?step=${nextStep}`;
-          return 0;
-        }
-        return t - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [passed, step, slug, downloadUrl]);
+    const timeout = setTimeout(() => setTimer((t) => t - 1), 1000);
+    return () => clearTimeout(timeout);
+  }, [passed, timer]);
+
+  // Pasos 1-5: al terminar la cuenta, recargar en el siguiente paso.
+  // Paso 6: no navegar; el render muestra el botón de descarga.
+  useEffect(() => {
+    if (!passed || timer > 0 || downloadUrl) return;
+    window.location.href = `/dl/${slug}?step=${step + 1}`;
+  }, [passed, timer, downloadUrl, step, slug]);
 
   // Inyectar script del native banner DESPUÉS de que el <div> exista.
   // Como cada paso recarga la página completa, esto se ejecuta en cada paso.
@@ -340,7 +328,6 @@ export default function DownloadFlow(props: Props) {
           title={`Paso ${step}`}
           description={stepDescriptions[step]}
           slug={props.slug}
-          appName={props.appName}
         />
       ) : (
         <>
@@ -364,7 +351,6 @@ export default function DownloadFlow(props: Props) {
                 title="Paso 6"
                 description={stepDescriptions[6]}
                 slug={props.slug}
-                appName={props.appName}
                 downloadUrl={props.downloadUrl}
               />
             </>

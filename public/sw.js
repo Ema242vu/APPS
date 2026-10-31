@@ -1,4 +1,4 @@
-const CACHE_NAME = "persons-v1";
+const CACHE_NAME = "persons-v2";
 const URLS_TO_CACHE = ["/"];
 
 self.addEventListener("install", (event) => {
@@ -19,15 +19,34 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
-  if (event.request.url.includes("bellnewyork") || event.request.url.includes("al5sm") || event.request.url.includes("n6wxm") || event.request.url.includes("omg10") || event.request.url.includes("ardance") || event.request.url.includes("quge5")) return;
+
+  const url = new URL(event.request.url);
+
+  // No cachear otros dominios (anuncios) ni respuestas de API.
+  if (url.origin !== self.location.origin) return;
+  if (url.pathname.startsWith("/api/")) return;
 
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone)).catch(() => {});
+        if (response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone)).catch(() => {});
+        }
         return response;
       })
-      .catch(() => caches.match(event.request).then((cached) => cached || caches.match("/")))
+      .catch(async () => {
+        const cached = await caches.match(event.request);
+        if (cached) return cached;
+
+        // Solo para navegación: si no hay caché, devolver la portada.
+        // Para JS/CSS/imágenes, nunca devolver HTML.
+        if (event.request.mode === "navigate") {
+          const home = await caches.match("/");
+          if (home) return home;
+        }
+
+        return Response.error();
+      })
   );
 });

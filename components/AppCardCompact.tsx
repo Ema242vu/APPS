@@ -89,17 +89,26 @@ export default function AppCardCompact({
           justifyContent: "center",
           boxShadow: "0 4px 14px rgba(0,0,0,0.35)",
           border: "1px solid rgba(255,255,255,0.06)",
+          position: "relative",
         }}
       >
-        {hasIcon ? (
+        <span style={{ fontSize: "42px" }}>{emoji}</span>
+        {hasIcon && (
           <img
             src={iconUrl}
             alt={name}
             loading="lazy"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
           />
-        ) : (
-          <span style={{ fontSize: "42px" }}>{emoji}</span>
         )}
       </div>
 
