@@ -37,7 +37,7 @@ export const apps: {
     name: "CapCut Premium",
     description: "Editor de video con todas las funciones desbloqueadas.",
     longDescription: "CapCut Premium es la versión desbloqueada del popular editor de video de ByteDance. Incluye todas las funciones Pro sin marca de agua, efectos exclusivos, plantillas premium y exportación en alta calidad.",
-    link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/CapCut.Premium.v19.8.0.apk",
+    link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/CapCut_23.0.0_Ultra+v3.apk",
     altLinks: [
       { label: "Opción 2", url: "https://transfer.it/t/T6Ewvbxx1RoK" },
       { label: "Opción 3", url: "https://www.mediafire.com/file/hpu826yzkqn2xke/CapCut_23.0.0_UltraPro.apk/file" },
@@ -47,7 +47,7 @@ export const apps: {
     category: "Video",
     isTop: true,
     isNew: false,
-    version: "19.8.0",
+    version: "23.0.0",
     size: "349 MB",
     updated: "Oct 2026",
     glow: "rgba(250, 204, 21, 0.4)",
