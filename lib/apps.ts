@@ -3737,6 +3737,12 @@ export const apps: {
     rating: 4.7,
     downloads: 0,
     hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
   },
   {
     slug: "mario-kart-64-rom",
@@ -3972,6 +3978,12 @@ export const apps: {
   rating: 4.6,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-night-vision-universal",
@@ -3995,6 +4007,12 @@ export const apps: {
   rating: 4.7,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-spider-man-project",
@@ -4018,6 +4036,12 @@ export const apps: {
   rating: 4.7,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-lilium-dynamic-light",
@@ -4041,6 +4065,12 @@ export const apps: {
   rating: 4.7,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-3d-totem-player",
@@ -4064,6 +4094,12 @@ export const apps: {
   rating: 4.6,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-view-model",
@@ -4087,6 +4123,12 @@ export const apps: {
   rating: 4.5,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-item-physics",
@@ -4110,6 +4152,12 @@ export const apps: {
   rating: 4.6,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-reforge-armor",
@@ -4133,6 +4181,12 @@ export const apps: {
   rating: 4.5,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-prizma-visual",
@@ -4156,6 +4210,12 @@ export const apps: {
   rating: 4.6,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-jennys-mod",
@@ -4179,6 +4239,12 @@ export const apps: {
   rating: 4.5,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-actions-and-stuff",
@@ -4202,6 +4268,12 @@ export const apps: {
   rating: 4.7,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "flipaclip-premium",
@@ -4257,6 +4329,12 @@ export const apps: {
   rating: 4.7,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-backpack-stuff",
@@ -4280,6 +4358,12 @@ export const apps: {
   rating: 4.7,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-immersive-physics",
@@ -4303,6 +4387,12 @@ export const apps: {
   rating: 4.6,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-ocean-biomes",
@@ -4326,6 +4416,12 @@ export const apps: {
   rating: 4.7,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-portal-gun",
@@ -4349,6 +4445,12 @@ export const apps: {
   rating: 4.8,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-smooth-moves",
@@ -4372,6 +4474,12 @@ export const apps: {
   rating: 4.6,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   slug: "addon-villager-news",
@@ -4395,6 +4503,12 @@ export const apps: {
   rating: 4.5,
   downloads: 0,
   hasPremiumSection: false,
+  romInfo: {
+    console: "Minecraft Bedrock",
+    emulator: "N/A - Add-on .mcpack",
+    format: ".mcpack",
+    instructions: "Importa el archivo desde la app Minecraft. Abre el archivo descargado, confirma la importación y actívalo desde los add-ons del juego antes de jugar.",
+  },
 },
 {
   "slug": "shotgun-king",
