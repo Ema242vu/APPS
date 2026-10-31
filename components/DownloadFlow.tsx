@@ -95,7 +95,7 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
       <div style={{ maxWidth: "520px", margin: "0 auto", padding: "16px 14px 140px" }}>
         <div style={{ textAlign: "center", paddingTop: "8px", marginBottom: "18px" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", backgroundColor: C.accent, color: "#000", fontSize: "11px", fontWeight: 700, padding: "4px 14px", borderRadius: "20px", marginBottom: "10px" }}>
-            PASO {step} DE 4
+            PASO {step} DE 6
           </div>
           <h1 style={{ fontSize: "20px", fontWeight: 800, margin: 0, color: C.text }}>{appName}</h1>
           <p style={{ fontSize: "12px", color: "#64748b", margin: "4px 0 0 0" }}>PERSONS-COMUNITY — Descarga verificada y segura</p>
@@ -182,10 +182,10 @@ function WaitCountdown({ onReady, downloadUrl, appName }: { onReady: () => void;
 /* ============================================================
    PASO 1 — Info + "I'm not a robot"
    ============================================================ */
-function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, appDescription, appLongDescription, onContinue, slug, romInfo, hasPremiumSection }: {
+function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, appDescription, appLongDescription, onContinue, slug, romInfo, hasPremiumSection, stepNumber }: {
   appName: string; appIcon: string; appEmoji: string; appVersion: string; appSize: string;
   appCategory: string; appDescription: string; appLongDescription: string; onContinue: () => void; slug: string;
-  romInfo?: Props["romInfo"]; hasPremiumSection?: boolean;
+  romInfo?: Props["romInfo"]; hasPremiumSection?: boolean; stepNumber?: number;
 }) {
   const [robotChecked, setRobotChecked] = useState(false);
 
@@ -388,13 +388,135 @@ function Step3({ appName, downloadUrl, onDownload, slug }: {
 }
 
 /* ============================================================
+   PASO 4 — Esperar 5s → Continuar
+   ============================================================ */
+function Step4({ appName, onContinue, slug }: { appName: string; onContinue: () => void; slug: string }) {
+  const [countdown, setCountdown] = useState(5);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) { clearInterval(interval); setReady(true); setTimeout(onContinue, 1000); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [onContinue]);
+
+  return (
+    <PageShell step={4} appName={appName} slug={slug}>
+      <MonetagGate slug={slug} step={4}>
+        {!ready ? (
+          <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "28px 20px", marginBottom: "18px", textAlign: "center" }}>
+            <div style={{ width: "80px", height: "80px", borderRadius: "50%", margin: "0 auto 14px", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(250, 204, 21, 0.12)", border: `3px solid ${C.accent}` }}>
+              <span style={{ fontSize: "26px", fontWeight: 800, color: "#000" }}>{countdown}</span>
+            </div>
+            <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: "0 0 6px 0" }}>Espera {countdown} segundo{countdown !== 1 ? "s" : ""}...</p>
+            <p style={{ fontSize: "12px", color: C.muted, margin: 0 }}>Verificando seguridad adicional...</p>
+          </div>
+        ) : (
+          <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
+            <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>✅ Verificado correctamente</p>
+            <p style={{ fontSize: "12px", color: C.muted, margin: 0 }}>Preparando paso final...</p>
+          </div>
+        )}
+      </MonetagGate>
+    </PageShell>
+  );
+}
+
+/* ============================================================
+   PASO 5 — Esperar 5s → Final
+   ============================================================ */
+function Step5({ appName, onContinue, slug }: { appName: string; onContinue: () => void; slug: string }) {
+  const [countdown, setCountdown] = useState(5);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) { clearInterval(interval); setReady(true); setTimeout(onContinue, 1000); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [onContinue]);
+
+  return (
+    <PageShell step={5} appName={appName} slug={slug}>
+      <MonetagGate slug={slug} step={5}>
+        {!ready ? (
+          <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "28px 20px", marginBottom: "18px", textAlign: "center" }}>
+            <div style={{ width: "80px", height: "80px", borderRadius: "50%", margin: "0 auto 14px", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(250, 204, 21, 0.12)", border: `3px solid ${C.accent}` }}>
+              <span style={{ fontSize: "26px", fontWeight: 800, color: "#000" }}>{countdown}</span>
+            </div>
+            <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: "0 0 6px 0" }}>Espera {countdown} segundo{countdown !== 1 ? "s" : ""}...</p>
+            <p style={{ fontSize: "12px", color: C.muted, margin: 0 }}>Preparando el enlace de descarga...</p>
+          </div>
+        ) : (
+          <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
+            <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>✅ Listo para descargar</p>
+            <p style={{ fontSize: "12px", color: C.muted, margin: 0 }}>Se ha generado el enlace de descarga</p>
+          </div>
+        )}
+      </MonetagGate>
+    </PageShell>
+  );
+}
+
+/* ============================================================
+   PASO 6 — Descarga final
+   ============================================================ */
+function Step6({ appName, downloadUrl, onDownload, slug }: {
+  appName: string; downloadUrl: string; onDownload: () => void; slug: string;
+}) {
+  return (
+    <PageShell step={6} appName={appName} slug={slug}>
+      <MonetagGate slug={slug} step={6}>
+        {!downloadUrl ? (
+          <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px", textAlign: "center" }}>
+            <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: 0 }}>Sin enlace de descarga disponible</p>
+          </div>
+        ) : (
+          <>
+            {/* Info de seguridad */}
+            <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
+              <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
+              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
+            </div>
+
+            {/* Botón Descargar */}
+            <div style={{ textAlign: "center", paddingBottom: "30px" }}>
+              <a
+                href={downloadUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onDownload}
+                className="bounce-click"
+                style={{
+                  display: "block", width: "100%", padding: "20px 24px",
+                  borderRadius: "16px", backgroundColor: C.green, color: "#ffffff",
+                  fontWeight: 700, fontSize: "18px", border: "none", cursor: "pointer",
+                  letterSpacing: "0.5px", textTransform: "uppercase", textDecoration: "none",
+                  textAlign: "center", boxShadow: "0 8px 30px rgba(34, 197, 94, 0.45)",
+                }}
+              >
+                ⬇ Descargar
+              </a>
+            </div>
+          </>
+        )}
+      </MonetagGate>
+    </PageShell>
+  );
+}
+
+/* ============================================================
    COMPONENTE PRINCIPAL
    ============================================================ */
 export default function DownloadFlow(props: Props) {
   const [step, setStep] = useState(1);
-
-  const goStep2 = useCallback(() => setStep(2), []);
-  const goStep3 = useCallback(() => setStep(3), []);
 
   const handleDownload = () => {
     try {
@@ -410,7 +532,7 @@ export default function DownloadFlow(props: Props) {
         appName={props.appName} appIcon={props.appIcon} appEmoji={props.appEmoji}
         appVersion={props.appVersion} appSize={props.appSize} appCategory={props.appCategory}
         appDescription={props.appDescription} appLongDescription={props.appLongDescription}
-        onContinue={goStep2} slug={props.slug}
+        onContinue={() => setStep(2)} slug={props.slug}
         romInfo={props.romInfo}
         hasPremiumSection={props.hasPremiumSection}
       />
@@ -419,7 +541,7 @@ export default function DownloadFlow(props: Props) {
 
   if (step === 2) {
     return (
-      <WaitCountdown onReady={goStep3} downloadUrl={props.downloadUrl} appName={props.appName} />
+      <Step2 appName={props.appName} onContinue={() => setStep(3)} slug={props.slug} />
     );
   }
 
