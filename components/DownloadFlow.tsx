@@ -206,9 +206,10 @@ function Step({ stepNumber, appName, title, description, onContinue, slug }: {
 /* ============================================================
    PASO 1 — Información de la app
    ============================================================ */
-function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, appDescription, romInfo, hasPremiumSection }: {
+function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, appDescription, romInfo, hasPremiumSection, onContinue }: {
   appName: string; appIcon: string; appEmoji: string; appVersion: string; appSize: string;
   appCategory: string; appDescription: string; romInfo?: Props["romInfo"]; hasPremiumSection?: boolean;
+  onContinue: () => void;
 }) {
   return (
     <div style={{ padding: "16px" }}>
@@ -249,6 +250,28 @@ function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, a
         <h3 style={{ fontSize: "14px", fontWeight: 700, margin: "0 0 10px 0", color: C.text }}>📖 Detalles</h3>
         <p style={{ fontSize: "13px", color: C.muted, margin: 0, lineHeight: 1.7 }}>{appDescription} Esta versión ha sido modificada para ofrecerte la mejor experiencia posible.</p>
       </div>
+
+      {/* Botón Comenzar */}
+      <div style={{ textAlign: "center", paddingBottom: "30px" }}>
+        <button
+          onClick={onContinue}
+          className="bounce-click"
+          style={{
+            width: "100%", padding: "16px 24px", borderRadius: "12px",
+            backgroundColor: C.green, color: "#ffffff", fontWeight: 700,
+            fontSize: "16px", border: "none", cursor: "pointer",
+            letterSpacing: "0.5px", textTransform: "uppercase",
+            boxShadow: "0 6px 20px rgba(34, 197, 94, 0.4)",
+          }}
+        >
+          ▶ Comenzar
+        </button>
+      </div>
+
+      {/* Indicador scroll */}
+      <div style={{ textAlign: "center", padding: "20px 0 8px" }}>
+        <span style={{ color: "#64748b", fontSize: "11px", fontWeight: 600 }}>👇 Desliza hacia abajo</span>
+      </div>
     </div>
   );
 }
@@ -269,14 +292,17 @@ export default function DownloadFlow(props: Props) {
 
   if (step === 1) {
     return (
-      <div>
-        <Step1
-          appName={props.appName} appIcon={props.appIcon} appEmoji={props.appEmoji}
-          appVersion={props.appVersion} appSize={props.appSize} appCategory={props.appCategory}
-          appDescription={props.appDescription}
-          romInfo={props.romInfo} hasPremiumSection={props.hasPremiumSection}
-        />
-      </div>
+      <PageShell step={1} appName={props.appName} slug={props.slug}>
+        <MonetagGate slug={props.slug} step={1}>
+          <Step1
+            appName={props.appName} appIcon={props.appIcon} appEmoji={props.appEmoji}
+            appVersion={props.appVersion} appSize={props.appSize} appCategory={props.appCategory}
+            appDescription={props.appDescription}
+            romInfo={props.romInfo} hasPremiumSection={props.hasPremiumSection}
+            onContinue={() => setStep(2)}
+          />
+        </MonetagGate>
+      </PageShell>
     );
   }
 
