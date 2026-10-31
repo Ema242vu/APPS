@@ -80,31 +80,12 @@ const FILLER_TIPS = [
 ];
 
 const FILLER_STEPS = [
-  { icon: "📥", title: "Descarga el archivo", desc: "Una vez completado el proceso, verás el botón de descarga que te llevará al archivo APK listo para instalar." },
-  { icon: "⚙️", title: "Permisos de instalación", desc: "Ve a Ajustes > Seguridad y activa 'Fuentes desconocidas' para permitir la instalación de apps fuera de Play Store." },
-  { icon: "📱", title: "Instala la APK", desc: "Abre el archivo APK descargado y toca 'Instalar'. El proceso tomará solo unos segundos dependiendo de tu dispositivo." },
-  { icon: "✅", title: "Abre y disfruta", desc: "Una vez instalada, abre la app desde tu cajón de aplicaciones y disfruta de todas las funciones premium desbloqueadas." },
-];
-
-/* Pasos específicos para ROMs de emuladores */
-const ROM_STEPS = [
-  { icon: "📥", title: "Descarga la ROM", desc: "Una vez completado el proceso, verás el botón de descarga que te llevará al archivo de la ROM lista para instalar." },
-  { icon: "🎮", title: "Instala el emulador", desc: "Primero instala un emulador compatible como Mupen64Plus, MESSENY o similar desde la tienda." },
-  { icon: "📂", title: "Coloca la ROM", desc: "Guarda el archivo .z64, .n64 o .v64 en la carpeta de ROMs del emulador o crea una carpeta especial." },
-  { icon: "▶️", title: "Carga la ROM", desc: "Abre el emulador, busca la carpeta de ROMs y selecciona el archivo descargado para jugar." },
-];
-
-/* Pasos específicos para add-ons y mods */
-const ADDON_STEPS = [
   { icon: "📥", title: "Descarga el archivo", desc: "Una vez completado el proceso, verás el botón de descarga que te llevará al archivo listo para instalar." },
-  { icon: "📦", title: "Extrae el archivo", desc: "Si el archivo está comprimido (.zip), extrae su contido a una carpeta." },
-  { icon: "📂", title: "Coloca en la carpeta correcta", desc: "Mueve los archivos extraídos a la carpeta especifica del juego o app." },
-  { icon: "✅", title: "Reinicia la app", desc: "Cierra y vuelve a abrir la app/juego para que los cambios surtan efecto." },
+  { icon: "⚙️", title: "Permisos de instalación", desc: "Ve a Ajustes > Seguridad y activa 'Fuentes desconocidas' para permitir la instalación." },
+  { icon: "📱", title: "Instala el archivo", desc: "Toca el archivo descargado y sigue las instrucciones. El proceso tomará solo unos segundos dependiendo de tu dispositivo." },
+  { icon: "✅", title: "Listo", desc: "El archivo está listo para usarse. Sigue las instrucciones específicas según el tipo de contenido que descargaste." },
 ];
 
-/* Detectar si es una ROM, add-on o mod */
-const isROM = (appCategory: string): boolean => appCategory === "ROMS";
-const isAddon = (appCategory: string): boolean => appCategory === "Add-ons" || appCategory === "Mods" || appCategory === "addon";
 
 /* ============================================================
    COMPONENTES AUXILIARES (definidos ANTES para que TS los vea)
@@ -500,11 +481,8 @@ function Step1({ appName, appIcon, appEmoji, appVersion, appSize, appCategory, a
 /* ============================================================
    PASO 2 — Comenzar → 5s → Descargar (botón al final)
    ============================================================ */
-function Step2({ appName, onContinue, slug, romInfo }: { appName: string; onContinue: () => void; slug: string; romInfo?: Props["romInfo"] }) {
+function Step2({ appName, onContinue, slug }: { appName: string; onContinue: () => void; slug: string }) {
   const [showWait, setShowWait] = useState(false);
-
-  // Seleccionamos los pasos según el tipo de contenido
-  const steps = romInfo ? ROM_STEPS : FILLER_STEPS;
 
   return (
     <PageShell step={2} appName={appName} slug={slug}>
@@ -519,7 +497,7 @@ function Step2({ appName, onContinue, slug, romInfo }: { appName: string; onCont
 
             <FactCard index={4} />
             <TipCard index={2} />
-            <FillerSection title="📖 Guía rápida de instalación" items={steps} />
+            <FillerSection title="📖 Guía rápida de instalación" items={FILLER_STEPS} />
             <FactCard index={6} />
             <TipCard index={5} />
 
@@ -575,7 +553,7 @@ function Step2({ appName, onContinue, slug, romInfo }: { appName: string; onCont
 
             <FactCard index={4} />
             <TipCard index={2} />
-            <FillerSection title="📖 Guía rápida de instalación" items={steps} />
+            <FillerSection title="📖 Guía rápida de instalación" items={FILLER_STEPS} />
             <FactCard index={6} />
             <TipCard index={5} />
 
@@ -617,7 +595,7 @@ function Step2({ appName, onContinue, slug, romInfo }: { appName: string; onCont
 /* ============================================================
    PASO 3 — 5s → Descargar (botón al final)
    ============================================================ */
-function Step3({ appName, onContinue, slug, romInfo }: { appName: string; onContinue: () => void; slug: string; romInfo?: Props["romInfo"] }) {
+function Step3({ appName, onContinue, slug }: { appName: string; onContinue: () => void; slug: string }) {
   const [countdown, setCountdown] = useState(5);
   const [ready, setReady] = useState(false);
 
@@ -1037,8 +1015,8 @@ export default function DownloadFlow(props: Props) {
     );
   }
 
-  if (step === 2) return <Step2 appName={props.appName} onContinue={goStep3} slug={props.slug} romInfo={props.romInfo} />;
-  if (step === 3) return <Step3 appName={props.appName} onContinue={goStep4} slug={props.slug} romInfo={props.romInfo} />;
+  if (step === 2) return <Step2 appName={props.appName} onContinue={goStep3} slug={props.slug} />;
+  if (step === 3) return <Step3 appName={props.appName} onContinue={goStep4} slug={props.slug} />;
 
   return (
     <Step4
