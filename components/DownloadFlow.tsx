@@ -139,6 +139,15 @@ function WaitCountdown({ onReady, downloadUrl, appName }: { onReady: () => void;
     return () => clearInterval(interval);
   }, []);
 
+  // Cuando el contador termina, mostrar botón de descarga
+  useEffect(() => {
+    if (ready && onReady) {
+      // Llamar automáticamente después de 1 segundo
+      const timer = setTimeout(onReady, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [ready, onReady]);
+
   return (
     <>
       {!ready ? (
@@ -163,6 +172,7 @@ function WaitCountdown({ onReady, downloadUrl, appName }: { onReady: () => void;
         <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
           <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
           <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
+          <p style={{ fontSize: "12px", color: C.muted, margin: "8px 0 0 0", lineHeight: 1.5 }}>Redirigiendo al paso de descarga...</p>
         </div>
       )}
     </>
