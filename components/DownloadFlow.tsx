@@ -306,11 +306,8 @@ export default function DownloadFlow(props: Props) {
     6: "¡Casi listo! Verificando enlace de descarga...",
   };
 
-  // Pasos 2 y 4: espera de 15 segundos + native banner tras el click
-  const waitSteps: Record<number, number> = {
-    2: 15,
-    4: 15,
-  };
+  // Todos los pasos (1-6): espera de 15 segundos + native banner tras el click
+  const WAIT_SECONDS = 15;
 
   // Pasos 1-6: cada paso muestra el banner de "Click Aquí"
   // El `key` único fuerza a React a montar una instancia nueva
@@ -324,8 +321,8 @@ export default function DownloadFlow(props: Props) {
           title={`Paso ${step}`}
           description={stepDescriptions[step]}
           onContinue={() => setStep(step + 1)}
-          waitBeforeContinue={waitSteps[step]}
-          nativeBanner={waitSteps[step] ? NATIVE_BANNER : undefined}
+          waitBeforeContinue={WAIT_SECONDS}
+          nativeBanner={NATIVE_BANNER}
         />
       ) : (
         <>
@@ -343,13 +340,15 @@ export default function DownloadFlow(props: Props) {
                 <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
               </div>
 
-              {/* Banner de monetag en el paso 6 → Descargar */}
+              {/* Banner de monetag en el paso 6 → Descargar (también con espera 15s) */}
               <MonetagGate
                 key="gate-paso-6"
                 step={6}
                 title="Paso 6"
                 description={stepDescriptions[6]}
                 downloadUrl={props.downloadUrl}
+                waitBeforeContinue={WAIT_SECONDS}
+                nativeBanner={NATIVE_BANNER}
               />
             </>
           )}
