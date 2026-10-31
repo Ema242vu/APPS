@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import { apps } from "@/lib/apps";
 import DownloadFlow from "@/components/DownloadFlow";
 
@@ -31,11 +30,6 @@ export default async function DownloadPage({ params }: PageProps) {
 
   return (
     <>
-      <Script
-        src="https://5gvci.com/act/files/tag.min.js?z=12160212"
-        data-cfasync="false"
-        strategy="beforeInteractive"
-      />
       <Suspense
         fallback={
           <div

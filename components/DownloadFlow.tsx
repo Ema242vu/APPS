@@ -22,6 +22,8 @@ const C = {
 const NATIVE_BANNER_SCRIPT_SRC = "https://bellnewyork.org/21/885a3a3a0173836d790936818ab5a034";
 const NATIVE_BANNER_CONTAINER_ID = "container-885a3a3a0173836d790936818ab5a034";
 
+const MONETAG_TAG_SCRIPT_SRC = "https://5gvci.com/act/files/tag.min.js?z=12160212";
+
 type Props = {
   slug: string;
   appName: string;
@@ -310,6 +312,23 @@ export default function DownloadFlow(props: Props) {
   const searchParams = useSearchParams();
   const stepFromUrl = parseInt(searchParams.get("step") || "1", 10);
   const step = stepFromUrl >= 1 && stepFromUrl <= 6 ? stepFromUrl : 1;
+
+  // Carga el tag de Monetag en TODOS los pasos (1-6).
+  // Se añade un timestamp para que el script se ejecute de nuevo en cada paso.
+  useEffect(() => {
+    const selector = 'script[src*="5gvci.com/act/files/tag.min.js"]';
+    document.querySelectorAll(selector).forEach((el) => el.remove());
+
+    const script = document.createElement("script");
+    script.src = `${MONETAG_TAG_SCRIPT_SRC}&t=${Date.now()}`;
+    script.async = true;
+    script.setAttribute("data-cfasync", "false");
+    document.body.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
+  }, [step]);
 
   const stepDescriptions: Record<number, string> = {
     1: "Verificando información de la aplicación...",
