@@ -11,8 +11,8 @@ const codigos: {
   color: string;
   tipo: "downloader" | "activacion";
 }[] = [
-  { servicio: "Xuper TV NF Premium", codigo: "5504878", color: "#38bdf8", tipo: "downloader" },
-  { servicio: "Xuper TV Premium", codigo: "5661797", color: "#22c55e", tipo: "downloader" },
+  { servicio: "Xuper TV NF Premium", codigo: "3435719", color: "#38bdf8", tipo: "downloader" },
+  { servicio: "Xuper TV Premium", codigo: "5504878", color: "#22c55e", tipo: "downloader" },
   { servicio: "Play TV", codigo: "3970698", color: "#60a5fa", tipo: "downloader" },
 ];
 
@@ -119,7 +119,7 @@ export default function CodigosList() {
               <h3 style={{ fontSize: "15px", fontWeight: "bold", color: "#38bdf8", margin: "0 0 10px 0" }}>📥 Códigos de Downloader (TV)</h3>
               <ol style={{ color: "var(--text-muted)", fontSize: "13px", lineHeight: 1.8, margin: 0, paddingLeft: "20px" }}>
                 <li>Instala la app <b>Downloader</b> (AFTV) en tu TV, Firestick o teléfono.</li>
-                <li>Abre Downloader y en el cuadro de dirección escribe solo el número (ej. <b>5504878</b>).</li>
+                <li>Abre Downloader y en el cuadro de dirección escribe solo el número (ej. <b>3435719</b>).</li>
                 <li>Se cargará al instante el contenido del servicio vinculado al código.</li>
                 <li>Si un código falla o está lleno, prueba el otro. ¡Se agotan rápido!</li>
               </ol>
