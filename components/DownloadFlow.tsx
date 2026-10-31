@@ -102,6 +102,10 @@ const ADDON_STEPS = [
   { icon: "✅", title: "Reinicia la app", desc: "Cierra y vuelve a abrir la app/juego para que los cambios surtan efecto." },
 ];
 
+/* Detectar si es una ROM, add-on o mod */
+const isROM = (appCategory: string): boolean => appCategory === "ROMS";
+const isAddon = (appCategory: string): boolean => appCategory === "Add-ons" || appCategory === "Mods" || appCategory === "addon";
+
 /* ============================================================
    COMPONENTES AUXILIARES (definidos ANTES para que TS los vea)
    ============================================================ */
