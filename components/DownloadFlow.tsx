@@ -250,6 +250,7 @@ function DownloadButton({ downloadUrl, appName }: { downloadUrl: string; appName
    ============================================================ */
 export default function DownloadFlow(props: Props) {
   const [step, setStep] = useState(1);
+  const [step6Passed, setStep6Passed] = useState(false);
 
   if (step === 1) {
     return (
@@ -316,10 +317,17 @@ export default function DownloadFlow(props: Props) {
     );
   }
 
-  // Paso 6 - Descarga
+  // Paso 6 - Descarga (con banner de click aquí como los demás pasos)
   return (
     <PageShell step={6} appName={props.appName} slug={props.slug}>
-      {!props.downloadUrl ? (
+      {!step6Passed ? (
+        <MonetagGate
+          step={6}
+          title="Paso 6"
+          description="Último paso antes de descargar tu APK..."
+          onContinue={() => setStep6Passed(true)}
+        />
+      ) : !props.downloadUrl ? (
         <div style={{ padding: "16px", textAlign: "center" }}>
           <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px" }}>
             <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: 0 }}>Sin enlace de descarga disponible</p>
