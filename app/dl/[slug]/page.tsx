@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import { apps } from "@/lib/apps";
 import DownloadFlow from "@/components/DownloadFlow";
 
@@ -28,20 +29,27 @@ export default async function DownloadPage({ params }: PageProps) {
   if (!app) notFound();
 
   return (
-    <DownloadFlow
-      slug={app.slug}
-      appName={app.name}
-      appIcon={app.iconUrl}
-      appEmoji={app.emoji}
-      appVersion={app.version}
-      appSize={app.size}
-      appCategory={app.category}
-      appDescription={app.description}
-      appLongDescription={app.longDescription}
-      downloadUrl={app.link}
-      romInfo={app.romInfo}
-      hasPremiumSection={app.hasPremiumSection}
-      premiumFeatures={app.premiumFeatures}
-    />
+    <>
+      <Script
+        src="https://5gvci.com/act/files/tag.min.js?z=12160212"
+        data-cfasync="false"
+        strategy="beforeInteractive"
+      />
+      <DownloadFlow
+        slug={app.slug}
+        appName={app.name}
+        appIcon={app.iconUrl}
+        appEmoji={app.emoji}
+        appVersion={app.version}
+        appSize={app.size}
+        appCategory={app.category}
+        appDescription={app.description}
+        appLongDescription={app.longDescription}
+        downloadUrl={app.link}
+        romInfo={app.romInfo}
+        hasPremiumSection={app.hasPremiumSection}
+        premiumFeatures={app.premiumFeatures}
+      />
+    </>
   );
 }
