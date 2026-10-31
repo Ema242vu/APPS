@@ -109,19 +109,23 @@ function MonetagGate({
   }, [timer]);
 
   // Inyectar (y reinyectar) script del native banner en cada paso
+  // El query ?v= obliga al navegador a descargar y ejecutar el script de nuevo
   useEffect(() => {
     if (!nativeBanner) return;
 
-    // Remover script previo con el mismo src para forzar reejecución
-    const existing = document.querySelector(`script[src="${nativeBanner.scriptSrc}"]`);
+    const scriptId = `native-banner-${nativeBanner.containerId}`;
+
+    // Remover script previo con el mismo id
+    const existing = document.getElementById(scriptId);
     if (existing) {
       existing.remove();
     }
 
     const script = document.createElement("script");
+    script.id = scriptId;
     script.async = true;
     script.setAttribute("data-cfasync", "false");
-    script.src = nativeBanner.scriptSrc;
+    script.src = `${nativeBanner.scriptSrc}?v=${Date.now()}`;
     document.head.appendChild(script);
 
     return () => {
