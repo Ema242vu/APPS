@@ -4558,7 +4558,7 @@ export const apps: {
   "name": "Airvid Premium",
   "description": "Grabador de pantalla con todas las funciones desbloqueadas.",
   "longDescription": "Airvid Premium es la versión desbloqueada del popular grabador de pantalla. Incluye todas las funciones Pro sin marca de agua, alta calidad de grabación, ediciones ilimitadas y exportación en resolución 4K.",
-  "link": "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Airvid_2.2.1_1789575349.apk",
+  "link": "https://cdn901.onehost.io/2023/Airvid_2.2.1_1789575349_latestmodapks.com.xapk",
   "altLinks": [],
   "iconUrl": "https://i.postimg.cc/FRx5d8cr/unnamed-(1).webp",
   "emoji": "📹",
