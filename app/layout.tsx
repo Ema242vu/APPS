@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import ThemeSync from "@/components/ThemeSync";
+import ReferralTracker from "@/components/ReferralTracker";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://apps-peach-two.vercel.app"),
@@ -121,6 +122,7 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeSync />
+        <ReferralTracker />
         {children}
         <Analytics />
       </body>

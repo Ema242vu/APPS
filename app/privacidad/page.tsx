@@ -49,20 +49,30 @@ export default function Privacidad() {
         >
           <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>1. Datos que recogemos</h2>
           <p>
-            <b>PERSONS-COMUNITY</b> no registra cuentas de usuario ni almacena datos personales en
-            nuestros servidores. Tus preferencias (tema, favoritos, valoraciones, comentarios y
-            descargas) se guardan <b>únicamente en tu dispositivo</b> mediante localStorage, y se
-            borran si limpias los datos del navegador.
+            <b>PERSONS-COMUNITY</b> no requiere cuentas para descargar apps. Si no participas en el
+            programa de referidos, no almacenamos datos personales en nuestros servidores. Tus
+            preferencias (tema, favoritos, valoraciones, comentarios y descargas) se guardan
+            <b> únicamente en tu dispositivo</b> mediante localStorage, y se borran si limpias los
+            datos del navegador.
           </p>
 
-          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>2. Cookies y almacenamiento local</h2>
+          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>2. Programa de referidos</h2>
+          <p>
+            Si te registras en el <b>programa de referidos</b>, guardamos tu nombre, un contacto
+            de pago, el método de pago, un PIN hasheado, una versión hasheada de tu IP y las
+            visitas, clics y descargas atribuidas a tu código. Usamos estos datos únicamente para
+            operar el programa, calcular ganancias y procesar pagos. No vendemos estos datos.
+            Puedes solicitar la eliminación de tu código y tus datos desde la página de contacto.
+          </p>
+
+          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>3. Cookies y almacenamiento local</h2>
           <p>
             Esta web no usa cookies propias de seguimiento. Solo guardamos en tu navegador datos
             funcionales (tema elegido, aceptación del aviso de cookies) con las herramientas
             estándar del navegador.
           </p>
 
-          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>3. Anuncios de terceros</h2>
+          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>4. Anuncios de terceros</h2>
           <p>
             Usamos anuncios de <b>Google AdSense</b> y de redes de publicidad de terceros para
             mantener el sitio gratis. Estas redes pueden usar cookies y tecnologías similares para
@@ -71,21 +81,21 @@ export default function Privacidad() {
             visitando <i>aboutads.info</i> / <i>youronlinechoices</i>.
           </p>
 
-          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>4. Enlaces externos</h2>
+          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>5. Enlaces externos</h2>
           <p>
             Los enlaces de descarga y de comunidades (WhatsApp, Telegram, Instagram, Discord, y
             servidores externos como MediaFire) pertenecen a terceros. No controlamos sus
             contenidos ni sus políticas de privacidad, así que revisa las suyas antes de usarlos.
           </p>
 
-          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>5. Descargas</h2>
+          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>6. Descargas</h2>
           <p>
             Las aplicaciones compartidas aquí son archivos modificados de terceros. No solicitamos
             permisos ni información del usuario para descargar. Instala bajo tu propia
             responsabilidad, como ya indican los Términos.
           </p>
 
-          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>6. Contacto</h2>
+          <h2 style={{ fontSize: 20, color: "var(--text-primary)", marginTop: 15 }}>7. Contacto</h2>
           <p>
             Si tienes dudas sobre privacidad o quieres pedir la eliminación de algún contenido,
             escríbenos por nuestro grupo de WhatsApp o Telegram (enlaces en la página principal).

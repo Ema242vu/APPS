@@ -20,6 +20,12 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Sistema de referidos
+
+El panel está en `/referidos`. Para activarlo hay que conectar Supabase y
+ejecutar el SQL de `supabase/referrals.sql`. Las instrucciones completas están
+en [`supabase/README.md`](supabase/README.md).
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

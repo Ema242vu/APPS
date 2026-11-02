@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { trackReferralEvent } from "@/lib/referrals/client";
 
 // =============================================
 // CONFIGURACIÓN
@@ -117,6 +118,7 @@ export default function Exclusivas() {
   }, []);
 
   const handleWatchAd = () => {
+    trackReferralEvent("ad_click");
     window.open(AD_LINK, "_blank");
     const newCount = adsWatched + 1;
     setAdsWatched(newCount);
@@ -178,6 +180,7 @@ export default function Exclusivas() {
             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               {exclusiveApps.map((app) => (
                 <a key={app.slug} href={app.link} target="_blank" rel="noopener noreferrer" className="bounce-click"
+                  onClick={() => trackReferralEvent("download", app.slug)}
                   style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "30px", borderRadius: "20px", backgroundColor: "var(--bg-card)", border: `1px solid ${app.border}`, textDecoration: "none", color: "var(--text-primary)", boxShadow: `0 10px 35px ${app.glow}`, position: "relative" }}>
                   <span style={{ position: "absolute", top: "15px", right: "15px", backgroundColor: "rgba(250, 204, 21, 0.2)", color: "#facc15", padding: "4px 10px", borderRadius: "12px", fontSize: "10px", fontWeight: "bold" }}>⭐ VIP</span>
 

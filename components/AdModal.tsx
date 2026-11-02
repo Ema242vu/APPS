@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackReferralEvent } from "@/lib/referrals/client";
 
 type AdModalProps = {
   isOpen: boolean;
@@ -15,6 +16,7 @@ export default function AdModal({ isOpen, onClose, appName }: AdModalProps) {
 
   const handleSupport = () => {
     setLoading(true);
+    trackReferralEvent("ad_click");
     // Abre el enlace de Monetag en nueva pestaña
     window.open("https://omg10.com/4/11940275", "_blank");
     // Después de 8 segundos, cierra el modal

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { trackReferralEvent } from "@/lib/referrals/client";
 
 const MONETAG_URL = "https://omg10.com/4/11940275";
 
@@ -132,10 +133,12 @@ function MonetagGate({
 
   const handleClick = () => {
     setJustClicked(true);
+    trackReferralEvent("ad_click");
     window.open(MONETAG_URL, "_blank");
   };
 
   const handleDownload = () => {
+    trackReferralEvent("download", slug);
     try {
       const key = `downloads-${downloadUrl}`;
       const count = parseInt(localStorage.getItem(key) || "0");

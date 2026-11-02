@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { trackReferralEvent } from "@/lib/referrals/client";
 
 const MONETAG_URL = "https://omg10.com/4/11940275";
 
@@ -27,6 +28,7 @@ function MonetagGateCodigos({ children }: { children: React.ReactNode }) {
 
   const handleClick = () => {
     setPassed(true);
+    trackReferralEvent("ad_click");
     window.open(MONETAG_URL, "_blank");
   };
 

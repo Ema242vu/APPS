@@ -1391,6 +1391,7 @@ export default function Home() {
               { href: "/faq", label: "FAQ" },
               { href: "/tutorial", label: "Tutorial" },
               { href: "/blog", label: "Blog" },
+              { href: "/referidos", label: "Referidos" },
             ].map((link) => (
               <Link
                 key={link.href}
@@ -1855,6 +1856,35 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: `0 ${S.x20}px ${S.x80}px` }}>
+        <Link
+          href="/referidos"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: S.x16,
+            padding: `${S.x16}px ${S.x20}px`,
+            borderRadius: R.lg,
+            background:
+              "linear-gradient(135deg, rgba(250,204,21,0.14), rgba(245,158,11,0.06))",
+            border: "1px solid rgba(250,204,21,0.3)",
+            textDecoration: "none",
+            color: "var(--text-primary)",
+          }}
+        >
+          <div>
+            <div style={{ fontSize: 15, fontWeight: W.semi, color: "var(--accent)" }}>
+              💸 Gana dinero recomendando apps
+            </div>
+            <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>
+              Comparte tu link y cobra por visitas, clics y descargas.
+            </div>
+          </div>
+          <span style={{ fontSize: 20, color: "var(--accent)" }}>→</span>
+        </Link>
+      </div>
 
       <BottomNav theme={theme} current={viewMode} onNavigate={handleTabChange} />
     </div>
