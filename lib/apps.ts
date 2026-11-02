@@ -4595,6 +4595,28 @@ export const apps: {
   "downloads": 0,
   "hasPremiumSection": false,
   "premiumFeatures": [],
+},
+{
+  "slug": "slash-girl",
+  "name": "Slash & Girl MOD APK",
+  "description": "Todo desbloqueado",
+  "longDescription": "Slash & Girl MOD APK (Todo desbloqueado) v8.6.910000",
+  "link": "https://files.mundoperfecto.net/aHR0cHM6Ly93d3cubWVkaWFmaXJlLmNvbS9maWxlL215ejF3eDhpdGFsZ2hiNC9TbGFzaC1HaXJsLUVuZGxlc3MtUnVuLXY4LjYuOTEwMDAwLW1vZC1tdW5kb3BlcmZlY3RvLm5ldC5hcGsvZmlsZXxqSH4uWCNvK3RFQ2pOY3YqIWxJRkAzXWdRJSFkNGlTdU9xUGI1KjF5WCQsaVE2W3ZTKG1nXiRyKUN2JFsySkVhYTc2NDI0Y2RjNDU1YzBiNjQ5MDI1ZTNkZDBlZDRlNGEwNGI3NzZkYmNlNzk1NmZhYjE0N2NiMzIyMjQzM2I2Nw",
+  "altLinks": [],
+  "iconUrl": "https://i.postimg.cc/GtbsLf0t/unnamed-(2).webp",
+  "emoji": "⚔️",
+  "category": "Juegos",
+  "isTop": false,
+  "isNew": true,
+  "version": "8.6.910000",
+  "size": "150 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(250, 204, 21, 0.4)",
+  "border": "rgba(250, 204, 21, 0.4)",
+  "text": "#facc15",
+  "downloads": 0,
+  "hasPremiumSection": false,
+  "premiumFeatures": [],
 }
 ];
 
