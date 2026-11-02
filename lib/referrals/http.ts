@@ -18,11 +18,21 @@ function firebaseSetupError(error: Error): string | null {
   }
 
   if (
+    code === 9 ||
+    code === "FAILED_PRECONDITION" ||
+    /Cloud Firestore API has not been used|Firestore API is not available|firestore\.googleapis\.com.*disabled/i.test(
+      message
+    )
+  ) {
+    return "La API de Firestore no está habilitada o la base está en un modo incompatible. Actívala en Google Cloud Console → APIs & Services → Cloud Firestore API, y crea la base en modo nativo.";
+  }
+
+  if (
     code === 7 ||
     code === "PERMISSION_DENIED" ||
     /Missing or insufficient permissions|PERMISSION_DENIED/i.test(message)
   ) {
-    return "La cuenta de servicio no tiene permisos para usar Firestore. Verifica que sea del mismo proyecto y que Firestore esté habilitado.";
+    return "Firestore rechazó la cuenta de servicio. Revisa que el project_id del JSON sea el mismo donde creaste Firestore y que la cuenta tenga el rol 'Cloud Datastore User' o 'Firebase Admin SDK Administrator Service Agent'.";
   }
 
   if (
@@ -31,16 +41,6 @@ function firebaseSetupError(error: Error): string | null {
     /invalid authentication credentials|UNAUTHENTICATED/i.test(message)
   ) {
     return "No se pudo autenticar con Firebase. Revisa FIREBASE_SERVICE_ACCOUNT o las variables FIREBASE_CLIENT_EMAIL y FIREBASE_PRIVATE_KEY.";
-  }
-
-  if (
-    code === 9 ||
-    code === "FAILED_PRECONDITION" ||
-    /Cloud Firestore API has not been used|Firestore API is not available/i.test(
-      message
-    )
-  ) {
-    return "La API de Firestore no está habilitada. Actívala en Google Cloud Console para el proyecto de Firebase.";
   }
 
   if (
