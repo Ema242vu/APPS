@@ -6,11 +6,16 @@ export function referralErrorResponse(error: unknown) {
     return NextResponse.json({ error: error.message }, { status: error.status });
   }
 
-  if (error instanceof Error && /Faltan NEXT_PUBLIC_SUPABASE_URL|SUPABASE_SERVICE_ROLE_KEY/.test(error.message)) {
+  if (
+    error instanceof Error &&
+    /Faltan FIREBASE_|FIREBASE_SERVICE_ACCOUNT|No se pudo inicializar Firebase/.test(
+      error.message
+    )
+  ) {
     return NextResponse.json(
       {
         error:
-          "El sistema de referidos todavía no está conectado. Falta configurar Supabase en las variables de entorno.",
+          "El sistema de referidos todavía no está conectado. Falta configurar Firebase en las variables de entorno.",
       },
       { status: 503 }
     );

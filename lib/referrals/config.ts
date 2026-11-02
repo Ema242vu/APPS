@@ -16,11 +16,11 @@ export const MIN_PAYOUT_CENTS = 500;
 /** Límite de clics en anuncios que se pagan por visitante/día. */
 export const MAX_AD_CLICKS_PER_DAY = 3;
 
-/** Límites anti-abuso por IP en 24 horas. */
+/** Límites anti-abuso por IP por día (UTC). */
 export const MAX_VISITS_PER_IP_PER_DAY = 100;
 export const MAX_EVENTS_PER_IP_PER_DAY = 300;
 
-/** Límite de registros por IP en 24 horas (anti-spam). */
+/** Límite de registros por IP por día (UTC), anti-spam. */
 export const MAX_REGISTRATIONS_PER_IP_PER_DAY = 3;
 
 export const SITE_URL =

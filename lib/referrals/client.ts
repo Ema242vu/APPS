@@ -144,23 +144,20 @@ async function postTrack(
   }
 }
 
-export async function trackVisit() {
-  if (typeof window === "undefined") return;
+const visitPromises = new Map<string, Promise<string | null>>();
 
-  const code = captureReferral();
-  if (!code) return;
-
+async function sendVisit(code: string): Promise<string | null> {
   const ownCode = getOwnCode();
-  if (ownCode && ownCode === code) return;
+  if (ownCode && ownCode === code) return null;
 
   const visitorId = getVisitorId();
   const sentKey = `${VISIT_SENT_PREFIX}${code}_${visitorId}`;
 
   try {
-    if (sessionStorage.getItem(sentKey)) return;
+    if (sessionStorage.getItem(sentKey)) return code;
     sessionStorage.setItem(sentKey, "1");
   } catch {
-    // Si sessionStorage falla, el upsert de la base de datos evita duplicados.
+    // Si sessionStorage falla, la visita única de Firestore evita duplicados.
   }
 
   const ok = await postTrack({
@@ -176,7 +173,26 @@ export async function trackVisit() {
     } catch {
       // Ignorar.
     }
+    return null;
   }
+
+  return code;
+}
+
+export function trackVisit(): Promise<string | null> {
+  if (typeof window === "undefined") return Promise.resolve(null);
+
+  const code = captureReferral();
+  if (!code) return Promise.resolve(null);
+
+  const existing = visitPromises.get(code);
+  if (existing) return existing;
+
+  const promise = sendVisit(code).finally(() => {
+    visitPromises.delete(code);
+  });
+  visitPromises.set(code, promise);
+  return promise;
 }
 
 export async function trackReferralEvent(
@@ -185,7 +201,8 @@ export async function trackReferralEvent(
 ) {
   if (typeof window === "undefined") return;
 
-  const code = getStoredReferrer();
+  // Espera a que la visita quede registrada para que el evento sea válido.
+  const code = await trackVisit();
   if (!code) return;
 
   const ownCode = getOwnCode();

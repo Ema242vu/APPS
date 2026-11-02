@@ -22,9 +22,9 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Sistema de referidos
 
-El panel está en `/referidos`. Para activarlo hay que conectar Supabase y
-ejecutar el SQL de `supabase/referrals.sql`. Las instrucciones completas están
-en [`supabase/README.md`](supabase/README.md).
+El panel está en `/referidos`. Usa Firebase (Firestore + Admin SDK) y las
+instrucciones completas están en
+[`docs/referidos-firebase.md`](docs/referidos-firebase.md).
 
 ## Learn More
 
