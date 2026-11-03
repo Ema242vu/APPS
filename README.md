@@ -22,9 +22,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Sistema de referidos
 
-El panel está en `/referidos`. Usa Firebase (Firestore + Admin SDK) y las
-instrucciones completas están en
-[`docs/referidos-firebase.md`](docs/referidos-firebase.md).
+El panel está en `/referidos`. Usa Supabase (plan gratuito, sin tarjeta). Las
+instrucciones completas están en [`supabase/README.md`](supabase/README.md).
 
 ## Learn More
 

@@ -4,19 +4,7 @@ import {
   scryptSync,
   timingSafeEqual,
 } from "crypto";
-import {
-  cert,
-  getApps,
-  initializeApp,
-  type App,
-} from "firebase-admin/app";
-import {
-  FieldValue,
-  getFirestore,
-  type DocumentData,
-  type DocumentReference,
-  type Firestore,
-} from "firebase-admin/firestore";
+import { createAdminClient } from "@/lib/supabase/admin";
 import {
   MAX_AD_CLICKS_PER_DAY,
   MAX_EVENTS_PER_IP_PER_DAY,
@@ -36,8 +24,14 @@ export type Referrer = {
   created_at: string;
 };
 
+type ReferrerWithPin = Referrer & {
+  pin_hash: string | null;
+  failed_attempts: number;
+  locked_until: string | null;
+};
+
 export type Payout = {
-  id: string;
+  id: number;
   amount_cents: number;
   method: string | null;
   contact: string | null;
@@ -66,176 +60,7 @@ export class ReferralError extends Error {
   }
 }
 
-class CodeCollisionError extends Error {
-  constructor() {
-    super("Código ocupado");
-    this.name = "CodeCollisionError";
-  }
-}
-
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-let cachedApp: App | null = null;
-let cachedDb: Firestore | null = null;
-
-function getFirebaseApp(): App {
-  if (cachedApp) return cachedApp;
-
-  const existingApps = getApps();
-  if (existingApps.length > 0) {
-    cachedApp = existingApps[0];
-    return cachedApp;
-  }
-
-  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT;
-  if (serviceAccountJson) {
-    let serviceAccount: {
-      project_id?: string;
-      client_email?: string;
-      private_key?: string;
-    };
-
-    try {
-      serviceAccount = JSON.parse(serviceAccountJson) as typeof serviceAccount;
-    } catch {
-      throw new Error("FIREBASE_SERVICE_ACCOUNT no es un JSON válido.");
-    }
-
-    if (
-      !serviceAccount.project_id ||
-      !serviceAccount.client_email ||
-      !serviceAccount.private_key
-    ) {
-      throw new Error(
-        "Faltan campos en FIREBASE_SERVICE_ACCOUNT (project_id, client_email o private_key)."
-      );
-    }
-
-    try {
-      cachedApp = initializeApp({
-        credential: cert({
-          projectId: serviceAccount.project_id,
-          clientEmail: serviceAccount.client_email,
-          privateKey: serviceAccount.private_key.replace(/\\n/g, "\n"),
-        }),
-      });
-    } catch {
-      throw new Error(
-        "No se pudo inicializar Firebase. Revisa la clave de servicio."
-      );
-    }
-
-    return cachedApp;
-  }
-
-  const projectId =
-    process.env.FIREBASE_PROJECT_ID ||
-    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
-  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-
-  if (!projectId || !clientEmail || !privateKey) {
-    throw new Error(
-      "Faltan FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL o FIREBASE_PRIVATE_KEY en las variables de entorno."
-    );
-  }
-
-  try {
-    cachedApp = initializeApp({
-      credential: cert({ projectId, clientEmail, privateKey }),
-    });
-  } catch {
-    throw new Error(
-      "No se pudo inicializar Firebase. Revisa FIREBASE_CLIENT_EMAIL y FIREBASE_PRIVATE_KEY."
-    );
-  }
-
-  return cachedApp;
-}
-
-function getDb(): Firestore {
-  if (!cachedDb) cachedDb = getFirestore(getFirebaseApp());
-  return cachedDb;
-}
-
-function referrerRef(code: string): DocumentReference {
-  return getDb().collection("referrers").doc(code);
-}
-
-function visitsRef(code: string): ReturnType<DocumentReference["collection"]> {
-  return referrerRef(code).collection("visits");
-}
-
-function eventsRef(code: string): ReturnType<DocumentReference["collection"]> {
-  return referrerRef(code).collection("events");
-}
-
-function payoutsRef(code: string): ReturnType<DocumentReference["collection"]> {
-  return referrerRef(code).collection("payouts");
-}
-
-function ipDailyRef(ipHash: string, date: string): DocumentReference {
-  return getDb().collection("referralIpDaily").doc(`${ipHash}_${date}`);
-}
-
-function adDailyRef(
-  code: string,
-  visitorId: string,
-  date: string
-): DocumentReference {
-  return getDb()
-    .collection("referralAdDaily")
-    .doc(`${code}_${visitorId}_${date}`);
-}
-
-function dayKey(date = new Date()): string {
-  return date.toISOString().slice(0, 10);
-}
-
-function toDate(value: unknown): Date | null {
-  if (!value) return null;
-  if (value instanceof Date) return value;
-
-  if (typeof value === "object" && value !== null && "toDate" in value) {
-    const maybeTimestamp = value as { toDate?: () => Date };
-    if (typeof maybeTimestamp.toDate === "function") {
-      try {
-        return maybeTimestamp.toDate();
-      } catch {
-        return null;
-      }
-    }
-  }
-
-  return null;
-}
-
-function mapReferrer(code: string, data: DocumentData): Referrer {
-  return {
-    id: code,
-    code,
-    name: typeof data.name === "string" ? data.name : null,
-    contact: typeof data.contact === "string" ? data.contact : null,
-    payout_method:
-      typeof data.payoutMethod === "string" ? data.payoutMethod : null,
-    created_at: (toDate(data.createdAt) ?? new Date()).toISOString(),
-  };
-}
-
-function mapPayout(id: string, data: DocumentData): Payout {
-  return {
-    id,
-    amount_cents: Number(data.amountCents ?? 0),
-    method: typeof data.method === "string" ? data.method : null,
-    contact: typeof data.contact === "string" ? data.contact : null,
-    status:
-      data.status === "paid" || data.status === "rejected"
-        ? data.status
-        : "pending",
-    requested_at: (toDate(data.requestedAt) ?? new Date()).toISOString(),
-    paid_at: toDate(data.paidAt)?.toISOString() ?? null,
-  };
-}
 
 export function normalizeCode(value: string): string {
   return value.trim().toUpperCase();
@@ -284,55 +109,84 @@ export function verifyPinHash(pin: string, stored: string | null): boolean {
 }
 
 export async function getReferrer(code: string): Promise<Referrer | null> {
-  const snapshot = await referrerRef(code).get();
-  if (!snapshot.exists) return null;
-  return mapReferrer(code, snapshot.data() ?? {});
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("referrers")
+    .select("id, code, name, contact, payout_method, created_at")
+    .eq("code", code)
+    .maybeSingle();
+
+  if (error) throw error;
+  return (data as Referrer | null) ?? null;
+}
+
+async function getReferrerWithPin(
+  code: string
+): Promise<ReferrerWithPin | null> {
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("referrers")
+    .select(
+      "id, code, name, contact, payout_method, created_at, pin_hash, failed_attempts, locked_until"
+    )
+    .eq("code", code)
+    .maybeSingle();
+
+  if (error) throw error;
+  return (data as ReferrerWithPin | null) ?? null;
 }
 
 export async function verifyReferrerPin(
   code: string,
   pin: string
 ): Promise<Referrer> {
-  const ref = referrerRef(code);
-  const snapshot = await ref.get();
+  const supabase = createAdminClient();
+  const referrer = await getReferrerWithPin(code);
 
-  if (!snapshot.exists) {
+  if (!referrer) {
     throw new ReferralError("Código de referido no encontrado.", 404);
   }
 
-  const data = snapshot.data() ?? {};
-  const lockedUntil = toDate(data.lockedUntil);
-
-  if (lockedUntil && lockedUntil.getTime() > Date.now()) {
+  if (
+    referrer.locked_until &&
+    new Date(referrer.locked_until).getTime() > Date.now()
+  ) {
     throw new ReferralError(
       "Demasiados intentos fallidos. Espera 15 minutos e intenta de nuevo.",
       429
     );
   }
 
-  if (!verifyPinHash(pin, typeof data.pinHash === "string" ? data.pinHash : null)) {
-    const failedAttempts = Number(data.failedAttempts ?? 0) + 1;
-    const lockedUntilDate =
-      failedAttempts >= 5 ? new Date(Date.now() + 15 * 60 * 1000) : null;
+  if (!verifyPinHash(pin, referrer.pin_hash)) {
+    const failedAttempts = (referrer.failed_attempts || 0) + 1;
+    const lockedUntil =
+      failedAttempts >= 5
+        ? new Date(Date.now() + 15 * 60 * 1000).toISOString()
+        : null;
 
-    try {
-      await ref.update({ failedAttempts, lockedUntil: lockedUntilDate });
-    } catch {
-      // Si falla el contador, no revelamos el error real.
-    }
+    await supabase
+      .from("referrers")
+      .update({ failed_attempts: failedAttempts, locked_until: lockedUntil })
+      .eq("code", code);
 
     throw new ReferralError("PIN incorrecto.", 401);
   }
 
-  if (Number(data.failedAttempts ?? 0) !== 0 || data.lockedUntil) {
-    try {
-      await ref.update({ failedAttempts: 0, lockedUntil: null });
-    } catch {
-      // No es crítico; se reintenta en el próximo acceso.
-    }
+  if (referrer.failed_attempts !== 0 || referrer.locked_until) {
+    await supabase
+      .from("referrers")
+      .update({ failed_attempts: 0, locked_until: null })
+      .eq("code", code);
   }
 
-  return mapReferrer(code, data);
+  return {
+    id: referrer.id,
+    code: referrer.code,
+    name: referrer.name,
+    contact: referrer.contact,
+    payout_method: referrer.payout_method,
+    created_at: referrer.created_at,
+  };
 }
 
 export async function registerReferrer(input: {
@@ -342,106 +196,99 @@ export async function registerReferrer(input: {
   pin: string;
   ipHash: string;
 }): Promise<Referrer> {
-  const pinHash = hashPin(input.pin);
-  const createdAt = new Date();
+  const supabase = createAdminClient();
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+  const { count, error: countError } = await supabase
+    .from("referrers")
+    .select("id", { count: "exact", head: true })
+    .eq("created_ip", input.ipHash)
+    .gte("created_at", since);
+
+  if (countError) throw countError;
+  if ((count ?? 0) >= MAX_REGISTRATIONS_PER_IP_PER_DAY) {
+    throw new ReferralError(
+      "Se crearon demasiados códigos desde esta conexión. Intenta de nuevo mañana.",
+      429
+    );
+  }
 
   for (let attempt = 0; attempt < 6; attempt += 1) {
     const code = generateReferralCode();
-
-    try {
-      await getDb().runTransaction(async (transaction) => {
-        const ipRef = ipDailyRef(input.ipHash, dayKey());
-        const ipSnapshot = await transaction.get(ipRef);
-        const ipData = ipSnapshot.data() ?? {};
-
-        if (
-          Number(ipData.registrations ?? 0) >=
-          MAX_REGISTRATIONS_PER_IP_PER_DAY
-        ) {
-          throw new ReferralError(
-            "Se crearon demasiados códigos desde esta conexión. Intenta de nuevo mañana.",
-            429
-          );
-        }
-
-        const ref = referrerRef(code);
-        const existing = await transaction.get(ref);
-        if (existing.exists) {
-          throw new CodeCollisionError();
-        }
-
-        transaction.set(ref, {
-          code,
-          name: input.name,
-          contact: input.contact,
-          payoutMethod: input.payoutMethod,
-          pinHash,
-          failedAttempts: 0,
-          lockedUntil: null,
-          createdIp: input.ipHash,
-          createdAt,
-          visits: 0,
-          adClicks: 0,
-          downloads: 0,
-          earningsCents: 0,
-        });
-
-        transaction.set(
-          ipRef,
-          {
-            registrations: FieldValue.increment(1),
-            updatedAt: FieldValue.serverTimestamp(),
-          },
-          { merge: true }
-        );
-      });
-
-      return {
-        id: code,
+    const { data, error } = await supabase
+      .from("referrers")
+      .insert({
         code,
         name: input.name,
         contact: input.contact,
         payout_method: input.payoutMethod,
-        created_at: createdAt.toISOString(),
-      };
-    } catch (error) {
-      if (error instanceof CodeCollisionError) continue;
-      throw error;
-    }
+        pin_hash: hashPin(input.pin),
+        created_ip: input.ipHash,
+      })
+      .select("id, code, name, contact, payout_method, created_at")
+      .single();
+
+    if (!error) return data as Referrer;
+    if (error.code === "23505") continue;
+    throw error;
   }
 
-  throw new ReferralError(
-    "No se pudo generar un código único. Intenta de nuevo.",
-    500
-  );
+  throw new ReferralError("No se pudo generar un código único. Intenta de nuevo.", 500);
 }
 
 export async function getReferralStats(code: string): Promise<ReferralStats> {
-  const snapshot = await referrerRef(code).get();
-  if (!snapshot.exists) {
-    throw new ReferralError("Código de referido no encontrado.", 404);
-  }
+  const supabase = createAdminClient();
 
-  const data = snapshot.data() ?? {};
-  const payoutsSnapshot = await payoutsRef(code).get();
+  const [visitsResult, adClicksResult, downloadsResult, payoutsResult] = await Promise.all([
+    supabase
+      .from("referral_visits")
+      .select("id", { count: "exact", head: true })
+      .eq("referrer_code", code),
+    supabase
+      .from("referral_events")
+      .select("id", { count: "exact", head: true })
+      .eq("referrer_code", code)
+      .eq("event_type", "ad_click"),
+    supabase
+      .from("referral_events")
+      .select("id", { count: "exact", head: true })
+      .eq("referrer_code", code)
+      .eq("event_type", "download"),
+    supabase
+      .from("referral_payouts")
+      .select("amount_cents, status")
+      .eq("referrer_code", code),
+  ]);
 
-  let paidCents = 0;
-  let pendingCents = 0;
+  if (visitsResult.error) throw visitsResult.error;
+  if (adClicksResult.error) throw adClicksResult.error;
+  if (downloadsResult.error) throw downloadsResult.error;
+  if (payoutsResult.error) throw payoutsResult.error;
 
-  payoutsSnapshot.forEach((payoutDoc) => {
-    const payout = payoutDoc.data();
-    const amount = Number(payout.amountCents ?? 0);
+  const visits = visitsResult.count ?? 0;
+  const adClicks = adClicksResult.count ?? 0;
+  const downloads = downloadsResult.count ?? 0;
+  const payouts = (payoutsResult.data ?? []) as Array<{
+    amount_cents: number;
+    status: string;
+  }>;
 
-    if (payout.status === "paid") paidCents += amount;
-    else if (payout.status === "pending") pendingCents += amount;
-  });
+  const earningsCents =
+    visits * REFERRAL_RATES.visitCents +
+    adClicks * REFERRAL_RATES.adClickCents +
+    downloads * REFERRAL_RATES.downloadCents;
 
-  const earningsCents = Number(data.earningsCents ?? 0);
+  const paidCents = payouts
+    .filter((payout) => payout.status === "paid")
+    .reduce((total, payout) => total + payout.amount_cents, 0);
+  const pendingCents = payouts
+    .filter((payout) => payout.status === "pending")
+    .reduce((total, payout) => total + payout.amount_cents, 0);
 
   return {
-    visits: Number(data.visits ?? 0),
-    adClicks: Number(data.adClicks ?? 0),
-    downloads: Number(data.downloads ?? 0),
+    visits,
+    adClicks,
+    downloads,
     earningsCents,
     paidCents,
     pendingCents,
@@ -455,46 +302,35 @@ export async function recordVisit(
   ipHash: string,
   path: string | null
 ): Promise<boolean> {
-  return getDb().runTransaction(async (transaction) => {
-    const ref = referrerRef(code);
-    const referrerSnapshot = await transaction.get(ref);
-    if (!referrerSnapshot.exists) return false;
+  const referrer = await getReferrer(code);
+  if (!referrer) return false;
 
-    const visitRef = visitsRef(code).doc(visitorId);
-    const visitSnapshot = await transaction.get(visitRef);
-    if (visitSnapshot.exists) return true;
+  const supabase = createAdminClient();
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const { count, error: countError } = await supabase
+    .from("referral_visits")
+    .select("id", { count: "exact", head: true })
+    .eq("ip_hash", ipHash)
+    .gte("created_at", since);
 
-    const ipRef = ipDailyRef(ipHash, dayKey());
-    const ipSnapshot = await transaction.get(ipRef);
-    const ipData = ipSnapshot.data() ?? {};
+  if (countError) throw countError;
+  if ((count ?? 0) >= MAX_VISITS_PER_IP_PER_DAY) return false;
 
-    if (Number(ipData.visits ?? 0) >= MAX_VISITS_PER_IP_PER_DAY) {
-      return false;
-    }
-
-    transaction.set(visitRef, {
-      visitorId,
-      ipHash,
+  const { error } = await supabase.from("referral_visits").upsert(
+    {
+      referrer_code: code,
+      visitor_id: visitorId,
+      ip_hash: ipHash,
       path: path ? path.slice(0, 200) : null,
-      createdAt: new Date(),
-    });
+    },
+    {
+      onConflict: "referrer_code,visitor_id",
+      ignoreDuplicates: true,
+    }
+  );
 
-    transaction.set(
-      ipRef,
-      {
-        visits: FieldValue.increment(1),
-        updatedAt: FieldValue.serverTimestamp(),
-      },
-      { merge: true }
-    );
-
-    transaction.update(ref, {
-      visits: FieldValue.increment(1),
-      earningsCents: FieldValue.increment(REFERRAL_RATES.visitCents),
-    });
-
-    return true;
-  });
+  if (error) throw error;
+  return true;
 }
 
 export async function recordEvent(input: {
@@ -504,118 +340,81 @@ export async function recordEvent(input: {
   eventType: "ad_click" | "download";
   appSlug: string | null;
 }): Promise<{ counted: boolean; reason?: string }> {
-  return getDb().runTransaction(async (transaction) => {
-    const ref = referrerRef(input.code);
-    const referrerSnapshot = await transaction.get(ref);
-    if (!referrerSnapshot.exists) {
-      return { counted: false, reason: "invalid_code" };
-    }
+  const referrer = await getReferrer(input.code);
+  if (!referrer) return { counted: false, reason: "invalid_code" };
 
-    if (input.eventType === "download" && !input.appSlug) {
-      return { counted: false, reason: "missing_app" };
-    }
+  if (input.eventType === "download" && !input.appSlug) {
+    return { counted: false, reason: "missing_app" };
+  }
 
-    const visitRef = visitsRef(input.code).doc(input.visitorId);
-    const visitSnapshot = await transaction.get(visitRef);
-    if (!visitSnapshot.exists) {
-      return { counted: false, reason: "not_referred" };
-    }
+  const supabase = createAdminClient();
+  const { data: visit, error: visitError } = await supabase
+    .from("referral_visits")
+    .select("id")
+    .eq("referrer_code", input.code)
+    .eq("visitor_id", input.visitorId)
+    .maybeSingle();
 
-    const ipRef = ipDailyRef(input.ipHash, dayKey());
-    const ipSnapshot = await transaction.get(ipRef);
-    const ipData = ipSnapshot.data() ?? {};
+  if (visitError) throw visitError;
+  if (!visit) return { counted: false, reason: "not_referred" };
 
-    if (Number(ipData.events ?? 0) >= MAX_EVENTS_PER_IP_PER_DAY) {
-      return { counted: false, reason: "ip_limit" };
-    }
+  const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const { count: ipCount, error: ipError } = await supabase
+    .from("referral_events")
+    .select("id", { count: "exact", head: true })
+    .eq("ip_hash", input.ipHash)
+    .gte("created_at", since);
 
-    if (input.eventType === "download") {
-      const eventRef = eventsRef(input.code).doc(
-        `download_${input.visitorId}_${input.appSlug}`
-      );
-      const eventSnapshot = await transaction.get(eventRef);
-      if (eventSnapshot.exists) {
-        return { counted: false, reason: "duplicate" };
-      }
+  if (ipError) throw ipError;
+  if ((ipCount ?? 0) >= MAX_EVENTS_PER_IP_PER_DAY) {
+    return { counted: false, reason: "ip_limit" };
+  }
 
-      transaction.set(eventRef, {
-        visitorId: input.visitorId,
-        ipHash: input.ipHash,
-        eventType: "download",
-        appSlug: input.appSlug,
-        createdAt: new Date(),
-      });
+  if (input.eventType === "ad_click") {
+    const startOfDay = new Date();
+    startOfDay.setUTCHours(0, 0, 0, 0);
 
-      transaction.set(
-        ipRef,
-        {
-          events: FieldValue.increment(1),
-          updatedAt: FieldValue.serverTimestamp(),
-        },
-        { merge: true }
-      );
+    const { count, error: countError } = await supabase
+      .from("referral_events")
+      .select("id", { count: "exact", head: true })
+      .eq("referrer_code", input.code)
+      .eq("visitor_id", input.visitorId)
+      .eq("event_type", "ad_click")
+      .gte("created_at", startOfDay.toISOString());
 
-      transaction.update(ref, {
-        downloads: FieldValue.increment(1),
-        earningsCents: FieldValue.increment(REFERRAL_RATES.downloadCents),
-      });
-
-      return { counted: true };
-    }
-
-    const dailyRef = adDailyRef(input.code, input.visitorId, dayKey());
-    const dailySnapshot = await transaction.get(dailyRef);
-    const dailyData = dailySnapshot.data() ?? {};
-
-    if (Number(dailyData.count ?? 0) >= MAX_AD_CLICKS_PER_DAY) {
+    if (countError) throw countError;
+    if ((count ?? 0) >= MAX_AD_CLICKS_PER_DAY) {
       return { counted: false, reason: "daily_limit" };
     }
+  }
 
-    const eventRef = eventsRef(input.code).doc();
-    transaction.set(eventRef, {
-      visitorId: input.visitorId,
-      ipHash: input.ipHash,
-      eventType: "ad_click",
-      appSlug: input.appSlug,
-      createdAt: new Date(),
-    });
-
-    transaction.set(
-      dailyRef,
-      {
-        count: FieldValue.increment(1),
-        updatedAt: FieldValue.serverTimestamp(),
-      },
-      { merge: true }
-    );
-
-    transaction.set(
-      ipRef,
-      {
-        events: FieldValue.increment(1),
-        updatedAt: FieldValue.serverTimestamp(),
-      },
-      { merge: true }
-    );
-
-    transaction.update(ref, {
-      adClicks: FieldValue.increment(1),
-      earningsCents: FieldValue.increment(REFERRAL_RATES.adClickCents),
-    });
-
-    return { counted: true };
+  const { error } = await supabase.from("referral_events").insert({
+    referrer_code: input.code,
+    visitor_id: input.visitorId,
+    ip_hash: input.ipHash,
+    event_type: input.eventType,
+    app_slug: input.appSlug,
   });
+
+  if (error) {
+    if (error.code === "23505") return { counted: false, reason: "duplicate" };
+    throw error;
+  }
+
+  return { counted: true };
 }
 
 export async function getPayouts(code: string): Promise<Payout[]> {
-  const snapshot = await payoutsRef(code)
-    .orderBy("requestedAt", "desc")
-    .limit(20)
-    .get();
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("referral_payouts")
+    .select("id, amount_cents, method, contact, status, requested_at, paid_at")
+    .eq("referrer_code", code)
+    .order("requested_at", { ascending: false })
+    .limit(20);
 
-  return snapshot.docs.map((payoutDoc) =>
-    mapPayout(payoutDoc.id, payoutDoc.data())
-  );
+  if (error) throw error;
+  return (data ?? []) as Payout[];
 }
 
 export async function createPayout(input: {
@@ -626,68 +425,41 @@ export async function createPayout(input: {
 }): Promise<Payout> {
   await verifyReferrerPin(input.code, input.pin);
 
-  return getDb().runTransaction(async (transaction) => {
-    const ref = referrerRef(input.code);
-    const referrerSnapshot = await transaction.get(ref);
-    if (!referrerSnapshot.exists) {
-      throw new ReferralError("Código de referido no encontrado.", 404);
-    }
+  const supabase = createAdminClient();
+  const { data: pending, error: pendingError } = await supabase
+    .from("referral_payouts")
+    .select("id")
+    .eq("referrer_code", input.code)
+    .eq("status", "pending")
+    .maybeSingle();
 
-    const data = referrerSnapshot.data() ?? {};
-    const payoutsSnapshot = await transaction.get(payoutsRef(input.code));
+  if (pendingError) throw pendingError;
+  if (pending) {
+    throw new ReferralError("Ya tienes una solicitud de pago pendiente.", 409);
+  }
 
-    let paidCents = 0;
-    let pendingCents = 0;
-
-    payoutsSnapshot.forEach((payoutDoc) => {
-      const payout = payoutDoc.data();
-      const amount = Number(payout.amountCents ?? 0);
-
-      if (payout.status === "paid") paidCents += amount;
-      else if (payout.status === "pending") pendingCents += amount;
-    });
-
-    if (pendingCents > 0) {
-      throw new ReferralError(
-        "Ya tienes una solicitud de pago pendiente.",
-        409
-      );
-    }
-
-    const availableCents = Math.max(
-      0,
-      Number(data.earningsCents ?? 0) - paidCents - pendingCents
+  const stats = await getReferralStats(input.code);
+  if (stats.availableCents < MIN_PAYOUT_CENTS) {
+    throw new ReferralError(
+      `El mínimo para retirar es ${centsToUsd(MIN_PAYOUT_CENTS)}. Te faltan ${centsToUsd(
+        MIN_PAYOUT_CENTS - stats.availableCents
+      )}.`,
+      400
     );
+  }
 
-    if (availableCents < MIN_PAYOUT_CENTS) {
-      throw new ReferralError(
-        `El mínimo para retirar es ${centsToUsd(MIN_PAYOUT_CENTS)}. Te faltan ${centsToUsd(
-          MIN_PAYOUT_CENTS - availableCents
-        )}.`,
-        400
-      );
-    }
-
-    const payoutRef = payoutsRef(input.code).doc();
-    const requestedAt = new Date();
-
-    transaction.set(payoutRef, {
-      amountCents: availableCents,
+  const { data, error } = await supabase
+    .from("referral_payouts")
+    .insert({
+      referrer_code: input.code,
+      amount_cents: stats.availableCents,
       method: input.method,
       contact: input.contact,
       status: "pending",
-      requestedAt,
-      paidAt: null,
-    });
+    })
+    .select("id, amount_cents, method, contact, status, requested_at, paid_at")
+    .single();
 
-    return {
-      id: payoutRef.id,
-      amount_cents: availableCents,
-      method: input.method,
-      contact: input.contact,
-      status: "pending" as const,
-      requested_at: requestedAt.toISOString(),
-      paid_at: null,
-    };
-  });
+  if (error) throw error;
+  return data as Payout;
 }

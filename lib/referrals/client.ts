@@ -157,7 +157,7 @@ async function sendVisit(code: string): Promise<string | null> {
     if (sessionStorage.getItem(sentKey)) return code;
     sessionStorage.setItem(sentKey, "1");
   } catch {
-    // Si sessionStorage falla, la visita única de Firestore evita duplicados.
+    // Si sessionStorage falla, la visita única de la base de datos evita duplicados.
   }
 
   const ok = await postTrack({

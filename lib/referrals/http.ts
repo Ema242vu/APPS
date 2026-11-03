@@ -1,54 +1,41 @@
 import { NextResponse } from "next/server";
 import { ReferralError } from "./server";
 
-type FirebaseError = Error & { code?: number | string };
+type SupabaseError = {
+  code?: string;
+  message?: string;
+  details?: string;
+  hint?: string;
+};
 
-function firebaseSetupError(error: Error): string | null {
-  const code = (error as FirebaseError).code;
-  const message = error.message;
+function errorMessage(error: unknown): string {
+  if (error instanceof Error) return error.message;
 
-  if (
-    code === 5 ||
-    code === "NOT_FOUND" ||
-    /database .* does not exist|The database \(default\) does not exist/i.test(
-      message
-    )
-  ) {
-    return "Firestore no está creado en el proyecto de Firebase. Entra a Firebase Console → Firestore Database y crea la base de datos en modo nativo.";
+  if (typeof error === "object" && error !== null && "message" in error) {
+    const message = (error as { message?: unknown }).message;
+    return typeof message === "string" ? message : "";
   }
 
-  if (
-    code === 9 ||
-    code === "FAILED_PRECONDITION" ||
-    /Cloud Firestore API has not been used|Firestore API is not available|firestore\.googleapis\.com.*disabled/i.test(
-      message
-    )
-  ) {
-    return "La API de Firestore no está habilitada o la base está en un modo incompatible. Actívala en Google Cloud Console → APIs & Services → Cloud Firestore API, y crea la base en modo nativo.";
+  return "";
+}
+
+function supabaseSetupError(error: unknown): string | null {
+  const message = errorMessage(error);
+  const code =
+    typeof error === "object" && error !== null && "code" in error
+      ? String((error as SupabaseError).code ?? "")
+      : "";
+
+  if (code === "42P01" || /relation .* does not exist/i.test(message)) {
+    return "Faltan las tablas del sistema de referidos. Abre Supabase → SQL Editor y ejecuta el contenido de supabase/referrals.sql.";
   }
 
-  if (
-    code === 7 ||
-    code === "PERMISSION_DENIED" ||
-    /Missing or insufficient permissions|PERMISSION_DENIED/i.test(message)
-  ) {
-    return "Firestore rechazó la cuenta de servicio. Revisa que el project_id del JSON sea el mismo donde creaste Firestore y que la cuenta tenga el rol 'Cloud Datastore User' o 'Firebase Admin SDK Administrator Service Agent'.";
+  if (code === "42501" || /permission denied/i.test(message)) {
+    return "Supabase rechazó la clave de servicio. Revisa que SUPABASE_SERVICE_ROLE_KEY sea la service_role key y no la publishable key.";
   }
 
-  if (
-    code === 16 ||
-    code === "UNAUTHENTICATED" ||
-    /invalid authentication credentials|UNAUTHENTICATED/i.test(message)
-  ) {
-    return "No se pudo autenticar con Firebase. Revisa FIREBASE_SERVICE_ACCOUNT o las variables FIREBASE_CLIENT_EMAIL y FIREBASE_PRIVATE_KEY.";
-  }
-
-  if (
-    code === 3 ||
-    code === "INVALID_ARGUMENT" ||
-    /project .* does not exist|Invalid project/i.test(message)
-  ) {
-    return "El proyecto de Firebase no existe o el ID es incorrecto. Revisa FIREBASE_PROJECT_ID y la cuenta de servicio.";
+  if (code === "PGRST301" || /JWT|invalid api key/i.test(message)) {
+    return "La clave de Supabase no es válida. Revisa NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY y SUPABASE_SERVICE_ROLE_KEY.";
   }
 
   return null;
@@ -61,26 +48,21 @@ export function referralErrorResponse(error: unknown) {
 
   console.error("[referrals]", error);
 
-  if (
-    error instanceof Error &&
-    /Faltan FIREBASE_|FIREBASE_SERVICE_ACCOUNT|No se pudo inicializar Firebase/.test(
-      error.message
-    )
-  ) {
+  const message = errorMessage(error);
+
+  if (/Faltan NEXT_PUBLIC_SUPABASE_URL|SUPABASE_SERVICE_ROLE_KEY/.test(message)) {
     return NextResponse.json(
       {
         error:
-          "El sistema de referidos todavía no está conectado. Falta configurar Firebase en las variables de entorno.",
+          "El sistema de referidos todavía no está conectado. Falta configurar Supabase en las variables de entorno.",
       },
       { status: 503 }
     );
   }
 
-  if (error instanceof Error) {
-    const setupError = firebaseSetupError(error);
-    if (setupError) {
-      return NextResponse.json({ error: setupError }, { status: 503 });
-    }
+  const setupError = supabaseSetupError(error);
+  if (setupError) {
+    return NextResponse.json({ error: setupError }, { status: 503 });
   }
 
   return NextResponse.json(

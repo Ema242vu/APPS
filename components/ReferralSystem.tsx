@@ -17,7 +17,7 @@ import {
 } from "@/lib/referrals/client";
 
 type PayoutItem = {
-  id: string;
+  id: number;
   amount_cents: number;
   method: string | null;
   contact: string | null;
