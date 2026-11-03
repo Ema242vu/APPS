@@ -4673,6 +4673,34 @@ export const apps: {
     "Ejercicios prácticos y proyectos guiados",
     "Acceso ilimitado a todo el contenido",
   ],
+},
+{
+  slug: "moviebox-tv-premium",
+  name: "MovieBox TV Premium",
+  description: "Películas, series y dramas cortos en una sola app.",
+  longDescription: "MovieBox: Movies & TV & Short Drama es una app de streaming con películas, series, animes, colecciones de dramas cortos y contenido en 4K. Funciona tanto en teléfonos Android como en Smart TVs y Smart Stick, por lo que puedes ver todo desde la sala sin cables. Esta versión MOD ya viene activada y desbloqueada, sin necesidad de introducir ningún código, con acceso a la suscripción Premium y sin anuncios.",
+  link: "https://devuploads.com/tmh7z4krmu49",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/wxZZf2Tm/unnamed-(4).png",
+  emoji: "🎬",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "1.1.10",
+  size: "42 MB",
+  updated: "Nov 2026",
+  glow: "rgba(74, 222, 128, 0.4)",
+  border: "rgba(74, 222, 128, 0.6)",
+  text: "#86efac",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Activada sin código",
+    "Suscripción Premium desbloqueada",
+    "Sin anuncios",
+    "Películas, series y dramas cortos ilimitados",
+    "Compatible con Android y Smart TV",
+  ],
 }
 ];
 
@@ -4683,6 +4711,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "moviebox-tv-premium",
   "mimo-premium",
   "wallpapers-live-control-center",
   "kinemaster-premium",
