@@ -4617,6 +4617,34 @@ export const apps: {
   "downloads": 0,
   "hasPremiumSection": false,
   "premiumFeatures": [],
+},
+{
+  slug: "wallpapers-live-control-center",
+  name: "Wallpapers: Live & Control Center",
+  description: "Fondos de pantalla en vivo y estilos de centro de control.",
+  longDescription: "Wallpapers: Live & Control Center es una app de personalización para Android que reúne fondos de pantalla en vivo, imágenes en alta calidad y estilos para el centro de control. Cambia el aspecto de tu pantalla de inicio y de los paneles del sistema con diseños modernos, animaciones fluidas y opciones de personalización. Esta versión MOD tiene la suscripción Premium desbloqueada, sin anuncios y con acceso a todo el contenido.",
+  link: "https://vexfile.com/download/HA0dFxwJ6X",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/HL1JZYw2/unnamed.jpg",
+  emoji: "🖼️",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "4.6",
+  size: "40 MB",
+  updated: "Nov 2026",
+  glow: "rgba(168, 85, 247, 0.4)",
+  border: "rgba(168, 85, 247, 0.6)",
+  text: "#c084fc",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Sin anuncios",
+    "Todos los fondos Premium desbloqueados",
+    "Fondos de pantalla en vivo ilimitados",
+    "Estilos de centro de control desbloqueados",
+    "Descargas en alta calidad",
+  ],
 }
 ];
 
@@ -4627,6 +4655,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "wallpapers-live-control-center",
   "kinemaster-premium",
   "pvz-lawn",
   "hypic",
