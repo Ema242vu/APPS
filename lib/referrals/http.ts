@@ -19,12 +19,15 @@ function errorMessage(error: unknown): string {
   return "";
 }
 
+function supabaseErrorCode(error: unknown): string {
+  return typeof error === "object" && error !== null && "code" in error
+    ? String((error as SupabaseError).code ?? "")
+    : "";
+}
+
 function supabaseSetupError(error: unknown): string | null {
   const message = errorMessage(error);
-  const code =
-    typeof error === "object" && error !== null && "code" in error
-      ? String((error as SupabaseError).code ?? "")
-      : "";
+  const code = supabaseErrorCode(error);
 
   if (
     code === "42P01" ||
@@ -98,8 +101,15 @@ export function referralErrorResponse(error: unknown) {
     return NextResponse.json({ error: setupError }, { status: 503 });
   }
 
+  const code = supabaseErrorCode(error);
+  const detail = [code, message].filter(Boolean).join(": ");
+
   return NextResponse.json(
-    { error: "Ocurrió un error. Intenta de nuevo en unos minutos." },
+    {
+      error: detail
+        ? `[ref-debug] ${detail}`
+        : "Ocurrió un error. Intenta de nuevo en unos minutos.",
+    },
     { status: 500 }
   );
 }
