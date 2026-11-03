@@ -26,8 +26,22 @@ function supabaseSetupError(error: unknown): string | null {
       ? String((error as SupabaseError).code ?? "")
       : "";
 
-  if (code === "42P01" || /relation .* does not exist/i.test(message)) {
-    return "Faltan las tablas del sistema de referidos. Abre Supabase → SQL Editor y ejecuta el contenido de supabase/referrals.sql.";
+  if (
+    code === "42P01" ||
+    code === "PGRST205" ||
+    /relation .* does not exist|Could not find the table .* in the schema cache/i.test(
+      message
+    )
+  ) {
+    return "No se encontraron las tablas de referidos. Ejecuta supabase/referrals.sql en el SQL Editor del proyecto correcto y luego recarga el esquema.";
+  }
+
+  if (
+    code === "42703" ||
+    code === "PGRST204" ||
+    /column .* does not exist|Could not find the '.*' column/i.test(message)
+  ) {
+    return "Falta una columna en las tablas de referidos. Vuelve a ejecutar supabase/referrals.sql y luego recarga el esquema.";
   }
 
   if (code === "42501" || /permission denied/i.test(message)) {
@@ -36,6 +50,25 @@ function supabaseSetupError(error: unknown): string | null {
 
   if (code === "PGRST301" || /JWT|invalid api key/i.test(message)) {
     return "La clave de Supabase no es válida. Revisa NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY y SUPABASE_SERVICE_ROLE_KEY.";
+  }
+
+  if (
+    code === "08006" ||
+    code === "57P01" ||
+    code === "53300" ||
+    /fetch failed|ENOTFOUND|ECONNREFUSED|ETIMEDOUT|Invalid URL|network/i.test(
+      message
+    )
+  ) {
+    return "No se pudo conectar con Supabase. Revisa NEXT_PUBLIC_SUPABASE_URL, que el proyecto esté activo y que no esté pausado.";
+  }
+
+  if (code === "23502") {
+    return "Falta un dato obligatorio en el registro. Revisa que hayas ejecutado la versión más reciente de supabase/referrals.sql.";
+  }
+
+  if (code === "23514") {
+    return "Algún dato no cumple las reglas de la base de datos. Revisa el SQL y los límites configurados.";
   }
 
   return null;
