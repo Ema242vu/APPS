@@ -4645,6 +4645,34 @@ export const apps: {
     "Estilos de centro de control desbloqueados",
     "Descargas en alta calidad",
   ],
+},
+{
+  slug: "mimo-premium",
+  name: "Mimo Premium",
+  description: "Aprende a programar con lecciones cortas y prácticas.",
+  longDescription: "Mimo Premium es una app de aprendizaje de programación para Android con la que puedes estudiar Python, JavaScript, HTML, CSS, SQL y más desde el móvil. Avanza con lecciones cortas, ejercicios interactivos y proyectos guiados a tu propio ritmo, incluso si empiezas desde cero. Esta versión MOD tiene la suscripción Premium desbloqueada: sin anuncios y con acceso a todos los cursos y contenido exclusivo.",
+  link: "https://vexfile.com/download/Ucp66SIp9R",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/xCfpDSG0/unnamed-(3).png",
+  emoji: "🤖",
+  category: "Educación",
+  isTop: false,
+  isNew: true,
+  version: "9.35",
+  size: "76 MB",
+  updated: "Nov 2026",
+  glow: "rgba(139, 92, 246, 0.4)",
+  border: "rgba(139, 92, 246, 0.6)",
+  text: "#c4b5fd",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Sin anuncios",
+    "Todos los cursos y lecciones Premium desbloqueados",
+    "Rutas de programación completas",
+    "Ejercicios prácticos y proyectos guiados",
+    "Acceso ilimitado a todo el contenido",
+  ],
 }
 ];
 
@@ -4655,6 +4683,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "mimo-premium",
   "wallpapers-live-control-center",
   "kinemaster-premium",
   "pvz-lawn",
