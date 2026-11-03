@@ -546,6 +546,27 @@ export const apps: {
   "rating": 4.6
   },
   {
+  "slug": "passpartout-starving-artist",
+  "name": "Passpartout: Starving Artist",
+  "description": "Vive como un artista francés y vende tu arte.",
+  "longDescription": "Passpartout: Starving Artist te pone en la piel de un pintor francés que intenta abrirse camino en el mundo del arte. Pinta tus propias obras maestras, enfréntate a la subjetividad de los críticos y clientes, y trata de vender tu arte sin perder tu integridad artística. Administra tus gastos (¡y tu adicción a las baguettes!) mientras desbloqueas galerías y clientes más exigentes. Todo con una estética de teatro de marionetas y una banda sonora original. Un juego de simulación y creatividad con mucho humor y encanto.",
+  "link": "https://uc-share.com/s/166cd0d501994?la=es-la",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/7627fd88-49b9-4441-a2fe-38d81338cb9b.webp",
+  "emoji": "🎨",
+  "category": "Juegos",
+  "isTop": true,
+  "isNew": false,
+  "version": "1.0.0",
+  "size": "180 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(245, 158, 11, 0.4)",
+  "border": "rgba(245, 158, 11, 0.6)",
+  "text": "#f59e0b",
+  "developer": "Flamebait Games",
+  "rating": 3.9
+},
+  {
   "slug": "m64plus-fz-emulator",
   "name": "M64Plus FZ Emulator",
   "description": "Emulador de Nintendo 64 para Android.",
