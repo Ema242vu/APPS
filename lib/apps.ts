@@ -4764,6 +4764,38 @@ export const apps: {
     "Películas, series y dramas cortos ilimitados",
     "Compatible con Android y Smart TV",
   ],
+},
+{
+  slug: "grok-premium",
+  name: "Grok Premium",
+  description: "El asistente de IA de xAI con todas las funciones desbloqueadas.",
+  longDescription:
+    "Grok Premium es la app oficial del asistente de inteligencia artificial de xAI con la suscripción liberada. Conversa con el modelo Grok sin límites de mensajes, genera imágenes y videos con IA, analiza documentos y enlaces, usa el modo de voz para hablar en tiempo real y haz preguntas sobre lo que ves en pantalla con Grok Vision. Esta versión Premium viene activada y desbloqueada, sin anuncios, lista para estudiar, trabajar, traducir o crear contenido desde tu Android.",
+  link: "https://vexfile.com/download/RbUjDDWJYT",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/8Cz6ZFYG/9a4e50f2c2bf1cfb92b6ac5f80b0b9fddccdd749218caef7d6f79d31c4095e99-600.jpg",
+  emoji: "🧠",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "1.1.05",
+  size: "105 MB",
+  updated: "Nov 2026",
+  glow: "rgba(115, 115, 115, 0.4)",
+  border: "rgba(212, 212, 212, 0.6)",
+  text: "#e5e7eb",
+  developer: "xAI",
+  rating: 4.6,
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Mensajes sin límites de uso",
+    "Generación de imágenes y videos con IA",
+    "Análisis de documentos, enlaces y capturas (Grok Vision)",
+    "Modo de voz en tiempo real",
+    "Sin anuncios",
+  ],
 }
 ];
 
@@ -4774,6 +4806,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "grok-premium",
   "moviebox-tv-premium",
   "mimo-premium",
   "wallpapers-live-control-center",
