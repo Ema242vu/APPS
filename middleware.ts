@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const ADMIN_PATHS = ["/admin/referidos"];
+const PROTECTED_PATHS = ["/admin/referidos", "/admin/referidos/"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (!ADMIN_PATHS.some((path) => pathname.startsWith(path))) {
+  // Excluir login de la protección
+  if (pathname === "/admin/login" || pathname.startsWith("/admin/login/")) {
+    return NextResponse.next();
+  }
+
+  // Verificar rutas protegidas
+  if (!PROTECTED_PATHS.some((path) => pathname === path || pathname.startsWith(path + "/"))) {
     return NextResponse.next();
   }
 
@@ -17,11 +23,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (pathname === "/admin/referidos") {
-    return NextResponse.rewrite(new URL("/admin/login", request.url));
-  }
-
-  return NextResponse.json({ error: "Token de admin requerido" }, { status: 401 });
+  // Redirigir al login
+  return NextResponse.rewrite(new URL("/admin/login", request.url));
 }
 
 function isTokenValid(token: string | null, cookieToken?: string): boolean {
