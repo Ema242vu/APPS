@@ -8,6 +8,8 @@ export default function sitemap() {
 
   const staticPages = [
     { url: `${BASE_URL}/`, lastModified: now, changeFrequency: "daily" as const, priority: 1.0 },
+    { url: `${BASE_URL}/admin/login`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.3 },
+    { url: `${BASE_URL}/admin/referidos`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.3 },
     { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.9 },
     { url: `${BASE_URL}/codigos`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.8 },
     { url: `${BASE_URL}/exclusivas`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.7 },
