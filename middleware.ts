@@ -1,42 +1,44 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import {
+  ADMIN_SESSION_COOKIE,
+  ADMIN_TOKEN_COOKIE,
+  getAdminSecret,
+  verifyAdminToken,
+} from "@/lib/referrals/admin-token";
 
-const PROTECTED_PATHS = ["/admin/referidos", "/admin/referidos/"];
-
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Excluir login de la protección
+  // El login siempre es accesible.
   if (pathname === "/admin/login" || pathname.startsWith("/admin/login/")) {
     return NextResponse.next();
   }
 
-  // Verificar rutas protegidas
-  if (!PROTECTED_PATHS.some((path) => pathname === path || pathname.startsWith(path + "/"))) {
+  if (!pathname.startsWith("/admin/referidos")) {
     return NextResponse.next();
   }
 
-  const token = request.headers.get("x-admin-token");
-  const cookieToken = request.cookies.get("__admin_valid")?.value;
+  const token =
+    request.cookies.get(ADMIN_TOKEN_COOKIE)?.value ??
+    request.headers.get("x-admin-token");
+  const sessionId = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
 
-  if (isTokenValid(token, cookieToken)) {
-    return NextResponse.next();
+  if (token && sessionId) {
+    try {
+      const secret = getAdminSecret();
+      const payload = await verifyAdminToken(token, secret);
+
+      if (payload && payload.sid === sessionId) {
+        return NextResponse.next();
+      }
+    } catch {
+      // Si falta la clave, cae al login.
+    }
   }
 
-  // Redirigir al login
-  return NextResponse.rewrite(new URL("/admin/login", request.url));
-}
-
-function isTokenValid(token: string | null, cookieToken?: string): boolean {
-  if (!token || !cookieToken) return false;
-  try {
-    const parts = token.split(".");
-    if (parts.length !== 2) return false;
-    const payload = JSON.parse(Buffer.from(parts[1], "base64").toString());
-    return payload.exp > Date.now() && payload.sessionid === cookieToken;
-  } catch {
-    return false;
-  }
+  const loginUrl = new URL("/admin/login", request.url);
+  return NextResponse.redirect(loginUrl);
 }
 
 export const config = {

@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
-
-const ADMIN_SECRET = process.env.NEXT_PUBLIC_ADMIN_SECRET_KEY || "cambia-esto";
+import {
+  ADMIN_SESSION_COOKIE,
+  ADMIN_TOKEN_COOKIE,
+  ADMIN_TOKEN_TTL_MS,
+  getAdminSecret,
+  signAdminToken,
+} from "@/lib/referrals/admin-token";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,33 +15,41 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => null);
     const providedSecret = typeof body?.secret === "string" ? body.secret : "";
 
-    if (providedSecret !== ADMIN_SECRET) {
-      return NextResponse.json({ error: "Secreto incorrecto" }, { status: 401 });
+    let secret: string;
+    try {
+      secret = getAdminSecret();
+    } catch {
+      return NextResponse.json(
+        { error: "Falta configurar ADMIN_SECRET_KEY en las variables de entorno." },
+        { status: 503 }
+      );
     }
 
-    const sessionId = Math.random().toString(36).substring(7);
-    const payload = {
-      exp: Date.now() + 10 * 60 * 1000,
-      sessionid: sessionId,
-      iat: Date.now(),
-    };
-    const header = Buffer.from(
-      JSON.stringify({ alg: "HS256", typ: "JWT" })
-    ).toString("base64url");
-    const payloadB64 = Buffer.from(JSON.stringify(payload)).toString("base64url");
-    const payloadB64Safe = payloadB64.replace(/=/g, "");
-    const token = `${header}.${payloadB64Safe}`;
+    if (!providedSecret || providedSecret !== secret) {
+      return NextResponse.json({ error: "Contraseña incorrecta." }, { status: 401 });
+    }
 
-    const response = NextResponse.json({ token });
-    response.cookies.set("__admin_valid", sessionId, {
-      maxAge: 600,
+    const sessionId = crypto.randomUUID();
+    const token = await signAdminToken(
+      { exp: Date.now() + ADMIN_TOKEN_TTL_MS, sid: sessionId },
+      secret
+    );
+
+    const response = NextResponse.json({ ok: true, token });
+
+    const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-    });
+      secure: request.url.startsWith("https://"),
+      sameSite: "lax" as const,
+      path: "/",
+      maxAge: Math.floor(ADMIN_TOKEN_TTL_MS / 1000),
+    };
+
+    response.cookies.set(ADMIN_TOKEN_COOKIE, token, cookieOptions);
+    response.cookies.set(ADMIN_SESSION_COOKIE, sessionId, cookieOptions);
 
     return response;
   } catch {
-    return NextResponse.json({ error: "Error interno" }, { status: 500 });
+    return NextResponse.json({ error: "Error interno." }, { status: 500 });
   }
 }
