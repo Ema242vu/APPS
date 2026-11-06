@@ -4796,6 +4796,35 @@ export const apps: {
     "Modo de voz en tiempo real",
     "Sin anuncios",
   ],
+},
+{
+  slug: "dramora-premium",
+  name: "Dramora Premium",
+  description: "Dramas cortos en vertical para verlos en ratos libres.",
+  longDescription:
+    "Dramora Premium es una app de streaming pensada para los dramas cortos en vertical: historias episodadas de pocos minutos que puedes ver en el móvil, en el bus o antes de dormir. Navega por miles de títulos de novela, romance, suspense y comedia, con nuevos episodios publicados cada semana y opción de guardarlos para ver más tarde. Esta versión Premium viene desbloqueada, sin anuncios y con acceso a todo el catálogo.",
+  link: "https://vexfile.com/download/01dzvXmqYX",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/5tnMLqyF/unnamed-(3).webp",
+  emoji: "🎭",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "1.16.1",
+  size: "31 MB",
+  updated: "Nov 2026",
+  glow: "rgba(14, 165, 233, 0.4)",
+  border: "rgba(56, 189, 248, 0.6)",
+  text: "#7dd3fc",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Sin anuncios",
+    "Catálogo completo de dramas cortos",
+    "Todos los episodios disponibles",
+    "Favoritos y lista de reproducción",
+  ],
 }
 ];
 
@@ -4806,6 +4835,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "dramora-premium",
   "grok-premium",
   "moviebox-tv-premium",
   "mimo-premium",
