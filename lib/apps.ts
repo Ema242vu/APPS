@@ -4825,6 +4825,35 @@ export const apps: {
     "Todos los episodios disponibles",
     "Favoritos y lista de reproducción",
   ],
+},
+{
+  slug: "blurrr-premium",
+  name: "Blurrr Premium",
+  description: "Difumina fondos y rostros en fotos y videos al instante.",
+  longDescription:
+    "Blurrr Premium es una app de edición para difuminar fondos y rostros en tus fotos y videos, ideal para publicar contenido en redes sociales o para proteger tu privacidad. Marca automáticamente a las personas y el fondo, aplica desenfoque con distintos niveles, añade efecto de movimiento y exporta en alta calidad. Esta versión Premium viene desbloqueada, sin marca de agua y sin anuncios.",
+  link: "https://uc-share.com/s/8c1a1c519fb74?la=en-us",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/HLxhc94P/images-(5).jpg",
+  emoji: "🌫️",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "2.0.6-4",
+  size: "142 MB",
+  updated: "Nov 2026",
+  glow: "rgba(132, 204, 22, 0.4)",
+  border: "rgba(132, 204, 22, 0.6)",
+  text: "#a3e635",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Sin marca de agua",
+    "Sin anuncios",
+    "Desenfoque automático de fondos y rostros",
+    "Exportación en alta calidad",
+  ],
 }
 ];
 
@@ -4835,6 +4864,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "blurrr-premium",
   "dramora-premium",
   "grok-premium",
   "moviebox-tv-premium",
