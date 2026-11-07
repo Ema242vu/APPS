@@ -4883,6 +4883,28 @@ export const apps: {
     "Mezclas y sesiones guardadas ilimitadas",
     "Scratch, beatmatch y crossfade",
   ],
+},
+{
+  slug: "garten-of-banban-2",
+  name: "Garten of Banban 2",
+  description: "Terror en el jardín: resuelve puzles y huye de Banban.",
+  longDescription:
+    "Garten of Banban 2 es la terrorífica secuela del clásico de terror infantil. Deambula por el jardín de la guardería, completa puzles, minijuegos y acertijos mientras te persiguen los Huggies, el Mono y el propio Banban por los pasillos. Incluye una campaña con muchas más salas, acertijos y momentos de tensión, además de las persecuciones más intensas de la saga. Esta versión MOD trae contenido extra desbloqueado para divertirte más.",
+  link: "https://vexfile.com/download/DIMxii4S4y",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/L6L76HMp/garten-of-banban-2-tlack.png",
+  emoji: "😱",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "1.0.18",
+  size: "360 MB",
+  updated: "Nov 2026",
+  glow: "rgba(239, 68, 68, 0.4)",
+  border: "rgba(239, 68, 68, 0.6)",
+  text: "#fca5a5",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -4893,6 +4915,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "garten-of-banban-2",
   "virtual-dj-mixer-premium",
   "blurrr-premium",
   "dramora-premium",
