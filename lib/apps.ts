@@ -4854,6 +4854,35 @@ export const apps: {
     "Desenfoque automático de fondos y rostros",
     "Exportación en alta calidad",
   ],
+},
+{
+  slug: "virtual-dj-mixer-premium",
+  name: "Virtual DJ Mixer Premium",
+  description: "Mezcla, remixa y haz scratches como un DJ profesional.",
+  longDescription:
+    "Virtual DJ Mixer Premium es una app para Android con la que te conviertes en DJ desde el móvil: carga tus canciones, alinea los beats, mezcla en automático o manualmente, aplica Scratch, crossfade y una amplia gama de efectos de sonido, y graba tus sesiones para compartirlas. Ideal para practicar, preparar la fiesta o crear remixes con tus temas favoritos. Esta versión Premium viene desbloqueada, sin anuncios y con todos los efectos y samples disponibles.",
+  link: "https://vexfile.com/download/Oj6U7PPUlU",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/htJb2vZj/virtual-dj-mixer-remix-music-150x150.webp",
+  emoji: "🎚️",
+  category: "Música",
+  isTop: false,
+  isNew: true,
+  version: "4.2.0",
+  size: "26 MB",
+  updated: "Nov 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#f9a8d4",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Sin anuncios",
+    "Todos los efectos y samples desbloqueados",
+    "Mezclas y sesiones guardadas ilimitadas",
+    "Scratch, beatmatch y crossfade",
+  ],
 }
 ];
 
@@ -4864,6 +4893,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "virtual-dj-mixer-premium",
   "blurrr-premium",
   "dramora-premium",
   "grok-premium",
