@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 interface VerificarResponse {
   ok: boolean;
@@ -32,7 +33,7 @@ export default function Generar() {
       return;
     }
     const interval = setInterval(() => {
-      setTimer((prev) => {
+      setTimer((prev: number) => {
         if (prev <= 1) {
           clearInterval(interval);
           setTimer(10);
