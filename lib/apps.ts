@@ -4905,6 +4905,28 @@ export const apps: {
   text: "#fca5a5",
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "lovecraft-locker",
+  name: "Lovecraft Locker: Tentacle Office",
+  description: "Juego de terror/adulto +18 con estilo anime.",
+  longDescription:
+    "Lovecraft Locker: Tentacle Office es un juego para adultos (+18) con estética anime donde controlas criaturas de tentáculos dentro de una oficina. Atrapa a las empleadas, arrástralas a los casilleros y desbloquea nuevas escenas y personajes. Está pensado exclusivamente para un público adulto. Esta versión gratuita para Android incluye el contenido base desbloqueado.",
+  link: "https://uc-share.com/s/de13fd5e7d3c4?la=en-us",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/j5MYRwMV/file-000000005d7c822f8f247cc9f25aff6a.png",
+  emoji: "🔞",
+  category: "+18",
+  isTop: false,
+  isNew: true,
+  version: "Free Public",
+  size: "362 MB",
+  updated: "Nov 2026",
+  glow: "rgba(139, 92, 246, 0.4)",
+  border: "rgba(139, 92, 246, 0.6)",
+  text: "#c4b5fd",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -4915,6 +4937,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "lovecraft-locker",
   "garten-of-banban-2",
   "virtual-dj-mixer-premium",
   "blurrr-premium",
