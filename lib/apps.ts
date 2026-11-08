@@ -1724,7 +1724,7 @@ export const apps: {
     name: "MicroG (Vanced)",
     description: "Servicios de Google optimizados para Vanced y apps modificadas.",
     longDescription: "MicroG Vanced es la versión modificada de los servicios de Google.",
-    link: "https://github.com/vancedto/vanced.to/releases/download/2026-43/vanced.to_vanced_microgre_arm64v8a_v7.2.2.apk",
+    link: "https://vexfile.com/download/cQDo20GjpW",
     altLinks: [
       { label: "Versión armeabi-v7a", url: "https://github.com/vancedto/vanced.to/releases/download/2026-43/vanced.to_vanced_microgre_armeabiv7a_v7.2.2.apk" },
     ],
