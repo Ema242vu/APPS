@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
 
 interface VerificarResponse {
   ok: boolean;
-  // Puede tener otros campos que el API retorne
 }
 
 interface GenerarResponse {
@@ -123,19 +121,25 @@ export default function Generar() {
         <div style={{ padding: "20px", textAlign: "center" }}>
           <h2 style={{ color: "#f87171" }}>🔴 El bot está apagado</h2>
           <p>El bot está apagado, espera 1 min y dale Reintentar</p>
-          <Button
+          <button
             onClick={() => {
               setBotOffline(false);
               setVerificado(null);
             }}
             style={{
               marginTop: "12px",
+              padding: "12px 24px",
               background: "#3b82f6",
               color: "#fff",
+              border: "none",
+              borderRadius: "8px",
+              fontWeight: "bold",
+              fontSize: "14px",
+              cursor: "pointer",
             }}
           >
             Reintentar
-          </Button>
+          </button>
         </div>
       );
     }
@@ -158,7 +162,7 @@ export default function Generar() {
           {pasoActual === 1 && (
             <div style={{ marginBottom: "16px" }}>
               <p style={{ color: "#fff", margin: "0 0 8px 0" }}>Paso 1: Click aquí</p>
-              <Button
+              <button
                 onClick={() => {
                   setPasoActual(2);
                   // Timer empieza cuando hacen click
@@ -168,12 +172,18 @@ export default function Generar() {
                 style={{
                   width: "100%",
                   marginTop: "8px",
+                  padding: "12px",
                   background: "#22c55e",
                   color: "#0a0a0f",
+                  border: "none",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                  cursor: "pointer",
                 }}
               >
                 Ir a anuncios / botón
-              </Button>
+              </button>
             </div>
           )}
 
@@ -190,8 +200,14 @@ export default function Generar() {
                 }}
                 style={{
                   marginTop: "8px",
+                  padding: "10px 20px",
                   background: "#3b82f6",
                   color: "#fff",
+                  border: "none",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                  cursor: "pointer",
                 }}
               >
                 Saltar timer
@@ -202,33 +218,44 @@ export default function Generar() {
           {pasoActual === 3 && (
             <div style={{ marginBottom: "16px" }}>
               <p style={{ color: "#fff", margin: "0 0 8px 0" }}>Paso 3: Click aquí</p>
-              <Button
+              <button
                 onClick={() => setPasoActual(4)}
                 style={{
                   width: "100%",
                   marginTop: "8px",
+                  padding: "12px",
                   background: "#a855f7",
                   color: "#fff",
+                  border: "none",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                  cursor: "pointer",
                 }}
               >
                 Verificar click
-              </Button>
+              </button>
             </div>
           )}
 
           {pasoActual >= 4 && (
-            <Button
+            <button
               onClick={() => setProcedimientoCompleto(true)}
               style={{
                 width: "100%",
                 marginTop: "16px",
+                padding: "14px",
                 background: "#facc15",
                 color: "#0a0a0f",
+                border: "none",
+                borderRadius: "8px",
                 fontWeight: "bold",
+                fontSize: "14px",
+                cursor: "pointer",
               }}
             >
               He completado los 3 pasos
-            </Button>
+            </button>
           )}
         </div>
       </div>
@@ -254,36 +281,45 @@ export default function Generar() {
               {codigo}
             </div>
           </div>
-          <Button
+          <button
             onClick={() => navigator.clipboard.writeText(codigo)}
             style={{
               width: "100%",
               marginTop: "12px",
+              padding: "14px",
               background: "#3b82f6",
               color: "#fff",
+              border: "none",
+              borderRadius: "8px",
               fontWeight: "bold",
+              fontSize: "14px",
+              cursor: "pointer",
             }}
           >
             Copiar Código
-          </Button>
+          </button>
           <p style={{ marginTop: "12px", color: "#888", fontSize: "12px" }}>
             Vuelve a WhatsApp y manda !activar {codigo}
           </p>
         </div>
       ) : (
-        <Button
+        <button
           onClick={handleGenerar}
           style={{
             width: "100%",
             marginTop: "20px",
+            padding: "16px",
             background: "#facc15",
             color: "#0a0a0f",
+            border: "none",
+            borderRadius: "8px",
             fontWeight: "bold",
             fontSize: "16px",
+            cursor: "pointer",
           }}
         >
           GENERAR MI CÓDIGO
-        </Button>
+        </button>
       )}
     </div>
   );
