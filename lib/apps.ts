@@ -4950,6 +4950,27 @@ export const apps: {
   rating: 4.6,
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "dimension-69",
+  name: "Dimesion 69",
+  description: "Juego +18 con estilo anime y contenido para adultos.",
+  longDescription: "Dimesion 69 es un juego para adultos (+18) con estilo anime y contenido explícito. Versión 0.34.4b. Contenido exclusivo para mayores de 18 años.",
+  link: "https://vexfile.com/download/kXZgDys3uU",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/kgCpdCkp/s-Nxn32.png",
+  emoji: "🔞",
+  category: "+18",
+  isTop: false,
+  isNew: true,
+  version: "0.34.4b",
+  size: "—",
+  updated: "Nov 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#ec4899",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -4960,6 +4981,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "dimension-69",
   "lovecraft-locker",
   "garten-of-banban-2",
   "virtual-dj-mixer-premium",
