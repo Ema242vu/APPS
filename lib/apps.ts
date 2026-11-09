@@ -5000,6 +5000,35 @@ export const apps: {
     "Descargas para ver sin conexión",
     "Calidad de video en alta definición",
   ],
+},
+{
+  slug: "depthpix",
+  name: "DepthPix Premium",
+  description: "Edita fotos con efectos de profundidad y desenfoque profesional.",
+  longDescription:
+    "DepthPix es una app de edición fotográfica para crear efectos de profundidad, desenfoque de fondo (bokeh) y retratos profesionales desde el móvil. Ajusta el nivel de desenfoque, elige entre distintos estilos de bokeh y aplica el efecto solo al fondo o al sujeto de forma automática. Ideal para fotos de retrato, productos y contenido para redes sociales. Esta versión Premium viene desbloqueada, sin anuncios y con todos los efectos y herramientas de edición disponibles.",
+  link: "https://uc-share.com/s/403078a39cb94?la=en-us",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/WzfXJB4w/unnamed-(5).png",
+  emoji: "🌫️",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "1.0.34",
+  size: "29 MB",
+  updated: "Nov 2026",
+  glow: "rgba(74, 222, 128, 0.4)",
+  border: "rgba(74, 222, 128, 0.6)",
+  text: "#86efac",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Sin anuncios",
+    "Todos los efectos de profundidad y bokeh",
+    "Ajuste manual del nivel de desenfoque",
+    "Exportación en alta resolución",
+  ],
 }
 ];
 
@@ -5010,6 +5039,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "depthpix",
   "reelshort-premium",
   "dimension-69",
   "lovecraft-locker",
