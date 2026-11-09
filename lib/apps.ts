@@ -4971,6 +4971,35 @@ export const apps: {
   text: "#ec4899",
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "reelshort-premium",
+  name: "ReelShort Premium",
+  description: "Dramas cortos y series en vertical para ver en cualquier momento.",
+  longDescription:
+    "ReelShort es una app de dramas cortos en formato vertical: episodios de unos minutos con historias de romance, suspense y comedia que puedes ver cuando quieras. Incluye miles de dramas cortos, series y películas en alta calidad, con nuevos capítulos publicados cada día y la opción de descargar para ver sin conexión. Esta versión Premium viene desbloqueada, sin anuncios y con acceso a todo el catálogo de dramas y series de TV.",
+  link: "https://uc-share.com/s/887e2aee53404?la=en-us",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/BQN5V9cJ/028fa78048c1c1973066dea0802590bf.jpg",
+  emoji: "📺",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "3.5.02",
+  size: "53 MB",
+  updated: "Nov 2026",
+  glow: "rgba(244, 63, 94, 0.4)",
+  border: "rgba(244, 63, 94, 0.6)",
+  text: "#fda4af",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Sin anuncios",
+    "Dramas cortos y series ilimitados",
+    "Descargas para ver sin conexión",
+    "Calidad de video en alta definición",
+  ],
 }
 ];
 
@@ -4981,6 +5010,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "reelshort-premium",
   "dimension-69",
   "lovecraft-locker",
   "garten-of-banban-2",
