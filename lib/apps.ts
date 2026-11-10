@@ -5053,6 +5053,37 @@ export const apps: {
   rating: 4.6,
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "fusvob-vpn",
+  name: "Fusvob VPN",
+  description: "VPN rápida y segura para navegar sin restricciones.",
+  longDescription:
+    "Fusvob VPN es una app de red privada virtual para Android que te permite navegar de forma segura, proteger tu conexión Wi-Fi y acceder a contenido bloqueado en tu región. Con servidores en varios países, conexiones encriptadas y una interfaz sencilla, es ideal para privacidad y streaming sin límites. Esta versión incluye la suscripción Premium desbloqueada, sin anuncios y con ancho de banda ilimitado.",
+  link: "https://vexfile.com/download/O2qxK7jSCJ",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/MH6r9x28/IMG-20261109-215357-751.jpg",
+  emoji: "🛡️",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "1.2.9",
+  size: "32 MB",
+  updated: "Nov 2026",
+  glow: "rgba(59, 130, 246, 0.4)",
+  border: "rgba(59, 130, 246, 0.6)",
+  text: "#60a5fa",
+  developer: "Fusvob",
+  rating: 4.5,
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Sin anuncios",
+    "Servidores en varios países",
+    "Conexión encriptada y privada",
+    "Ancho de banda ilimitado",
+  ],
 }
 ];
 
@@ -5063,6 +5094,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "fusvob-vpn",
   "farming-simulator-23",
   "proton-vpn-premium",
   "depthpix",
