@@ -223,6 +223,30 @@ function MonetagGate({
           <p style={{ fontSize: "20px", fontWeight: 800, color: "#1e293b", margin: "0 0 12px 0" }}>{timer}s</p>
           <p style={{ fontSize: "12px", color: "#64748b", margin: 0 }}>Vuelve a esta pestaña y pulsa Continuar cuando termine</p>
         </div>
+
+        {/* Banner VIP directo */}
+        <div style={{ background: "linear-gradient(135deg, #dc2626, #b91c1c)", borderRadius: "16px", padding: "18px", marginBottom: "18px", textAlign: "center", color: "#ffffff", boxShadow: "0 4px 15px rgba(220,38,38,0.3)" }}>
+          <p style={{ fontSize: "13px", fontWeight: 700, margin: "0 0 8px 0", color: "#fecaca" }}>⚡ ¿Quieres los APKs directos?</p>
+          <p style={{ fontSize: "12px", margin: "0 0 14px 0", color: "#fca5a5", lineHeight: 1.4 }}>Compra nuestro VIP y descarga los APKs directamente, sin tener que hacer ningún proceso de verificación.</p>
+          <a
+            href="https://wa.me/573133321246"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-block",
+              background: "#25D366",
+              color: "#ffffff",
+              padding: "10px 20px",
+              borderRadius: "10px",
+              fontWeight: 700,
+              fontSize: "13px",
+              textDecoration: "none",
+              boxShadow: "0 4px 10px rgba(37,211,102,0.4)",
+            }}
+          >
+            💬 Contactar por WhatsApp
+          </a>
+        </div>
       </div>
     );
   }
