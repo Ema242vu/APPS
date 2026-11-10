@@ -5029,6 +5029,30 @@ export const apps: {
     "Ajuste manual del nivel de desenfoque",
     "Exportación en alta resolución",
   ],
+},
+{
+  slug: "farming-simulator-23",
+  name: "Farming Simulator 23",
+  description: "Simulador de agricultura: cultiva, cosecha y gestiona tu propia granja.",
+  longDescription:
+    "Farming Simulator 23 te pone al mando de una granja real: cultiva una gran variedad de cosechas, cría animales, cosecha y vende tus productos para expandir tu negocio agrícola. Conduce tractores y maquinaria de marcas reales, explora mapas abiertos y gestiona cada aspecto de tu granja. Esta es la versión de pago en Play Store, pero aquí puedes descargar el APK gratis, sin funciones Premium bloqueadas y sin coste.",
+  link: "https://vexfile.com/download/EUEODZrKEp",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/W1XCCdpf/unnamed-(1).jpg",
+  emoji: "🚜",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "0.0.0.23",
+  size: "1.1 GB",
+  updated: "Nov 2026",
+  glow: "rgba(34, 197, 94, 0.4)",
+  border: "rgba(34, 197, 94, 0.6)",
+  text: "#22c55e",
+  developer: "GIANTS Software",
+  rating: 4.6,
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5039,6 +5063,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "farming-simulator-23",
   "proton-vpn-premium",
   "depthpix",
   "reelshort-premium",
