@@ -703,6 +703,113 @@ export default function Home() {
           />
         </div>
 
+        {/* ============ RESULTADOS HORIZONTALES (bajo el buscador) ============ */}
+        {searchTerm.trim().length > 0 && filteredApps.length > 0 && (
+          <section style={{ marginBottom: S.x32 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: S.x16,
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "16px",
+                  fontWeight: W.semi,
+                  color: c.text,
+                  margin: 0,
+                  letterSpacing: "-0.3px",
+                }}
+              >
+                🔍 Resultados para “{searchTerm}”
+              </h2>
+              <span style={{ fontSize: "11px", color: c.muted, fontWeight: W.reg }}>
+                {filteredApps.length} encontrado{filteredApps.length !== 1 ? "s" : ""}
+              </span>
+            </div>
+            <div
+              className="hide-scrollbar"
+              style={{
+                display: "flex",
+                gap: S.x12,
+                overflowX: "auto",
+                paddingBottom: S.x4,
+              }}
+            >
+              {filteredApps.slice(0, 10).map((app, i) => (
+                <Link
+                  key={i}
+                  href={`/apps/${app.slug}`}
+                  onClick={(e) => handleAppClick(e, app)}
+                  className="bounce-click"
+                  style={{
+                    flex: "0 0 auto",
+                    width: 150,
+                    padding: S.x16,
+                    borderRadius: R.lg,
+                    background: c.card,
+                    border: `1px solid ${c.border}`,
+                    textDecoration: "none",
+                    color: c.text,
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: S.x8,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 64,
+                      height: 64,
+                      borderRadius: R.md,
+                      overflow: "hidden",
+                      background: "rgba(0,0,0,0.3)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      border: `1px solid ${c.border}`,
+                      position: "relative",
+                    }}
+                  >
+                    <span style={{ fontSize: "28px" }}>{app.emoji}</span>
+                    {app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN" && (
+                      <img
+                        src={app.iconUrl}
+                        alt={app.name}
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    )}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: W.reg,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      width: "100%",
+                    }}
+                  >
+                    {app.name.replace(" Premium", "").replace(" VIP", "")}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* ============ NAV SECUNDARIA ============ */}
         <div
           style={{
