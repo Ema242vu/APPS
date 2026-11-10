@@ -591,7 +591,7 @@ export default function AppDetail({ app }: { app: App }) {
         </div>
 
         <a
-          href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm"
+          href="https://whatsapp.com/channel/0029Vb8X5TvKLaHqSbsYcP0j"
           target="_blank"
           rel="noopener noreferrer"
           className="bounce-click"

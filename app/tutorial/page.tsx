@@ -50,7 +50,7 @@ export default function Tutorial() {
 
         </div>
 
-        <a href="https://chat.whatsapp.com/HoM5JTuNl16BBhFSp1YBkm" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '30px', padding: '18px', backgroundColor: '#25D366', color: '#ffffff', borderRadius: '14px', fontWeight: 'bold', textDecoration: 'none', fontSize: '16px' }}>
+        <a href="https://whatsapp.com/channel/0029Vb8X5TvKLaHqSbsYcP0j" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '30px', padding: '18px', backgroundColor: '#25D366', color: '#ffffff', borderRadius: '14px', fontWeight: 'bold', textDecoration: 'none', fontSize: '16px' }}>
           💬 Necesito ayuda
         </a>
       </div>

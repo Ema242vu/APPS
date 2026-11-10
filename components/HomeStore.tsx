@@ -633,7 +633,7 @@ export default function Home() {
             {[
               {
                 img: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/a65cde85-132a-4209-a867-68fe6054722f.jpg",
-                href: "https://chat.whatsapp.com/LCGW1WtQbYACZKKeBPzsXI",
+                href: "https://whatsapp.com/channel/0029Vb8X5TvKLaHqSbsYcP0j",
                 name: "WhatsApp",
               },
               {
