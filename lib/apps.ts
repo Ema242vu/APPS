@@ -5084,6 +5084,28 @@ export const apps: {
     "Conexión encriptada y privada",
     "Ancho de banda ilimitado",
   ],
+},
+{
+  slug: "rec-plus18",
+  name: "REC (+18)",
+  description: "Juego adulto (+18) con estilo anime y contenido explícito.",
+  longDescription:
+    "REC (+18) es un juego para adultos con estilo anime y contenido explícito, pensado exclusivamente para mayores de 18 años. Explora escenas interactivas, desbloquea personajes y avanza en la historia con decisiones que afectan el desarrollo del juego. Versión gratuita del APK, sin funciones bloqueadas.",
+  link: "https://uc-share.com/s/f84ada4abebf4?la=en-us",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/XvhswFx7/3ZRms-D.jpg",
+  emoji: "🔞",
+  category: "+18",
+  isTop: false,
+  isNew: true,
+  version: "1.0",
+  size: "315 MB",
+  updated: "Nov 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#ec4899",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5094,6 +5116,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "rec-plus18",
   "fusvob-vpn",
   "farming-simulator-23",
   "proton-vpn-premium",
