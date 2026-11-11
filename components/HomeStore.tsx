@@ -81,7 +81,7 @@ function BottomNav({
       key: "inicio",
       label: "Telegram",
       external: true,
-      url: "https://t.me/personsapks",
+      url: "https://t.me/personsoficial",
       svg: <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" />,
     },
   ];
@@ -638,7 +638,7 @@ export default function Home() {
               },
               {
                 img: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/4724e75f-6363-4c1b-b929-627a6a582e4f.jpg",
-                href: "https://t.me/personsapks",
+                href: "https://t.me/personsoficial",
                 name: "Telegram",
               },
               {
