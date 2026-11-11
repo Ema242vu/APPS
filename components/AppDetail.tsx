@@ -121,7 +121,6 @@ export default function AppDetail({ app }: { app: App }) {
   const hasIcon = app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN";
   const premiumFeatures = getPremiumFeatures(app);
   const showPremiumSection = premiumFeatures.length > 0;
-  const totalDownloads = (app.downloads || 0) + localDownloads;
 
   const toggleFav = () => {
     const newFavs = isFav ? favorites.filter((f) => f !== app.name) : [...favorites, app.name];
@@ -379,11 +378,6 @@ export default function AppDetail({ app }: { app: App }) {
           <div style={{ flex: 1, textAlign: "center" }}>
             <div style={labelStyle}>Tamaño</div>
             <div style={statsStyle}>{app.size}</div>
-          </div>
-          <div style={{ width: 1, backgroundColor: "var(--border-color)" }} />
-          <div style={{ flex: 1, textAlign: "center" }}>
-            <div style={labelStyle}>Descargas</div>
-            <div style={statsStyle}>{totalDownloads.toLocaleString()}</div>
           </div>
           <div style={{ width: 1, backgroundColor: "var(--border-color)" }} />
           <div style={{ flex: 1, textAlign: "center" }}>
