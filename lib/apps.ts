@@ -5137,6 +5137,35 @@ export const apps: {
     "Libros, cuentos y artículos ilimitados",
     "Modo karaoke y audio de nativos",
   ],
+},
+{
+  slug: "splash-party-group",
+  name: "Splash Party Group",
+  description: "Minijuegos de fiesta para jugar con amigos en grupo.",
+  longDescription:
+    "Splash Party Group es un juego de fiesta con minijuegos rápidos y divertidos para jugar con amigos y familia en el mismo dispositivo. Elige entre una gran variedad de retos y competiciones, cada uno con controles sencillos y partidas de pocos minutos. Esta versión Premium viene desbloqueada, sin anuncios y con todos los minijuegos y personajes disponibles.",
+  link: "https://vexfile.com/download/WYdTGLZIbX",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/y8jkTBzt/images-(11).jpg",
+  emoji: "💦",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "3.0.1",
+  size: "233 MB",
+  updated: "Nov 2026",
+  glow: "rgba(6, 182, 212, 0.4)",
+  border: "rgba(6, 182, 212, 0.6)",
+  text: "#22d3ee",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Sin anuncios",
+    "Todos los minijuegos desbloqueados",
+    "Todos los personajes disponibles",
+    "Sin límites de partidas",
+  ],
 }
 ];
 
@@ -5147,6 +5176,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "splash-party-group",
   "beelinguapp-premium",
   "rec-plus18",
   "fusvob-vpn",
