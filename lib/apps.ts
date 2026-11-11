@@ -5106,6 +5106,37 @@ export const apps: {
   text: "#ec4899",
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "beelinguapp-premium",
+  name: "Beelinguapp Premium",
+  description: "Aprende idiomas leyendo cuentos y textos en dos idiomas al mismo tiempo.",
+  longDescription:
+    "Beelinguapp Premium es una app para aprender idiomas de forma natural: lee cuentos, noticias y textos en tu idioma nativo y en el idioma que quieres aprender, lado a lado y con audio de hablantes nativos. Incluye modo karaoke para seguir la lectura palabra por palabra, cuentos de niños, novelas y artículos de distintos niveles. Esta versión Premium viene desbloqueada, sin anuncios y con acceso a todos los idiomas y contenidos de la biblioteca.",
+  link: "https://uc-share.com/s/be2e697202284?la=en-us",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/s2j2KvfR/images-(6).png",
+  emoji: "🐝",
+  category: "Educación",
+  isTop: false,
+  isNew: true,
+  version: "3.299.40.10309.41",
+  size: "27 MB",
+  updated: "Nov 2026",
+  glow: "rgba(245, 158, 11, 0.4)",
+  border: "rgba(245, 158, 11, 0.6)",
+  text: "#f59e0b",
+  developer: "Beelinguapp Languages",
+  rating: 4.6,
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Sin anuncios",
+    "Todos los idiomas desbloqueados",
+    "Libros, cuentos y artículos ilimitados",
+    "Modo karaoke y audio de nativos",
+  ],
 }
 ];
 
@@ -5116,6 +5147,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "beelinguapp-premium",
   "rec-plus18",
   "fusvob-vpn",
   "farming-simulator-23",
