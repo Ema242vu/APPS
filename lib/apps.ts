@@ -5166,6 +5166,28 @@ export const apps: {
     "Todos los personajes disponibles",
     "Sin límites de partidas",
   ],
+},
+{
+  slug: "five-nights-at-fuzzboobs",
+  name: "Five Nights at Fuzzboob's (+18)",
+  description: "Parodia adulta de Five Nights at Freddy's con estilo furry.",
+  longDescription:
+    "Five Nights at Fuzzboob's es un juego de terror y parodia para adultos (+18), inspirado en la saga Five Nights at Freddy's con un estilo furry y contenido explícito. Incluye modo historia, opciones de progreso y créditos, con escenas y personajes pensados exclusivamente para mayores de 18 años. Versión Definitive Edition Remixed (DE) del juego.",
+  link: "https://1024terabox.com/s/1yqAWJpauVw_yZHVPYuhefw",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/SK5vzsmc/pgg-BSZ.png",
+  emoji: "🔞",
+  category: "+18",
+  isTop: false,
+  isNew: true,
+  version: "1.1.2",
+  size: "238 MB",
+  updated: "Nov 2026",
+  glow: "rgba(168, 85, 247, 0.4)",
+  border: "rgba(168, 85, 247, 0.6)",
+  text: "#c084fc",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5176,6 +5198,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "five-nights-at-fuzzboobs",
   "terabox-premium",
   "splash-party-group",
   "beelinguapp-premium",
