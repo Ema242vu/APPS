@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import type { App } from "@/lib/apps";
-import { relatedApps } from "@/lib/apps";
+import { relatedApps, appsSinSeccionMod } from "@/lib/apps";
 import AppCardCompact from "@/components/AppCardCompact";
 import Comments from "@/components/Comments";
 
@@ -121,6 +121,7 @@ export default function AppDetail({ app }: { app: App }) {
   const hasIcon = app.iconUrl && app.iconUrl !== "AQUI_VA_EL_LINK_DE_LA_IMAGEN";
   const premiumFeatures = getPremiumFeatures(app);
   const showPremiumSection = premiumFeatures.length > 0;
+  const showModSection = !appsSinSeccionMod.includes(app.slug);
 
   const toggleFav = () => {
     const newFavs = isFav ? favorites.filter((f) => f !== app.name) : [...favorites, app.name];
@@ -144,7 +145,9 @@ export default function AppDetail({ app }: { app: App }) {
   const handleShare = async () => {
     const shareData = {
       title: `${app.name} - PERSONS-COMUNITY`,
-      text: `Descarga ${app.name} premium gratis desde PERSONS-COMUNITY 🐾`,
+      text: showModSection
+        ? `Descarga ${app.name} premium gratis desde PERSONS-COMUNITY 🐾`
+        : `Descarga ${app.name} gratis desde PERSONS-COMUNITY 🐾`,
       url: `https://apps-peach-two.vercel.app/apps/${app.slug}`,
     };
     try {
@@ -488,6 +491,7 @@ export default function AppDetail({ app }: { app: App }) {
         )}
 
         {/* Mod Features */}
+        {showModSection && (
         <div style={cardStyle}>
           <h3
             style={{
@@ -531,6 +535,7 @@ export default function AppDetail({ app }: { app: App }) {
             ))}
           </div>
         </div>
+        )}
 
         {/* Descarga */}
         <div
@@ -732,6 +737,7 @@ export default function AppDetail({ app }: { app: App }) {
                     updated={r.updated}
                     rating={r.rating}
                     category={r.category}
+                    hideMod={appsSinSeccionMod.includes(r.slug)}
                   />
                 ))}
               </div>

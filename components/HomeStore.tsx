@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { apps, categorias, recentApps } from "@/lib/apps";
+import { apps, categorias, recentApps, appsSinSeccionMod } from "@/lib/apps";
 import AppCardCompact from "@/components/AppCardCompact";
 import CategoryGrid from "@/components/CategoryGrid";
 import RomAddonCard from "@/components/RomAddonCard";
@@ -1030,6 +1030,7 @@ export default function Home() {
                   updated={app.updated}
                   rating={app.rating}
                   category={app.category}
+                  hideMod={appsSinSeccionMod.includes(app.slug)}
                 />
               ))}
             </div>

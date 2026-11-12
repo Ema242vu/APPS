@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { apps } from "@/lib/apps";
+import { apps, appsSinSeccionMod } from "@/lib/apps";
 import AppDetail from "@/components/AppDetail";
 
 /**
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps) {
     description: desc.slice(0, 155),
     keywords: [
       app.name,
-      `${app.name} premium`,
+      ...(appsSinSeccionMod.includes(app.slug) ? [] : [`${app.name} premium`]),
       `${app.name} mod apk`,
       `descargar ${app.name}`,
       app.category,

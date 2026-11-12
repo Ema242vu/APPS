@@ -3110,20 +3110,19 @@ export const apps: {
     name: "Minecraft",
     description: "Construye, explora y sobrevive en mundos infinitos.",
     longDescription: "Minecraft es el juego sandbox más vendido de la historia. Construye con bloques, explora mundos infinitos, sobrevive a los monstruos y crea lo que imagines.",
-    link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/minecraft-1.26.52.3-arm64-v8a.apk",
+    link: "https://vexfile.com/download/0DW1ihiske",
     altLinks: [
-      { label: "Android (arm64-v8a)", url: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/minecraft-1.26.52.3-arm64-v8a.apk" },
-      { label: "Android antiguo (armeabi-v7a)", url: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/minecraft-1.26.52.3-armeabi-v7a.apk" },
-      { label: "iOS / iPad / iPhone (.ipa)", url: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Minecraft-1.26.52-for-iOS-mcpelife.ipa" },
+      { label: "Android arm64-v8a (v1.26.52.3)", url: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/minecraft-1.26.52.3-arm64-v8a.apk" },
+      { label: "iOS / iPad / iPhone (v1.26.52)", url: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Minecraft-1.26.52-for-iOS-mcpelife.ipa" },
     ],
     iconUrl: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/5d58684e-2ae9-40fb-aa27-e15f8ae5ba97.jpg",
     emoji: "⛏️",
     category: "Juegos",
     isTop: true,
     isNew: true,
-    version: "1.26.52.3",
-    size: "700 MB",
-    updated: "Oct 2026",
+    version: "1.26.62.1",
+    size: "361 MB",
+    updated: "Nov 2026",
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#22c55e",
@@ -5193,11 +5192,15 @@ export const apps: {
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
 
+/* Apps que no se anuncian como premium ni muestran la sección "Mod". */
+export const appsSinSeccionMod: string[] = ["minecraft"];
+
 /* Tipo de una app (derivado del array) para tipar props y metadata */
 export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "minecraft",
   "five-nights-at-fuzzboobs",
   "terabox-premium",
   "splash-party-group",
@@ -5315,7 +5318,6 @@ export const recentOrder: string[] = [
   "psycho-love",
   "deltarune",
   "lovemaniac",
-  "minecraft",
   "deezer-premium",
   "king-hydra",
   "vn-video-editor",

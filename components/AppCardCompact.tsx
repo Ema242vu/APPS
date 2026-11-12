@@ -12,6 +12,7 @@ type AppCardCompactProps = {
   updated: string;
   rating?: number;
   category: string;
+  hideMod?: boolean;
 };
 
 function StarRating({ rating = 4.5 }: { rating?: number }) {
@@ -48,6 +49,7 @@ export default function AppCardCompact({
   updated,
   rating = 4.5,
   category,
+  hideMod = false,
 }: AppCardCompactProps) {
   const hasIcon = iconUrl && iconUrl.startsWith("http");
 
@@ -135,7 +137,7 @@ export default function AppCardCompact({
             textOverflow: "ellipsis",
           }}
         >
-          {version} (Mod)
+          {version}{hideMod ? "" : " (Mod)"}
         </div>
 
         <div
