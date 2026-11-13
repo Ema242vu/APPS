@@ -1703,16 +1703,16 @@ export const apps: {
     name: "Fitia Premium",
     description: "Nutrición y entrenamiento personalizado con IA.",
     longDescription: "Fitia Premium es la versión desbloqueada de una de las mejores apps de nutrición y fitness. Crea planes de comida personalizados, cuenta calorías y macros automáticamente, sigue rutinas de ejercicio y recibe recomendaciones con IA.",
-    link: "https://cloud.androforever.com/Apps/Fitia/Fitia%20Premium%20v26.0.7%20-%20androforever.com.apk",
+    link: "https://vexfile.com/download/hhfN6ejgIY",
     altLinks: [],
     iconUrl: "https://i.supaimg.com/edbe52e7-a9fc-4e09-b7ee-0dc65fe103d3/48c7f7c8-11ec-42b4-b74f-1b8b5099a9e7.jpg",
     emoji: "🥗",
     category: "Herramientas",
     isTop: false,
     isNew: true,
-    version: "26.0.7",
-    size: "—",
-    updated: "Oct 2026",
+    version: "26.1.3",
+    size: "129 MB",
+    updated: "Nov 2026",
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#86efac",
@@ -5229,6 +5229,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "fitia",
   "spotify-2",
   "capcut",
   "youtube",
