@@ -5187,6 +5187,35 @@ export const apps: {
   text: "#c084fc",
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "spotify-2",
+  name: "Spotify 2 Premium",
+  description: "Segunda versión de Spotify Premium con música sin anuncios y descargas offline.",
+  longDescription:
+    "Spotify 2 Premium es una segunda versión modificada de Spotify con todas las funciones Premium desbloqueadas: escucha música sin anuncios, salta canciones sin límites, descarga playlists para escucharlas sin conexión y disfruta de calidad de audio alta. Incluye la misma biblioteca de siempre con una experiencia renovada.",
+  link: "https://1024terabox.com/s/1sz86vxMp3lqWa8HT-wEVTQ",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/8Cd5Hx3K/ab047407148e53e2c3ad0761af494925.jpg",
+  emoji: "🎧",
+  category: "Música",
+  isTop: false,
+  isNew: true,
+  version: "Premium",
+  size: "59 MB",
+  updated: "Nov 2026",
+  glow: "rgba(34, 197, 94, 0.4)",
+  border: "rgba(34, 197, 94, 0.6)",
+  text: "#86efac",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Suscripción Premium desbloqueada",
+    "Sin anuncios",
+    "Saltos ilimitados",
+    "Descargas offline",
+    "Calidad de audio alta",
+  ],
 }
 ];
 
@@ -5200,6 +5229,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "spotify-2",
   "capcut",
   "youtube",
   "minecraft",
