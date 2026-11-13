@@ -61,16 +61,16 @@ export const apps: {
     name: "YouTube Premium",
     description: "Videos sin anuncios y reproducción en segundo plano.",
     longDescription: "YouTube Premium te permite disfrutar de todos los videos sin anuncios, reproducir en segundo plano, descargar videos para verlos sin conexión y acceder a YouTube Music Premium.",
-    link: "https://uc-share.com/s/3f8332a4c3cc4?la=en-us",
+    link: "https://uc-share.com/s/7188e1bdd06f4?la=en-us",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/BvSZ8Ngg/eca9ac47a486c83541fa5f81159b8349.jpg",
     emoji: "▶️",
     category: "Video",
     isTop: true,
     isNew: false,
-    version: "v21.44.534",
-    size: "133 MB",
-    updated: "Oct 2026",
+    version: "v21.45.82",
+    size: "188 MB",
+    updated: "Nov 2026",
     glow: "rgba(251, 191, 36, 0.4)",
     border: "rgba(251, 191, 36, 0.6)",
     text: "#fbbf24",
@@ -5200,6 +5200,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "youtube",
   "minecraft",
   "five-nights-at-fuzzboobs",
   "terabox-premium",
