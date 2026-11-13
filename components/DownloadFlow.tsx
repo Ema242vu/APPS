@@ -67,7 +67,7 @@ function MonetagGate({
 }) {
   const [passed, setPassed] = useState(false);
   const [justClicked, setJustClicked] = useState(false);
-  const [timer, setTimer] = useState(6);
+  const [timer, setTimer] = useState(4);
 
   // Al volver a la pestaña tras el click: iniciar cuenta regresiva
   useEffect(() => {
@@ -87,7 +87,7 @@ function MonetagGate({
     };
   }, [justClicked]);
 
-  // Cuenta regresiva de 6s (se detiene sola al llegar a 0)
+  // Cuenta regresiva de 4s (se detiene sola al llegar a 0)
   useEffect(() => {
     if (!passed || timer <= 0) return;
 
@@ -391,7 +391,7 @@ export default function DownloadFlow(props: Props) {
                 <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
               </div>
 
-              {/* Paso 6: banner de "Click Aquí" → Descargar (con native banner y 6s) */}
+              {/* Paso 6: banner de "Click Aquí" → Descargar (con native banner y 4s) */}
               <MonetagGate
                 step={6}
                 title="Paso 6"
