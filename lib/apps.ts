@@ -1416,7 +1416,7 @@ export const apps: {
     name: "Xuper TV NF Premium",
     description: "TV, deportes y streaming premium con el mod NF oficial.",
     longDescription: "Xuper TV NF Premium es la versión oficial ModByNF de la app todo-en-uno para ver TV, deportes, películas y contenido en streaming con funciones premium desbloqueadas. Es compatible con celular y TV Box y se activa con el código canjeable publicado en nuestra sección de Códigos.",
-    link: "https://www.mediafire.com/file/jp4zd5ebje30ojn/XuperTv-N0F4C3-v4.35.0-OFICIAL-ModByNF.apk/file",
+    link: "https://devuploads.com/nvtruz5j0wky",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/VN57xJjg/XUPERTV-NF.jpg",
     emoji: "📺",
@@ -1425,7 +1425,7 @@ export const apps: {
     isNew: true,
     version: "4.35.0",
     size: "33 MB",
-    updated: "Oct 2026",
+    updated: "Nov 2026",
     glow: "rgba(56, 189, 248, 0.4)",
     border: "rgba(56, 189, 248, 0.6)",
     text: "#7dd3fc",
@@ -5229,6 +5229,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "xuper-tv-nf-premium",
   "fitia",
   "spotify-2",
   "capcut",
@@ -5265,7 +5266,6 @@ export const recentOrder: string[] = [
   "streamflix",
   "geometry-dash",
   "archivetune",
-  "xuper-tv-nf-premium",
   "seekee-premium",
   "super-gyro",
   "my-femboy-roommate",
