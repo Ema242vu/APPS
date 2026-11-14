@@ -5216,6 +5216,29 @@ export const apps: {
     "Descargas offline",
     "Calidad de audio alta",
   ],
+},
+{
+  slug: "football-league-2027",
+  name: "Football League 2027",
+  description: "Juego de fútbol con ligas, equipos y partidos.",
+  longDescription:
+    "Football League 2027 es un juego de fútbol para Android con equipos, ligas y partidos. Arma tu plantilla, juega encuentros y avanza en la temporada. Esta versión MOD incluye dinero ilimitado para que puedas mejorar tu equipo sin límites.",
+  link: "https://uc-share.com/s/4cf2ba283c374?la=en-us",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/3JRy9hPG/IMG-20261113-222746-682.jpg",
+  emoji: "⚽",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "0.2.22",
+  size: "262 MB",
+  updated: "Nov 2026",
+  glow: "rgba(34, 197, 94, 0.4)",
+  border: "rgba(34, 197, 94, 0.6)",
+  text: "#22c55e",
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: ["Dinero ilimitado"],
 }
 ];
 
@@ -5229,6 +5252,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "football-league-2027",
   "xuper-tv-nf-premium",
   "fitia",
   "spotify-2",
