@@ -5239,6 +5239,28 @@ export const apps: {
   downloads: 0,
   hasPremiumSection: true,
   premiumFeatures: ["Dinero ilimitado"],
+},
+{
+  slug: "subway-surfers",
+  name: "Subway Surfers",
+  description: "Corre, esquiva trenes y consigue la mayor puntuación.",
+  longDescription:
+    "Subway Surfers es el clásico juego de carrera sin fin en el que corres por las vías del tren, esquivas obstáculos y recoges monedas. Desbloquea personajes, mejora tus tablas y compite por la mejor puntuación. Esta versión Premium viene con las funciones desbloqueadas y sin anuncios.",
+  link: "https://vexfile.com/download/jTj42lvUFU",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/8kFcdP2w/WA-1794692559340.jpg",
+  emoji: "🛹",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "3.71.20",
+  size: "239 MB",
+  updated: "Nov 2026",
+  glow: "rgba(59, 130, 246, 0.4)",
+  border: "rgba(59, 130, 246, 0.6)",
+  text: "#60a5fa",
+  downloads: 0,
+  hasPremiumSection: true,
 }
 ];
 
@@ -5252,6 +5274,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "subway-surfers",
   "football-league-2027",
   "xuper-tv-nf-premium",
   "fitia",
