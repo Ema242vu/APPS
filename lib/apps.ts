@@ -5286,7 +5286,10 @@ export const apps: {
 }
 ];
 
-export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
+export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18"];
+
+/* Categorías retiradas: sus apps no se muestran en la tienda. */
+export const hiddenCategories: string[] = ["ROMS", "Add-ons Minecraft"];
 
 /* Apps que no se anuncian como premium ni muestran la sección "Mod". */
 export const appsSinSeccionMod: string[] = ["minecraft", "loverse-plus18"];
@@ -5437,15 +5440,16 @@ export const recentOrder: string[] = [
 export function recentApps(count: number): App[] {
   return recentOrder
     .map((slug) => apps.find((a) => a.slug === slug))
-    .filter((a): a is App => Boolean(a))
+    .filter((a): a is App => a !== undefined && !hiddenCategories.includes(a.category))
     .slice(0, count);
 }
 
 /* Apps del mismo rubro (empieza por TOP) para 'relacionadas' en la ficha */
 export function relatedApps(current: App, count = 6): App[] {
-  const sameCat = apps.filter((a) => a.slug !== current.slug && a.category === current.category);
+  const visible = apps.filter((a) => !hiddenCategories.includes(a.category));
+  const sameCat = visible.filter((a) => a.slug !== current.slug && a.category === current.category);
   const ordered = [...sameCat.filter((a) => a.isTop), ...sameCat.filter((a) => !a.isTop)];
   if (ordered.length >= count) return ordered.slice(0, count);
-  const fill = apps.filter((a) => a.slug !== current.slug && !sameCat.includes(a) && a.isTop);
+  const fill = visible.filter((a) => a.slug !== current.slug && !sameCat.includes(a) && a.isTop);
   return [...ordered, ...fill].slice(0, count);
 }

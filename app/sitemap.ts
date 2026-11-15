@@ -1,4 +1,4 @@
-import { apps } from "@/lib/apps";
+import { apps, hiddenCategories } from "@/lib/apps";
 import { blogPosts } from "@/lib/blog";
 
 const BASE_URL = "https://apps-peach-two.vercel.app";
@@ -21,12 +21,14 @@ export default function sitemap() {
     { url: `${BASE_URL}/terminos`, lastModified: now, changeFrequency: "yearly" as const, priority: 0.3 },
   ];
 
-  const appPages = apps.map((app) => ({
-    url: `${BASE_URL}/apps/${app.slug}`,
-    lastModified: now,
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
+  const appPages = apps
+    .filter((app) => !hiddenCategories.includes(app.category))
+    .map((app) => ({
+      url: `${BASE_URL}/apps/${app.slug}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }));
 
   const blogPages = blogPosts.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,

@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { apps, categorias, recentApps, appsSinSeccionMod } from "@/lib/apps";
+import { apps, categorias, recentApps, appsSinSeccionMod, hiddenCategories } from "@/lib/apps";
 import AppCardCompact from "@/components/AppCardCompact";
 import CategoryGrid from "@/components/CategoryGrid";
-import RomAddonCard from "@/components/RomAddonCard";
 
 /* ============================================
    TOKENS — design system
@@ -319,7 +318,9 @@ export default function Home() {
     }, 50);
   };
 
-  const filteredApps = apps.filter((app) => {
+  const visibleApps = apps.filter((app) => !hiddenCategories.includes(app.category));
+
+  const filteredApps = visibleApps.filter((app) => {
     let matchesView = true;
 
     if (viewMode === "juegos") {
@@ -340,12 +341,12 @@ export default function Home() {
     return matchesView && matchesSearch;
   });
 
-  const topApps = apps.filter((a) => a.isTop);
+  const topApps = visibleApps.filter((a) => a.isTop);
 
   const newApps = recentApps(9);
 
   const appCounts: Record<string, number> = {};
-  apps.forEach((a) => {
+  visibleApps.forEach((a) => {
     appCounts[a.category] = (appCounts[a.category] || 0) + 1;
   });
 
@@ -374,10 +375,6 @@ export default function Home() {
 
   const currentCategoryName = categorias[selectedCategory];
 
-  const isSpecialCategory =
-    selectedCategory > 0 &&
-    (currentCategoryName === "ROMS" || currentCategoryName === "Add-ons Minecraft");
-
   const sectionTitle = (() => {
     if (viewMode === "juegos") return "Juegos";
     if (viewMode === "apps") return "Apps";
@@ -391,8 +388,6 @@ export default function Home() {
     if (viewMode === "apps") return "📱";
     if (viewMode === "popular") return "⭐";
     if (selectedCategory === 0) return "🎮";
-    if (currentCategoryName === "Add-ons Minecraft") return "🧱";
-    if (currentCategoryName === "ROMS") return "🕹️";
     return "📂";
   })();
 
@@ -1060,85 +1055,6 @@ export default function Home() {
           </section>
         )}
 
-        {/* ============ CONTENIDO ESPECIAL ============ */}
-        {viewMode === "inicio" && selectedCategory === 0 && (
-          <section style={{ marginBottom: S.x32 }}>
-            <h2
-              style={{
-                fontSize: "18px",
-                fontWeight: W.semi,
-                color: c.text,
-                margin: 0,
-                marginBottom: S.x12,
-                letterSpacing: "-0.3px",
-              }}
-            >
-              ✨ Contenido Especial
-            </h2>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: S.x8,
-              }}
-            >
-              <button
-                onClick={() => handleCategorySelect("Add-ons Minecraft")}
-                className="bounce-click"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: S.x4,
-                  padding: S.x16,
-                  borderRadius: R.lg,
-                  background: c.card,
-                  border: `1px solid rgba(34,197,94,0.3)`,
-                  color: c.text,
-                  cursor: "pointer",
-                  fontFamily: "inherit",
-                  textAlign: "center",
-                }}
-              >
-                <span style={{ fontSize: "32px", lineHeight: 1 }}>🧱</span>
-                <span style={{ fontSize: "13px", fontWeight: W.semi, lineHeight: 1.2 }}>
-                  Add-ons Minecraft
-                </span>
-                <span style={{ fontSize: "10px", color: c.muted }}>
-                  {appCounts["Add-ons Minecraft"] ?? 0} items
-                </span>
-              </button>
-
-              <button
-                onClick={() => handleCategorySelect("ROMS")}
-                className="bounce-click"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: S.x4,
-                  padding: S.x16,
-                  borderRadius: R.lg,
-                  background: c.card,
-                  border: `1px solid rgba(239,68,68,0.3)`,
-                  color: c.text,
-                  cursor: "pointer",
-                  fontFamily: "inherit",
-                  textAlign: "center",
-                }}
-              >
-                <span style={{ fontSize: "32px", lineHeight: 1 }}>🎮</span>
-                <span style={{ fontSize: "13px", fontWeight: W.semi, lineHeight: 1.2 }}>
-                  ROMs Retro
-                </span>
-                <span style={{ fontSize: "10px", color: c.muted }}>
-                  {appCounts["ROMS"] ?? 0} juegos
-                </span>
-              </button>
-            </div>
-          </section>
-        )}
-
         {/* ============ LISTA ============ */}
         <section id="apps-list" style={{ marginBottom: S.x24, scrollMarginTop: S.x20 }}>
           <div
@@ -1213,42 +1129,14 @@ export default function Home() {
             </div>
           ) : filteredApps.length > 0 ? (
             <>
-              {isSpecialCategory ? (
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(1, 1fr)",
-                    gap: S.x12,
-                    marginBottom: S.x24,
-                  }}
-                >
-                  {paginatedApps.map((app, index) => (
-                    <RomAddonCard
-                      key={index}
-                      slug={app.slug}
-                      name={app.name}
-                      iconUrl={app.iconUrl}
-                      emoji={app.emoji}
-                      description={app.description}
-                      category={app.category}
-                      isNew={app.isNew}
-                      isTop={app.isTop}
-                      glow={app.glow}
-                      border={app.border}
-                      text={app.text}
-                      onOpenDetail={() => setDetailApp(app)}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, 1fr)",
-                    gap: S.x12,
-                    marginBottom: S.x24,
-                  }}
-                >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: S.x12,
+                  marginBottom: S.x24,
+                }}
+              >
                   {paginatedApps.map((app, index) => (
                     <div key={index} style={{ position: "relative" }}>
                       <button
@@ -1413,7 +1301,6 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-              )}
 
               {/* Paginación */}
               {totalPages > 1 && (
