@@ -82,16 +82,16 @@ export const apps: {
     name: "Netflix Premium",
     description: "Todo el catálogo en máxima calidad 4K.",
     longDescription: "Netflix Premium desbloqueado con todas las funciones: calidad 4K Ultra HD, descargas ilimitadas, sin anuncios y acceso a todo el catálogo.",
-    link: "https://cloud.androforever.com/Apps/Netflix/Netflix%20Premium%20v9.86.0%20-%20androforever.com.apk",
+    link: "https://uc-share.com/s/b4b430e64e0f4?la=en-us",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/RhkVNBsg/393747d57d29232eaa98b9ecba7c4dca.jpg",
     emoji: "🍿",
     category: "Video",
     isTop: true,
     isNew: false,
-    version: "9.86.0",
-    size: "45 MB",
-    updated: "Oct 2026",
+    version: "9.72.0",
+    size: "9.6 MB",
+    updated: "Nov 2026",
     glow: "rgba(220, 38, 38, 0.4)",
     border: "rgba(220, 38, 38, 0.6)",
     text: "#fca5a5",
@@ -5299,6 +5299,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "netflix",
   "loverse-plus18",
   "subway-surfers",
   "football-league-2027",
