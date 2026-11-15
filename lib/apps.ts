@@ -5261,19 +5261,42 @@ export const apps: {
   text: "#60a5fa",
   downloads: 0,
   hasPremiumSection: true,
+},
+{
+  slug: "loverse-plus18",
+  name: "Loverse (+18)",
+  description: "Juego de citas y novela visual para adultos.",
+  longDescription:
+    "Loverse (+18) es un juego de citas y novela visual para adultos con estilo anime. Avanza por la historia, toma decisiones y desbloquea escenas con los personajes. Contenido exclusivo para mayores de 18 años.",
+  link: "https://uc-share.com/s/d4af6f841ec54?la=en-us",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/Z522gN4s/8q91HM.png",
+  emoji: "🔞",
+  category: "+18",
+  isTop: false,
+  isNew: true,
+  version: "0.2610.0D",
+  size: "1.1 GB",
+  updated: "Nov 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#ec4899",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
 export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas", "Educación", "Juegos", "+18", "Add-ons Minecraft", "ROMS"];
 
 /* Apps que no se anuncian como premium ni muestran la sección "Mod". */
-export const appsSinSeccionMod: string[] = ["minecraft"];
+export const appsSinSeccionMod: string[] = ["minecraft", "loverse-plus18"];
 
 /* Tipo de una app (derivado del array) para tipar props y metadata */
 export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "loverse-plus18",
   "subway-surfers",
   "football-league-2027",
   "xuper-tv-nf-premium",
