@@ -3251,7 +3251,7 @@ export const apps: {
     name: "Proton VPN Premium",
     description: "VPN segura y rápida sin límites.",
     longDescription: "Proton VPN Premium es la VPN más segura del mundo, creada por científicos del CERN.",
-    link: "https://vexfile.com/download/AYOvU2UUhx",
+    link: "https://uc-share.com/s/cee0613233ee4?la=en-us",
     altLinks: [],
     iconUrl: "https://f-droid.org/repo/ch.protonvpn.android/en-US/icon_xAphlcwMgx7oE7sxB15sxUFIO8geUokWkG01K1fubas=.png",
     emoji: "🛡️",
@@ -5299,6 +5299,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "proton-vpn-premium",
   "plantas-vs-zombies-fusion",
   "netflix",
   "loverse-plus18",
@@ -5317,7 +5318,6 @@ export const recentOrder: string[] = [
   "rec-plus18",
   "fusvob-vpn",
   "farming-simulator-23",
-  "proton-vpn-premium",
   "depthpix",
   "reelshort-premium",
   "dimension-69",
