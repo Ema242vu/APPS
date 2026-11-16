@@ -3365,17 +3365,17 @@ export const apps: {
     slug: "plantas-vs-zombies-fusion",
     name: "Plantas vs Zombies Fusion",
     description: "Fusión de plantas y zombies con mecánicas únicas.",
-    longDescription: "Plantas vs Zombies Fusion es una versión modificada del clásico juego de tower defense donde puedes combinar plantas para crear híbridos poderosos.",
-    link: "https://www.mediafire.com/file_premium/ayfc8bzzfzeyd71/Pl4ntsVsZ%25E2%2588%2585mbiesRH_4.0.5.apk/file",
+    longDescription: "PVZ Fusion es un juego de tower defense donde puedes combinar plantas para crear híbridos poderosos. Defiende tu casa de las oleadas de zombies, desbloquea nuevas plantas y experimenta con combinaciones únicas en cada nivel.",
+    link: "https://uc-share.com/s/51e1dcfe1b814?la=en-us",
     altLinks: [],
-    iconUrl: "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/7fa285b5-1cd5-4bd1-b79c-8c2fe87c3994.jpg",
+    iconUrl: "https://i.postimg.cc/YCjHCXcm/IMG-20261116-115947-148.jpg",
     emoji: "🌻",
     category: "Juegos",
     isTop: true,
     isNew: true,
-    version: "4.0.5",
-    size: "535 MB",
-    updated: "Oct 2026",
+    version: "4.1",
+    size: "562 MB",
+    updated: "Nov 2026",
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
     text: "#22c55e",
@@ -5292,13 +5292,14 @@ export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas"
 export const hiddenCategories: string[] = ["ROMS", "Add-ons Minecraft"];
 
 /* Apps que no se anuncian como premium ni muestran la sección "Mod". */
-export const appsSinSeccionMod: string[] = ["minecraft", "loverse-plus18"];
+export const appsSinSeccionMod: string[] = ["minecraft", "loverse-plus18", "plantas-vs-zombies-fusion"];
 
 /* Tipo de una app (derivado del array) para tipar props y metadata */
 export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "plantas-vs-zombies-fusion",
   "netflix",
   "loverse-plus18",
   "subway-surfers",
@@ -5408,7 +5409,6 @@ export const recentOrder: string[] = [
   "gearup-booster",
   "sally-face",
   "hitcue",
-  "plantas-vs-zombies-fusion",
   "bowmasters",
   "worm-hunt",
   "twitter-x-mod",
