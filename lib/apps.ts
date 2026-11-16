@@ -1309,7 +1309,7 @@ export const apps: {
     name: "Telegram Premium",
     description: "Mensajería rápida, segura y sin límites.",
     longDescription: "Telegram Premium con todas las funciones desbloqueadas: sin límites de subida, stickers exclusivos, velocidad de descarga mejorada.",
-    link: "https://github.com/Ema242vu/APPS/releases/download/Apk-v1/Telegram_v12.10.6_MOD_mundoperfecto.net.apk",
+    link: "https://uc-share.com/s/2b1354c316144?la=en-us",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/9XKfxdmy/2952b7f67446895f8f11c3afacc89edc.jpg",
     emoji: "✈️",
@@ -1317,8 +1317,8 @@ export const apps: {
     isTop: true,
     isNew: false,
     version: "12.10.6",
-    size: "70 MB",
-    updated: "Oct 2026",
+    size: "106 MB",
+    updated: "Nov 2026",
     glow: "rgba(14, 165, 233, 0.4)",
     border: "rgba(14, 165, 233, 0.6)",
     text: "#7dd3fc",
@@ -5299,6 +5299,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "telegram",
   "proton-vpn-premium",
   "plantas-vs-zombies-fusion",
   "netflix",
