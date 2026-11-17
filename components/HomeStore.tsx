@@ -816,7 +816,6 @@ export default function Home() {
         >
           {[
             { href: "/", emoji: "🏠", label: "Inicio" },
-            { href: "/codigos", emoji: "🔑", label: "Códigos" },
             { href: "/escaner", emoji: "🔍", label: "Escáner" },
             { href: "/blog", emoji: "📚", label: "Blog" },
             { href: "/tutorial", emoji: "📖", label: "Tutorial" },
@@ -845,44 +844,6 @@ export default function Home() {
             </Link>
           ))}
         </div>
-
-        {/* ============ BANNER CÓDIGOS ============ */}
-        <Link
-          href="/codigos"
-          className="bounce-click"
-          style={{ display: "block", textDecoration: "none", marginBottom: S.x32 }}
-        >
-          <div
-            style={{
-              padding: S.x24,
-              borderRadius: R.lg,
-              background: `${c.accent}10`,
-              border: `1px solid ${c.accent}30`,
-              display: "flex",
-              alignItems: "center",
-              gap: S.x16,
-            }}
-          >
-            <div style={{ fontSize: "36px" }}>🔑</div>
-            <div style={{ flex: 1 }}>
-              <h2
-                style={{
-                  fontSize: "16px",
-                  fontWeight: W.semi,
-                  color: c.text,
-                  margin: 0,
-                  marginBottom: S.x4,
-                }}
-              >
-                Códigos Premium Gratis
-              </h2>
-              <p style={{ fontSize: "12px", color: c.muted, margin: 0 }}>
-                Netflix, Anime WF, Xuper Hydra y más.
-              </p>
-            </div>
-            <span style={{ fontSize: "18px", color: c.accent }}>→</span>
-          </div>
-        </Link>
 
         {/* ============ TENDENCIA ============ */}
         {topApps.length > 0 && viewMode === "inicio" && (

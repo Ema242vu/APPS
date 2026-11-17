@@ -1415,7 +1415,7 @@ export const apps: {
     slug: "xuper-tv-nf-premium",
     name: "Xuper TV NF Premium",
     description: "TV, deportes y streaming premium con el mod NF oficial.",
-    longDescription: "Xuper TV NF Premium es la versión oficial ModByNF de la app todo-en-uno para ver TV, deportes, películas y contenido en streaming con funciones premium desbloqueadas. Es compatible con celular y TV Box y se activa con el código canjeable publicado en nuestra sección de Códigos.",
+    longDescription: "Xuper TV NF Premium es la versión oficial ModByNF de la app todo-en-uno para ver TV, deportes, películas y contenido en streaming con funciones premium desbloqueadas. Es compatible con celular y TV Box.",
     link: "https://devuploads.com/nvtruz5j0wky",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/VN57xJjg/XUPERTV-NF.jpg",
