@@ -1393,7 +1393,7 @@ export const apps: {
     name: "Xuper Premium",
     description: "La app definitiva para ver TV y contenido en streaming.",
     longDescription: "Xuper Premium es una app todo-en-uno con funciones exclusivas para ver TV, deportes y contenido en streaming.",
-    link: "https://uc-share.com/s/7855f53c632a4?la=en-us",
+    link: "https://uc-share.com/s/949e6caf91d54?la=en-us",
     altLinks: [
       { label: "Versión para TV", url: "https://devuploads.com/bioiynqnwvsn" },
     ],
@@ -1402,8 +1402,8 @@ export const apps: {
     category: "Herramientas",
     isTop: false,
     isNew: true,
-    version: "5.0.8",
-    size: "54 MB",
+    version: "4.99.3",
+    size: "61 MB",
     updated: "Nov 2026",
     glow: "rgba(249, 115, 22, 0.4)",
     border: "rgba(249, 115, 22, 0.6)",
@@ -5321,6 +5321,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "xuper",
   "waifus-mission-plus18",
   "bubble-translate-premium",
   "snaptube-vip",
