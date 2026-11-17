@@ -5283,6 +5283,28 @@ export const apps: {
   text: "#ec4899",
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "waifus-mission-plus18",
+  name: "Waifu's Mission (+18)",
+  description: "Juego +18 de misiones y citas con waifus.",
+  longDescription:
+    "Waifu's Mission (+18) es un juego para adultos con estilo anime en el que cumples misiones, tomas decisiones y avanzas en una historia de citas con distintos personajes. Incluye escenas exclusivas y contenido pensado solo para mayores de 18 años.",
+  link: "https://uc-share.com/s/bdd2eae653ba4?la=en-us",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/8zXyHgZH/1tg-Utb.png",
+  emoji: "🔞",
+  category: "+18",
+  isTop: false,
+  isNew: true,
+  version: "Full",
+  size: "263 MB",
+  updated: "Nov 2026",
+  glow: "rgba(168, 85, 247, 0.4)",
+  border: "rgba(168, 85, 247, 0.6)",
+  text: "#c084fc",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5299,6 +5321,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "waifus-mission-plus18",
   "bubble-translate-premium",
   "snaptube-vip",
   "telegram",
