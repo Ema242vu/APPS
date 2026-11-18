@@ -14,6 +14,7 @@ export const apps: {
   longDescription: string;
   link: string;
   altLinks: AltLink[];
+  directLink?: { label: string; url: string };
   iconUrl: string;
   emoji: string;
   category: string;
@@ -31,6 +32,7 @@ export const apps: {
   downloads?: number;
   hasPremiumSection?: boolean;
   premiumFeatures?: string[];
+  modFeatures?: string[];
 }[] = [
   {
     slug: "capcut",
@@ -5305,6 +5307,33 @@ export const apps: {
   text: "#c084fc",
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "race-max-pro",
+  name: "Race Max Pro",
+  description: "Juego de carreras con dinero ilimitado.",
+  longDescription:
+    "Race Max Pro es un juego de carreras para Android con autos realistas, personalización y distintos modos de competición. Esta versión MOD incluye dinero ilimitado para que compres vehículos, mejoras y accesorios sin restricciones. Compite en circuitos, supera a tus rivales y disfruta de una experiencia de conducción completa.",
+  link: "https://uc-share.com/s/f2020ace4def4?la=en-us",
+  altLinks: [],
+  directLink: {
+    label: "Link 1 — Descarga directa",
+    url: "https://clksz.com/Persons-RaceMaxPro",
+  },
+  iconUrl: "https://i.postimg.cc/0QXVPsys/IMG-20261118-113302-920.jpg",
+  emoji: "🏎️",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "2.19.5",
+  size: "922.7 MB",
+  updated: "Nov 2026",
+  glow: "rgba(239, 68, 68, 0.4)",
+  border: "rgba(239, 68, 68, 0.6)",
+  text: "#f87171",
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: ["Dinero ilimitado"],
 }
 ];
 
@@ -5321,6 +5350,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "race-max-pro",
   "sticker-ly-plus",
   "proton-vpn-premium",
   "xuper",

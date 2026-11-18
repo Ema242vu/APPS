@@ -122,6 +122,14 @@ export default function AppDetail({ app }: { app: App }) {
   const premiumFeatures = getPremiumFeatures(app);
   const showPremiumSection = premiumFeatures.length > 0;
   const showModSection = !appsSinSeccionMod.includes(app.slug);
+  const modFeatures =
+    app.modFeatures && app.modFeatures.length > 0
+      ? app.modFeatures
+      : [
+          "Funciones Premium desbloqueadas.",
+          "Libre de anuncios.",
+          "Optimización mejorada.",
+        ];
 
   const toggleFav = () => {
     const newFavs = isFav ? favorites.filter((f) => f !== app.name) : [...favorites, app.name];
@@ -507,11 +515,7 @@ export default function AppDetail({ app }: { app: App }) {
             Mod
           </h3>
           <div style={{ display: "flex", flexDirection: "column", gap: S.x12 }}>
-            {[
-              "Funciones Premium desbloqueadas.",
-              "Libre de anuncios.",
-              "Optimización mejorada.",
-            ].map((f, i) => (
+            {modFeatures.map((f, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: S.x12 }}>
                 <span
                   style={{
@@ -557,21 +561,65 @@ export default function AppDetail({ app }: { app: App }) {
               letterSpacing: "-0.2px",
             }}
           >
-            Download links
+            Enlaces de descarga
           </h3>
 
-          <button
-            onClick={handleDownload}
-            className="bounce-click"
-            style={{
-              ...downloadButtonStyle,
-              backgroundColor: "#22c55e",
-              color: "#ffffff",
-              marginBottom: S.x8,
-            }}
-          >
-            <span style={{ fontSize: "16px" }}>⬇</span> Descargar Ahora
-          </button>
+          {app.directLink ? (
+            <>
+              <a
+                href={app.directLink.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bounce-click"
+                style={{
+                  ...downloadButtonStyle,
+                  backgroundColor: "#22c55e",
+                  color: "#ffffff",
+                  marginBottom: S.x8,
+                  textDecoration: "none",
+                }}
+              >
+                <span style={{ fontSize: "16px" }}>⚡</span> {app.directLink.label}
+              </a>
+              <button
+                onClick={handleDownload}
+                className="bounce-click"
+                style={{
+                  ...downloadButtonStyle,
+                  backgroundColor: "transparent",
+                  color: "var(--text-primary)",
+                  border: "1px solid var(--border-color)",
+                  marginBottom: S.x8,
+                }}
+              >
+                <span style={{ fontSize: "16px" }}>⬇</span> Link 2 — Alternativa (2 pasos)
+              </button>
+              <p
+                style={{
+                  fontSize: "11px",
+                  color: "var(--text-muted)",
+                  margin: "4px 0 0",
+                  lineHeight: 1.5,
+                  textAlign: "center",
+                }}
+              >
+                Link 1 abre el acortador externo. Link 2 pasa por 2 pasos de verificación.
+              </p>
+            </>
+          ) : (
+            <button
+              onClick={handleDownload}
+              className="bounce-click"
+              style={{
+                ...downloadButtonStyle,
+                backgroundColor: "#22c55e",
+                color: "#ffffff",
+                marginBottom: S.x8,
+              }}
+            >
+              <span style={{ fontSize: "16px" }}>⬇</span> Descargar Ahora
+            </button>
+          )}
 
           <div
             style={{

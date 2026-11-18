@@ -95,8 +95,8 @@ function MonetagGate({
     return () => clearTimeout(timeout);
   }, [passed, timer]);
 
-  // Pasos 1-5: al terminar la cuenta, recargar en el siguiente paso.
-  // Paso 6: no navegar; el render muestra el botón de descarga.
+  // Paso 1: al terminar la cuenta, recargar en el paso 2.
+  // Paso 2: no navegar; el render muestra el botón de descarga.
   useEffect(() => {
     if (!passed || timer > 0 || downloadUrl) return;
     window.location.href = `/dl/${slug}?step=${step + 1}`;
@@ -305,15 +305,15 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
       <div style={{ maxWidth: "520px", margin: "0 auto", padding: "16px 14px 140px" }}>
         <div style={{ textAlign: "center", paddingTop: "8px", marginBottom: "18px" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", backgroundColor: C.accent, color: "#000", fontSize: "11px", fontWeight: 700, padding: "4px 14px", borderRadius: "20px", marginBottom: "10px" }}>
-            PASO {step} DE 6
+            PASO {step} DE 2
           </div>
           <h1 style={{ fontSize: "20px", fontWeight: 800, margin: 0, color: C.text }}>{appName}</h1>
           <p style={{ fontSize: "12px", color: "#64748b", margin: "4px 0 0 0" }}>PERSONS-COMUNITY — Descarga verificada y segura</p>
         </div>
 
-        {/* Barra de progreso 6 pasos */}
+        {/* Barra de progreso 2 pasos */}
         <div style={{ display: "flex", gap: "6px", marginBottom: "20px" }}>
-          {[1, 2, 3, 4, 5, 6].map((s) => (
+          {[1, 2].map((s) => (
             <div key={s} style={{ flex: 1, height: "5px", borderRadius: "3px", backgroundColor: s <= step ? C.green : "#e2e8f0" }} />
           ))}
         </div>
@@ -338,9 +338,9 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
 export default function DownloadFlow(props: Props) {
   const searchParams = useSearchParams();
   const stepFromUrl = parseInt(searchParams.get("step") || "1", 10);
-  const step = stepFromUrl >= 1 && stepFromUrl <= 6 ? stepFromUrl : 1;
+  const step = stepFromUrl >= 1 && stepFromUrl <= 2 ? stepFromUrl : 1;
 
-  // Carga el tag de Monetag en TODOS los pasos (1-6).
+  // Carga el tag de Monetag en TODOS los pasos (1-2).
   // Se añade un timestamp para que el script se ejecute de nuevo en cada paso.
   useEffect(() => {
     const selector = 'script[src*="5gvci.com/act/files/tag.min.js"]';
@@ -359,16 +359,12 @@ export default function DownloadFlow(props: Props) {
 
   const stepDescriptions: Record<number, string> = {
     1: "Verificando información de la aplicación...",
-    2: "Verificación de seguridad en curso...",
-    3: "Preparando tu archivo de descarga...",
-    4: "Verificando compatibilidad del archivo...",
-    5: "Generando enlace de descarga...",
-    6: "¡Casi listo! Verificando enlace de descarga...",
+    2: "Preparando tu archivo de descarga...",
   };
 
   return (
     <PageShell step={step} appName={props.appName} slug={props.slug}>
-      {step <= 5 ? (
+      {step === 1 ? (
         <MonetagGate
           step={step}
           title={`Paso ${step}`}
@@ -391,11 +387,11 @@ export default function DownloadFlow(props: Props) {
                 <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
               </div>
 
-              {/* Paso 6: banner de "Click Aquí" → Descargar (con native banner y 4s) */}
+              {/* Paso 2: banner de "Click Aquí" → Descargar (con native banner y 4s) */}
               <MonetagGate
-                step={6}
-                title="Paso 6"
-                description={stepDescriptions[6]}
+                step={2}
+                title="Paso 2"
+                description={stepDescriptions[2]}
                 slug={props.slug}
                 downloadUrl={props.downloadUrl}
               />
