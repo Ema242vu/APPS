@@ -564,7 +564,23 @@ export default function AppDetail({ app }: { app: App }) {
             Enlaces de descarga
           </h3>
 
-          {app.directLink ? (
+          {app.directOnly ? (
+            <a
+              href={app.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bounce-click"
+              style={{
+                ...downloadButtonStyle,
+                backgroundColor: "#22c55e",
+                color: "#ffffff",
+                marginBottom: S.x8,
+                textDecoration: "none",
+              }}
+            >
+              <span style={{ fontSize: "16px" }}>⬇</span> Descargar Ahora
+            </a>
+          ) : app.directLink ? (
             <>
               <a
                 href={app.directLink.url}

@@ -15,6 +15,7 @@ export const apps: {
   link: string;
   altLinks: AltLink[];
   directLink?: { label: string; url: string };
+  directOnly?: boolean;
   iconUrl: string;
   emoji: string;
   category: string;
@@ -5334,6 +5335,29 @@ export const apps: {
   downloads: 0,
   hasPremiumSection: false,
   modFeatures: ["Dinero ilimitado"],
+},
+{
+  slug: "oppai-odyssey-plus18",
+  name: "Oppai Odyssey (+18)",
+  description: "Novela visual +18 de ciencia ficción, romance y harem.",
+  longDescription:
+    "Encuentra razas alienígenas exóticas, explora nuevos mundos y forja vínculos con la tripulación que sirve bajo tu mando. Crea amistades duraderas, desarrolla relaciones íntimas y descubre los secretos que acechan más allá de las estrellas... incluidos los siniestros planes que se gestan dentro de la propia USF. Oppai Odyssey es una novela visual de ciencia ficción, romance y estilo «harem», repleta de aventuras interestelares, compañeros encantadores, encuentros sensuales y escenas para adultos totalmente animadas.",
+  link: "https://shortxlinks.com/TnjTgb",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "https://i.postimg.cc/L4vrVYR5/Ym-Wv1O.png",
+  emoji: "🔞",
+  category: "+18",
+  isTop: false,
+  isNew: true,
+  version: "Full",
+  size: "1.7 GB",
+  updated: "Nov 2026",
+  glow: "rgba(139, 92, 246, 0.4)",
+  border: "rgba(139, 92, 246, 0.6)",
+  text: "#a78bfa",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5350,6 +5374,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "oppai-odyssey-plus18",
   "race-max-pro",
   "sticker-ly-plus",
   "proton-vpn-premium",
