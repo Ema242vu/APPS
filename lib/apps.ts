@@ -5358,6 +5358,32 @@ export const apps: {
   text: "#a78bfa",
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "lol-films",
+  name: "Lol Films",
+  description: "Series y películas en alta calidad con más de 30 servidores gratis.",
+  longDescription:
+    "Lol Films es una aplicación para ver series y películas en gran calidad, con soporte para TV y celulares. Incluye más de 30 servidores gratuitos y reproduce el contenido sin anuncios, para que disfrutes de tus películas y series favoritas desde cualquier dispositivo.",
+  link: "https://uc-share.com/s/50ca353d77ce4?la=en-us",
+  altLinks: [],
+  directLink: {
+    label: "Link 1 — Descarga directa",
+    url: "https://shortxlinks.in/a1G46",
+  },
+  iconUrl: "https://i.postimg.cc/J028YGww/IMG-20261119-WA8111.jpg",
+  emoji: "🎬",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "1.0.0",
+  size: "113 MB",
+  updated: "Nov 2026",
+  glow: "rgba(59, 130, 246, 0.4)",
+  border: "rgba(59, 130, 246, 0.6)",
+  text: "#60a5fa",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5374,6 +5400,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "lol-films",
   "oppai-odyssey-plus18",
   "race-max-pro",
   "sticker-ly-plus",
