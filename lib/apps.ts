@@ -5439,6 +5439,41 @@ export const apps: {
   text: "#a78bfa",
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "document-reader",
+  name: "Document Reader",
+  description: "Lector de todos los documentos: PDF, Word, Excel y PowerPoint.",
+  longDescription:
+    "Document Reader es un lector universal para Android que abre documentos PDF, Word, Excel, PowerPoint y otros formatos desde tu celular. Permite leer, buscar y organizar archivos, cambiar entre modos de lectura y compartir documentos fácilmente. Esta versión Premium tiene las funciones pagas desbloqueadas, sin anuncios, con varios idiomas y compatible con Android 8.0 o superior.",
+  link: "https://uc-share.com/s/007782b6fceb4?la=en-us",
+  altLinks: [],
+  directLink: {
+    label: "Link 1 — Descarga directa",
+    url: "https://shortxlinks.in/oPS6DWC2p",
+  },
+  iconUrl: "https://i.postimg.cc/tTMW2Rv3/images-(15).jpg",
+  emoji: "📄",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "76.0",
+  size: "37 MB",
+  updated: "Nov 2026",
+  glow: "rgba(59, 130, 246, 0.4)",
+  border: "rgba(59, 130, 246, 0.6)",
+  text: "#60a5fa",
+  developer: "Document Reader",
+  rating: 4.6,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: [
+    "Premium desbloqueado",
+    "Sin anuncios",
+    "Varios idiomas",
+    "Compatible con Android 8.0+",
+    "CPU universal",
+  ],
 }
 ];
 
@@ -5455,6 +5490,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "document-reader",
   "deezer-premium",
   "minecraft-rust",
   "king-red",
