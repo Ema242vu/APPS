@@ -5411,6 +5411,32 @@ export const apps: {
   downloads: 0,
   hasPremiumSection: false,
   modFeatures: ["Sin anuncios"],
+},
+{
+  slug: "minecraft-rust",
+  name: "Minecraft Rust",
+  description: "Minecraft Java Edition en Android con motor nativo en Rust.",
+  longDescription:
+    "Minecraft Rust es un cliente no oficial que lleva Minecraft Java Edition a Android mediante un motor nativo escrito en Rust (Starling, antes Horizon Android). Lee los mismos mundos, sigue las mismas reglas y genera el mismo terreno que Java Edition, con arranque rápido y buen rendimiento en celulares. Compatible con un jugador y multijugador Java; en el primer inicio descarga los recursos oficiales de Mojang. Requiere una copia legal de Minecraft Java Edition y una cuenta de Microsoft para los servidores con autenticación. Esta versión es el build de prueba 0.8.1 para arm64-v8a.",
+  link: "https://uc-share.com/s/b81c61095d334?la=en-us",
+  altLinks: [],
+  directLink: {
+    label: "Link 1 — Descarga directa",
+    url: "https://shortxlinks.in/3JruXk0hq",
+  },
+  iconUrl: "https://i.postimg.cc/TYJ6nQ0b/IMG-20261120-065120-558.jpg",
+  emoji: "⛏️",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "0.8.1",
+  size: "46 MB",
+  updated: "Nov 2026",
+  glow: "rgba(139, 92, 246, 0.4)",
+  border: "rgba(139, 92, 246, 0.6)",
+  text: "#a78bfa",
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5420,13 +5446,14 @@ export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas"
 export const hiddenCategories: string[] = ["ROMS", "Add-ons Minecraft"];
 
 /* Apps que no se anuncian como premium ni muestran la sección "Mod". */
-export const appsSinSeccionMod: string[] = ["minecraft", "loverse-plus18", "plantas-vs-zombies-fusion"];
+export const appsSinSeccionMod: string[] = ["minecraft", "minecraft-rust", "loverse-plus18", "plantas-vs-zombies-fusion"];
 
 /* Tipo de una app (derivado del array) para tipar props y metadata */
 export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "minecraft-rust",
   "king-red",
   "lol-films",
   "oppai-odyssey-plus18",
