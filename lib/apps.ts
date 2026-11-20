@@ -5474,6 +5474,41 @@ export const apps: {
     "Compatible con Android 8.0+",
     "CPU universal",
   ],
+},
+{
+  slug: "cloudstream-remix",
+  name: "CloudStream Remix",
+  description: "Series, películas, anime y deportes en streaming.",
+  longDescription:
+    "CloudStream Remix es un cliente de streaming de código abierto para Android que permite ver series, películas, anime, partidos y contenido en vivo mediante extensiones y repositorios. Añade tus proveedores favoritos, busca títulos, organiza favoritos y reproduce en alta calidad desde tu celular, tablet o TV Box. Para acceder al contenido, agrega las extensiones o repositorios que prefieras. Esta versión MOD tiene las funciones premium desbloqueadas, sin anuncios, con varios idiomas y compatible con Android 8.0 o superior.",
+  link: "https://uc-share.com/s/c53b147248f34?la=en-us",
+  altLinks: [],
+  directLink: {
+    label: "Link 1 — Descarga directa",
+    url: "https://shortxlinks.in/ArcxG",
+  },
+  iconUrl: "https://raw.githubusercontent.com/recloudstream/cloudstream/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+  emoji: "☁️",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "6.4",
+  size: "147 MB",
+  updated: "Nov 2026",
+  glow: "rgba(56, 189, 248, 0.4)",
+  border: "rgba(56, 189, 248, 0.6)",
+  text: "#38bdf8",
+  developer: "CloudStream",
+  rating: 4.7,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: [
+    "Premium desbloqueado",
+    "Sin anuncios",
+    "Varios idiomas",
+    "Compatible con Android 8.0+",
+    "CPU universal",
+  ],
 }
 ];
 
@@ -5490,6 +5525,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "cloudstream-remix",
   "document-reader",
   "deezer-premium",
   "minecraft-rust",
