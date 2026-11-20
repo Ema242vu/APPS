@@ -2927,16 +2927,18 @@ export const apps: {
     name: "Deezer Premium",
     description: "Música en streaming sin anuncios, alta calidad.",
     longDescription: "Deezer Premium te da acceso ilimitado a más de 120 millones de canciones en calidad de audio alta.",
-    link: "https://vexfile.com/download/ovmKIzwO6R",
-    altLinks: [
-      { label: "Alta Calidad", url: "https://cloud.androforever.com/Apps/Deezer/Deezer%20Premium%20v9.0.25.2%20-%20androforever.com%20(Alta%20Calidad).apk" },
-    ],
+    link: "https://uc-share.com/s/acb00b445bc94?la=en-us",
+    altLinks: [],
+    directLink: {
+      label: "Link 1 — Descarga directa",
+      url: "https://shortxlinks.in/reDUS",
+    },
     iconUrl: "https://img.utdstc.com/icon/574/8f7/5748f7a5ecf472d1f91f5ba6a7309fecfffff78e3b090573385b7b662e8be7b7:600",
     emoji: "🎧",
     category: "Música",
     isTop: false,
     isNew: true,
-    version: "9.0.25.2",
+    version: "9.0.27.3",
     size: "43 MB",
     updated: "Nov 2026",
     glow: "rgba(168, 85, 247, 0.4)",
@@ -5453,6 +5455,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "deezer-premium",
   "minecraft-rust",
   "king-red",
   "lol-films",
@@ -5587,7 +5590,6 @@ export const recentOrder: string[] = [
   "psycho-love",
   "deltarune",
   "lovemaniac",
-  "deezer-premium",
   "king-hydra",
   "vn-video-editor",
   "ejercicios-en-casa",
