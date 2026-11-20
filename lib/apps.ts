@@ -5384,6 +5384,33 @@ export const apps: {
   text: "#60a5fa",
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "king-red",
+  name: "King Red",
+  description: "Películas, series y anime gratis, sin anuncios.",
+  longDescription:
+    "King Red es una aplicación de streaming para ver películas, series y anime gratis desde tu celular, tablet, TV Box o Smart TV con Android. Incluye un catálogo variado con contenido en Latino, Castellano y subtitulado, buscador, favoritos, reproducción con Chromecast y la opción de descargar títulos para verlos sin conexión. Esta versión MOD elimina los anuncios para que disfrutes del contenido sin interrupciones.",
+  link: "https://uc-share.com/s/a179c655050a4?la=en-us",
+  altLinks: [],
+  directLink: {
+    label: "Link 1 — Descarga directa",
+    url: "https://shortxlinks.in/gWFvx",
+  },
+  iconUrl: "https://i.postimg.cc/9fDfGpVX/images-(7).png",
+  emoji: "👑",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "1.0.61",
+  size: "19 MB",
+  updated: "Nov 2026",
+  glow: "rgba(239, 68, 68, 0.4)",
+  border: "rgba(239, 68, 68, 0.6)",
+  text: "#f87171",
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: ["Sin anuncios"],
 }
 ];
 
@@ -5400,6 +5427,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "king-red",
   "lol-films",
   "oppai-odyssey-plus18",
   "race-max-pro",
