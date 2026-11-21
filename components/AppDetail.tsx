@@ -608,7 +608,7 @@ export default function AppDetail({ app }: { app: App }) {
                   marginBottom: S.x8,
                 }}
               >
-                <span style={{ fontSize: "16px" }}>⬇</span> Link 2 — Alternativa (2 pasos)
+                <span style={{ fontSize: "16px" }}>⬇</span> Link 2 — Alternativa (4 pasos)
               </button>
               <p
                 style={{
@@ -619,7 +619,7 @@ export default function AppDetail({ app }: { app: App }) {
                   textAlign: "center",
                 }}
               >
-                Link 1 abre el acortador externo. Link 2 pasa por 2 pasos de verificación.
+                Link 1 abre el acortador externo. Link 2 pasa por 4 pasos de verificación.
               </p>
             </>
           ) : (

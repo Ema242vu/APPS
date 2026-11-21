@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { trackReferralEvent } from "@/lib/referrals/client";
 
 const MONETAG_URL = "https://omg10.com/4/11940275";
+const TOTAL_STEPS = 4;
 
 const C = {
   bg: "#ffffff",
@@ -67,7 +68,7 @@ function MonetagGate({
 }) {
   const [passed, setPassed] = useState(false);
   const [justClicked, setJustClicked] = useState(false);
-  const [timer, setTimer] = useState(4);
+  const [timer, setTimer] = useState(2);
 
   // Al volver a la pestaña tras el click: iniciar cuenta regresiva
   useEffect(() => {
@@ -87,7 +88,7 @@ function MonetagGate({
     };
   }, [justClicked]);
 
-  // Cuenta regresiva de 4s (se detiene sola al llegar a 0)
+  // Cuenta regresiva de 2s (se detiene sola al llegar a 0)
   useEffect(() => {
     if (!passed || timer <= 0) return;
 
@@ -95,8 +96,8 @@ function MonetagGate({
     return () => clearTimeout(timeout);
   }, [passed, timer]);
 
-  // Paso 1: al terminar la cuenta, recargar en el paso 2.
-  // Paso 2: no navegar; el render muestra el botón de descarga.
+  // Pasos 1-3: al terminar la cuenta, recargar en el siguiente paso.
+  // Paso 4: no navegar; el render muestra el botón de descarga.
   useEffect(() => {
     if (!passed || timer > 0 || downloadUrl) return;
     window.location.href = `/dl/${slug}?step=${step + 1}`;
@@ -305,15 +306,15 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
       <div style={{ maxWidth: "520px", margin: "0 auto", padding: "16px 14px 140px" }}>
         <div style={{ textAlign: "center", paddingTop: "8px", marginBottom: "18px" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", backgroundColor: C.accent, color: "#000", fontSize: "11px", fontWeight: 700, padding: "4px 14px", borderRadius: "20px", marginBottom: "10px" }}>
-            PASO {step} DE 2
+            PASO {step} DE {TOTAL_STEPS}
           </div>
           <h1 style={{ fontSize: "20px", fontWeight: 800, margin: 0, color: C.text }}>{appName}</h1>
           <p style={{ fontSize: "12px", color: "#64748b", margin: "4px 0 0 0" }}>PERSONS-COMUNITY — Descarga verificada y segura</p>
         </div>
 
-        {/* Barra de progreso 2 pasos */}
+        {/* Barra de progreso de 4 pasos */}
         <div style={{ display: "flex", gap: "6px", marginBottom: "20px" }}>
-          {[1, 2].map((s) => (
+          {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map((s) => (
             <div key={s} style={{ flex: 1, height: "5px", borderRadius: "3px", backgroundColor: s <= step ? C.green : "#e2e8f0" }} />
           ))}
         </div>
@@ -338,9 +339,9 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
 export default function DownloadFlow(props: Props) {
   const searchParams = useSearchParams();
   const stepFromUrl = parseInt(searchParams.get("step") || "1", 10);
-  const step = stepFromUrl >= 1 && stepFromUrl <= 2 ? stepFromUrl : 1;
+  const step = stepFromUrl >= 1 && stepFromUrl <= TOTAL_STEPS ? stepFromUrl : 1;
 
-  // Carga el tag de Monetag en TODOS los pasos (1-2).
+  // Carga el tag de Monetag en TODOS los pasos (1-4).
   // Se añade un timestamp para que el script se ejecute de nuevo en cada paso.
   useEffect(() => {
     const selector = 'script[src*="5gvci.com/act/files/tag.min.js"]';
@@ -359,44 +360,42 @@ export default function DownloadFlow(props: Props) {
 
   const stepDescriptions: Record<number, string> = {
     1: "Verificando información de la aplicación...",
-    2: "Preparando tu archivo de descarga...",
+    2: "Comprobando la integridad del archivo...",
+    3: "Preparando tu archivo de descarga...",
+    4: "Finalizando la verificación...",
   };
 
   return (
     <PageShell step={step} appName={props.appName} slug={props.slug}>
-      {step === 1 ? (
+      {step < TOTAL_STEPS ? (
         <MonetagGate
           step={step}
           title={`Paso ${step}`}
           description={stepDescriptions[step]}
           slug={props.slug}
         />
+      ) : !props.downloadUrl ? (
+        <div style={{ padding: "16px", textAlign: "center" }}>
+          <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px" }}>
+            <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: 0 }}>Sin enlace de descarga disponible</p>
+          </div>
+        </div>
       ) : (
         <>
-          {!props.downloadUrl ? (
-            <div style={{ padding: "16px", textAlign: "center" }}>
-              <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px" }}>
-                <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: 0 }}>Sin enlace de descarga disponible</p>
-              </div>
-            </div>
-          ) : (
-            <>
-              {/* Info de seguridad */}
-              <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
-                <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
-                <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
-              </div>
+          {/* Info de seguridad */}
+          <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
+            <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
+            <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
+          </div>
 
-              {/* Paso 2: banner de "Click Aquí" → Descargar (con native banner y 4s) */}
-              <MonetagGate
-                step={2}
-                title="Paso 2"
-                description={stepDescriptions[2]}
-                slug={props.slug}
-                downloadUrl={props.downloadUrl}
-              />
-            </>
-          )}
+          {/* Paso final: banner de "Click Aquí" → Descargar (con native banner y 2s) */}
+          <MonetagGate
+            step={TOTAL_STEPS}
+            title={`Paso ${TOTAL_STEPS}`}
+            description={stepDescriptions[TOTAL_STEPS]}
+            slug={props.slug}
+            downloadUrl={props.downloadUrl}
+          />
         </>
       )}
     </PageShell>
