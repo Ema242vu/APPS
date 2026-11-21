@@ -5537,6 +5537,7 @@ export const apps: {
   downloads: 0,
   hasPremiumSection: false,
   modFeatures: [
+    "Premium desbloqueado",
     "Sin anuncios",
     "Mod estable y fluido",
     "Sin info de depuración",
