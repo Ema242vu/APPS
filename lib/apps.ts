@@ -5546,6 +5546,32 @@ export const apps: {
     "CPU universal",
     "Carga rápida y ligera",
   ],
+},
+{
+  slug: "avatar-blood-legacy-plus18",
+  name: "Avatar: Blood Legacy (+18)",
+  description: "Juego +18 de Avatar con historia alternativa y decisiones.",
+  longDescription:
+    "Avatar: Blood Legacy (+18) es un juego para adultos ambientado en una línea temporal alternativa del universo Avatar. Avanza por una historia llena de decisiones, conoce a los personajes y desbloquea escenas exclusivas pensadas solo para mayores de 18 años. Incluye el juego completo para Android.",
+  link: "https://shortxlinks.in/jWtBbpH",
+  altLinks: [],
+  directOnly: true,
+  downloadGuideUrl: "https://whatsapp.com/channel/0029Vb8X5TvKLaHqSbsYcP0j/821",
+  iconUrl: "https://i.postimg.cc/LXfpm1xG/1795074472-n0.jpg",
+  emoji: "🔞",
+  category: "+18",
+  isTop: false,
+  isNew: true,
+  version: "3.5",
+  size: "251 MB",
+  updated: "Nov 2026",
+  glow: "rgba(59, 130, 246, 0.4)",
+  border: "rgba(59, 130, 246, 0.6)",
+  text: "#60a5fa",
+  developer: "Qiller",
+  rating: 4.7,
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5555,13 +5581,14 @@ export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas"
 export const hiddenCategories: string[] = ["ROMS", "Add-ons Minecraft"];
 
 /* Apps que no se anuncian como premium ni muestran la sección "Mod". */
-export const appsSinSeccionMod: string[] = ["minecraft", "minecraft-rust", "loverse-plus18", "plantas-vs-zombies-fusion"];
+export const appsSinSeccionMod: string[] = ["minecraft", "minecraft-rust", "loverse-plus18", "plantas-vs-zombies-fusion", "avatar-blood-legacy-plus18"];
 
 /* Tipo de una app (derivado del array) para tipar props y metadata */
 export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "avatar-blood-legacy-plus18",
   "yuma",
   "cloudstream-remix",
   "document-reader",
