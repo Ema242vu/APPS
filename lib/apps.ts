@@ -16,6 +16,7 @@ export const apps: {
   altLinks: AltLink[];
   directLink?: { label: string; url: string };
   directOnly?: boolean;
+  downloadGuideUrl?: string;
   iconUrl: string;
   emoji: string;
   category: string;
@@ -5509,6 +5510,41 @@ export const apps: {
     "Compatible con Android 8.0+",
     "CPU universal",
   ],
+},
+{
+  slug: "yuma",
+  name: "Yuma",
+  description: "Reproductor de música con Spotify y YouTube Music.",
+  longDescription:
+    "Yuma es un reproductor de música híbrido para Android que combina el catálogo y las recomendaciones de Spotify con tu biblioteca de YouTube Music, además de reproducción local en alta calidad. Disfruta de audio Hi-Res y FLAC, letras, ecualizador y una interfaz fluida. Esta versión MOD no tiene anuncios, es estable, incluye varios idiomas y es compatible con Android 8.0 o superior.",
+  link: "https://shortxlinks.in/w6VAS",
+  altLinks: [],
+  directOnly: true,
+  downloadGuideUrl: "https://whatsapp.com/channel/0029Vb8X5TvKLaHqSbsYcP0j/821",
+  iconUrl: "https://i.postimg.cc/T1RrTrRf/IMG-20261120-221727-989.jpg",
+  emoji: "🎵",
+  category: "Música",
+  isTop: false,
+  isNew: true,
+  version: "1.2.0-RC.3",
+  size: "38 MB",
+  updated: "Nov 2026",
+  glow: "rgba(168, 85, 247, 0.4)",
+  border: "rgba(168, 85, 247, 0.6)",
+  text: "#c084fc",
+  developer: "YumaPlayer",
+  rating: 4.8,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: [
+    "Sin anuncios",
+    "Mod estable y fluido",
+    "Sin info de depuración",
+    "Varios idiomas",
+    "Compatible con Android 8.0+",
+    "CPU universal",
+    "Carga rápida y ligera",
+  ],
 }
 ];
 
@@ -5525,6 +5561,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "yuma",
   "cloudstream-remix",
   "document-reader",
   "deezer-premium",

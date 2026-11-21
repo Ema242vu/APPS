@@ -637,6 +637,25 @@ export default function AppDetail({ app }: { app: App }) {
             </button>
           )}
 
+          {app.downloadGuideUrl && (
+            <a
+              href={app.downloadGuideUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "block",
+                textAlign: "center",
+                fontSize: "11px",
+                color: "#facc15",
+                textDecoration: "underline",
+                marginTop: S.x8,
+                marginBottom: S.x4,
+              }}
+            >
+              📖 ¿Cómo descargar desde el Link 1?
+            </a>
+          )}
+
           <div
             style={{
               display: "flex",
