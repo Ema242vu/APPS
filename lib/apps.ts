@@ -592,6 +592,27 @@ export const apps: {
   "rating": 4.8
   },
   {
+  "slug": "sim-simi",
+  "name": "Sim Simi",
+  "description": "Chatbot amarillo con el que conversar y pasar el rato.",
+  "longDescription": "Sim Simi es un simpático chatbot con forma de pollo amarillo que responde a tus mensajes con humor, ocurrencias y frases de todo tipo. Conversa con él en múltiples idiomas, enséñale nuevas respuestas, personaliza su vocabulario y comparte las conversaciones más divertidas con tus amigos. También incluye minijuegos y opciones de personalización. Ideal para pasar el rato, practicar idiomas o simplemente reír con las respuestas inesperadas de este peculiar personaje.",
+  "link": "https://vexfile.com/download/BYENpLuDbJ",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/ba8bcf3c-ab2b-45b9-8753-4798cb267680.webp",
+  "emoji": "🐥",
+  "category": "Social",
+  "isTop": false,
+  "isNew": true,
+  "version": "5.0.6",
+  "size": "110 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(250, 204, 21, 0.4)",
+  "border": "rgba(250, 204, 21, 0.6)",
+  "text": "#facc15",
+  "developer": "SimSimi Inc.",
+  "rating": 4.5
+  },
+  {
   "slug": "passpartout-starving-artist",
   "name": "Passpartout: Starving Artist",
   "description": "Vive como un artista francés y vende tu arte.",
