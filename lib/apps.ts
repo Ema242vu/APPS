@@ -5679,6 +5679,29 @@ export const apps: {
   rating: 4.7,
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "my-ntr-girlfriend-plus18",
+  name: "My NTR Girlfriend (+18)",
+  description: "Novela visual +18 de romance, decisiones e infidelidad.",
+  longDescription:
+    "My NTR Girlfriend (+18) es una novela visual para adultos con estilo anime en la que tus decisiones cambian la historia. Conoce a los personajes, explora sus relaciones y desbloquea escenas exclusivas pensadas solo para mayores de 18 años. Incluye el juego completo para Android.",
+  link: "https://vexfile.com/download/MVCcfD5dvd",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/nLLScCJV/1739168478-n0.jpg",
+  emoji: "🔞",
+  category: "+18",
+  isTop: false,
+  isNew: true,
+  version: "0.46.0",
+  size: "891 MB",
+  updated: "Nov 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#ec4899",
+  rating: 4.6,
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5688,13 +5711,14 @@ export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas"
 export const hiddenCategories: string[] = ["ROMS", "Add-ons Minecraft"];
 
 /* Apps que no se anuncian como premium ni muestran la sección "Mod". */
-export const appsSinSeccionMod: string[] = ["minecraft", "minecraft-rust", "loverse-plus18", "plantas-vs-zombies-fusion", "avatar-blood-legacy-plus18"];
+export const appsSinSeccionMod: string[] = ["minecraft", "minecraft-rust", "loverse-plus18", "plantas-vs-zombies-fusion", "avatar-blood-legacy-plus18", "my-ntr-girlfriend-plus18"];
 
 /* Tipo de una app (derivado del array) para tipar props y metadata */
 export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "my-ntr-girlfriend-plus18",
   "chatgpt-premium",
   "hbo-max-premium",
   "avatar-blood-legacy-plus18",
