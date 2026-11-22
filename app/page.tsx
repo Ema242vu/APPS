@@ -1,4 +1,5 @@
 import HomeStore from "@/components/HomeStore";
+import MonetagVignette from "@/components/MonetagVignette";
 import type { Metadata } from "next";
 
 /**
@@ -11,5 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <HomeStore />;
+  return (
+    <>
+      <HomeStore />
+      <MonetagVignette />
+    </>
+  );
 }
