@@ -41,7 +41,7 @@ export const apps: {
     name: "CapCut Premium",
     description: "Editor de video con todas las funciones desbloqueadas.",
     longDescription: "CapCut Premium es la versión desbloqueada del popular editor de video de ByteDance. Incluye todas las funciones Pro sin marca de agua, efectos exclusivos, plantillas premium y exportación en alta calidad.",
-    link: "https://uc-share.com/s/d3e60c1a1e784?la=en-us",
+    link: "https://uc-share.com/s/35ee5dca48264?la=en-us",
     altLinks: [
       { label: "Opción 2", url: "https://transfer.it/t/T6Ewvbxx1RoK" },
       { label: "Opción 3", url: "https://www.mediafire.com/file/hpu826yzkqn2xke/CapCut_23.0.0_UltraPro.apk/file" },
@@ -5819,6 +5819,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "capcut",
   "block-blast",
   "ai-chatbot-assistant-funai",
   "airport-simulator-plane-city",
@@ -5850,7 +5851,6 @@ export const recentOrder: string[] = [
   "xuper-tv-nf-premium",
   "fitia",
   "spotify-2",
-  "capcut",
   "youtube",
   "minecraft",
   "five-nights-at-fuzzboobs",
