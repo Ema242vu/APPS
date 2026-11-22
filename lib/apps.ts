@@ -5732,6 +5732,31 @@ export const apps: {
     "Todo ilimitado",
     "Compras gratis",
   ],
+},
+{
+  slug: "ai-chatbot-assistant-funai",
+  name: "AI Chatbot Assistant FunAI",
+  description: "Asistente de IA para conversar, preguntar y generar ideas.",
+  longDescription:
+    "AI Chatbot Assistant FunAI es un asistente de inteligencia artificial para Android con el que puedes conversar, resolver dudas, generar textos e ideas y recibir respuestas al instante. Esta versión MOD está modificada por PlatinumMods e incluye funciones desbloqueadas para aprovechar el chatbot sin restricciones.",
+  link: "https://vexfile.com/download/JeLZLz8FZv",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/RFjvzL9B/unnamed-(5).webp",
+  emoji: "🤖",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "1.5.15",
+  size: "26 MB",
+  updated: "Nov 2026",
+  glow: "rgba(139, 92, 246, 0.4)",
+  border: "rgba(139, 92, 246, 0.6)",
+  text: "#a78bfa",
+  developer: "FunAI",
+  rating: 4.5,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: ["Versión MOD por PlatinumMods", "Funciones desbloqueadas"],
 }
 ];
 
@@ -5748,6 +5773,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "ai-chatbot-assistant-funai",
   "airport-simulator-plane-city",
   "my-ntr-girlfriend-plus18",
   "chatgpt-premium",
