@@ -5757,6 +5757,31 @@ export const apps: {
   downloads: 0,
   hasPremiumSection: false,
   modFeatures: ["Versión MOD por PlatinumMods", "Funciones desbloqueadas"],
+},
+{
+  slug: "block-blast",
+  name: "Block Blast",
+  description: "Juego de bloques con modo sin anuncios.",
+  longDescription:
+    "Block Blast es un juego de puzzles para Android en el que encajas bloques de colores en una cuadrícula, completas líneas y consigues la mayor puntuación. Combina bloques, crea combos y supera tus récords en partidas rápidas. Esta versión está modificada para jugar sin anuncios.",
+  link: "https://vexfile.com/download/0bi1Z2zhaN",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/8Cs8PX1T/unnamed-(2).jpg",
+  emoji: "🧩",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "11.0.5",
+  size: "195 MB",
+  updated: "Nov 2026",
+  glow: "rgba(59, 130, 246, 0.4)",
+  border: "rgba(59, 130, 246, 0.6)",
+  text: "#60a5fa",
+  developer: "Hungry Studio",
+  rating: 4.7,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: ["Sin anuncios"],
 }
 ];
 
@@ -5773,6 +5798,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "block-blast",
   "ai-chatbot-assistant-funai",
   "airport-simulator-plane-city",
   "my-ntr-girlfriend-plus18",
