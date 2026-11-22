@@ -214,7 +214,7 @@ export default function VipCatalog({ apps }: { apps: App[] }) {
                 maxWidth: "620px",
               }}
             >
-              Todo el catálogo sin pasar por los 4 pasos de verificación. Elige tu app, toca
+              Todo el catálogo sin pasar por los 5 pasos de verificación. Elige tu app, toca
               “Descargar” y el enlace se abre directamente.
             </p>
 

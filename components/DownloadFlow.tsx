@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { trackReferralEvent } from "@/lib/referrals/client";
 
 const MONETAG_URL = "https://omg10.com/4/11940275";
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = 5;
 
 const C = {
   bg: "#ffffff",
@@ -96,8 +96,8 @@ function MonetagGate({
     return () => clearTimeout(timeout);
   }, [passed, timer]);
 
-  // Pasos 1-3: al terminar la cuenta, recargar en el siguiente paso.
-  // Paso 4: no navegar; el render muestra el botón de descarga.
+  // Pasos 1-4: al terminar la cuenta, recargar en el siguiente paso.
+  // Paso 5: no navegar; el render muestra el botón de descarga.
   useEffect(() => {
     if (!passed || timer > 0 || downloadUrl) return;
     window.location.href = `/dl/${slug}?step=${step + 1}`;
@@ -312,7 +312,7 @@ function PageShell({ children, step, appName, slug }: { children: React.ReactNod
           <p style={{ fontSize: "12px", color: "#64748b", margin: "4px 0 0 0" }}>PERSONS-COMUNITY — Descarga verificada y segura</p>
         </div>
 
-        {/* Barra de progreso de 4 pasos */}
+        {/* Barra de progreso de 5 pasos */}
         <div style={{ display: "flex", gap: "6px", marginBottom: "20px" }}>
           {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map((s) => (
             <div key={s} style={{ flex: 1, height: "5px", borderRadius: "3px", backgroundColor: s <= step ? C.green : "#e2e8f0" }} />
@@ -341,7 +341,7 @@ export default function DownloadFlow(props: Props) {
   const stepFromUrl = parseInt(searchParams.get("step") || "1", 10);
   const step = stepFromUrl >= 1 && stepFromUrl <= TOTAL_STEPS ? stepFromUrl : 1;
 
-  // Carga el tag de Monetag en TODOS los pasos (1-4).
+  // Carga el tag de Monetag en TODOS los pasos (1-5).
   // Se añade un timestamp para que el script se ejecute de nuevo en cada paso.
   useEffect(() => {
     const selector = 'script[src*="5gvci.com/act/files/tag.min.js"]';
@@ -362,7 +362,8 @@ export default function DownloadFlow(props: Props) {
     1: "Verificando información de la aplicación...",
     2: "Comprobando la integridad del archivo...",
     3: "Preparando tu archivo de descarga...",
-    4: "Finalizando la verificación...",
+    4: "Optimizando el enlace de descarga...",
+    5: "Finalizando la verificación...",
   };
 
   return (
