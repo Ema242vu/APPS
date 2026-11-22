@@ -5702,6 +5702,36 @@ export const apps: {
   rating: 4.6,
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "airport-simulator-plane-city",
+  name: "Airport Simulator: Plane City",
+  description: "Simulador de aeropuerto con dinero y compras ilimitadas.",
+  longDescription:
+    "Airport Simulator: Plane City es un juego de simulación para Android en el que gestionas tu propio aeropuerto, amplías las instalaciones, compras aviones y atiendes a los pasajeros. Esta versión MOD incluye menú MOD, moneda ilimitada, todo ilimitado y compras gratis para que construyas y mejores tu aeropuerto sin límites.",
+  link: "https://vexfile.com/download/bke9aupTvW",
+  altLinks: [],
+  iconUrl: "https://i.postimg.cc/J4B02tN7/IMG-20261122-083901-614.jpg",
+  emoji: "✈️",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "2.01.1810",
+  size: "305 MB",
+  updated: "Nov 2026",
+  glow: "rgba(56, 189, 248, 0.4)",
+  border: "rgba(56, 189, 248, 0.6)",
+  text: "#38bdf8",
+  developer: "Pixel Federation",
+  rating: 4.6,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: [
+    "Menú MOD",
+    "Dinero ilimitado",
+    "Todo ilimitado",
+    "Compras gratis",
+  ],
 }
 ];
 
@@ -5718,6 +5748,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "airport-simulator-plane-city",
   "my-ntr-girlfriend-plus18",
   "chatgpt-premium",
   "hbo-max-premium",
