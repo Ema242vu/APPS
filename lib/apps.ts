@@ -306,6 +306,27 @@ export const apps: {
   "rating": 4.6
   },
   {
+  "slug": "soccer-manager-2027",
+  "name": "Soccer Manager 2027",
+  "description": "Dirige tu club de fútbol en un simulador 3D realista.",
+  "longDescription": "Soccer Manager 2027 es un juego de gestión de fútbol en 3D donde asumes el papel de entrenador de clubes de élite y jugadores de clase mundial. Controla el mercado de fichajes, define tácticas, gestiona el equipo y compite en ligas y torneos. Incluye gráficos realistas, una base de datos actualizada y modos de juego variados. Es gratis con compras integradas opcionales. Esta versión está lista para instalar y empezar a dirigir.",
+  "link": "https://vexfile.com/download/1sMdPHMcrW",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/06d13f2a-163c-4397-98c1-a69ea121f4ea.jpg",
+  "emoji": "⚽",
+  "category": "Juegos",
+  "isTop": true,
+  "isNew": true,
+  "version": "4.1.8",
+  "size": "500 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(34, 197, 94, 0.4)",
+  "border": "rgba(34, 197, 94, 0.6)",
+  "text": "#22c55e",
+  "developer": "Invincibles Studio Ltd",
+  "rating": 4.4
+  },
+  {
     slug: "film-app",
     name: "Film App",
     description: "Películas y series gratis en HD desde tu celular.",
