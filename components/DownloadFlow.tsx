@@ -1,9 +1,13 @@
 "use client";
 
+"use client";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { trackReferralEvent } from "@/lib/referrals/client";
+import { loadAccount, isSkipActive, remainingSkipMinutes } from "@/lib/accounts";
+import SkipBanner from "@/components/SkipBanner";
 
 const MONETAG_URL = "https://omg10.com/4/11940275";
 const TOTAL_STEPS = 5;
@@ -341,6 +345,10 @@ export default function DownloadFlow(props: Props) {
   const stepFromUrl = parseInt(searchParams.get("step") || "1", 10);
   const step = stepFromUrl >= 1 && stepFromUrl <= TOTAL_STEPS ? stepFromUrl : 1;
 
+  const acc = loadAccount();
+  const skipActive = isSkipActive(acc);
+  const minsLeft = skipActive ? remainingSkipMinutes(acc!) : 0;
+
   // Carga el tag de Monetag en TODOS los pasos (1-5).
   // Se añade un timestamp para que el script se ejecute de nuevo en cada paso.
   useEffect(() => {
@@ -366,39 +374,108 @@ export default function DownloadFlow(props: Props) {
     5: "Finalizando la verificación...",
   };
 
-  return (
-    <PageShell step={step} appName={props.appName} slug={props.slug}>
-      {step < TOTAL_STEPS ? (
-        <MonetagGate
-          step={step}
-          title={`Paso ${step}`}
-          description={stepDescriptions[step]}
-          slug={props.slug}
-        />
-      ) : !props.downloadUrl ? (
-        <div style={{ padding: "16px", textAlign: "center" }}>
-          <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px" }}>
-            <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: 0 }}>Sin enlace de descarga disponible</p>
-          </div>
-        </div>
-      ) : (
-        <>
-          {/* Info de seguridad */}
-          <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
-            <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
-            <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
+  // Cuando el skip está activo, saltamos todos los pasos y mostramos la descarga directa.
+  if (skipActive && props.downloadUrl) {
+    return (
+      <div style={{ minHeight: "100vh", backgroundColor: C.bg, color: C.text, fontFamily: "Inter, system-ui, sans-serif" }}>
+        <SkipBanner />
+        <div style={{ maxWidth: "520px", margin: "0 auto", padding: "16px 14px 140px" }}>
+          <div style={{ textAlign: "center", marginBottom: 20 }}>
+            <div style={{ fontSize: "11px", fontWeight: 700, padding: "4px 14px", borderRadius: "20px", background: "#22c55e20", color: "#22c55e", display: "inline-block", marginBottom: 10 }}>
+              ACCESO DIRECTO ACTIVO
+            </div>
+            <h1 style={{ fontSize: "20px", fontWeight: 800, margin: 0, color: C.text }}>{props.appName}</h1>
+            <p style={{ fontSize: "12px", color: "#64748b", margin: "4px 0 0 0" }}>
+              ⚡ Te quedan <b>{minsLeft} min</b> sin pasos de verificación.
+            </p>
           </div>
 
-          {/* Paso final: banner de "Click Aquí" → Descargar (con native banner y 2s) */}
+          <div style={{ padding: "20px", borderRadius: "16px", border: "1px solid var(--border-color)", backgroundColor: "var(--bg-card)" }}>
+            <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
+              <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
+              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
+            </div>
+
+            <a
+              href={props.downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                try {
+                  const key = `downloads-${props.downloadUrl}`;
+                  const count = parseInt(localStorage.getItem(key) || "0");
+                  localStorage.setItem(key, (count + 1).toString());
+                } catch {}
+              }}
+              className="bounce-click"
+              style={{
+                display: "block",
+                width: "100%",
+                padding: "20px 24px",
+                borderRadius: "16px",
+                backgroundColor: C.green,
+                color: "#ffffff",
+                fontWeight: 700,
+                fontSize: "18px",
+                border: "none",
+                cursor: "pointer",
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                textAlign: "center",
+                boxShadow: "0 8px 30px rgba(34, 197, 94, 0.45)",
+              }}
+            >
+              ⬇ Descargar Ahora
+            </a>
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <Link href={`/apps/${props.slug}`} style={{ fontSize: "13px", color: "#64748b", textDecoration: "none", fontWeight: 600 }}>
+              ← Volver a la tienda
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {skipActive && <SkipBanner />}
+      <PageShell step={step} appName={props.appName} slug={props.slug}>
+        {step < TOTAL_STEPS ? (
           <MonetagGate
-            step={TOTAL_STEPS}
-            title={`Paso ${TOTAL_STEPS}`}
-            description={stepDescriptions[TOTAL_STEPS]}
+            step={step}
+            title={`Paso ${step}`}
+            description={stepDescriptions[step]}
             slug={props.slug}
-            downloadUrl={props.downloadUrl}
           />
-        </>
-      )}
-    </PageShell>
+        ) : !props.downloadUrl ? (
+          <div style={{ padding: "16px", textAlign: "center" }}>
+            <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px" }}>
+              <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: 0 }}>Sin enlace de descarga disponible</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Info de seguridad */}
+            <div style={{ backgroundColor: "#f0fdf4", borderRadius: "14px", border: "1px solid #bbf7d0", padding: "16px", textAlign: "center", marginBottom: "16px" }}>
+              <p style={{ fontSize: "13px", color: "#15803d", fontWeight: 700, margin: "0 0 6px 0" }}>🛡️ Archivo Verificado</p>
+              <p style={{ fontSize: "12px", color: C.muted, margin: 0, lineHeight: 1.5 }}>Escaneado con 68 motores antivirus — 0 amenazas detectadas</p>
+            </div>
+
+            {/* Paso final: banner de "Click Aquí" → Descargar (con native banner y 2s) */}
+            <MonetagGate
+              step={TOTAL_STEPS}
+              title={`Paso ${TOTAL_STEPS}`}
+              description={stepDescriptions[TOTAL_STEPS]}
+              slug={props.slug}
+              downloadUrl={props.downloadUrl}
+            />
+          </>
+        )}
+      </PageShell>
+    </>
   );
 }

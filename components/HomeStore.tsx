@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { apps, categorias, recentApps, appsSinSeccionMod, hiddenCategories } from "@/lib/apps";
 import AppCardCompact from "@/components/AppCardCompact";
 import CategoryGrid from "@/components/CategoryGrid";
+import SkipBanner from "@/components/SkipBanner";
 
 /* ============================================
    TOKENS — design system
@@ -476,6 +477,7 @@ export default function Home() {
           padding: `${S.x20}px ${S.x16}px 120px`,
         }}
       >
+        <SkipBanner />
         {/* ============ HEADER ============ */}
         <nav
           style={{
@@ -554,6 +556,22 @@ export default function Home() {
             <option value="sunset">🌅</option>
             <option value="ice">❄️</option>
           </select>
+          <Link
+            href="/cuenta"
+            className="bounce-click"
+            style={{
+              marginLeft: S.x12,
+              padding: `${S.x12}px ${S.x16}px`,
+              borderRadius: R.md,
+              border: `1px solid ${c.accent}`,
+              color: c.accent,
+              fontSize: 12,
+              fontWeight: 600,
+              textDecoration: "none",
+            }}
+          >
+            Cuenta
+          </Link>
         </nav>
 
         {/* ============ HERO ============ */}
