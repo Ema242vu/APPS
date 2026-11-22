@@ -722,7 +722,7 @@ export const apps: {
   "name": "60 Seconds!",
   "description": "Supervivencia nuclear con 60 segundos para prepararte.",
   "longDescription": "60 Seconds! es una aventura de supervivencia con humor negro ambientada en los años 50. Tienes 60 segundos para recoger suministros en tu casa antes de que caiga la bomba nuclear, y luego deberás gestionar los recursos, tomar decisiones y mantener con vida a tu familia en el refugio. Cada partida es diferente: administra la comida, el agua, la radio y los objetos que hayas logrado rescatar mientras lidias con eventos extraños y visitantes inesperados. Incluye múltiples finales, personajes únicos y un estilo artístico retro muy característico. Disponible en Google Play de forma gratuita con suscripción a Play Pass.",
-  "link": "https://play.google.com/store/apps/details?id=com.robotgentleman.game60seconds",
+  "link": "https://vexfile.com/download/0piCzN8tUN",
   "altLinks": [],
   "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/cba71369-bce1-427c-810f-a86b47099dcc.png",
   "emoji": "☢️",
