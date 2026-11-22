@@ -1551,15 +1551,15 @@ export const apps: {
     description: "El asistente de IA de OpenAI con funciones Plus desbloqueadas.",
     longDescription:
       "ChatGPT Premium es la app oficial de inteligencia artificial de OpenAI con las funciones pagas liberadas. Conversa con GPT-4o y GPT-4o mini sin límites diarios de mensajes, genera imágenes infinitas desde texto, pide resúmenes de PDF y enlaces, usa el modo de voz avanzado para hablar en tiempo real y sube fotos para pedir ayuda con lo que veas. No requiere iniciar sesión y no muestra anuncios: el asistente 24/7 perfecto para estudiar, trabajar, traducir o crear contenido directo en tu Android.",
-    link: "https://uc-share.com/s/2e34c0fd28084?la=en-us",
+    link: "https://vexfile.com/download/enTgvYhxXy",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/fywq31jy/images-(5).png",
     emoji: "💬",
     category: "Herramientas",
     isTop: false,
     isNew: true,
-    version: "1.2026.293",
-    size: "86 MB",
+    version: "1.2026.300",
+    size: "53 MB",
     updated: "Nov 2026",
     glow: "rgba(16, 163, 127, 0.4)",
     border: "rgba(16, 163, 127, 0.6)",
@@ -5611,6 +5611,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "chatgpt-premium",
   "hbo-max-premium",
   "avatar-blood-legacy-plus18",
   "yuma",
@@ -5665,7 +5666,6 @@ export const recentOrder: string[] = [
   "play-tv",
   "m64plus-fz-emulator",
   "easyplay-tv",
-  "chatgpt-premium",
   "muso-premium",
   "streamflix",
   "geometry-dash",
