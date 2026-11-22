@@ -19,7 +19,7 @@ export default function ReferralTracker() {
       if (!anchor) return;
 
       const href = anchor.getAttribute("href") || "";
-      if (/omg10\.com|bellnewyork\.org|5gvci\.com/i.test(href)) {
+      if (/omg10\.com|uplcm\.com|bellnewyork\.org|5gvci\.com/i.test(href)) {
         trackReferralEvent("ad_click");
       }
     };

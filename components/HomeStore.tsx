@@ -677,6 +677,39 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ============ BANNER DE APOYO ============ */}
+        <a
+          href="https://uplcm.com/4/11940275"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bounce-click"
+          aria-label="Apoyar el proyecto viendo un anuncio"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: S.x12,
+            padding: `${S.x12}px ${S.x16}px`,
+            marginBottom: S.x20,
+            borderRadius: R.lg,
+            background: `linear-gradient(135deg, ${c.accent}20, ${c.card})`,
+            border: `1px solid ${c.accent}45`,
+            textDecoration: "none",
+            color: c.text,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: S.x12, minWidth: 0 }}>
+            <span style={{ fontSize: 24, flexShrink: 0 }}>🎁</span>
+            <div style={{ minWidth: 0 }}>
+              <p style={{ margin: 0, fontSize: 13, fontWeight: W.semi }}>Apoya a PERSONS</p>
+              <p style={{ margin: "2px 0 0", fontSize: 11, color: c.muted, lineHeight: 1.4 }}>
+                Mira un anuncio corto y ayúdanos a seguir subiendo apps gratis.
+              </p>
+            </div>
+          </div>
+          <span style={{ fontSize: 18, color: c.accent, flexShrink: 0 }}>→</span>
+        </a>
+
         {/* ============ BUSCADOR ============ */}
         <div style={{ marginBottom: S.x24 }}>
           <input
