@@ -571,6 +571,27 @@ export const apps: {
   "rating": 4.6
   },
   {
+  "slug": "goodshort",
+  "name": "GoodShort",
+  "description": "Dramas cortos y mini-series para ver en cualquier momento.",
+  "longDescription": "GoodShort es tu centro de dramas cortos y mini-series. Explora miles de historias de aproximadamente un minuto, adaptadas de novelas populares, con géneros que van desde romance y drama hasta acción y fantasía. Disfruta de reproducción fluida en alta definición (hasta 1080P), recomendaciones personalizadas con IA, actualizaciones diarias y una interfaz sencilla. La app es gratuita e incluye una opción VIP para ver sin anuncios, descargar episodios y desbloquear contenido exclusivo. Ideal para el transporte, la pausa del almuerzo o cualquier rato libre.",
+  "link": "https://vexfile.com/download/MopT9Gmx75",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/124da0a6-a913-4123-aeb9-5b2489825376.webp",
+  "emoji": "🎬",
+  "category": "Video",
+  "isTop": true,
+  "isNew": true,
+  "version": "3.2.7",
+  "size": "50.6 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(168, 85, 247, 0.4)",
+  "border": "rgba(168, 85, 247, 0.6)",
+  "text": "#a855f7",
+  "developer": "GoodShort",
+  "rating": 4.8
+  },
+  {
   "slug": "passpartout-starving-artist",
   "name": "Passpartout: Starving Artist",
   "description": "Vive como un artista francés y vende tu arte.",
