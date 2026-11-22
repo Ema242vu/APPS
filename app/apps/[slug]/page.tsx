@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { apps, appsSinSeccionMod } from "@/lib/apps";
 import AppDetail from "@/components/AppDetail";
+import MonetagVignette from "@/components/MonetagVignette";
 
 /**
  * Página Server Component (patrón del blog):
@@ -99,6 +100,7 @@ export default async function AppPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <AppDetail app={app} />
+      <MonetagVignette />
     </>
   );
 }

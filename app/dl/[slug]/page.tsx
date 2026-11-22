@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { apps } from "@/lib/apps";
 import DownloadFlow from "@/components/DownloadFlow";
+import MonetagVignette from "@/components/MonetagVignette";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -64,6 +65,7 @@ export default async function DownloadPage({ params }: PageProps) {
           premiumFeatures={app.premiumFeatures}
         />
       </Suspense>
+      <MonetagVignette />
     </>
   );
 }
