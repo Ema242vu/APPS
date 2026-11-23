@@ -27,24 +27,22 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function DownloadPage({
-  params,
-  searchParams,
-}: PageProps) {
+export default async function DownloadPage({ params }: PageProps) {
   const { slug } = await params;
-  const { link: linkParam } = await searchParams;
   const app = apps.find((a) => a.slug === slug);
   if (!app) notFound();
 
-  // Si se pide el link 1 de una app con directLink, usamos esa URL.
-  // En cualquier otro caso (directOnly, normal, o link 2) usamos app.link.
+  // Enlace principal (Link 1) y alternativo (Link 2).
+  // La elección final se hace en el cliente según el parámetro ?link=,
+  // porque los pasos (?step=N) recargan la página y deben conservarlo.
   const link1IsDirect = app.link1IsDirectLink !== false;
   const downloadUrl =
-    linkParam === "1" && link1IsDirect && app.directLink
-      ? app.directLink.url
-      : linkParam === "2" && !link1IsDirect && app.directLink
-        ? app.directLink.url
-        : app.link;
+    link1IsDirect && app.directLink ? app.directLink.url : app.link;
+  const altDownloadUrl = app.directLink
+    ? link1IsDirect
+      ? app.link
+      : app.directLink.url
+    : undefined;
 
   return (
     <>
@@ -77,6 +75,7 @@ export default async function DownloadPage({
           appDescription={app.description}
           appLongDescription={app.longDescription}
           downloadUrl={downloadUrl}
+          altDownloadUrl={altDownloadUrl}
           romInfo={app.romInfo}
           hasPremiumSection={app.hasPremiumSection}
           premiumFeatures={app.premiumFeatures}

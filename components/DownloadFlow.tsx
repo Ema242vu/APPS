@@ -42,6 +42,7 @@ type Props = {
   appDescription: string;
   appLongDescription: string;
   downloadUrl: string;
+  altDownloadUrl?: string;
   romInfo?: {
     console?: string;
     emulator?: string;
@@ -64,12 +65,14 @@ function MonetagGate({
   description,
   slug,
   downloadUrl,
+  linkParam,
 }: {
   step: number;
   title: string;
   description?: string;
   slug: string;
   downloadUrl?: string;
+  linkParam?: string;
 }) {
   const [passed, setPassed] = useState(false);
   const [justClicked, setJustClicked] = useState(false);
@@ -105,8 +108,9 @@ function MonetagGate({
   // Paso 5: no navegar; el render muestra el botón de descarga.
   useEffect(() => {
     if (!passed || timer > 0 || downloadUrl) return;
-    window.location.href = `/dl/${slug}?step=${step + 1}`;
-  }, [passed, timer, downloadUrl, step, slug]);
+    const linkQuery = linkParam ? `&link=${linkParam}` : "";
+    window.location.href = `/dl/${slug}?step=${step + 1}${linkQuery}`;
+  }, [passed, timer, downloadUrl, step, slug, linkParam]);
 
   // Inyectar script del native banner DESPUÉS de que el <div> exista.
   // Como cada paso recarga la página completa, esto se ejecuta en cada paso.
@@ -189,7 +193,8 @@ function MonetagGate({
           <button
             onClick={() => {
               const nextStep = step + 1;
-              window.location.href = `/dl/${slug}?step=${nextStep}`;
+              const linkQuery = linkParam ? `&link=${linkParam}` : "";
+              window.location.href = `/dl/${slug}?step=${nextStep}${linkQuery}`;
             }}
             className="bounce-click"
             style={{
@@ -345,6 +350,12 @@ export default function DownloadFlow(props: Props) {
   const searchParams = useSearchParams();
   const stepFromUrl = parseInt(searchParams.get("step") || "1", 10);
   const step = stepFromUrl >= 1 && stepFromUrl <= TOTAL_STEPS ? stepFromUrl : 1;
+  const linkParam = searchParams.get("link") || "";
+  // ?link=2 usa el enlace alternativo; cualquier otro valor usa el Link 1.
+  const selectedUrl =
+    linkParam === "2" && props.altDownloadUrl
+      ? props.altDownloadUrl
+      : props.downloadUrl;
 
   const acc = loadAccount();
   const skipActive = isSkipActive(acc);
@@ -385,7 +396,7 @@ export default function DownloadFlow(props: Props) {
   };
 
   // Cuando el skip está activo, saltamos todos los pasos y mostramos la descarga directa.
-  if (skipActive && props.downloadUrl) {
+  if (skipActive && selectedUrl) {
     return (
       <div style={{ minHeight: "100vh", backgroundColor: C.bg, color: C.text, fontFamily: "Inter, system-ui, sans-serif" }}>
         <SkipBanner />
@@ -407,12 +418,12 @@ export default function DownloadFlow(props: Props) {
             </div>
 
             <a
-              href={props.downloadUrl}
+              href={selectedUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => {
                 try {
-                  const key = `downloads-${props.downloadUrl}`;
+                  const key = `downloads-${selectedUrl}`;
                   const count = parseInt(localStorage.getItem(key) || "0");
                   localStorage.setItem(key, (count + 1).toString());
                 } catch {}
@@ -460,8 +471,9 @@ export default function DownloadFlow(props: Props) {
             title={`Paso ${step}`}
             description={stepDescriptions[step]}
             slug={props.slug}
+            linkParam={linkParam}
           />
-        ) : !props.downloadUrl ? (
+        ) : !selectedUrl ? (
           <div style={{ padding: "16px", textAlign: "center" }}>
             <div style={{ backgroundColor: C.card, borderRadius: "16px", border: `1px solid ${C.border}`, padding: "24px", marginBottom: "18px" }}>
               <p style={{ fontSize: "15px", color: C.text, fontWeight: 700, margin: 0 }}>Sin enlace de descarga disponible</p>
@@ -481,7 +493,8 @@ export default function DownloadFlow(props: Props) {
               title={`Paso ${TOTAL_STEPS}`}
               description={stepDescriptions[TOTAL_STEPS]}
               slug={props.slug}
-              downloadUrl={props.downloadUrl}
+              downloadUrl={selectedUrl}
+              linkParam={linkParam}
             />
           </>
         )}
