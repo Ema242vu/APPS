@@ -5859,6 +5859,31 @@ export const apps: {
     "CPU universal",
     "Carga rápida y ligera",
   ],
+},
+{
+  slug: "gta-v",
+  name: "GTA V",
+  description: "Grand Theft Auto V — juego completo.",
+  longDescription:
+    "GTA V es el juego de mundo abierto de Rockstar Games. Explora Los Santos y Blaine County, completa misiones, conduce vehículos y vive una historia de crimen y acción en un entorno abierto. Esta versión incluye el juego completo para Android.",
+  link: "https://vexfile.com/download/GJUbxULiCa",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "https://i.postimg.cc/mZ509CwS/IMG-20261122-232629-151.jpg",
+  emoji: "🎮",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "4.4.1",
+  size: "300 MB",
+  updated: "Nov 2026",
+  glow: "rgba(34, 197, 94, 0.4)",
+  border: "rgba(34, 197, 94, 0.6)",
+  text: "#22c55e",
+  developer: "Rockstar Games",
+  rating: 4.8,
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5875,6 +5900,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "gta-v",
   "cricfy-tv",
   "capcut",
   "block-blast",
