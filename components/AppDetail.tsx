@@ -584,34 +584,69 @@ export default function AppDetail({ app }: { app: App }) {
             </button>
           ) : app.directLink ? (
             <>
-              <button
-                onClick={() => goDownload("1")}
-                className="bounce-click"
-                style={{
-                  ...downloadButtonStyle,
-                  backgroundColor: "#22c55e",
-                  color: "#ffffff",
-                  marginBottom: S.x8,
-                  border: "none",
-                  cursor: "pointer",
-                  textDecoration: "none",
-                }}
-              >
-                <span style={{ fontSize: "16px" }}>⚡</span> {app.directLink.label}
-              </button>
-              <button
-                onClick={() => goDownload("2")}
-                className="bounce-click"
-                style={{
-                  ...downloadButtonStyle,
-                  backgroundColor: "transparent",
-                  color: "var(--text-primary)",
-                  border: "1px solid var(--border-color)",
-                  marginBottom: S.x8,
-                }}
-              >
-                <span style={{ fontSize: "16px" }}>⬇</span> Link 2 — Alternativa (5 pasos)
-              </button>
+              {app.link1IsDirectLink === false ? (
+                <>
+                  <button
+                    onClick={() => goDownload()}
+                    className="bounce-click"
+                    style={{
+                      ...downloadButtonStyle,
+                      backgroundColor: "#22c55e",
+                      color: "#ffffff",
+                      marginBottom: S.x8,
+                      border: "none",
+                      cursor: "pointer",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span style={{ fontSize: "16px" }}>⬇</span> Link 1 — Descarga directa
+                  </button>
+                  <button
+                    onClick={() => goDownload("2")}
+                    className="bounce-click"
+                    style={{
+                      ...downloadButtonStyle,
+                      backgroundColor: "transparent",
+                      color: "var(--text-primary)",
+                      border: "1px solid var(--border-color)",
+                      marginBottom: S.x8,
+                    }}
+                  >
+                    <span style={{ fontSize: "16px" }}>⬇</span> {app.directLink.label}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => goDownload("1")}
+                    className="bounce-click"
+                    style={{
+                      ...downloadButtonStyle,
+                      backgroundColor: "#22c55e",
+                      color: "#ffffff",
+                      marginBottom: S.x8,
+                      border: "none",
+                      cursor: "pointer",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span style={{ fontSize: "16px" }}>⚡</span> {app.directLink.label}
+                  </button>
+                  <button
+                    onClick={() => goDownload("2")}
+                    className="bounce-click"
+                    style={{
+                      ...downloadButtonStyle,
+                      backgroundColor: "transparent",
+                      color: "var(--text-primary)",
+                      border: "1px solid var(--border-color)",
+                      marginBottom: S.x8,
+                    }}
+                  >
+                    <span style={{ fontSize: "16px" }}>⬇</span> Link 2 — Alternativa (5 pasos)
+                  </button>
+                </>
+              )}
               <p
                 style={{
                   fontSize: "11px",

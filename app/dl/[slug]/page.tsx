@@ -38,8 +38,13 @@ export default async function DownloadPage({
 
   // Si se pide el link 1 de una app con directLink, usamos esa URL.
   // En cualquier otro caso (directOnly, normal, o link 2) usamos app.link.
+  const link1IsDirect = app.link1IsDirectLink !== false;
   const downloadUrl =
-    linkParam === "1" && app.directLink ? app.directLink.url : app.link;
+    linkParam === "1" && link1IsDirect && app.directLink
+      ? app.directLink.url
+      : linkParam === "2" && !link1IsDirect && app.directLink
+        ? app.directLink.url
+        : app.link;
 
   return (
     <>

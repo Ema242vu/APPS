@@ -17,6 +17,7 @@ export const apps: {
   directLink?: { label: string; url: string };
   directOnly?: boolean;
   downloadGuideUrl?: string;
+  link1IsDirectLink?: boolean;
   iconUrl: string;
   emoji: string;
   category: string;
@@ -5891,12 +5892,13 @@ export const apps: {
   description: "Traductor de pantalla con funciones premium desbloqueadas.",
   longDescription:
     "Tap Translate Screen es una herramienta para Android que traduce cualquier texto de tu pantalla al instante, ideal para juegos, chats, redes sociales y apps en otros idiomas. Solo toca y traduce sin salir de la aplicación. Esta versión MOD tiene las funciones premium desbloqueadas, sin anuncios, con varios idiomas y compatible con Android 8.0 o superior.",
-  link: "https://uc-share.com/s/bc053f6c34714?la=en-us",
+  link: "https://vexfile.com/download/CMr4A2R38T",
   altLinks: [],
   directLink: {
-    label: "Link 1 — Descarga directa",
-    url: "https://vexfile.com/download/CMr4A2R38T",
+    label: "Link 2 — Alternativa (5 pasos)",
+    url: "https://uc-share.com/s/bc053f6c34714?la=en-us",
   },
+  link1IsDirectLink: false,
   iconUrl: "https://i.postimg.cc/7LfrT92X/images-(16).jpg",
   emoji: "🔤",
   category: "Herramientas",
