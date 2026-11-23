@@ -5884,6 +5884,44 @@ export const apps: {
   rating: 4.8,
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "tap-translate-screen",
+  name: "Tap Translate Screen",
+  description: "Traductor de pantalla con funciones premium desbloqueadas.",
+  longDescription:
+    "Tap Translate Screen es una herramienta para Android que traduce cualquier texto de tu pantalla al instante, ideal para juegos, chats, redes sociales y apps en otros idiomas. Solo toca y traduce sin salir de la aplicación. Esta versión MOD tiene las funciones premium desbloqueadas, sin anuncios, con varios idiomas y compatible con Android 8.0 o superior.",
+  link: "https://uc-share.com/s/bc053f6c34714?la=en-us",
+  altLinks: [],
+  directLink: {
+    label: "Link 1 — Descarga directa",
+    url: "https://vexfile.com/download/CMr4A2R38T",
+  },
+  iconUrl: "https://i.postimg.cc/7LfrT92X/images-(16).jpg",
+  emoji: "🔤",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "1.127",
+  size: "43 MB",
+  updated: "Nov 2026",
+  glow: "rgba(139, 92, 246, 0.4)",
+  border: "rgba(139, 92, 246, 0.6)",
+  text: "#a78bfa",
+  developer: "Tap Translate Screen",
+  rating: 4.6,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: [
+    "Premium desbloqueado",
+    "Sin anuncios",
+    "Mod estable y fluido",
+    "Sin info de depuración",
+    "Varios idiomas",
+    "Compatible con Android 8.0+",
+    "CPU universal",
+    "Carga rápida y ligera",
+  ],
 }
 ];
 
@@ -5900,6 +5938,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "tap-translate-screen",
   "gta-v",
   "cricfy-tv",
   "capcut",
