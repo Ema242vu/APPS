@@ -374,16 +374,21 @@ export const apps: {
   "name": "Solar Smash",
   "description": "Destruye planetas con armas espaciales en un sandbox.",
   "longDescription": "Solar Smash es un simulador de destrucción planetaria donde puedes desatar el caos con todo tipo de armas espaciales: láseres orbitales, agujeros negros, asteroides, misiles nucleares, aliens y más. Elige un planeta, Luna o cualquier cuerpo celeste y observa cómo se desintegra con físicas realistas y efectos visuales espectaculares. Experimenta con combinaciones de armas, desbloquea nuevas herramientas y crea tu propio apocalipsis cósmico sin límites. Esta versión Mod desbloquea todas las armas y planetas premium desde el inicio para que destruyas sin restricciones.",
-  "link": "https://www.mediafire.com/file/ns1jrd0z999eeqj/Solar+Smash+Mod+v2.7.5+-+espacioapk.com.apk/file",
+  "link": "https://vexfile.com/download/mONFhlKwyY",
   "altLinks": [],
-  "iconUrl": "https://imagelink.app/api/file/pixelvault/uploads/anon/3ce1861a-5ebc-4f56-bdd2-492c3f091d3f.jpg",
+  "directLink": {
+    "label": "Link 2 — Alternativa (5 pasos)",
+    "url": "https://uc-share.com/s/feefec4810114?la=en-us"
+  },
+  "link1IsDirectLink": false,
+  "iconUrl": "https://i.postimg.cc/JhTdg2hW/unnamed-(7).png",
   "emoji": "🪐",
   "category": "Juegos",
   "isTop": true,
   "isNew": true,
-  "version": "2.7.5",
-  "size": "240 MB",
-  "updated": "Oct 2026",
+  "version": "2.7.6",
+  "size": "175 MB",
+  "updated": "Nov 2026",
   "glow": "rgba(168, 85, 247, 0.4)",
   "border": "rgba(168, 85, 247, 0.6)",
   "text": "#a855f7",
@@ -5940,6 +5945,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "solar-smash",
   "tap-translate-screen",
   "gta-v",
   "cricfy-tv",
