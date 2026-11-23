@@ -5893,7 +5893,7 @@ export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas"
 export const hiddenCategories: string[] = ["ROMS", "Add-ons Minecraft"];
 
 /* Apps que no se anuncian como premium ni muestran la sección "Mod". */
-export const appsSinSeccionMod: string[] = ["minecraft", "minecraft-rust", "loverse-plus18", "plantas-vs-zombies-fusion", "avatar-blood-legacy-plus18", "my-ntr-girlfriend-plus18"];
+export const appsSinSeccionMod: string[] = ["minecraft", "minecraft-rust", "loverse-plus18", "plantas-vs-zombies-fusion", "avatar-blood-legacy-plus18", "my-ntr-girlfriend-plus18", "gta-v"];
 
 /* Tipo de una app (derivado del array) para tipar props y metadata */
 export type App = (typeof apps)[number];
