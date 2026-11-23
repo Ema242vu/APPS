@@ -5824,6 +5824,41 @@ export const apps: {
   downloads: 0,
   hasPremiumSection: false,
   modFeatures: ["Sin anuncios"],
+},
+{
+  slug: "cricfy-tv",
+  name: "CRICFy TV",
+  description: "Aplicación para ver partidos y más deportes gratis.",
+  longDescription:
+    "CRICFy TV es una aplicación para Android que permite ver partidos y contenido deportivo en streaming desde tu móvil. Ideal para seguir tus equipos y competencias favoritas en vivo. Esta versión MOD tiene las funciones premium desbloqueadas, sin anuncios, con varios idiomas y compatible con Android 8.0 o superior.",
+  link: "https://uploadrar.com/dbthrn8r29cn",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "https://i.postimg.cc/nc6zz8m6/IMG-20261122-215117-285.jpg",
+  emoji: "📺",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "Full",
+  size: "Por confirmar",
+  updated: "Nov 2026",
+  glow: "rgba(56, 189, 248, 0.4)",
+  border: "rgba(56, 189, 248, 0.6)",
+  text: "#38bdf8",
+  developer: "CRICFy TV",
+  rating: 4.6,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: [
+    "Premium desbloqueado",
+    "Sin anuncios",
+    "Mod estable y fluido",
+    "Sin info de depuración",
+    "Varios idiomas",
+    "Compatible con Android 8.0+",
+    "CPU universal",
+    "Carga rápida y ligera",
+  ],
 }
 ];
 
@@ -5840,6 +5875,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "cricfy-tv",
   "capcut",
   "block-blast",
   "ai-chatbot-assistant-funai",
