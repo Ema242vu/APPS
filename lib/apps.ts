@@ -5929,6 +5929,35 @@ export const apps: {
     "CPU universal",
     "Carga rápida y ligera",
   ],
+},
+{
+  slug: "hikari-anime",
+  name: "Hikari Anime",
+  description: "Anime en streaming con subtítulos en español.",
+  longDescription:
+    "Hikari Anime es una app de streaming para ver series y películas de anime desde tu Android. Incluye un catálogo organizado por géneros, estrenos y temporadas, con subtítulos en español, calidad ajustable y la opción de continuar donde dejaste cada episodio. También permite guardar favoritos y recibir avisos de nuevos capítulos. Compatible con Android y con una interfaz ligera, rápida e intuitiva.",
+  link: "https://vexfile.com/download/ZUwKSh06mU",
+  altLinks: [],
+  directLink: {
+    label: "Link 2 — Alternativa (5 pasos)",
+    url: "https://uc-share.com/s/4667f23954584?la=en-us",
+  },
+  link1IsDirectLink: false,
+  iconUrl: "https://i.postimg.cc/RVk31SQq/IMG-20261123-123420-251.jpg",
+  emoji: "🎌",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "1.9.11",
+  size: "101 MB",
+  updated: "Nov 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#ec4899",
+  developer: "Hikari Anime",
+  rating: 4.5,
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5945,6 +5974,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "hikari-anime",
   "solar-smash",
   "tap-translate-screen",
   "gta-v",
