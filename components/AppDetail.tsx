@@ -143,11 +143,13 @@ export default function AppDetail({ app }: { app: App }) {
     localStorage.setItem("ratings", JSON.stringify(newRatings));
   };
 
-  const handleDownload = () => {
-    const newCount = localDownloads + 1;
-    setLocalDownloads(newCount);
-    localStorage.setItem(`downloads-${app.name}`, newCount.toString());
-    router.push(`/dl/${app.slug}`);
+  const goDownload = (link?: "1" | "2") => {
+    try {
+      const newCount = localDownloads + 1;
+      setLocalDownloads(newCount);
+      localStorage.setItem(`downloads-${app.name}`, newCount.toString());
+    } catch {}
+    router.push(`/dl/${app.slug}${link ? `?link=${link}` : ""}`);
   };
 
   const handleShare = async () => {
@@ -565,40 +567,40 @@ export default function AppDetail({ app }: { app: App }) {
           </h3>
 
           {app.directOnly ? (
-            <a
-              href={app.link}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => goDownload()}
               className="bounce-click"
               style={{
                 ...downloadButtonStyle,
                 backgroundColor: "#22c55e",
                 color: "#ffffff",
                 marginBottom: S.x8,
+                border: "none",
+                cursor: "pointer",
                 textDecoration: "none",
               }}
             >
               <span style={{ fontSize: "16px" }}>⬇</span> Descargar Ahora
-            </a>
+            </button>
           ) : app.directLink ? (
             <>
-              <a
-                href={app.directLink.url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => goDownload("1")}
                 className="bounce-click"
                 style={{
                   ...downloadButtonStyle,
                   backgroundColor: "#22c55e",
                   color: "#ffffff",
                   marginBottom: S.x8,
+                  border: "none",
+                  cursor: "pointer",
                   textDecoration: "none",
                 }}
               >
                 <span style={{ fontSize: "16px" }}>⚡</span> {app.directLink.label}
-              </a>
+              </button>
               <button
-                onClick={handleDownload}
+                onClick={() => goDownload("2")}
                 className="bounce-click"
                 style={{
                   ...downloadButtonStyle,
@@ -619,12 +621,12 @@ export default function AppDetail({ app }: { app: App }) {
                   textAlign: "center",
                 }}
               >
-                Link 1 abre el acortador externo. Link 2 pasa por 5 pasos de verificación.
+                Ambos enlaces pasan por los 5 pasos de verificación.
               </p>
             </>
           ) : (
             <button
-              onClick={handleDownload}
+              onClick={() => goDownload()}
               className="bounce-click"
               style={{
                 ...downloadButtonStyle,

@@ -4,7 +4,10 @@ import { apps } from "@/lib/apps";
 import DownloadFlow from "@/components/DownloadFlow";
 import MonetagVignette from "@/components/MonetagVignette";
 
-type PageProps = { params: Promise<{ slug: string }> };
+type PageProps = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ link?: string }>;
+};
 
 export function generateStaticParams() {
   return apps.map((app) => ({ slug: app.slug }));
@@ -24,10 +27,19 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function DownloadPage({ params }: PageProps) {
+export default async function DownloadPage({
+  params,
+  searchParams,
+}: PageProps) {
   const { slug } = await params;
+  const { link: linkParam } = await searchParams;
   const app = apps.find((a) => a.slug === slug);
   if (!app) notFound();
+
+  // Si se pide el link 1 de una app con directLink, usamos esa URL.
+  // En cualquier otro caso (directOnly, normal, o link 2) usamos app.link.
+  const downloadUrl =
+    linkParam === "1" && app.directLink ? app.directLink.url : app.link;
 
   return (
     <>
@@ -59,7 +71,7 @@ export default async function DownloadPage({ params }: PageProps) {
           appCategory={app.category}
           appDescription={app.description}
           appLongDescription={app.longDescription}
-          downloadUrl={app.link}
+          downloadUrl={downloadUrl}
           romInfo={app.romInfo}
           hasPremiumSection={app.hasPremiumSection}
           premiumFeatures={app.premiumFeatures}
