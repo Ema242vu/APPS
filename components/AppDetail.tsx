@@ -6,6 +6,7 @@ import type { App } from "@/lib/apps";
 import { relatedApps, appsSinSeccionMod } from "@/lib/apps";
 import AppCardCompact from "@/components/AppCardCompact";
 import Comments from "@/components/Comments";
+import GoogleAdUnit from "@/components/GoogleAdUnit";
 
 /* Design tokens (Figma discipline) */
 const R = { sm: 2, md: 8, lg: 16, pill: 50 };
@@ -708,6 +709,8 @@ export default function AppDetail({ app }: { app: App }) {
             </span>
           </div>
         </div>
+
+        <GoogleAdUnit slot="1216460777" style={{ marginBottom: S.x16 }} />
 
         <a
           href="https://whatsapp.com/channel/0029Vb8X5TvKLaHqSbsYcP0j"
