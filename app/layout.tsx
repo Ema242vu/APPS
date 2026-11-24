@@ -87,6 +87,14 @@ export default function RootLayout({
       <head>
         <meta name="google-site-verification" content="HQZMfoyoknT16-KfNb7dod3ZhXSqbREY6_elZCzsgvA" />
 
+        {/* Google AdSense — verificación y Auto Ads */}
+        <meta name="google-adsense-account" content="ca-pub-5959908767381687" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5959908767381687"
+          crossOrigin="anonymous"
+        />
+
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
