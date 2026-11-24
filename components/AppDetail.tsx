@@ -360,7 +360,7 @@ export default function AppDetail({ app }: { app: App }) {
                 margin: 0,
               }}
             >
-              {app.version} (Mod) · Última versión
+              {app.version}{showModSection ? " (Mod)" : ""} · Última versión
             </p>
             <div
               style={{

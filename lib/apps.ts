@@ -6030,6 +6030,31 @@ export const apps: {
   downloads: 0,
   hasPremiumSection: false,
   modFeatures: ["Dinero ilimitado"],
+},
+{
+  slug: "minecraft-dungeons",
+  name: "Minecraft Dungeons",
+  description: "Aventura RPG de mazmorras en el universo Minecraft.",
+  longDescription:
+    "Minecraft Dungeons es un juego de acción y rol que lleva el universo de bloques a una aventura de mazmorras. Explora bosques, cuevas y ruinas, lucha contra hordas de mobs y enfréntate al Arch-Illager mientras consigues armas, armaduras, artefactos y encantamientos para personalizar tu estilo de combate. Esta versión es un port no oficial para Android con controles táctiles, pensado para jugar solo o en cooperativo. Incluye la aventura completa y requiere Android 5.0 o superior.",
+  link: "https://alpharede.com/eG47SUdX5rW",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "https://i.postimg.cc/RFbcBZXn/icon0.jpg",
+  emoji: "⚔️",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "1.4",
+  size: "2.8 GB",
+  updated: "Nov 2026",
+  glow: "rgba(16, 185, 129, 0.4)",
+  border: "rgba(16, 185, 129, 0.6)",
+  text: "#10b981",
+  developer: "Mojang",
+  rating: 4.3,
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -6039,13 +6064,14 @@ export const categorias = ["Todas", "Video", "Música", "Social", "Herramientas"
 export const hiddenCategories: string[] = ["ROMS", "Add-ons Minecraft"];
 
 /* Apps que no se anuncian como premium ni muestran la sección "Mod". */
-export const appsSinSeccionMod: string[] = ["minecraft", "minecraft-rust", "loverse-plus18", "plantas-vs-zombies-fusion", "avatar-blood-legacy-plus18", "my-ntr-girlfriend-plus18", "gta-v"];
+export const appsSinSeccionMod: string[] = ["minecraft", "minecraft-rust", "minecraft-dungeons", "loverse-plus18", "plantas-vs-zombies-fusion", "avatar-blood-legacy-plus18", "my-ntr-girlfriend-plus18", "gta-v"];
 
 /* Tipo de una app (derivado del array) para tipar props y metadata */
 export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "minecraft-dungeons",
   "dead-effect-2",
   "play-af",
   "hikari-anime",
