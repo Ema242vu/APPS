@@ -6004,6 +6004,32 @@ export const apps: {
   rating: 4.2,
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "dead-effect-2",
+  name: "Dead Effect 2",
+  description: "Shooter de zombies en una nave espacial con dinero ilimitado.",
+  longDescription:
+    "Dead Effect 2 es un shooter de acción y terror en primera persona ambientado en la nave ESS Meridian, invadida por zombies y criaturas mutantes. Elige entre tres personajes con habilidades únicas, explora pasillos oscuros, mejora tu arsenal y enfréntate a enemigos cada vez más peligrosos. Incluye una campaña de más de 20 horas, misiones especiales, más de 40 armas mejorables y soporte para controladores. Esta versión MOD incluye dinero ilimitado para comprar y mejorar armas desde el inicio. Requiere Android 5.0 o superior.",
+  link: "https://alpharede.com/Death-Effects-2",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "https://i.postimg.cc/rwFyTw4Z/co24nv.jpg",
+  emoji: "🧟",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "260411.2015",
+  size: "1.5 GB",
+  updated: "Nov 2026",
+  glow: "rgba(239, 68, 68, 0.4)",
+  border: "rgba(239, 68, 68, 0.6)",
+  text: "#ef4444",
+  developer: "BadFly Interactive",
+  rating: 4.2,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: ["Dinero ilimitado"],
 }
 ];
 
@@ -6020,6 +6046,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "dead-effect-2",
   "play-af",
   "hikari-anime",
   "solar-smash",
