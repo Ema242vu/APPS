@@ -5958,6 +5958,31 @@ export const apps: {
   rating: 4.5,
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "play-af",
+  name: "Play Af",
+  description: "Películas y series populares gratis en streaming.",
+  longDescription:
+    "Play Af es una app de entretenimiento para Android donde puedes ver películas y series populares gratis. Explora un catálogo con los títulos más buscados, usa el buscador para encontrar contenido rápido y reproduce desde tu dispositivo sin suscripciones ni pagos. Incluye una interfaz sencilla e intuitiva, con acceso a estrenos y clásicos. Requiere Android 7.0 o superior.",
+  link: "https://vexfile.com/download/P9BShcnlr3",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "https://i.postimg.cc/yNM6kZWf/IMG-20261123-190919-869.jpg",
+  emoji: "🎬",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "23.4.1",
+  size: "84 MB",
+  updated: "Nov 2026",
+  glow: "rgba(249, 115, 22, 0.4)",
+  border: "rgba(249, 115, 22, 0.6)",
+  text: "#f97316",
+  developer: "Social web app",
+  rating: 4.2,
+  downloads: 0,
+  hasPremiumSection: false,
 }
 ];
 
@@ -5974,6 +5999,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "play-af",
   "hikari-anime",
   "solar-smash",
   "tap-translate-screen",
