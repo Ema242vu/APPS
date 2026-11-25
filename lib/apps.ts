@@ -190,6 +190,27 @@ export const apps: {
   "rating": 4.9
  },
  {
+  "slug": "war-robots-2",
+  "name": "War Robots 2",
+  "description": "Transforma robots y lucha en batallas épicas de ciencia ficción.",
+  "longDescription": "War Robots 2 es un juego de acción y transformación de robots donde controlas poderosas máquinas capaces de convertirse en coches, autobuses, arañas voladoras y drones. Enfréntate a fuerzas alienígenas y robots enemigos en batallas urbanas llenas de acción. Combina las habilidades de vuelo, disparo y transformación para completar misiones desafiantes, desactivar bombas y defender la ciudad. Con controles intuitivos, entornos realistas y una colección de robots poderosos, es una experiencia de combate mecánico ideal para los amantes de la ciencia ficción.",
+  "link": "https://alpharede.com/6Gc4RV33Znd",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/45dfc818-f827-4c34-954e-0b267a0c4f49.png",
+  "emoji": "🤖",
+  "category": "Juegos",
+  "isTop": true,
+  "isNew": true,
+  "version": "1.0.0",
+  "size": "700 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(56, 189, 248, 0.4)",
+  "border": "rgba(56, 189, 248, 0.6)",
+  "text": "#38bdf8",
+  "developer": "Annalisa Del Vecchio",
+  "rating": 4.5
+ },
+ {
   slug: "super-gyro",
   name: "Super Gyro",
   description: "Simula un giroscopio para mayor precisión en juegos.",
