@@ -7,7 +7,6 @@ import { apps, categorias, recentApps, appsSinSeccionMod, hiddenCategories } fro
 import AppCardCompact from "@/components/AppCardCompact";
 import CategoryGrid from "@/components/CategoryGrid";
 import SkipBanner from "@/components/SkipBanner";
-import GoogleAdUnit from "@/components/GoogleAdUnit";
 
 /* ============================================
    TOKENS — design system
@@ -728,9 +727,6 @@ export default function Home() {
           </div>
           <span style={{ fontSize: 18, color: c.accent, flexShrink: 0 }}>→</span>
         </a>
-
-        {/* ============ ANUNCIO GOOGLE ADSENSE ============ */}
-        <GoogleAdUnit slot="1216460777" style={{ marginBottom: S.x20 }} />
 
         {/* ============ BUSCADOR ============ */}
         <div style={{ marginBottom: S.x24 }}>

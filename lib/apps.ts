@@ -2007,16 +2007,16 @@ export const apps: {
     name: "Duolingo Premium",
     description: "Aprende idiomas gratis y sin anuncios.",
     longDescription: "Duolingo Premium desbloqueado con todas las funciones.",
-    link: "https://cloud.androforever.com/Apps/Duolingo/Duolingo%20Premium%20v6.101.2%20-%20androforever.com.apk",
+    link: "https://alpharede.com/fFjtwtTBX2Y",
     altLinks: [],
     iconUrl: "https://i.postimg.cc/pdCSnWdr/4105191f477117656fbe269169a264ca.jpg",
     emoji: "🦉",
     category: "Educación",
     isTop: false,
     isNew: true,
-    version: "6.101.2",
-    size: "60 MB",
-    updated: "Oct 2026",
+    version: "6.105.2",
+    size: "166 MB",
+    updated: "Nov 2026",
     glow: "rgba(88, 204, 2, 0.4)",
     border: "rgba(88, 204, 2, 0.6)",
     text: "#a3e635",
@@ -6132,6 +6132,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "duolingo",
   "spotify",
   "seekee-premium",
   "minecraft-dungeons",
