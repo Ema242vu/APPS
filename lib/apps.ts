@@ -219,7 +219,7 @@ export const apps: {
   altLinks: [],
   iconUrl: "https://link-del-icono.png",
   emoji: "🗡️",
-  category: "ROMS",
+  category: "Juegos",
   isTop: true,
   isNew: true,
   version: "PC (GameHub Lite 5.1.3)",
