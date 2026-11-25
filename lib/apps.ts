@@ -265,6 +265,27 @@ export const apps: {
   "rating": 4.3
   },
   {
+  "slug": "projeto-grau-2",
+  "name": "Projeto Grau 2",
+  "description": "Simulador de acrobacias en moto en una ciudad abierta.",
+  "longDescription": "Projeto Grau 2 es un simulador de acrobacias en moto ambientado en una vasta ciudad de mundo abierto. Domina el 'grau' (wheelie) y todo tipo de trucos que reaccionan al acelerador, freno y equilibrio. Explora libremente calles, avenidas y caminos, con tráfico, ciclo día/noche y clima dinámico. Gana dinero realizando trabajos de reparto, transporte y más para comprar y personalizar nuevas motos y coches en tu garaje. Ajusta ruedas, suspensión, pintura y hasta el equipo de sonido. Es un juego gratuito con anuncios y controles en pantalla ajustables.",
+  "link": "https://alpharede.com/deXxCLYnFWP",
+  "altLinks": [],
+  "iconUrl": "https://i.supaimg.com/1bcde049-7a5c-402a-bf6f-5b5cbca3092d/1a427755-6d9d-4b83-8023-499a13cef6e5.png",
+  "emoji": "🏍️",
+  "category": "Juegos",
+  "isTop": true,
+  "isNew": true,
+  "version": "1.0.10",
+  "size": "710 MB",
+  "updated": "Oct 2026",
+  "glow": "rgba(249, 115, 22, 0.4)",
+  "border": "rgba(249, 115, 22, 0.6)",
+  "text": "#f97316",
+  "developer": "Insanity Group",
+  "rating": 4.0
+  },
+  {
     slug: "noutube",
     name: "NouTube",
     description: "Cliente ligero para ver videos sin anuncios.",
