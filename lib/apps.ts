@@ -1210,17 +1210,15 @@ export const apps: {
     name: "Spotify Premium",
     description: "Música sin anuncios y descargas offline.",
     longDescription: "Spotify Premium desbloqueado con todas las funciones: música sin anuncios, saltos ilimitados, descargas offline y calidad de audio extrema.",
-    link: "https://uc-share.com/s/7af48c3e2acf4?la=en-us",
-    altLinks: [
-      { label: "Opción 2", url: "https://www.mediafire.com/file/o3owv3cvz0qyxwb/Spotify_pro_x4x_.apk/file" },
-    ],
+    link: "https://alpharede.com/6uBOGIq0Brs",
+    altLinks: [],
     iconUrl: "https://i.postimg.cc/8PmV4HFL/IMG-20261001-WA0162(1).jpg",
     emoji: "🎧",
     category: "Música",
     isTop: true,
     isNew: false,
-    version: "9.1.98.621",
-    size: "12 MB",
+    version: "9.2.2.2593",
+    size: "72 MB",
     updated: "Nov 2026",
     glow: "rgba(34, 197, 94, 0.4)",
     border: "rgba(34, 197, 94, 0.6)",
@@ -6071,6 +6069,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "spotify",
   "seekee-premium",
   "minecraft-dungeons",
   "dead-effect-2",
