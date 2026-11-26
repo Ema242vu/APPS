@@ -6116,6 +6116,32 @@ export const apps: {
   rating: 4.3,
   downloads: 0,
   hasPremiumSection: false,
+},
+{
+  slug: "driving-school-simulator-evo",
+  name: "Driving School Simulator EVO",
+  description: "Simulador de autoescuela con dinero ilimitado.",
+  longDescription:
+    "Driving School Simulator EVO es un simulador de conducción en 3D donde aprendes a manejar coches, camiones y motos mientras completas misiones y pruebas de autoescuela. Recorre una ciudad abierta, mejora tus habilidades, desbloquea vehículos y personalízalos. Esta versión MOD incluye dinero ilimitado para que compres todo lo que quieras desde el principio.",
+  link: "https://alpharede.com/TZ3zh4ExHob",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "https://play-lh.googleusercontent.com/hR48TZ19eohril451Wy8DaRv_4d0zWnOpPTDKmPAoC1tYCJPiy1yThM6VtgIeCmynkKQ5SDzEZDhUnxOoXh7TGA=s512-rw",
+  emoji: "🚗",
+  category: "Juegos",
+  isTop: false,
+  isNew: true,
+  version: "1.98.10",
+  size: "2.0 GB",
+  updated: "Nov 2026",
+  glow: "rgba(59, 130, 246, 0.4)",
+  border: "rgba(59, 130, 246, 0.6)",
+  text: "#93c5fd",
+  developer: "Ovidiu Pop",
+  rating: 4.6,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: ["Dinero ilimitado"],
 }
 ];
 
@@ -6132,6 +6158,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "driving-school-simulator-evo",
   "duolingo",
   "spotify",
   "seekee-premium",
