@@ -6152,7 +6152,7 @@ export const apps: {
   link: "https://alpharede.com/DomP22TbWyy",
   altLinks: [],
   directOnly: true,
-  iconUrl: "AQUI_VA_EL_LINK_DE_LA_IMAGEN",
+  iconUrl: "https://i.postimg.cc/mgdZFDCf/unnamed.webp",
   emoji: "📮",
   category: "Video",
   isTop: false,
