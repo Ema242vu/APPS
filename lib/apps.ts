@@ -6176,6 +6176,38 @@ export const apps: {
     "Sin restricción de capturas de pantalla",
     "Corrección de inicio de sesión con Facebook",
   ],
+},
+{
+  slug: "photoshop-express",
+  name: "Photoshop Express Photo Editor",
+  description: "Editor de fotos con funciones Premium desbloqueadas.",
+  longDescription:
+    "Photoshop Express Photo Editor es el editor de fotos oficial de Adobe para retoque rápido, collages, filtros y herramientas de edición móvil. Esta versión MOD Extra desbloquea las funciones Pro/Pagadas, elimina anuncios y rastreadores, permite calidad de resolución y quita la detección de root/VPN/emulador, entre otras modificaciones (release por Balatan). Requiere iniciar sesión con una cuenta de Adobe para usar Premium.\n\nModificaciones:\n• Funciones Pro / Pagadas desbloqueadas\n• Sin anuncios ni rastreadores\n• Arquitectura arm64-v8a\n• Idiomas multilingües\n• Sin detección de root, VPN ni emulador\n• Mensajes de Play Store desactivados",
+  link: "https://alpharede.com/J2F9c8XU0za",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "https://i.postimg.cc/zv0WbNkR/images-(1).png",
+  emoji: "🎨",
+  category: "Herramientas",
+  isTop: false,
+  isNew: true,
+  version: "18.6.46",
+  size: "206 MB",
+  updated: "Nov 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#f472b6",
+  developer: "Adobe",
+  rating: 4.4,
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Funciones Pro / Pagadas desbloqueadas",
+    "Sin anuncios",
+    "Calidad y filtros Premium",
+    "Sin detección de root, VPN ni emulador",
+    "Idiomas multilingües",
+  ],
 }
 ];
 
@@ -6192,6 +6224,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "photoshop-express",
   "melolo-short-dramas-reels",
   "driving-school-simulator-evo",
   "duolingo",
