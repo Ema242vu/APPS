@@ -6142,6 +6142,40 @@ export const apps: {
   downloads: 0,
   hasPremiumSection: false,
   modFeatures: ["Dinero ilimitado"],
+},
+{
+  slug: "melolo-short-dramas-reels",
+  name: "Melolo - Dramas Cortos y Reels",
+  description: "Mira dramas cortos y reels en cualquier momento.",
+  longDescription:
+    "Melolo - Dramas Cortos y Reels es una app de video con miniseries, dramas y reels cortos para disfrutar en cualquier momento. Disfruta de historias breves con gran producción, géneros variados y contenido actualizado constantemente.\n\nEsta versión MOD incluye: funciones Pro/Pagadas desbloqueadas, anuncios eliminados, resolución 1080p desbloqueada, soporte multilingüe, eliminación de detección de root/VPN/emulador, eliminación del mensaje \"Google Play no disponible\", eliminación de actualizaciones de Play Store y corrección del inicio de sesión con Facebook.\n\n⚠️ Nota: si el video tiene fallos, prueba a clonar la app. Para iniciar sesión con Facebook, desinstala primero la app oficial de Facebook.",
+  link: "https://alpharede.com/DomP22TbWyy",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "AQUI_VA_EL_LINK_DE_LA_IMAGEN",
+  emoji: "📮",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "5.5.5",
+  size: "Por confirmar",
+  updated: "Nov 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#f472b6",
+  developer: "ELAMods",
+  rating: 4.5,
+  downloads: 0,
+  hasPremiumSection: true,
+  premiumFeatures: [
+    "Funciones Pro / Pagadas desbloqueadas",
+    "Sin anuncios",
+    "Resolución 1080p desbloqueada",
+    "Idiomas multilingüe",
+    "Sin detección de root, VPN ni emulador",
+    "Sin restricción de capturas de pantalla",
+    "Corrección de inicio de sesión con Facebook",
+  ],
 }
 ];
 
@@ -6158,6 +6192,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "melolo-short-dramas-reels",
   "driving-school-simulator-evo",
   "duolingo",
   "spotify",
