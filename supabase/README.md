@@ -52,7 +52,7 @@ Opcionales:
 
 ```env
 REFERRAL_IP_SALT=una-cadena-larga-y-aleatoria
-NEXT_PUBLIC_SITE_URL=https://apps-peach-two.vercel.app
+NEXT_PUBLIC_SITE_URL=https://persons-apps.netlify.app
 ```
 
 Guarda y pulsa **Redeploy**.

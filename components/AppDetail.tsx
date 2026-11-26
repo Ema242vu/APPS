@@ -158,7 +158,7 @@ export default function AppDetail({ app }: { app: App }) {
       text: showModSection
         ? `Descarga ${app.name} premium gratis desde PERSONS-COMUNITY 🐾`
         : `Descarga ${app.name} gratis desde PERSONS-COMUNITY 🐾`,
-      url: `https://apps-peach-two.vercel.app/apps/${app.slug}`,
+      url: `https://persons-apps.netlify.app/apps/${app.slug}`,
     };
     try {
       if (navigator.share) {

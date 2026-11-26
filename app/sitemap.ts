@@ -1,7 +1,7 @@
 import { apps, hiddenCategories } from "@/lib/apps";
 import { blogPosts } from "@/lib/blog";
 
-const BASE_URL = "https://apps-peach-two.vercel.app";
+const BASE_URL = "https://persons-apps.netlify.app";
 
 export default function sitemap() {
   const now = new Date();

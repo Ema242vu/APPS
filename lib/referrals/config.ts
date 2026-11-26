@@ -24,7 +24,7 @@ export const MAX_EVENTS_PER_IP_PER_DAY = 300;
 export const MAX_REGISTRATIONS_PER_IP_PER_DAY = 3;
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://apps-peach-two.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://persons-apps.netlify.app";
 
 export function centsToUsd(cents: number): string {
   return `$${(cents / 100).toFixed(2)}`;

@@ -5,7 +5,7 @@ import ThemeSync from "@/components/ThemeSync";
 import ReferralTracker from "@/components/ReferralTracker";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://apps-peach-two.vercel.app"),
+  metadataBase: new URL("https://persons-apps.netlify.app"),
   title: {
     default: "PERSONS-COMUNITY | Apps Premium y Juegos Mod Gratis para Android",
     template: "%s | PERSONS-COMUNITY",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "es_ES",
-    url: "https://apps-peach-two.vercel.app",
+    url: "https://persons-apps.netlify.app",
     siteName: "PERSONS-COMUNITY",
     title: "PERSONS-COMUNITY | Apps Premium y Juegos Mod Gratis",
     description: "Descarga gratis apps premium y juegos mod para Android. Última versión, sin anuncios y 100% funcionales.",
@@ -103,11 +103,11 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "PERSONS-COMUNITY",
-              url: "https://apps-peach-two.vercel.app",
+              url: "https://persons-apps.netlify.app",
               description: "Descarga gratis apps premium y juegos mod para Android.",
               potentialAction: {
                 "@type": "SearchAction",
-                target: "https://apps-peach-two.vercel.app/?q={search_term_string}",
+                target: "https://persons-apps.netlify.app/?q={search_term_string}",
                 "query-input": "required name=search_term_string",
               },
             }),
