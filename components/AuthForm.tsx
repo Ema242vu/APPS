@@ -27,20 +27,43 @@ export default function AuthForm({ onReady }: { onReady?: () => void }): JSX.Ele
 
   const acc = loadAccount();
   if (acc) {
+    const hasPhoto = !!acc.profilePhoto;
     return (
       <div
         style={{
-          padding: "16px",
+          padding: "18px",
           borderRadius: "16px",
           background: "rgba(255,255,255,0.03)",
           border: "1px solid rgba(255,255,255,0.08)",
           textAlign: "center",
         }}
       >
-        <div style={{ fontSize: 28, marginBottom: 10 }}>👤</div>
-        <p style={{ margin: "0 0 10px", fontWeight: 600 }}>Sesión iniciada</p>
-        <p style={{ margin: "0 0 12px", fontSize: 13, color: "#9ca3af" }}>
-          {acc.username} • Creada {new Date(acc.createdAt).toLocaleDateString("es-ES")}
+        <div
+          style={{
+            width: 64,
+            height: 64,
+            borderRadius: "50%",
+            overflow: "hidden",
+            border: `2px solid ${hasPhoto ? "#facc15" : "rgba(255,255,255,0.12)"}`,
+            background: "#0b0c10",
+            margin: "0 auto 12px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {hasPhoto ? (
+            <img src={acc.profilePhoto} alt="perfil" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          ) : (
+            <span style={{ fontSize: 30 }}>👤</span>
+          )}
+        </div>
+        <p style={{ margin: "0 0 6px", fontWeight: 600, fontSize: 17 }}>{acc.username}</p>
+        <p style={{ margin: "0 0 14px", fontSize: 13, color: "#9ca3af" }}>
+          Sesión iniciada • Creada {new Date(acc.createdAt).toLocaleDateString("es-ES")}
+        </p>
+        <p style={{ margin: "0 0 14px", fontSize: 13, color: "#9ca3af" }}>
+          📥 Descargas: <b>{acc.downloads || 0}</b>
         </p>
         <button
           onClick={() => {

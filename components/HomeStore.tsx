@@ -572,6 +572,22 @@ export default function Home() {
           >
             Cuenta
           </Link>
+          <Link
+            href="/ranking"
+            className="bounce-click"
+            style={{
+              marginLeft: S.x12,
+              padding: `${S.x12}px ${S.x16}px`,
+              borderRadius: R.md,
+              border: `1px solid ${c.accent}`,
+              color: c.accent,
+              fontSize: 12,
+              fontWeight: 600,
+              textDecoration: "none",
+            }}
+          >
+            Ranking
+          </Link>
         </nav>
 
         {/* ============ HERO ============ */}

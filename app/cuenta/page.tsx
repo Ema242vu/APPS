@@ -82,6 +82,9 @@ export default function CuentaPage() {
                   day: "numeric",
                 })}
               </p>
+              <p style={{ margin: "0 0 14px", fontSize: 13, color: "#9ca3af" }}>
+                📥 Descargas: <b>{acc.downloads || 0}</b>
+              </p>
               <ProfileEditor />
               {active && (
                 <div

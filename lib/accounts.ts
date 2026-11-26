@@ -6,6 +6,7 @@ export type Account = {
   description?: string;
   redeemedCodes: string[]; // códigos ya canjeados por esta cuenta
   skipUntil: number | null; // timestamp de expiración del skip de pasos
+  downloads: number; // total de descargas realizadas con esta cuenta
 };
 
 const STORAGE_KEY = "persons_account_v1";
@@ -36,6 +37,7 @@ export function createAccount(username: string): Account {
     description: undefined,
     redeemedCodes: [],
     skipUntil: null,
+    downloads: 0,
   };
   saveAccount(acc);
   return acc;
@@ -122,4 +124,10 @@ export function spinRuleta(account: Account): RouletteResult {
   }
 
   return { won: prize.minutes > 0, minutes: prize.minutes, label: prize.label, account: next };
+}
+
+export function incrementDownloads(account: Account): Account {
+  const next: Account = { ...account, downloads: (account.downloads || 0) + 1 };
+  saveAccount(next);
+  return next;
 }

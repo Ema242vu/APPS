@@ -6,7 +6,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { trackReferralEvent } from "@/lib/referrals/client";
-import { loadAccount, isSkipActive, remainingSkipMinutes } from "@/lib/accounts";
+import {
+  loadAccount,
+  isSkipActive,
+  remainingSkipMinutes,
+  incrementDownloads,
+} from "@/lib/accounts";
+import { recordDownload } from "@/lib/ranking";
 import SkipBanner from "@/components/SkipBanner";
 
 const MONETAG_URL = "https://omg10.com/4/11940275";
@@ -148,6 +154,11 @@ function MonetagGate({
 
   const handleDownload = () => {
     trackReferralEvent("download", slug);
+    const acc = loadAccount();
+    if (acc) {
+      const next = incrementDownloads(acc);
+      recordDownload(next.username, next.profilePhoto);
+    }
     try {
       const key = `downloads-${downloadUrl}`;
       const count = parseInt(localStorage.getItem(key) || "0");
