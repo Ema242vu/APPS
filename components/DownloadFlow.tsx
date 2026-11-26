@@ -29,7 +29,6 @@ const NATIVE_BANNER_SCRIPT_SRC = "https://bellnewyork.org/21/885a3a3a0173836d790
 const NATIVE_BANNER_CONTAINER_ID = "container-885a3a3a0173836d790936818ab5a034";
 
 const MONETAG_TAG_SCRIPT_SRC = "https://5gvci.com/act/files/tag.min.js?z=12160212";
-const AL5SM_TAG_SCRIPT_SRC = "https://al5sm.com/tag.min.js";
 
 type Props = {
   slug: string;
@@ -365,9 +364,7 @@ export default function DownloadFlow(props: Props) {
   // Se añade un timestamp para que el script se ejecute de nuevo en cada paso.
   useEffect(() => {
     const selector1 = 'script[src*="5gvci.com/act/files/tag.min.js"]';
-    const selector2 = 'script[src*="al5sm.com/tag.min.js"]';
     document.querySelectorAll(selector1).forEach((el) => el.remove());
-    document.querySelectorAll(selector2).forEach((el) => el.remove());
 
     const script = document.createElement("script");
     script.src = `${MONETAG_TAG_SCRIPT_SRC}&t=${Date.now()}`;
@@ -375,15 +372,8 @@ export default function DownloadFlow(props: Props) {
     script.setAttribute("data-cfasync", "false");
     document.body.appendChild(script);
 
-    const al5sm = document.createElement("script");
-    al5sm.dataset.zone = "11940277";
-    al5sm.src = AL5SM_TAG_SCRIPT_SRC;
-    al5sm.async = true;
-    document.body.appendChild(al5sm);
-
     return () => {
       script.remove();
-      al5sm.remove();
     };
   }, [step]);
 
