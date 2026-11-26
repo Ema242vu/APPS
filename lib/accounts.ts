@@ -10,6 +10,53 @@ export type Account = {
 };
 
 const STORAGE_KEY = "persons_account_v1";
+const REGISTERED_KEY = "persons_registered_accounts_v1";
+
+function loadRegistered(): Record<string, { username: string; profilePhoto?: string; downloads: number; createdAt: string; updatedAt: string }> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(REGISTERED_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveRegistered(map: Record<string, { username: string; profilePhoto?: string; downloads: number; createdAt: string; updatedAt: string }>): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(REGISTERED_KEY, JSON.stringify(map));
+}
+
+export function registerAccountInGlobal(account: Account): void {
+  const map = loadRegistered();
+  const now = new Date().toISOString();
+  if (!map[account.username]) {
+    map[account.username] = {
+      username: account.username,
+      profilePhoto: account.profilePhoto,
+      downloads: account.downloads || 0,
+      createdAt: account.createdAt,
+      updatedAt: now,
+    };
+  } else {
+    map[account.username].profilePhoto = account.profilePhoto ?? map[account.username].profilePhoto;
+    map[account.username].downloads = account.downloads || 0;
+    map[account.username].updatedAt = now;
+  }
+  saveRegistered(map);
+}
+
+export function getAllRegisteredAccounts(): Array<{ username: string; profilePhoto?: string; downloads: number; createdAt: string; updatedAt: string }> {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(REGISTERED_KEY);
+    if (!raw) return [];
+    const map: Record<string, { username: string; profilePhoto?: string; downloads: number; createdAt: string; updatedAt: string }> = JSON.parse(raw);
+    return Object.values(map).sort((a, b) => b.downloads - a.downloads);
+  } catch {
+    return [];
+  }
+}
 
 export function loadAccount(): Account | null {
   if (typeof window === "undefined") return null;
@@ -40,6 +87,7 @@ export function createAccount(username: string): Account {
     downloads: 0,
   };
   saveAccount(acc);
+  registerAccountInGlobal(acc);
   return acc;
 }
 
@@ -55,6 +103,7 @@ export function updateProfile(
 ): Account {
   const next: Account = { ...account, ...patch };
   saveAccount(next);
+  registerAccountInGlobal(next);
   return next;
 }
 
@@ -129,5 +178,6 @@ export function spinRuleta(account: Account): RouletteResult {
 export function incrementDownloads(account: Account): Account {
   const next: Account = { ...account, downloads: (account.downloads || 0) + 1 };
   saveAccount(next);
+  registerAccountInGlobal(next);
   return next;
 }

@@ -3,18 +3,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { loadAccount } from "@/lib/accounts";
-import { getRanking } from "@/lib/ranking";
+import { getAllRegisteredAccounts } from "@/lib/accounts";
 
 export default function RankingPage() {
   const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(null);
-  const [ranking, setRanking] = useState<ReturnType<typeof getRanking>>([]);
+  const [ranking, setRanking] = useState<ReturnType<typeof getAllRegisteredAccounts>>([]);
 
   useEffect(() => {
     setAcc(loadAccount());
-    setRanking(getRanking());
+    setRanking(getAllRegisteredAccounts());
     const handle = () => {
       setAcc(loadAccount());
-      setRanking(getRanking());
+      setRanking(getAllRegisteredAccounts());
     };
     window.addEventListener("persons-account-change", handle);
     return () => window.removeEventListener("persons-account-change", handle);
