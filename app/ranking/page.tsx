@@ -3,18 +3,24 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { loadAccount } from "@/lib/accounts";
-import { getAllRegisteredAccounts } from "@/lib/accounts";
+import { getRanking } from "@/lib/ranking";
 
 export default function RankingPage() {
   const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(null);
-  const [ranking, setRanking] = useState<ReturnType<typeof getAllRegisteredAccounts>>([]);
+  const [ranking, setRanking] = useState<Array<{ username: string; profilePhoto?: string; downloads: number; updatedAt: string }>>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setAcc(loadAccount());
-    setRanking(getAllRegisteredAccounts());
+    const load = async () => {
+      setLoading(true);
+      setRanking(await getRanking());
+      setLoading(false);
+    };
+    load();
     const handle = () => {
       setAcc(loadAccount());
-      setRanking(getAllRegisteredAccounts());
+      load();
     };
     window.addEventListener("persons-account-change", handle);
     return () => window.removeEventListener("persons-account-change", handle);
