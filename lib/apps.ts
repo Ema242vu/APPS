@@ -6208,6 +6208,44 @@ export const apps: {
     "Sin detección de root, VPN ni emulador",
     "Idiomas multilingües",
   ],
+},
+{
+  slug: "hotstar-ads-free-mod",
+  name: "Hotstar Ads Free Mod",
+  description: "Mod de Hotstar sin anuncios para Android y TV (Android TV).",
+  longDescription:
+    "Hotstar Ads Free Mod es una versión modificada de Disney+ Hotstar para ver partidos en vivo, series y películas en alta calidad. Esta versión incluye anuncios eliminados, resolución 4K/2160p, bitrate ilimitado, soporte HEVC, HDR10 y AV1, audio Dolby 5.1 y Atmos, carga instantánea, prefetch, caché, Cronet y ABR. También incluye Media3, scrubbing, miniaturas, auto-skip, gestos, Chromecast, AirPlay y Picture-in-Picture. Descargas habilitadas, flags de vista previa gratis, bypass de SSL Pinning, detección de root y detección de VPN. Capturas de pantalla y grabación de pantalla sin restricciones.\n\n⚠️ Nota: esta NO es una versión Premium desbloqueada. La suscripción no está desbloqueada, el 1080p depende del servidor y los DRM/Anuncios del servidor siguen controlados por el backend. Sirve principalmente para partidos en vivo con calidad HD. Si estás fuera de la India, prueba con una IP india.\n\nVersiones:\n• Android: v26.11.09.1 build b13290\n• Android TV (ATV): v26.01.13.3",
+  link: "https://alpharede.com/agU3uOn9Qo5",
+  altLinks: [],
+  directOnly: true,
+  iconUrl: "https://i.postimg.cc/zGjhthLP/jio-disney-merger-768x576-1-(1).webp",
+  emoji: "📺",
+  category: "Video",
+  isTop: false,
+  isNew: true,
+  version: "26.11.09.1 b13290 (Android) / 26.01.13.3 (ATV)",
+  size: "Por confirmar",
+  updated: "Nov 2026",
+  glow: "rgba(236, 72, 153, 0.4)",
+  border: "rgba(236, 72, 153, 0.6)",
+  text: "#f472b6",
+  developer: "Mod Extra",
+  rating: 4.4,
+  downloads: 0,
+  hasPremiumSection: false,
+  modFeatures: [
+    "Anuncios eliminados",
+    "Resolución 4K/2160p y bitrate ilimitado",
+    "Soporte HEVC, HDR10 y AV1",
+    "Audio Dolby 5.1 y Atmos mejorado",
+    "Carga instantánea, prefetch, caché, Cronet y ABR",
+    "Media3, scrubbing, miniaturas, auto-skip y gestos",
+    "Chromecast, AirPlay y Picture-in-Picture",
+    "Descargas habilitadas",
+    "Flags de vista previa gratis",
+    "Bypass de SSL Pinning, detección de root y VPN",
+    "Capturas y grabación de pantalla sin restricciones",
+  ],
 }
 ];
 
@@ -6224,6 +6262,7 @@ export type App = (typeof apps)[number];
 
 /* Orden manual de 'Últimas actualizaciones': lo más nuevo arriba. */
 export const recentOrder: string[] = [
+  "hotstar-ads-free-mod",
   "photoshop-express",
   "melolo-short-dramas-reels",
   "driving-school-simulator-evo",

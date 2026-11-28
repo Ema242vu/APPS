@@ -1,0 +1,6 @@
+name = "mi-sitio"
+compatibility_date = "2026-11-28"
+pages_build_dir = ".next"
+
+[vars]
+NEXT_PUBLIC_SITE_URL = "https://mi-sitio.pages.dev"
