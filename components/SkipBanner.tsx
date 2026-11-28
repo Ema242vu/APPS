@@ -5,10 +5,11 @@ import { useState, useEffect } from "react";
 import { loadAccount, isSkipActive, remainingSkipMinutes } from "@/lib/accounts";
 
 export default function SkipBanner(): JSX.Element | null {
-  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(null);
+  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(
+    () => loadAccount() || null
+  );
 
   useEffect(() => {
-    setAcc(loadAccount());
     const handle = () => setAcc(loadAccount());
     window.addEventListener("persons-account-change", handle);
     return () => window.removeEventListener("persons-account-change", handle);

@@ -17,10 +17,11 @@ import SkipBanner from "@/components/SkipBanner";
 
 export default function CuentaPage() {
   const [tab, setTab] = useState<"perfil" | "codigos" | "ruleta">("perfil");
-  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(null);
+  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(
+    () => loadAccount() || null
+  );
 
   useEffect(() => {
-    setAcc(loadAccount());
     const handle = () => setAcc(loadAccount());
     window.addEventListener("persons-account-change", handle);
     return () => window.removeEventListener("persons-account-change", handle);

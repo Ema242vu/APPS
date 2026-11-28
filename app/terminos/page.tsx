@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Términos y Condiciones",
@@ -11,7 +12,7 @@ export default function Terminos() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: 'system-ui, sans-serif', padding: '40px 20px' }}>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <a href="/" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 'bold', display: 'inline-block', marginBottom: '30px' }}>← Volver a la tienda</a>
+        <Link href="/" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 'bold', display: 'inline-block', marginBottom: '30px' }}>← Volver a la tienda</Link>
         <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '10px' }}>📜 Términos y Condiciones</h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: '30px' }}>Última actualización: {new Date().toLocaleDateString()}</p>
 
@@ -19,7 +20,7 @@ export default function Terminos() {
           <p>Bienvenido a <b>PERSONS-COMUNITY</b>. Al acceder y usar este sitio web, aceptas los siguientes términos y condiciones. Si no estás de acuerdo, por favor no uses el sitio.</p>
 
           <h2 style={{ fontSize: '20px', color: 'var(--text-primary)', marginTop: '15px' }}>1. Uso del sitio</h2>
-          <p>Este sitio web ofrece enlaces de descarga de aplicaciones modificadas. Todo el contenido se proporciona "tal cual", sin garantías de ningún tipo. El uso de las apps descargadas es responsabilidad exclusiva del usuario.</p>
+          <p>Este sitio web ofrece enlaces de descarga de aplicaciones modificadas. Todo el contenido se proporciona &quot;tal cual&quot;, sin garantías de ningún tipo. El uso de las apps descargadas es responsabilidad exclusiva del usuario.</p>
 
           <h2 style={{ fontSize: '20px', color: 'var(--text-primary)', marginTop: '15px' }}>2. Propiedad intelectual</h2>
           <p>Todas las aplicaciones mencionadas son propiedad de sus respectivos desarrolladores. Nosotros solo compartimos enlaces de versiones modificadas con fines de entretenimiento y prueba. Recomendamos comprar las versiones oficiales para apoyar a los desarrolladores.</p>

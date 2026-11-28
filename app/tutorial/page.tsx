@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Tutorial de Instalación",
@@ -11,7 +12,7 @@ export default function Tutorial() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', fontFamily: 'system-ui, sans-serif', padding: '40px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div style={{ maxWidth: '600px', width: '100%' }}>
-        <a href="/" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 'bold', display: 'inline-block', marginBottom: '30px' }}>← Volver a la tienda</a>
+        <Link href="/" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 'bold', display: 'inline-block', marginBottom: '30px' }}>← Volver a la tienda</Link>
 
         <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '10px' }}>📖 Tutorial de Instalación</h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: '40px' }}>Aprende a instalar tus apps premium paso a paso.</p>
@@ -20,7 +21,7 @@ export default function Tutorial() {
 
           <div style={{ padding: '25px', borderRadius: '16px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
             <h2 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '15px', color: 'var(--accent)' }}>Paso 1: Descarga la app</h2>
-            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>Entra a nuestra tienda, elige la app que quieras y toca el botón <b>"Descargar"</b>. Se abrirá una pestaña nueva con el archivo APK. Espera a que termine la descarga.</p>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>Entra a nuestra tienda, elige la app que quieras y toca el botón <b>&quot;Descargar&quot;</b>. Se abrirá una pestaña nueva con el archivo APK. Espera a que termine la descarga.</p>
           </div>
 
           <div style={{ padding: '25px', borderRadius: '16px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
@@ -30,7 +31,7 @@ export default function Tutorial() {
 
           <div style={{ padding: '25px', borderRadius: '16px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
             <h2 style={{ fontSize: '22px', fontWeight: 'bold', marginBottom: '15px', color: 'var(--accent)' }}>Paso 3: Abre el archivo APK</h2>
-            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>Ve a tu gestor de archivos → carpeta <b>Descargas</b> → toca el archivo APK que acabas de descargar. Te aparecerá un aviso de seguridad, toca <b>"Instalar de todas formas"</b>.</p>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>Ve a tu gestor de archivos → carpeta <b>Descargas</b> → toca el archivo APK que acabas de descargar. Te aparecerá un aviso de seguridad, toca <b>&quot;Instalar de todas formas&quot;</b>.</p>
           </div>
 
           <div style={{ padding: '25px', borderRadius: '16px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)' }}>

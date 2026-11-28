@@ -33,8 +33,8 @@ export async function POST(req: NextRequest) {
 
     const uploadData = await uploadRes.json();
     return NextResponse.json(uploadData);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }
 
@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
     const stats = reportData.data.attributes.stats;
     const results = reportData.data.attributes.results || {};
 
-    const scans = Object.entries(results).map(([engine, data]: [string, any]) => ({
+    const scans = Object.entries(results as Record<string, { category: string; result: string | null }>).map(([engine, data]) => ({
       engine,
       detected: data.category === "malicious" || data.category === "suspicious",
       result: data.result,
@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
       total: stats.malicious + stats.suspicious + stats.harmless + stats.undetected,
       scans,
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 }

@@ -31,13 +31,17 @@ export default function WaitModal({
 
   useEffect(() => {
     if (!isOpen) {
-      setCountdown(WAIT_SECONDS);
-      setReady(false);
+      setTimeout(() => {
+        setCountdown(WAIT_SECONDS);
+        setReady(false);
+      }, 0);
       return;
     }
 
-    setCountdown(WAIT_SECONDS);
-    setReady(false);
+    setTimeout(() => {
+      setCountdown(WAIT_SECONDS);
+      setReady(false);
+    }, 0);
 
     const interval = setInterval(() => {
       setCountdown((prev) => {

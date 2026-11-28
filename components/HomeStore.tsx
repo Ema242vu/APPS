@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { apps, categorias, recentApps, appsSinSeccionMod, hiddenCategories } from "@/lib/apps";
+import { apps, categorias, recentApps, appsSinSeccionMod, hiddenCategories, type App } from "@/lib/apps";
 import AppCardCompact from "@/components/AppCardCompact";
 import CategoryGrid from "@/components/CategoryGrid";
 import SkipBanner from "@/components/SkipBanner";
@@ -183,18 +183,18 @@ function BottomNav({
   );
 }
 
+type Particle = { id: number; left: number; size: number; duration: number; delay: number };
+
 function FloatingParticles() {
-  const [particles, setParticles] = useState<any[]>([]);
-  useEffect(() => {
-    const newParticles = Array.from({ length: 6 }).map((_, i) => ({
+  const [particles, setParticles] = useState<Particle[]>(() =>
+    Array.from({ length: 6 }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,
       size: Math.random() * 15 + 10,
       duration: Math.random() * 25 + 20,
       delay: Math.random() * 20,
-    }));
-    setParticles(newParticles);
-  }, []);
+    }))
+  );
   return (
     <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "hidden" }}>
       {particles.map((p) => (
@@ -222,36 +222,42 @@ function FloatingParticles() {
    ============================================ */
 export default function Home() {
   const router = useRouter();
-  const [hasEntered, setHasEntered] = useState(true);
+  const [hasEntered, setHasEntered] = useState(() =>
+    sessionStorage.getItem("enteredStore") === "yes"
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [viewMode, setViewMode] = useState<ViewMode>("inicio");
-  const [theme, setTheme] = useState("dark");
-  const [ratings, setRatings] = useState<Record<string, number>>({});
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === "undefined") return "dark";
+    return localStorage.getItem("theme") || "dark";
+  });
+  const [ratings, setRatings] = useState<Record<string, number>>(() => {
+    if (typeof window === "undefined") return {};
+    const saved = localStorage.getItem("ratings");
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    const saved = localStorage.getItem("favorites");
+    return saved ? JSON.parse(saved) : [];
+  });
   const [loading, setLoading] = useState(false);
-  const [showCookies, setShowCookies] = useState(false);
+  const [showCookies, setShowCookies] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !localStorage.getItem("cookiesAccepted");
+  });
   const [show18Modal, setShow18Modal] = useState(false);
   const [pending18Slug, setPending18Slug] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [detailApp, setDetailApp] = useState<any | null>(null);
+  const [detailApp, setDetailApp] = useState<App | null>(null);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    setTheme(savedTheme);
-    document.documentElement.setAttribute("data-theme", savedTheme);
-    const savedRatings = localStorage.getItem("ratings");
-    if (savedRatings) setRatings(JSON.parse(savedRatings));
-    const savedFavs = localStorage.getItem("favorites");
-    if (savedFavs) setFavorites(JSON.parse(savedFavs));
-    if (!localStorage.getItem("cookiesAccepted")) setShowCookies(true);
-    // changed: el gate ahora es un overlay — el contenido SIEMPRE está en el HTML;
-    // si no entró antes en esta sesión, mostramos la capa encima tras hidratar
-    if (sessionStorage.getItem("enteredStore") !== "yes") setHasEntered(false);
-  }, []);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
-    setCurrentPage(1);
+    setTimeout(() => setCurrentPage(1), 0);
   }, [selectedCategory, searchTerm, viewMode]);
 
   const toggleTheme = (newTheme: string) => {
@@ -278,7 +284,7 @@ export default function Home() {
     localStorage.setItem("ratings", JSON.stringify(newRatings));
   };
 
-  const handleAppClick = (e: React.MouseEvent, app: any) => {
+  const handleAppClick = (e: React.MouseEvent, app: App) => {
     if (app.category === "+18") {
       e.preventDefault();
       setPending18Slug(app.slug);

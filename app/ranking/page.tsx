@@ -6,12 +6,13 @@ import { loadAccount } from "@/lib/accounts";
 import { getRanking } from "@/lib/ranking";
 
 export default function RankingPage() {
-  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(null);
+  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(
+    () => loadAccount() || null
+  );
   const [ranking, setRanking] = useState<Array<{ username: string; profilePhoto?: string; downloads: number; updatedAt: string }>>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setAcc(loadAccount());
     const load = async () => {
       setLoading(true);
       setRanking(await getRanking());

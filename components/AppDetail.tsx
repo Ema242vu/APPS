@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { App } from "@/lib/apps";
 import { relatedApps, appsSinSeccionMod } from "@/lib/apps";
 import AppCardCompact from "@/components/AppCardCompact";
@@ -19,7 +19,7 @@ const W = { light: 400, reg: 500, med: 600, semi: 700 };
  * 2) app.hasPremiumSection === false → se oculta
  * 3) Fallback por categoría (para apps viejas)
  */
-function getPremiumFeatures(app: any): string[] {
+function getPremiumFeatures(app: App): string[] {
   if (app.premiumFeatures && app.premiumFeatures.length > 0) {
     return app.premiumFeatures;
   }
@@ -98,23 +98,12 @@ function getPremiumFeatures(app: any): string[] {
 export default function AppDetail({ app }: { app: App }) {
   const router = useRouter();
 
-  const [localDownloads, setLocalDownloads] = useState(0);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [ratings, setRatings] = useState<Record<string, number>>({});
   const [shareText, setShareText] = useState("Compartir");
+  const localDownloads = 0;
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    document.documentElement.setAttribute("data-theme", savedTheme);
-    const savedFavs = localStorage.getItem("favorites");
-    if (savedFavs) setFavorites(JSON.parse(savedFavs));
-    const savedRatings = localStorage.getItem("ratings");
-    if (savedRatings) setRatings(JSON.parse(savedRatings));
-    if (app) {
-      const count = parseInt(localStorage.getItem(`downloads-${app.name}`) || "0");
-      setLocalDownloads(count);
-    }
-  }, [app]);
+  
 
   const isFav = favorites.includes(app.name);
   const rating = ratings[app.name] || 0;
@@ -134,20 +123,19 @@ export default function AppDetail({ app }: { app: App }) {
   const toggleFav = () => {
     const newFavs = isFav ? favorites.filter((f) => f !== app.name) : [...favorites, app.name];
     setFavorites(newFavs);
-    localStorage.setItem("favorites", JSON.stringify(newFavs));
+    // localStorage.setItem("favorites", JSON.stringify(newFavs));
   };
 
   const setRating = (v: number) => {
     const newRatings = { ...ratings, [app.name]: v };
     setRatings(newRatings);
-    localStorage.setItem("ratings", JSON.stringify(newRatings));
+    // localStorage.setItem("ratings", JSON.stringify(newRatings));
   };
 
   const goDownload = (link?: "1" | "2") => {
     try {
       const newCount = localDownloads + 1;
-      setLocalDownloads(newCount);
-      localStorage.setItem(`downloads-${app.name}`, newCount.toString());
+      // localStorage.setItem(`downloads-${app.name}`, newCount.toString());
     } catch {}
     router.push(`/dl/${app.slug}${link ? `?link=${link}` : ""}`);
   };

@@ -105,9 +105,9 @@ function detectByElement2(): Promise<boolean> {
 function detectByBrave(): Promise<boolean> {
   return new Promise((resolve) => {
     const isBrave =
-      typeof (navigator as any).brave !== "undefined" ||
-      typeof (window as any).chrome !== "undefined" &&
-        typeof (navigator as any).brave !== "undefined";
+      typeof (navigator as { brave?: unknown }).brave !== "undefined" ||
+      typeof (window as { chrome?: unknown }).chrome !== "undefined" &&
+        typeof (navigator as { brave?: unknown }).brave !== "undefined";
 
     if (!isBrave) {
       resolve(false);
@@ -167,8 +167,8 @@ export default function AdBlockBlocker() {
   const [countdown, setCountdown] = useState(WAIT_SECONDS);
   const [canContinue, setCanContinue] = useState(false);
   const [adblockActive, setAdblockActive] = useState(true);
-  const intervalRef = useRef<any>(null);
-  const countdownRef = useRef<any>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const countdownRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const alreadyPassed = sessionStorage.getItem("adblockBlockerPassed");

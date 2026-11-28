@@ -18,12 +18,17 @@ const SEGMENTS = [
 ];
 
 export default function StepRuleta(): JSX.Element {
-  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(null);
+  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(
+    () => loadAccount() || null
+  );
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState<{ label: string; minutes: number; won: boolean } | null>(null);
+  const [now, setNow] = useState(0);
 
   useEffect(() => {
-    setAcc(loadAccount());
+    setTimeout(() => setNow(Date.now()), 0);
+    const interval = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const spin = () => {
@@ -58,8 +63,8 @@ export default function StepRuleta(): JSX.Element {
 
   if (!acc) return <div>Cargando cuenta...</div>;
 
-  const active = acc?.skipUntil && Date.now() < acc.skipUntil;
-  const mins = active ? Math.ceil((acc!.skipUntil! - Date.now()) / 60000) : 0;
+  const active = acc?.skipUntil && now < acc.skipUntil;
+  const mins = active ? Math.ceil((acc!.skipUntil! - now) / 60000) : 0;
 
   return (
     <div

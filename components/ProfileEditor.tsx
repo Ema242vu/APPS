@@ -13,17 +13,16 @@ function dataUrl(file: File): Promise<string> {
 }
 
 export default function ProfileEditor(): JSX.Element {
-  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(null);
+  const [acc, setAcc] = useState<ReturnType<typeof loadAccount> | null>(
+    () => loadAccount() || null
+  );
   const [photo, setPhoto] = useState<string | null>(null);
-  const [desc, setDesc] = useState("");
+  const [desc, setDesc] = useState(() => {
+    const a = loadAccount();
+    return a?.description || "";
+  });
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
-
-  useEffect(() => {
-    const a = loadAccount();
-    setAcc(a);
-    setDesc(a?.description || "");
-  }, []);
 
   const handlePhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

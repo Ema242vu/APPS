@@ -77,25 +77,27 @@ const exclusiveApps: {
 ];
 
 export default function Exclusivas() {
-  const [unlocked, setUnlocked] = useState(false);
-  const [adsWatched, setAdsWatched] = useState(0);
+  const [unlocked, setUnlocked] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const data = localStorage.getItem("exclusiveUnlock");
+    if (!data) return false;
+    const { timestamp } = JSON.parse(data);
+    const hoursPassed = (Date.now() - timestamp) / (1000 * 60 * 60);
+    if (hoursPassed < UNLOCK_HOURS) return true;
+    localStorage.removeItem("exclusiveUnlock");
+    return false;
+  });
+  const [adsWatched, setAdsWatched] = useState(() => {
+    if (typeof window === "undefined") return 0;
+    const data = localStorage.getItem("exclusiveUnlock");
+    if (!data) return 0;
+    return JSON.parse(data).ads || 0;
+  });
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "dark";
     document.documentElement.setAttribute("data-theme", savedTheme);
-
-    const unlockData = localStorage.getItem("exclusiveUnlock");
-    if (unlockData) {
-      const { timestamp, ads } = JSON.parse(unlockData);
-      const hoursPassed = (Date.now() - timestamp) / (1000 * 60 * 60);
-      if (hoursPassed < UNLOCK_HOURS) {
-        setUnlocked(true);
-        setAdsWatched(ads);
-      } else {
-        localStorage.removeItem("exclusiveUnlock");
-      }
-    }
 
     const interval = setInterval(() => {
       const data = localStorage.getItem("exclusiveUnlock");

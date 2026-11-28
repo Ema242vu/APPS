@@ -1,18 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 
 type Comment = { name: string; text: string; date: string };
 
 export default function Comments({ appName }: { appName: string }) {
-  const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
   const [text, setText] = useState("");
 
-  useEffect(() => {
+  const savedComments = useMemo<Comment[]>(() => {
     const saved = localStorage.getItem(`comments-${appName}`);
-    if (saved) setComments(JSON.parse(saved));
+    return saved ? (JSON.parse(saved) as Comment[]) : [];
   }, [appName]);
+
+  const [comments, setComments] = useState<Comment[]>(savedComments);
 
   const addComment = () => {
     if (!name.trim() || !text.trim()) return;

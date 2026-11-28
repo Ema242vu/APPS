@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 type Faq = { q: string; a: string };
 
@@ -10,7 +11,7 @@ export default function FaqAccordion({ faqs }: { faqs: Faq[] }) {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "system-ui, sans-serif", padding: "40px 20px" }}>
       <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-        <a href="/" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: "bold", display: "inline-block", marginBottom: "30px" }}>← Volver a la tienda</a>
+        <Link href="/" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: "bold", display: "inline-block", marginBottom: "30px" }}>← Volver a la tienda</Link>
         <h1 style={{ fontSize: "36px", fontWeight: "bold", marginBottom: "10px" }}>❓ Preguntas Frecuentes</h1>
         <p style={{ color: "var(--text-muted)", marginBottom: "40px" }}>Resolvemos tus dudas más comunes.</p>
 

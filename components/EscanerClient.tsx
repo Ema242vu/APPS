@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { avExplanations } from "@/lib/av-explanations";
 
 type ScanResult = {
@@ -73,8 +74,8 @@ export default function Escaner() {
 
       setResult(report);
       setProgress("");
-    } catch (err: any) {
-      setError(err.message || "Ocurrió un error inesperado.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ocurrió un error inesperado.");
       setProgress("");
     } finally {
       setScanning(false);
@@ -84,9 +85,9 @@ export default function Escaner() {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "system-ui, sans-serif", padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ width: "100%", maxWidth: "600px" }}>
-        <a href="/" style={{ color: "#facc15", textDecoration: "none", fontWeight: "bold", display: "inline-block", marginBottom: "30px" }}>
+        <Link href="/" style={{ color: "#facc15", textDecoration: "none", fontWeight: "bold", display: "inline-block", marginBottom: "30px" }}>
           ← Volver a la tienda
-        </a>
+        </Link>
 
         <h1 style={{ fontSize: "36px", fontWeight: "bold", marginBottom: "10px" }}>🔍 Escáner de APKs</h1>
         <p style={{ color: "var(--text-muted)", marginBottom: "30px" }}>
